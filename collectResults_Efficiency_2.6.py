@@ -1,7 +1,9 @@
 import os
 import sys
 
-group = sys.argv[1]
+#group = sys.argv[1]
+
+group = "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl"
 
 PATH = "/u/scr/mhahn/deps/"+group+"/"
 
@@ -36,7 +38,7 @@ for filename in files:
              entry = dict(list(zip(header, line)))
              if language not in entry:
                 entry["Language"] = language
-             if entry["Language"].endswith("2.6"):
+             if not entry["Language"].endswith("2.6"):
                continue
              if "FileName" not in header:
                 entry["FileName"] = filename[filename.rfind("_")+1:-4]
@@ -44,8 +46,8 @@ for filename in files:
 outHeader = sorted(list(outHeader))
 print(outHeader)
 
-with open(PATH+"auto-summary-lstm.tsv", "w") as outFile:
+with open(PATH+"auto-summary-lstm_2.6.tsv", "w") as outFile:
   print("\t".join(outHeader) , file=outFile)
   for entry in entries:
     print("\t".join([entry.get(x, "NA") for x in outHeader]), file=outFile)
-print("WRITING", PATH+"auto-summary-lstm.tsv")
+print("WRITING", PATH+"auto-summary-lstm_2.6.tsv")
