@@ -34,9 +34,9 @@ for filename in files:
              if len(line) < 2:
                 continue
              entry = dict(list(zip(header, line)))
-             if language not in entry:
+             if "Language" not in entry:
                 entry["Language"] = language
-             if entry["Language"].endswith("2.6"):
+             if ("_2.6_" in filename):
                continue
              if "FileName" not in header:
                 entry["FileName"] = filename[filename.rfind("_")+1:-4]

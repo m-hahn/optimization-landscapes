@@ -37,7 +37,7 @@ while len(languages) > 0:
              break
    
    print([language, "Neg count", negCount, "Pos count", posCount])
-   if negCount >= 4 and posCount >= 4:
+   if negCount >= 8 and posCount >= 8:
        languages.remove(language) 
        continue
 

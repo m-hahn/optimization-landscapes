@@ -1,7 +1,7 @@
 library(tidyr)
 library(dplyr)
 
-DEPS = "~/CS_SCR/deps/"
+DEPS = "~/scr/deps/"
 data1 = read.csv(paste(DEPS, "manual_output_funchead_coarse_depl", "/", "auto-summary-lstm.tsv", sep=""), sep="\t") %>% mutate(CoarseDependency = Dependency) %>% select(CoarseDependency, DH_Weight, DistanceWeight, FileName, Language) %>% mutate(Group=1)
 data2 = read.csv(paste(DEPS, "manual_output_funchead_coarse_depl_balanced", "/", "auto-summary-lstm.tsv", sep=""), sep="\t") %>% mutate(CoarseDependency = Dependency) %>% select(CoarseDependency, DH_Weight, DistanceWeight, FileName, Language) %>% mutate(Group=2)
 data3 = read.csv(paste(DEPS, "manual_output_funchead_coarse_depl_SYMMETRIC", "/", "auto-summary-lstm.tsv", sep=""), sep="\t") %>% mutate(CoarseDependency = Dependency) %>% select(CoarseDependency, DH_Weight, DistanceWeight, FileName, Language) %>% mutate(Group=3)

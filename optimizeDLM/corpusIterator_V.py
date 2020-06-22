@@ -12,7 +12,7 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
       l = language.split("_")
       language = "_".join(l[:-1])
       version = l[-1]
-      print(l, language)
+      #print(l, language)
       basePath = "/u/scr/corpora/Universal_Dependencies/Universal_Dependencies_"+version+"/ud-treebanks-v"+version+"/"
       files = os.listdir(basePath)
       files = list(filter(lambda x:x.startswith("UD_"+language.replace("-Adap", "")), files))
@@ -20,15 +20,15 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
       data = []
       for name in files:
         if "Sign" in name:
-           print("Skipping "+name)
+           print >> sys.stderr, ("Skipping "+name)
            continue
         assert ("Sign" not in name)
         if "Chinese-CFL" in name or "English-ESL" in name or "Hindi_English" in name:
-           print("Skipping "+name)
+           print >> sys.stderr, ("Skipping "+name)
            continue
         suffix = name[len("UD_"+language):]
         if name == "UD_French-FTB":
-            subDirectory = "/juicier/scr120/scr/mhahn/corpus-temp/UD_French-FTB/"
+            subDirectory = "/u/scr/mhahn/corpus-temp/UD_French-FTB/"
         else:
             subDirectory =basePath+"/"+name
         subDirFiles = os.listdir(subDirectory)
@@ -46,17 +46,17 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
               assert len(newData) > 1
               data = data + newData
         except IOError:
-           print("Did not find "+dataPath)
+           print >> sys.stderr, ("Did not find "+dataPath)
 
       assert len(data) > 0, (language, partition, files)
 
 
-      print("Read "+str(len(data))+ " sentences from "+str(len(files))+" "+partition+" datasets. "+str(files)+"   "+basePath)
+      print >> sys.stderr, ("Read "+str(len(data))+ " sentences from "+str(len(files))+" "+partition+" datasets. "+str(files)+"   "+basePath)
       return data
 
 class CorpusIterator_V():
    def __init__(self, language, partition="together", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
-      print("LANGUAGE", language)
+      print >> sys.stderr, ("LANGUAGE", language)
       if splitLemmas:
            assert language == "Korean"
       self.splitLemmas = splitLemmas
