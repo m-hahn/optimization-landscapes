@@ -15,12 +15,19 @@ dataS = data %>% filter(CoarseDependency == "nsubj")
 
 data = merge(dataO, dataS, by=c("Language", "FileName"))
 
+
+
+families = read.csv("families.tsv", sep="\t")
+data=merge(data, families, by=c("Language"))
+
+
+
 data = data %>% mutate(OFartherThanS = (DistanceWeight.x > DistanceWeight.y))
 data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
 
 data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
 
-u = data %>% group_by(Language) %>% summarise(OSSameSide = mean(OSSameSide))
+u = data %>% group_by(Family, Language) %>% summarise(OSSameSide = mean(OSSameSide))
 print(u[order(u$OSSameSide),], n=60)
 
 sigmoid = function(x) {
@@ -38,7 +45,7 @@ u = merge(u, real, by=c("Language"))
 
 
 cor.test(u$OSSameSide, u$SameLogProb+0.0)
-u[order(u$OSSameSide),]
+u = u[order(u$OSSameSide),]
 
 
 data = merge(data, real, by=c("Language"))
@@ -46,6 +53,13 @@ data = merge(data, real, by=c("Language"))
 library(lme4)
 
 summary(glmer(OSSameSide ~ SameLogProb + (1|Language), family="binomial", data=data))
+
+
+
+#library(brms)
+#summary(brm(OSSameSide ~ SameLogProb + (1|Language) + (1+SameLogProb|Family), family="bernoulli", data=data))
+
+
 
 
 
