@@ -10,7 +10,7 @@ Breton_2.6	Celtic
 Bulgarian_2.6	Slavic
 Buryat_2.6	Mongolic
 Cantonese_2.6	Sino-Tibetan
-Catalan_2.6	Romance
+Catalan_2.6	Latin_Romance
 Chinese_2.6	Sino-Tibetan
 Classical_Chinese_2.6	Sino-Tibetan
 Croatian_2.6	Slavic
@@ -22,7 +22,7 @@ Erzya_2.6	Mordvin
 Estonian_2.6	Finnic
 Faroese_2.6	Germanic
 Finnish_2.6	Finnic
-French_2.6	Romance
+French_2.6	Latin_Romance
 German_2.6	Germanic
 Gothic_2.6	Germanic
 Greek_2.6	Greek
@@ -32,12 +32,12 @@ Hungarian_2.6	Ugric
 Icelandic_2.6	Germanic
 Indonesian_2.6	Malayo-Sumbawan
 Irish_2.6	Celtic
-Italian_2.6	Romance
+Italian_2.6	Latin_Romance
 Japanese_2.6	Japanese
 Kazakh_2.6	Northwestern_Turkic
 Korean_2.6	Korean
 Kurmanji_2.6	Iranian
-Latin_2.6	Latin
+Latin_2.6	Latin_Romance
 Latvian_2.6	Baltic
 Lithuanian_2.6	Baltic
 Maltese_2.6	Semitic
@@ -46,12 +46,12 @@ Naija_2.6	Creole_Naija
 North_Sami_2.6	Sami
 Norwegian_2.6	Germanic
 Old_Church_Slavonic_2.6	Slavic
-Old_French_2.6	Romance
+Old_French_2.6	Latin_Romance
 Old_Russian_2.6	Slavic
 Persian_2.6	Iranian
 Polish_2.6	Slavic
-Portuguese_2.6	Romance
-Romanian_2.6	Romance
+Portuguese_2.6	Latin_Romance
+Romanian_2.6	Latin_Romance
 Russian_2.6	Slavic
 Sanskrit_2.6	Indic
 Scottish_Gaelic_2.6	Celtic
@@ -59,7 +59,7 @@ Serbian_2.6	Slavic
 Sindhi_2.6	Indic
 Slovak_2.6	Slavic
 Slovenian_2.6	Slavic
-Spanish_2.6	Romance
+Spanish_2.6	Latin_Romance
 Swedish_2.6	Germanic
 Thai_2.6	Tai-Kadai
 Turkish_2.6	Southwestern_Turkic

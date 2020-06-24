@@ -1,7 +1,7 @@
 library(tidyr)
 library(dplyr)
 
-data = read.csv("../grammar-optim/grammars/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")
+data = read.csv("../grammar-optim/grammars/manual_output_funchead_langmod_coarse_best_balanced/auto-summary-lstm.tsv", sep="\t")
 
 
 
@@ -57,23 +57,23 @@ summary(glmer(OSSameSide ~ OSSameSide_Real_Prob + (1|Language), family="binomial
 
 library(ggplot2)
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
-ggsave("figures/fracion-optimized_Pars.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_Pred.pdf", height=13, width=13)
 #
 #
 #
 #plot = ggplot(u %>% filter(Family=="Slavic"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
-#ggsave("figures/fracion-optimized_Pars_Slavic.pdf", height=13, width=13)
+#ggsave("figures/fracion-optimized_Pred_Slavic.pdf", height=13, width=13)
 #
 #plot = ggplot(u %>% filter(Family=="Latin_Romance"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
-#ggsave("figures/fracion-optimized_Pars_Latin_Romance.pdf", height=13, width=13)
+#ggsave("figures/fracion-optimized_Pred_Latin_Romance.pdf", height=13, width=13)
 #
 #
 #plot = ggplot(u %>% filter(Family=="Germanic"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
-#ggsave("figures/fracion-optimized_Pars_Germanic.pdf", height=13, width=13)
+#ggsave("figures/fracion-optimized_Pred_Germanic.pdf", height=13, width=13)
 #
 #
 #plot = ggplot(u %>% filter(Family=="Semitic"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
-#ggsave("figures/fracion-optimized_Pars_Semitic.pdf", height=13, width=13)
+#ggsave("figures/fracion-optimized_Pred_Semitic.pdf", height=13, width=13)
 #
 #
 #
