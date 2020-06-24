@@ -5,7 +5,7 @@ import sys
 header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
 
 
-from corpusIterator import CorpusIterator
+from corpusIterator_V import CorpusIterator_V as CorpusIterator
 
 
 

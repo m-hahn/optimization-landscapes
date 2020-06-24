@@ -64,7 +64,6 @@ Old_French_2.6
 Old_Russian_2.6
 Sanskrit_2.6
 Scottish_Gaelic_2.6
-Sindhi_2.6
 Welsh_2.6
 Wolof_2.6
 Yoruba_2.6
