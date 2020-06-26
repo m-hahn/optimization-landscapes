@@ -36,17 +36,19 @@ real = real %>% mutate(Order_Real = ifelse(OSSameSide_Real & OFartherThanS_Real,
 
 u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), by=c("Language"))
 
+
+
+data = merge(data, real, by=c("Language"))
+
+library(lme4)
+sink("output/landscapes_Pars.R.txt")
 cor.test(u$OSSameSide, u$OSSameSide_Real_Prob+0.0)
 cor.test(u$OSSameSide, u$OSSameSide_Real+0.0)
 u[order(u$OSSameSide),]
 
 
-data = merge(data, real, by=c("Language"))
-
-
-
-library(lme4)
 summary(glmer(OSSameSide ~ OSSameSide_Real_Prob + (1|Language), family="binomial", data=data))
+sink()
 
 
 

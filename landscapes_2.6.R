@@ -1,7 +1,8 @@
 library(tidyr)
 library(dplyr)
 
-DEPS = "~/CS_SCR/deps/"
+SCR = "~/CS_SCR/"
+DEPS = paste(SCR,"/deps/", sep="")
 #DEPS = "/u/scr/mhahn/deps/"
 data = read.csv(paste(DEPS, "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl", "/", "auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
 dataBackup = data
@@ -33,7 +34,7 @@ sigmoid = function(x) {
 	return(1/(1+exp(-x)))
 }
 
-real = read.csv("~/CS_SCR/deps/LANDSCAPE/mle-fine_selected/auto-summary-lstm_2.6.tsv", sep="\t")
+real = read.csv(paste(SCR,"/deps/LANDSCAPE/mle-fine_selected/auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
 realO = real %>% filter(Dependency == "obj")
 realS = real %>% filter(Dependency == "nsubj")
 
@@ -47,19 +48,23 @@ real = real %>% mutate(Order_Real = ifelse(OSSameSide_Real & OFartherThanS_Real,
 
 u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), by=c("Language"))
 
-cor.test(u$OSSameSide, u$OSSameSide_Real+0.0)
-u[order(u$OSSameSide),]
 
 
 data = merge(data, real, by=c("Language"))
 
 library(lme4)
-summary(glmer(OSSameSide ~ OSSameSide_Real + (1|Language), family="binomial", data=data))
-summary(glmer(OSSameSide ~ log(OSSameSide_Real_Prob+1e-10) + (1|Language), family="binomial", data=data))
-
+sink("output/landscapes_2.6.R.txt")
+print(summary(glmer(OSSameSide ~ OSSameSide_Real + (1|Language), family="binomial", data=data)))
+print(summary(glmer(OSSameSide ~ log(OSSameSide_Real_Prob+1e-10) + (1|Language), family="binomial", data=data)))
+print(cor.test(u$OSSameSide, u$OSSameSide_Real+0.0))
+print(u[order(u$OSSameSide),])
+sink()
 
 data$OSSameSide_Real_Prob_Log = log(data$OSSameSide_Real_Prob)
 
+
+#########################
+#########################
 #library(brms)
 #summary(brm(OSSameSide ~ OSSameSide_Real_Prob_Log + (1|Language) + (1+OSSameSide_Real_Prob_Log|Family), family="bernoulli", data=data))
 
@@ -85,14 +90,14 @@ plot = ggplot(u %>% filter(Family=="Semitic"), aes(x=OSSameSide_Real_Prob, y=OSS
 ggsave("figures/fracion-optimized_DLM_Semitic_2.6.pdf", height=13, width=13)
 
 plot = ggplot(u %>% filter(Family=="Greek"), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")+ xlim(0,1) + ylim(0,1)
-ggsave("figures/fracion-optimized_DLM_Germanic_2.6.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_DLM_Greek_2.6.pdf", height=13, width=13)
 
 plot = ggplot(u %>% filter(Family=="Indic"), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")+ xlim(0,1) + ylim(0,1)
-ggsave("figures/fracion-optimized_DLM_Germanic_2.6.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_DLM_Indic_2.6.pdf", height=13, width=13)
 
 
 plot = ggplot(u %>% filter(Family=="Celtic"), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")+ xlim(0,1) + ylim(0,1)
-ggsave("figures/fracion-optimized_DLM_Germanic_2.6.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_DLM_Celtic_2.6.pdf", height=13, width=13)
 
 
 

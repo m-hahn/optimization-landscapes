@@ -48,16 +48,17 @@ real = real %>% mutate(Order_Real = ifelse(OSSameSide_Real & OFartherThanS_Real,
 
 u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), by=c("Language"))
 
-cor.test(u$OSSameSide, u$OSSameSide_Real+0.0)
-u[order(u$OSSameSide),]
 
 
 data = merge(data, real, by=c("Language"))
 
 library(lme4)
-summary(glmer(OSSameSide ~ OSSameSide_Real + (1|Language), family="binomial", data=data))
-summary(glmer(OSSameSide ~ log(OSSameSide_Real_Prob+1e-10) + (1|Language), family="binomial", data=data))
-
+sink("output/landscapes_2.6_FuncHead.R.txt")
+print(summary(glmer(OSSameSide ~ OSSameSide_Real + (1|Language), family="binomial", data=data)))
+print(summary(glmer(OSSameSide ~ log(OSSameSide_Real_Prob+1e-10) + (1|Language), family="binomial", data=data)))
+print(cor.test(u$OSSameSide, u$OSSameSide_Real+0.0))
+print(u[order(u$OSSameSide),])
+sink()
 
 data$OSSameSide_Real_Prob_Log = log(data$OSSameSide_Real_Prob)
 
@@ -86,14 +87,14 @@ plot = ggplot(u %>% filter(Family=="Semitic"), aes(x=OSSameSide_Real_Prob, y=OSS
 ggsave("figures/fracion-optimized_DLM_Semitic_2.6_FuncHead.pdf", height=13, width=13)
 
 plot = ggplot(u %>% filter(Family=="Greek"), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")+ xlim(0,1) + ylim(0,1)
-ggsave("figures/fracion-optimized_DLM_Germanic_2.6_FuncHead.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_DLM_Greek_2.6_FuncHead.pdf", height=13, width=13)
 
 plot = ggplot(u %>% filter(Family=="Indic"), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")+ xlim(0,1) + ylim(0,1)
-ggsave("figures/fracion-optimized_DLM_Germanic_2.6_FuncHead.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_DLM_Indic_2.6_FuncHead.pdf", height=13, width=13)
 
 
 plot = ggplot(u %>% filter(Family=="Celtic"), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")+ xlim(0,1) + ylim(0,1)
-ggsave("figures/fracion-optimized_DLM_Germanic_2.6_FuncHead.pdf", height=13, width=13)
+ggsave("figures/fracion-optimized_DLM_Celtic_2.6_FuncHead.pdf", height=13, width=13)
 
 
 
