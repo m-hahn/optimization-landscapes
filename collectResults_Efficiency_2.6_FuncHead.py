@@ -47,6 +47,8 @@ for filename in files:
              entry["Language_"] = entry["Language"].replace("_2.6", "")
              if "FileName" not in header:
                 entry["FileName"] = filename[filename.rfind("_")+1:-4]
+             if entry["CoarseDependency"] not in ["obj", "nsubj"] or entry["HeadPOS"] != "VERB" or entry["DependentPOS"] != "NOUN":
+                  continue
              entries.append(entry)
 outHeader = sorted(list(outHeader))
 print(outHeader)
