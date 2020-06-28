@@ -1,8 +1,10 @@
 library(tidyr)
 library(dplyr)
 
-DEPS = "/u/scr/mhahn/deps/"
+DEPS = "~/CS_SCR/deps/"
+#DEPS = "/u/scr/mhahn/deps/"
 data = read.csv(paste(DEPS, "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl", "/", "auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
+dataBackup = data
 data = data %>% filter(HeadPOS == "VERB", DependentPOS == "NOUN") %>% select(-HeadPOS, -DependentPOS)
 
 
@@ -37,6 +39,7 @@ sigmoid = function(x) {
 
 real = read.csv("optimizeDLM/countsSubjObjOrder.tsv", sep="\t")
 
+real = real%>% mutate(SameFraction = ((Same+1)/(Mixed+Same+Opposite+1)))
 real = real%>% mutate(SameLogProb = log((Same+1)/(Mixed+Same+Opposite+1)))
 
 
@@ -58,6 +61,27 @@ summary(glmer(OSSameSide ~ SameLogProb + (1|Language), family="binomial", data=d
 
 #library(brms)
 #summary(brm(OSSameSide ~ SameLogProb + (1|Language) + (1+SameLogProb|Family), family="bernoulli", data=data))
+
+
+library(ggplot2)
+plot = ggplot(u, aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
+ggsave("figures/fracion-optimized_2.6.pdf", height=13, width=13)
+
+
+
+plot = ggplot(u %>% filter(Family=="Slavic"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
+ggsave("figures/fracion-optimized_2.6_Slavic.pdf", height=13, width=13)
+
+plot = ggplot(u %>% filter(Family=="Latin_Romance"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
+ggsave("figures/fracion-optimized_2.6_Latin_Romance.pdf", height=13, width=13)
+
+
+plot = ggplot(u %>% filter(Family=="Germanic"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
+ggsave("figures/fracion-optimized_2.6_Germanic.pdf", height=13, width=13)
+
+
+plot = ggplot(u %>% filter(Family=="Semitic"), aes(x=SameFraction, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
+ggsave("figures/fracion-optimized_2.6_Semitic.pdf", height=13, width=13)
 
 
 
