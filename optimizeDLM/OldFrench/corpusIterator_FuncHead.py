@@ -31,17 +31,17 @@ def reverse_content_head(sentence):
    return sentence
 
 class CorpusIteratorFuncHead():
-   def __init__(self, language, partition="train", storeMorph=False, splitLemmas=False, shuffleData=True):
-      self.basis = CorpusIterator(language, partition=partition, storeMorph=storeMorph, splitLemmas=splitLemmas, shuffleData=shuffleData)
+   def __init__(self, language, partition="train", storeMorph=False, splitLemmas=False):
+      self.basis = CorpusIterator(language, partition=partition, storeMorph=storeMorph, splitLemmas=splitLemmas)
    def permute(self):
       self.basis.permute()
    def length(self):
       return self.basis.length()
    def iterator(self, rejectShortSentences = False):
      iterator = self.basis.iterator(rejectShortSentences=rejectShortSentences)
-     for sentence in iterator:
+     for sentence, metadata in iterator:
          reverse_content_head(sentence)
-         yield sentence
+         yield sentence, metadata
    def getSentence(self, index):
       return reverse_content_head(self.basis.getSentence(index))
 

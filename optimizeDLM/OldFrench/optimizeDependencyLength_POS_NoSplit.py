@@ -9,7 +9,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--language', type=str)
+parser.add_argument('--language', type=str, default="Old_French_2.4")
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=0.1)
 parser.add_argument('--momentum', type=float, default=0.9)
@@ -29,7 +29,7 @@ from math import log, exp
 from random import random, shuffle
 
 
-from corpusIterator_FuncHead import CorpusIteratorFuncHead as CorpusIterator
+from corpusIterator_V import CorpusIterator_V as CorpusIterator
 
 originalDistanceWeights = {}
 
@@ -39,6 +39,10 @@ def makeCoarse(x):
       return x[:x.index(":")]
    return x
 
+from collections import defaultdict
+docs = defaultdict(int)
+
+
 def initializeOrderTable():
    orderTable = {}
    keys = set()
@@ -47,7 +51,7 @@ def initializeOrderTable():
    distanceCounts = {}
    depsVocab = set()
    for partition in ["together"]:
-     for sentence in CorpusIterator(args.language,partition).iterator():
+     for sentence, metadata in CorpusIterator(args.language,partition).iterator():
       for line in sentence:
           vocab[line["word"]] = vocab.get(line["word"], 0) + 1
           line["fine_dep"] = line["dep"]
@@ -111,10 +115,10 @@ logsoftmax = torch.nn.LogSoftmax()
 
 
 
-def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
+def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, distanceWeights_):
        childrenLinearized = []
        while len(remainingChildren) > 0:
-           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
+           logits = torch.cat([distanceWeights_[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
            softmax = softmax_layer(logits.view(1,-1)).view(-1)
            selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
            log_probability = torch.log(softmax[selected])
@@ -123,7 +127,7 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
            childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
        if reverseSoftmax:
-           childrenLinearized = childrenLinearized[::-1]
+          childrenLinearized = childrenLinearized[::-1]
        return childrenLinearized           
 
 
@@ -206,7 +210,7 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_funchead/"
+relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl/"
 
 import os
 files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_") and __file__ in x]
@@ -234,7 +238,7 @@ dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=Tr
 distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
 for i, key in enumerate(itos_deps):
    dhLogits[key] = 0.0
-   if key == ("VERB", "obj", "NOUN"):
+   if key == "obj": 
        dhLogits[key] = (10.0 if posCount < negCount else -10.0)
 
    dhWeights.data[i] = dhLogits[key]
@@ -305,7 +309,7 @@ import torch.nn.functional
 
 counter = 0
 while True:
-  corpus = CorpusIterator(args.language, partition="together").iterator(rejectShortSentences = True)
+  corpus = CorpusIterator(args.language).iterator(rejectShortSentences = True)
 
   while True:
     try:
@@ -427,7 +431,7 @@ while True:
        if counter % 10000 == 0:
           TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
           print "Saving"
-          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_funchead/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
+          with open(TARGET_DIR+"/manual_output_funchead_fine_depl/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["DH_Weight","CoarseDependency","HeadPOS", "DependentPOS", "DistanceWeight", "Language", "FileName"]))
              for i in range(len(itos_deps)):
                 head, rel, dependent = itos_deps[i]

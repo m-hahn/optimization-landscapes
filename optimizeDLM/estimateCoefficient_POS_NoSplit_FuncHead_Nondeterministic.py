@@ -13,6 +13,7 @@ parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=0.1)
 parser.add_argument('--momentum', type=float, default=0.9)
+parser.add_argument('--grammar', type=str)
 
 args = parser.parse_args()
 
@@ -25,8 +26,8 @@ deps = ["acl", "acl:relcl", "advcl", "advmod", "amod", "appos", "aux", "auxpass"
 
 
 
-from math import log, exp
-from random import random, shuffle
+from math import log, exp, sqrt
+from random import random, shuffle, Random
 
 
 from corpusIterator_FuncHead import CorpusIteratorFuncHead as CorpusIterator
@@ -47,7 +48,7 @@ def initializeOrderTable():
    distanceCounts = {}
    depsVocab = set()
    for partition in ["together"]:
-     for sentence in CorpusIterator(args.language,partition).iterator():
+     for sentence in CorpusIterator(args.language,partition, shuffleData=False).iterator():
       for line in sentence:
           vocab[line["word"]] = vocab.get(line["word"], 0) + 1
           line["fine_dep"] = line["dep"]
@@ -117,7 +118,7 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
            logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
            softmax = softmax_layer(logits.view(1,-1)).view(-1)
            selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-           log_probability = torch.log(softmax[selected])
+           log_probability = 0 #torch.log(softmax[selected])
            assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
            sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
            childrenLinearized.append(remainingChildren[selected])
@@ -141,14 +142,14 @@ def orderSentence(sentence, dhLogits, printThings):
          continue
       key = (sentence[line["head"]-1]["posUni"], line["fine_dep"], line["posUni"]) if line["fine_dep"] != "root" else stoi_deps["root"]
       line["dependency_key"] = key
-      dhLogit = dhWeights[stoi_deps[key]]
-      probability = 1/(1 + torch.exp(-dhLogit))
-      dhSampled = (random() < probability.data.numpy())
-      line["ordering_decision_log_probability"] = torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
+      dhLogit = float(dhWeights[stoi_deps[key]])
+      probability = 1/(1 + exp(-dhLogit))
+      dhSampled = (random() < probability)
+      line["ordering_decision_log_probability"] = 0 #torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
 
       direction = "DH" if dhSampled else "HD"
-      if printThings: 
-         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(float(probability))+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
+#      if printThings: 
+#         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(float(probability))+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
@@ -209,38 +210,27 @@ print itos_deps
 relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_funchead/"
 
 import os
-files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_") and __file__ in x]
-posCount = 0
-negCount = 0
-for name in files:
-  with open(relevantPath+name, "r") as inFile:
-    for line in inFile:
-        line = line.split("\t")
-        if line[1] == "obj":
-          dhWeight = float(line[0])
-          if dhWeight < 0:
-             negCount += 1
-          elif dhWeight > 0:
-             posCount += 1
-          break
 
-print(["Neg count", negCount, "Pos count", posCount])
-
-if posCount >= 8 and negCount >= 8:
-   print("Enough models!")
-   quit()
 
 dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
 distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
-for i, key in enumerate(itos_deps):
-   dhLogits[key] = 0.0
-   if key == ("VERB", "obj", "NOUN"):
-       dhLogits[key] = (10.0 if posCount < negCount else -10.0)
 
-   dhWeights.data[i] = dhLogits[key]
+with open(relevantPath+"/"+args.language+"_optimizeDependencyLength_POS_NoSplit_FuncHead.py_model_"+args.grammar+".tsv", "r") as inFile:
+  header = next(inFile).strip().split("\t")
+  for line in inFile:
+      line = line.strip().split("\t")
+      #print(line)
+      dhWeight = float(line[header.index("DH_Weight")])
+      rel = line[header.index("CoarseDependency")]
+      head = line[header.index("HeadPOS")]
+      dep = line[header.index("DependentPOS")]
+      distanceWeight = float(line[header.index("DistanceWeight")])
+      key = (head, rel, dep)
+      i = stoi_deps[key]
+      dhWeights.data[i] = dhWeight
+      distanceWeights.data[i] = distanceWeight
 
-   originalDistanceWeights[key] = 0.0 #random()  
-   distanceWeights.data[i] = originalDistanceWeights[key]
+
 
 
 
@@ -304,8 +294,12 @@ import torch.nn.functional
 
 
 counter = 0
-while True:
-  corpus = CorpusIterator(args.language, partition="together").iterator(rejectShortSentences = True)
+
+
+dependencyLengths = []
+
+if True:
+  corpus = CorpusIterator(args.language, partition="together", shuffleData=False).iterator(rejectShortSentences = True)
 
   while True:
     try:
@@ -314,7 +308,6 @@ while True:
        break
     batch = sorted(batch, key=len)
     partitions = range(10)
-    shuffle(partitions)
     for partition in partitions:
        if counter > 200000:
            print "Quitting at counter "+str(counter)
@@ -345,15 +338,6 @@ while True:
        lossWords = 0
        policyGradientLoss = 0
        baselineLoss = 0
-       for c in components:
-          c.zero_grad()
-
-       for p in  [dhWeights, distanceWeights]:
-          if p.grad is not None:
-             p.grad.data = p.grad.data.mul(args.momentum)
-
-
-
 
        if True:
            words_layer = word_embeddings(Variable(torch.LongTensor(input_words))) #.cuda())
@@ -382,57 +366,29 @@ while True:
                     lossesHead[registerAt][j] += depLengthMinusBaselines
                     lossWords += depLength
 
-           for i in range(1,len(input_words)): 
-              for j in range(1):
-                 if input_words[i][j] != 0:
-                    policyGradientLoss += batchOrdered[j][-1]["relevant_logprob_sum"] * ((lossesHead[i][j]).detach().cpu())
-                    if input_words[i] > 2 and j == 0 and printHere:
-                       print [itos[input_words[i][j]-3], itos_pos_ptb[input_pos_p[i][j]-3], "Cumul_DepL_Minus_Baselines", lossesHead[i][j].data.cpu().numpy()[0], "Baseline Here", baseline_predictions[i][j].data.cpu().numpy()[0]]
-                    wordNum += 1
-       if wordNum == 0:
-         print input_words
-         print batchOrdered
-         continue
+           dependencyLengths.append((maxLength, lossWords))
+
        if printHere:
-         print loss/wordNum
-         print lossWords/wordNum
-         print ["CROSS ENTROPY", crossEntropy, exp(crossEntropy)]
-       crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum)
-       probabilities = torch.sigmoid(dhWeights)
+         print(len(dependencyLengths))
 
-       neg_entropy = torch.sum( probabilities * torch.log(probabilities) + (1-probabilities) * torch.log(1-probabilities))
+dependencyLengths = sorted(dependencyLengths)
+sentLengths = [[1,x[0]] for x in dependencyLengths]
+dependencyLengths = [x[1] for x in dependencyLengths]
 
-       policy_related_loss = args.lr_policy * (args.entropy_weight * neg_entropy + policyGradientLoss) # lives on CPU
-       if printHere:
-         print "BACKWARD 1"
-       policy_related_loss.backward()
-       if printHere:
-         print "BACKWARD 2"
 
-       loss += baselineLoss # lives on GPU
-       if loss is 0:
-          print "Absolutely Zero Loss"
-          print current
-          continue
-       loss.backward()
-       if printHere:
-         print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)
+from sklearn import linear_model
+reg = linear_model.Lasso()
+reg.fit(sentLengths, dependencyLengths)
+print(reg.coef_)
 
-       torch.nn.utils.clip_grad_norm(parameters(), 5.0, norm_type='inf')
-       for param in parameters():
-         if param.grad is None:
-           print "WARNING: None gradient"
-           continue
-         param.data.sub_(lr_lm * param.grad.data)
-       if counter % 10000 == 0:
-          TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
-          print "Saving"
-          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_funchead/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
-             print >> outFile, "\t".join(map(str,["DH_Weight","CoarseDependency","HeadPOS", "DependentPOS", "DistanceWeight", "Language", "FileName"]))
-             for i in range(len(itos_deps)):
-                head, rel, dependent = itos_deps[i]
-                dhWeight = dhWeights[i].data.numpy()
-                distanceWeight = distanceWeights[i].data.numpy()
-                print >> outFile, "\t".join(map(str,[round(dhWeight, 5), rel, head, dependent, round(distanceWeight, 5), args.language, myID]))
-
+#print(dependencyLengths[:5])
+with open("/u/scr/mhahn/TMP.R", "w") as outFile:
+  print >> outFile, reg.coef_[1]
+  key = (head, rel, dep)
+  i = stoi_deps[key]
+  i1 = stoi_deps[("VERB", "nsubj", "NOUN")]
+  i2 = stoi_deps[("VERB", "obj", "NOUN")]
+ 
+  print >> outFile, str(float(dhWeights.data[i1]))+ "\t"+str( float(dhWeights.data[i2]))
+  print >> outFile, dependencyLengths[int(0.5*len(dependencyLengths))]
 
