@@ -9,11 +9,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--language', type=str)
+parser.add_argument('--language', type=str, default="Yiddish")
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=0.1)
 parser.add_argument('--momentum', type=float, default=0.9)
-parser.add_argument('--grammar', type=str)
 
 args = parser.parse_args()
 
@@ -26,11 +25,13 @@ deps = ["acl", "acl:relcl", "advcl", "advmod", "amod", "appos", "aux", "auxpass"
 
 
 
-from math import log, exp, sqrt
-from random import random, shuffle, Random
+from math import log, exp
+from random import random, shuffle
 
 
-from corpusIterator_FuncHead import CorpusIteratorFuncHead as CorpusIterator
+import turnIntoDeps
+#corpus = list(turnIntoDeps.corpusIterator())
+#quit()
 
 originalDistanceWeights = {}
 
@@ -40,6 +41,10 @@ def makeCoarse(x):
       return x[:x.index(":")]
    return x
 
+from collections import defaultdict
+docs = defaultdict(int)
+
+
 def initializeOrderTable():
    orderTable = {}
    keys = set()
@@ -48,21 +53,19 @@ def initializeOrderTable():
    distanceCounts = {}
    depsVocab = set()
    for partition in ["together"]:
-     for sentence in CorpusIterator(args.language,partition, shuffleData=False).iterator():
+     for sentence, metadata in turnIntoDeps.corpusIterator():
+      docs[metadata["century"]] += 1
       for line in sentence:
           vocab[line["word"]] = vocab.get(line["word"], 0) + 1
-          line["fine_dep"] = line["dep"]
-          depsVocab.add(line["fine_dep"])
-          posFine.add(line["posFine"])
-          posUni.add(line["posUni"])
+          depsVocab.add(line["dep"])
+          posFine.add(line["Label"])
+          posUni.add(line["Label"])
   
-          if line["fine_dep"] == "root":
+          if line["dep"] == "root":
              continue
-          posHere = line["posUni"]
-          posHead = sentence[line["head"]-1]["posUni"]
-          dep = line["fine_dep"]
+          dep = line["dep"]
           direction = "HD" if line["head"] < line["index"] else "DH"
-          key = (posHead, dep, posHere)
+          key = dep
           keyWithDir = (dep, direction)
           orderTable[keyWithDir] = orderTable.get(keyWithDir, 0) + 1
           keys.add(key)
@@ -91,72 +94,68 @@ def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum
    if "linearization_logprobability" in line:
       allGradients += line["linearization_logprobability"] # the linearization of this element relative to its siblings affects everything starting at the start of the constituent, but nothing to the left of it
    else:
-      assert line["fine_dep"] == "root"
+      assert line["head"] == 0
 
-   length = 1
+
    # there are the gradients of its children
    if "children_DH" in line:
       for child in line["children_DH"]:
-         length += recursivelyLinearize(sentence, child, result, allGradients)
+         allGradients = recursivelyLinearize(sentence, child, result, allGradients)
    result.append(line)
    line["relevant_logprob_sum"] = allGradients
    if "children_HD" in line:
       for child in line["children_HD"]:
-         length += recursivelyLinearize(sentence, child, result, allGradients)
-   line["LENGTH"] = length
-   line["CHILDREN"] = len(line.get("children_DH", [])) + len(line.get("children_HD", []))
-   return length
+         allGradients = recursivelyLinearize(sentence, child, result, allGradients)
+   return allGradients
 
 import numpy.random
 
 softmax_layer = torch.nn.Softmax()
 logsoftmax = torch.nn.LogSoftmax()
 
-from collections import defaultdict
-
-LENGTHS = defaultdict(list)
-CHILDREN = defaultdict(list)
-SIBLINGS = defaultdict(list)
 
 
-def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
+def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, distanceWeights_):
        childrenLinearized = []
        while len(remainingChildren) > 0:
-           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
+           logits = torch.cat([distanceWeights_[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
            softmax = softmax_layer(logits.view(1,-1)).view(-1)
-           selected = int(softmax.argmax()) #numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-           log_probability = 0 #torch.log(softmax[selected])
+           selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
+           log_probability = torch.log(softmax[selected])
            assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
            sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
            childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
        if reverseSoftmax:
-           childrenLinearized = childrenLinearized[::-1]
+          childrenLinearized = childrenLinearized[::-1]
        return childrenLinearized           
 
 
 
 def orderSentence(sentence, dhLogits, printThings):
+   sentence, metadata = sentence
    root = None
    logits = [None]*len(sentence)
    logProbabilityGradient = 0
+   if printThings:
+      print(metadata["century"])
+   dhWeights_ = dhWeights[stoi_docs[metadata["century"]]]
+   distanceWeights_ = distanceWeights[stoi_docs[metadata["century"]]]
    for line in sentence:
-      line["fine_dep"] = line["dep"]
-      if line["fine_dep"] == "root":
+      if line["head"] == 0:
           root = line["index"]
+          if printThings:
+             print("------ROOT-------")
           continue
-      if line["fine_dep"].startswith("punct"):
-         continue
-      key = (sentence[line["head"]-1]["posUni"], line["fine_dep"], line["posUni"]) if line["fine_dep"] != "root" else stoi_deps["root"]
-      line["dependency_key"] = key
-      dhLogit = float(dhWeights[stoi_deps[key]])
-      probability = 1/(1 + exp(-dhLogit))
-      dhSampled = (0.5 < probability)
-      line["ordering_decision_log_probability"] = 0 #torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
-
+      key = line["dep"]
+      line["dependency_key"] = line["dep"]
+      dhLogit = dhWeights_[stoi_deps[key]]
+      probability = 1/(1 + torch.exp(-dhLogit))
+      dhSampled = (random() < probability.data.numpy())
+      line["ordering_decision_log_probability"] = torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
       direction = "DH" if dhSampled else "HD"
-#      if printThings: 
-#         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(float(probability))+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
+      if printThings: 
+         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], key, line["head"], (str(float(probability))+"      ")[:8], (str(distanceWeights_[stoi_deps[key]].data.numpy())+"    ")[:8], line.get("EXCLUDED", False) ]  ))
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
@@ -166,24 +165,15 @@ def orderSentence(sentence, dhLogits, printThings):
 
    for line in sentence:
       if "children_DH" in line:
-         childrenLinearized = orderChildrenRelative(sentence, line["children_DH"][:], False)
+         childrenLinearized = orderChildrenRelative(sentence, line["children_DH"][:], False, distanceWeights_)
          line["children_DH"] = childrenLinearized
       if "children_HD" in line:
-         childrenLinearized = orderChildrenRelative(sentence, line["children_HD"][:], True)
+         childrenLinearized = orderChildrenRelative(sentence, line["children_HD"][:], True, distanceWeights_)
          line["children_HD"] = childrenLinearized
 
+   
    linearized = []
    recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
-   for line in sentence:
-      if line["posUni"] == "PUNCT":
-         continue
-      if "LENGTH" not in line: # must be a dependent of functuation
-        continue
-#      print(line)
-#      print(line["LENGTH"], line["CHILDREN"])
-      LENGTHS[line["fine_dep"]].append(line["LENGTH"])
-      CHILDREN[line["fine_dep"]].append(line["CHILDREN"])
-      SIBLINGS[line["fine_dep"]].append(sentence[line["head"]-1]["CHILDREN"]-1 if line["head"] > 0 else 0)
    if printThings or len(linearized) == 0:
      print " ".join(map(lambda x:x["word"], sentence))
      print " ".join(map(lambda x:x["word"], linearized))
@@ -198,10 +188,29 @@ def orderSentence(sentence, dhLogits, printThings):
          x["reordered_head"] = 0
       else:
          x["reordered_head"] = 1+moved[x["head"]-1]
+
+      if x["head"] == 0:
+        left = min(moved[x["index"]-1], moved[x["head"]-1])
+        right = max(moved[x["index"]-1], moved[x["head"]-1])
+        x["distance_to_head"] = max(0, sum([0 if y.get("EXCLUDED", False) else 1 for y in linearized[left:right+1]])-1)
+      else:
+        x["distance_to_head"] = 0
+
+#   quit()
+#   linearized = [x for x in linearized if (not (x.get("EXCLUDED", False)))]
    return linearized, logits
 
 
 dhLogits, vocab, vocab_deps, depsVocab = initializeOrderTable()
+
+print(docs)
+print(docs)
+
+itos_docs = sorted(list(docs))
+stoi_docs = dict(zip(itos_docs, range(len(itos_docs))))
+#time
+#for d in docs:
+ 
 
 posUni = list(posUni)
 itos_pos_uni = posUni
@@ -217,26 +226,51 @@ itos_pure_deps = sorted(list(depsVocab))
 stoi_pure_deps = dict(zip(itos_pure_deps, range(len(itos_pure_deps))))
    
 
-itos_deps = sorted(vocab_deps, key=lambda x:x[1])
+itos_deps = sorted(vocab_deps)
 stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_funchead/"
+relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_funchead_Yiddish/"
 
 import os
+#files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_") and __file__ in x]
+#posCount = 0
+#negCount = 0
+#for name in files:
+#  with open(relevantPath+name, "r") as inFile:
+#    for line in inFile:
+#        line = line.split("\t")
+#        if line[0] == "obj":
+#          dhWeight = float(line[2])
+#          if dhWeight < 0:
+#             negCount += 1
+#          elif dhWeight > 0:
+#             posCount += 1
+#          break
+
+#print(["Neg count", negCount, "Pos count", posCount])
+#
+#if posCount >= 4 and negCount >= 4:
+#   print("Enough models!")
+#   quit()
+
+dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps) * len(docs)).view(len(docs), len(itos_deps)), requires_grad=True)
+distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps) * len(docs)).view(len(docs), len(itos_deps)), requires_grad=True)
+
+print(len(itos_deps), len(docs))
+for i, key in enumerate(itos_deps):
+   if key == "obj": 
+       dhWeights.data[:, i] = (10.0 if posCount < negCount else -10.0)
 
 
-dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
-distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
 
 
 
-
-words = list(vocab.iteritems())
+words = list(vocab.items())
 words = sorted(words, key = lambda x:x[1], reverse=True)
-itos = map(lambda x:x[0], words)
+itos = list(map(lambda x:x[0], words))
 stoi = dict(zip(itos, range(len(itos))))
 
 if len(itos) > 6:
@@ -294,50 +328,47 @@ import torch.nn.functional
 
 
 counter = 0
-
-
-dependencyLengths = []
-
-if True:
-  corpus = CorpusIterator(args.language, partition="together", shuffleData=False).iterator(rejectShortSentences = True)
-
-  while True:
-    try:
-       batch = map(lambda x:next(corpus), 10*range(1))
-    except StopIteration:
-       break
-    batch = sorted(batch, key=len)
-    partitions = range(10)
-    for partition in partitions:
-       if counter > 200000:
-           print "Quitting at counter "+str(counter)
+while True:
+  corpus = list(turnIntoDeps.corpusIterator())
+  shuffle(corpus)
+  for current in corpus:
+       if counter > 50000000:
+           print("Quitting at counter "+str(counter))
            quit()
        counter += 1
        printHere = (counter % 50 == 0)
-       current = batch[partition*1:(partition+1)*1]
-       batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y==0 and printHere), zip(range(len(current)),current)))
-      
-       batchOrdered = batchOrderedLogits[0]
-       logits = batchOrderedLogits[1]
-   
-       lengths = map(len, current)
-       maxLength = lengths[-1]
+       current = [current]
+       batchOrdered, logits = orderSentence(current[0], dhLogits, printHere)
+     
+       metadata = current[0][1]
+       
+       maxLength = len(batchOrdered)
+       batchOrdered = [batchOrdered]
        if maxLength <= 2:
-         print "Skipping extremely short sentence"
+         print("Skipping extremely short sentence", metadata)
          continue
        input_words = []
        input_pos_u = []
        input_pos_p = []
        for i in range(maxLength+2):
           input_words.append(map(lambda x: 2 if i == 0 else (encodeWord(x[i-1]["word"]) if i <= len(x) else 0), batchOrdered))
-          input_pos_u.append(map(lambda x: 2 if i == 0 else (stoi_pos_uni[x[i-1]["posUni"]]+3 if i <= len(x) else 0), batchOrdered))
-          input_pos_p.append(map(lambda x: 2 if i == 0 else (stoi_pos_ptb[x[i-1]["posFine"]]+3 if i <= len(x) else 0), batchOrdered))
+          input_pos_u.append(map(lambda x: 2 if i == 0 else (stoi_pos_uni[x[i-1]["Label"]]+3 if i <= len(x) else 0), batchOrdered))
+          input_pos_p.append(map(lambda x: 2 if i == 0 else (stoi_pos_ptb[x[i-1]["Label"]]+3 if i <= len(x) else 0), batchOrdered))
 
        loss = 0
        wordNum = 0
        lossWords = 0
        policyGradientLoss = 0
        baselineLoss = 0
+       for c in components:
+          c.zero_grad()
+
+       for p in  [dhWeights, distanceWeights]:
+          if p.grad is not None:
+             p.grad.data = p.grad.data.mul(args.momentum)
+
+
+
 
        if True:
            words_layer = word_embeddings(Variable(torch.LongTensor(input_words))) #.cuda())
@@ -355,52 +386,69 @@ if True:
                        realHead = 0
                     else:
                        realHead = batchOrdered[j][i-1]["reordered_head"] 
-                    if batchOrdered[j][i-1]["fine_dep"] == "root":
+                    if batchOrdered[j][i-1]["dep"] == "root":
                        continue
                     # to make sure reward attribution considers this correctly
                     registerAt = max(i, realHead)
-                    depLength = abs(i - realHead)
+                    depLength = batchOrdered[j][i-1]["distance_to_head"]
                     assert depLength >= 0
                     baselineLoss += torch.nn.functional.mse_loss(baseline_predictions[i][j] + baseline_predictions[realHead][j], depLength + cudaZero )
                     depLengthMinusBaselines = depLength - baseline_predictions[i][j] - baseline_predictions[realHead][j]
                     lossesHead[registerAt][j] += depLengthMinusBaselines
                     lossWords += depLength
 
-           dependencyLengths.append(lossWords)
-
+           for i in range(1,len(input_words)): 
+              for j in range(1):
+                 if input_words[i][j] != 0:
+                    policyGradientLoss += batchOrdered[j][-1]["relevant_logprob_sum"] * ((lossesHead[i][j]).detach().cpu())
+                    if input_words[i] > 2 and j == 0 and printHere:
+                       print [itos[input_words[i][j]-3], itos_pos_ptb[input_pos_p[i][j]-3], "Cumul_DepL_Minus_Baselines", lossesHead[i][j].data.cpu().numpy()[0], "Baseline Here", baseline_predictions[i][j].data.cpu().numpy()[0]]
+                    wordNum += 1
+       if wordNum == 0:
+         print input_words
+         print batchOrdered
+         continue
        if printHere:
-         print(len(dependencyLengths))
+         print loss/wordNum
+         print lossWords/wordNum
+         print ["CROSS ENTROPY", crossEntropy, exp(crossEntropy)]
+       crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum)
+       probabilities = torch.sigmoid(dhWeights)
 
+       neg_entropy = torch.sum( probabilities * torch.log(probabilities) + (1-probabilities) * torch.log(1-probabilities))
 
-lengths = torch.FloatTensor(sorted(dependencyLengths))
-print(lengths.mean())
-print(lengths.median())
-print(lengths.min())
-print(lengths.max())
-print(lengths[int(0.9*len(lengths))])
-print(lengths[int(0.95*len(lengths))])
+       policy_related_loss = args.lr_policy * (args.entropy_weight * neg_entropy + policyGradientLoss) # lives on CPU
+       policy_related_loss.backward()
 
-#print(dependencyLengths[:5])
+       loss += baselineLoss # lives on GPU
+       if loss is 0:
+          continue
+       loss.backward()
+       if printHere:
+         print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)
 
-def mean(x):
-   return "NA" if len(x) == 0 else sum(x)/(len(x)+0.0000001)
+       torch.nn.utils.clip_grad_norm(parameters(), 5.0, norm_type='inf')
+       for param in parameters():
+         if param.grad is None:
+           print "WARNING: None gradient"
+           continue
+         param.data.sub_(lr_lm * param.grad.data)
+       if counter % 10000 == 0:
+          TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
+          print "Saving"
+          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_funchead_Yiddish/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
+             print >> outFile, "\t".join(list(map(str,["CoarseDependency", "Document", "DH_Weight","DistanceWeight", "FileName"])))
 
-def median(x):
-  return "NA" if len(x) == 0 else x[int(len(x)/2)]
+             for i in range(len(itos_deps)):
+                rel = itos_deps[i]
+                dependency = key
+                for doc in range(len(itos_docs)):
+                   outputs = []
+                   outputs.append(rel)
+                   outputs.append(itos_docs[doc])
+                   outputs.append(dhWeights[doc, i])
+                   outputs.append(distanceWeights[doc, i])
+                   outputs.append(myID)
+                   print >> outFile, "\t".join(list(map(str,outputs)))
 
-def threeQuarters(x):
-  return "NA" if len(x) == 0 else x[int(0.75*len(x))]
-
-def stats(x):
-   x = sorted(x)
-   return [len(x), mean(x), median(x), threeQuarters(x), mean([log(y+1) for y in x])]
-
-subsamplingIndex = int(sqrt(len(dependencyLengths)))
-randomState = Random(0)
-with open("/u/scr/mhahn/TMP.txt", "w") as outFile:
- print >> outFile, ("\t".join([str(x) for x in [args.language, "nsubj"] + stats(LENGTHS["nsubj"]) + stats(CHILDREN["nsubj"]) + stats(SIBLINGS["nsubj"])]))
- print >> outFile, ("\t".join([str(x) for x in [args.language, "obj"] + stats(LENGTHS["obj"]) + stats(CHILDREN["obj"]) + stats(SIBLINGS["obj"])]))
- print >> outFile, ("\t".join([str(x) for x in [args.language, "aux"] + stats(LENGTHS["aux"]) + stats(CHILDREN["aux"]) + stats(SIBLINGS["aux"])]))
- print >> outFile, ("\t".join([str(x) for x in [args.language, "xcomp"] + stats(LENGTHS["xcomp"]) + stats(CHILDREN["xcomp"]) + stats(SIBLINGS["xcomp"])]))
- print >> outFile, ("\t".join([str(x) for x in [args.language, "lifted_mark"] + stats(LENGTHS["lifted_mark"]) + stats(CHILDREN["lifted_mark"]) + stats(SIBLINGS["lifted_mark"])]))
 
