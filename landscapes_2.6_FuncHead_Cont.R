@@ -1,3 +1,8 @@
+sigmoid = function(x) {
+	return(1/(1+exp(-x)))
+}
+
+
 library(tidyr)
 library(dplyr)
 
@@ -20,6 +25,7 @@ data = merge(dataO, dataS, by=c("Language", "FileName"))
 
 data = data %>% mutate(OFartherThanS = (DistanceWeight.x > DistanceWeight.y))
 data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
+data = data %>% mutate(OSSameSide_Prob = (sigmoid(DH_Weight.x) * sigmoid(DH_Weight.y)) + ((1-sigmoid(DH_Weight.x)) * (1-sigmoid(DH_Weight.y))))
 
 data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
 
@@ -27,12 +33,9 @@ families = read.csv("families.tsv", sep="\t")
 data = merge(data, families, by=c("Language"))
 
 
-u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide))
+u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide), OSSameSide_Prob = mean(OSSameSide_Prob))
 print(u[order(u$OSSameSide),], n=60)
 
-sigmoid = function(x) {
-	return(1/(1+exp(-x)))
-}
 
 real = read.csv(paste(SCR,"/deps/LANDSCAPE/mle-fine_selected/auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
 realO = real %>% filter(Dependency == "obj")

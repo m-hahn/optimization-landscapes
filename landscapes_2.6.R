@@ -65,9 +65,11 @@ data$OSSameSide_Real_Prob_Log = log(data$OSSameSide_Real_Prob)
 
 #########################
 #########################
-#library(brms)
-#summary(brm(OSSameSide ~ OSSameSide_Real_Prob_Log + (1|Language) + (1+OSSameSide_Real_Prob_Log|Family), family="bernoulli", data=data))
-
+library(brms)
+model = brm(OSSameSide ~ OSSameSide_Real_Prob_Log + (1|Language) + (1+OSSameSide_Real_Prob_Log|Family), family="bernoulli", data=data)
+capture.output(summary(model), file="output/landscapes_2.6.R_brms.txt")
+samp = posterior_samples(model)
+capture.output(mean(samp$b_OSSameSide_Real_Prob_Log > 0), file="output/landscapes_2.6.R_brms.txt", append=TRUE)
 
 library(ggplot2)
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
