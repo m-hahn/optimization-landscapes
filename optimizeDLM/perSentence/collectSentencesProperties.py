@@ -29,7 +29,7 @@ from math import log, exp
 from random import random, shuffle
 
 
-from corpusIterator_FuncHead import CorpusIteratorFuncHead as CorpusIterator
+from corpusIterator_V import CorpusIterator_V as CorpusIterator
 
 originalDistanceWeights = {}
 
@@ -52,7 +52,7 @@ for partition in ["together"]:
       sentenceHash = hash_(" ".join([x["word"] for x in sentence]))
       hashToSentence[sentenceHash] = sentence
 
-TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_funchead_perSent/"
+TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent/"
 import glob
 from collections import defaultdict
 orderBySentence = {x:[] for x in hashToSentence}

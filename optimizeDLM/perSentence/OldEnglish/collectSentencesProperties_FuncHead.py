@@ -9,7 +9,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--language', type=str)
+parser.add_argument('--language', type=str, default="ISWOC_Old_English")
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=0.1)
 parser.add_argument('--momentum', type=float, default=0.9)
@@ -21,7 +21,6 @@ myID = random.randint(0,10000000)
 
 posUni = set()
 posFine = set() 
-deps = ["acl", "acl:relcl", "advcl", "advmod", "amod", "appos", "aux", "auxpass", "case", "cc", "ccomp", "compound", "compound:prt", "conj", "conj:preconj", "cop", "csubj", "csubjpass", "dep", "det", "det:predet", "discourse", "dobj", "expl", "foreign", "goeswith", "iobj", "list", "mark", "mwe", "neg", "nmod", "nmod:npmod", "nmod:poss", "nmod:tmod", "nsubj", "nsubjpass", "nummod", "parataxis", "punct", "remnant", "reparandum", "root", "vocative", "xcomp"] 
 
 
 
@@ -48,7 +47,7 @@ def hash_(x):
 hashToSentence = {}
 
 for partition in ["together"]:
-  for sentence in CorpusIterator(args.language,partition).iterator():
+  for sentence, _ in CorpusIterator(args.language,partition).iterator():
       sentenceHash = hash_(" ".join([x["word"] for x in sentence]))
       hashToSentence[sentenceHash] = sentence
 
@@ -72,9 +71,9 @@ for path in files:
        head = line[header["HeadPOS"]]
        dependent = line[header["DependentPOS"]]
 #       print(dhWeight, dependency, head, dependent)
-       if dependency == "obj" and head == "VERB" and dependent == "NOUN":
+       if dependency == "obj" and head == "V" and dependent == "N":
           objDir = 1 if dhWeight > 0 else -1
-       elif dependency.startswith("nsubj_"):
+       elif dependency.startswith("sub"):
           hash_ = dependency[dependency.index("_")+1:]
     #      print(hash_, hash_ in hashToSentence)
           orderBySentenceHere[hash_] = (1 if dhWeight > 0 else -1)
@@ -99,7 +98,7 @@ fleissKappaExpected = (countP_**2 + countN_**2) / ((countP_+countN_)**2 + 1e-10)
 
 def printSent(l):
    for x in l:
-      print("\t".join([str(y) for y in [x["index"], x["word"], x["head"], x["posUni"], x["dep"], "------" if (x["dep"] == "nsubj" and x["posUni"] == "NOUN") else ""]]))
+      print("\t".join([str(y) for y in [x["index"], x["word"], x["head"], x["posUni"], x["dep"], "------" if (x["dep"] == "sub" and x["posUni"] == "N") else ""]]))
 
 sentenceToHash = [(x, mean(y)) for x, y in orderBySentence.items()]
 sentenceToHash = sorted(sentenceToHash, key=lambda x:x[1])
@@ -133,7 +132,7 @@ for x in sentenceToHash:
     order = x[1]
     sent = hashToSentence[x[0]]
     annotateChildren(sent)
-    subjects = [i for i in range(len(sent)) if sent[i]["dep"] == "nsubj" and sent[i]["posUni"] == "NOUN" and sent[sent[i]["head"]-1]["posUni"] == "VERB"]
+    subjects = [i for i in range(len(sent)) if sent[i]["dep"] == "sub" and sent[i]["posUni"] == "N" and sent[sent[i]["head"]-1]["posUni"] == "V"]
 #    print(subjects)
     subjectsOrders = [1 if sent[i]["head"] < sent[i]["index"] else -1 for i in subjects]
     subjectsToVerbs = [sent[sent[i]["head"]-1]["index"]-1 for i in subjects]
@@ -143,7 +142,7 @@ for x in sentenceToHash:
     objects = [[x["index"]-1 for x in sent if x["head"] == i+1 and x["dep"] == "obj"] for i in subjectsToVerbs]
    # print(subjectsToVerbs)
   #  print(objects)
-    isRoot = [1 if sent[i]["dep"] == "root" else 0 for i in subjectsToVerbs]
+    isRoot = [1 if sent[i]["head"] == 0 else 0 for i in subjectsToVerbs]
  #   print(isRoot)
     subjectLength = [length(i+1, sent) for i in subjects]
     verbConstituentLength = [length(i+1, sent) for i in subjectsToVerbs]
