@@ -164,7 +164,7 @@ with open("outputs/"+__file__+".tsv", "a") as outFile:
    print >> outFile, "\t".join([args.language] + [str(mean(matrix[x])) for x in columns if x != "realOrders"])
 import torch
 for x in matrix:
-  if x != "order":
+  if x != "order" and x != "realOrders":
      m = mean(matrix[x])
      print("\t".join([x, str(m)]))
      matrix[x] = [y-m for y in matrix[x]]
@@ -176,10 +176,77 @@ with open("/u/scr/mhahn/TMP.tsv", "w") as outFile:
      print >> outFile, "\t".join([str(matrix[header][i]) for header in columns]) 
   print(list(matrix))
 
+
+predictors = [x for x in columns if x not in ["order", "realOrders"]]
+outVector = (torch.FloatTensor(matrix["realOrders"]) > 0).long().numpy()
+inVector = torch.FloatTensor([matrix[x] for x in predictors]).t().numpy() # [[1 for _ in range(len(matrix["order"]))]] + 
+
+
+
+
+from sklearn.linear_model import LogisticRegression
+import statsmodels.api as sm
+
+print("PREDICTING REAL ORDERS")
+#### Statsmodels
+# first artificially add intercept to x, as advised in the docs:
+x_ = sm.add_constant(inVector)
+res_sm = sm.Logit(outVector, x_).fit(method="ncg", maxiter=10000) # x_ here
+print(res_sm.params)
+print(res_sm.summary())
+print(predictors)
+
+
+if mean(matrix["order"]) == 0:
+   quit()
+
+print("PREDICTING OPTIMIZED ORDERS")
+predictors = [x for x in columns if x not in ["order", "realOrders"]]
+outVector = (torch.FloatTensor(matrix["order"]) > 0).long().numpy()
+inVector = torch.FloatTensor([matrix[x] for x in predictors]).t().numpy() # [[1 for _ in range(len(matrix["order"]))]] + 
+
+x_ = sm.add_constant(inVector)
+res_sm = sm.Logit(outVector, x_).fit(method="ncg", maxiter=10000) # x_ here
+print(res_sm.params)
+print(res_sm.summary())
+print(predictors)
+
+
+print("PREDICTING REAL ORDERS")
+predictors = ["order"]
+outVector = (torch.FloatTensor(matrix["realOrders"]) > 0).long().numpy()
+inVector = torch.FloatTensor([matrix[x] for x in predictors]).t().numpy() # [[1 for _ in range(len(matrix["order"]))]] + 
+x_ = sm.add_constant(inVector)
+res_sm = sm.Logit(outVector, x_).fit(method="ncg", maxiter=10000) # x_ here
+print(res_sm.params)
+print(res_sm.summary())
+print(predictors)
+
+
+
+
+#X = torch.zeros(1,len(predictors)+1)
+#print(X.size())
+#X.requires_grad = True
+#optim = torch.optim.SGD([X], lr=0.1)
+#sigmoid = torch.nn.Sigmoid()
+#for iteration in range(20000):
+#   prediction = sigmoid((X*inVector).sum(dim=1))
+#   #print(prediction)
+#   loglikelihood = torch.where(outVector == 1, prediction.log(), (1-prediction).log())
+#   loss = (-loglikelihood).mean()
+#   optim.zero_grad()
+#   loss.backward()
+#   optim.step()
+#   if iteration % 100 == 0:
+#      print(iteration, loss)
+#   #quit()
+#print(X)
+
 """
 data = read.csv("~/scr/TMP.tsv", sep="\t")
 summary(lm(order ~ isRoot * objects + isRoot * subjectLength + isRoot * verbDependents + isRoot * verbLength, data=data))
-summary(lm(realOrders ~ isRoot * objects + isRoot * subjectLength + isRoot * verbDependents + isRoot * verbLength, data=data))
+summary(lm(realOrders ~ isRoot * objects + isRoot * subjectLength + isRoot * verbDependents + isRoot * verbLength, family="binomial", data=data))
 summary(lm(realOrders ~ order, data=data))
 
 KOREAN
