@@ -68,3 +68,4 @@ Welsh_2.6
 Wolof_2.6
 Yoruba_2.6
 Irish_2.6
+Coptic_2.6

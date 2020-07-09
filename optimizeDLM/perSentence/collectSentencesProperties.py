@@ -121,6 +121,7 @@ matrix = {}
 matrix["order"] = []
 matrix["verbDependents"] = []
 matrix["objects"] = []
+matrix["correlatingDependents"] = []
 matrix["isRoot"] = []
 matrix["verbLength"] = []
 matrix["subjectLength"] = []
@@ -141,6 +142,7 @@ for x in sentenceToHash:
     verbDependents = [len([x["index"]-1 for x in sent if x["head"] == i+1]) for i in subjectsToVerbs]
     #print(verbDependents)
     objects = [[x["index"]-1 for x in sent if x["head"] == i+1 and x["dep"] == "obj"] for i in subjectsToVerbs]
+    correlatingDependents = [[x["index"]-1 for x in sent if x["head"] == i+1 and makeCoarse(x["dep"]) in ["xcomp", "obl", "advcl", "ccomp", "csubj" ]] for i in subjectsToVerbs]
    # print(subjectsToVerbs)
   #  print(objects)
     isRoot = [1 if sent[i]["dep"] == "root" else 0 for i in subjectsToVerbs]
@@ -156,7 +158,7 @@ for x in sentenceToHash:
        matrix["verbLength"].append(mean(verbConstituentLength) - mean(subjectLength))
        matrix["subjectLength"].append(mean(subjectLength))
        matrix["realOrders"].append(mean(subjectsOrders))
-
+       matrix["correlatingDependents"].append(mean([len(x) for x in correlatingDependents]))
 
 columns = sorted(list(matrix))
 print(columns)
