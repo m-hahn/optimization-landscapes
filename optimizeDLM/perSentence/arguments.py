@@ -119,6 +119,9 @@ matrix = {}
 matrix["SO"] = []
 matrix["S"] = []
 matrix["O"] = []
+matrix["SON"] = []
+matrix["SN"] = []
+matrix["ON"] = []
 
 def mean(x):
    return sum(x)/(len(x)+1e-10)
@@ -130,6 +133,8 @@ for x in sentenceToHash:
     for word in sent:
 #       print(word)
        if word["posUni"] == "VERB":
+          hasSubjectN = False
+          hasObjectN = False
           hasSubject = False
           hasObject = False
           for child_ in word.get("children", []):
@@ -139,13 +144,21 @@ for x in sentenceToHash:
                    hasSubject = True
                 elif child["dep"].startswith("obj"):
                    hasObject = True
+              if child["posUni"] == "NOUN":
+                if child["dep"].startswith("nsubj"):
+                   hasSubjectN = True
+                elif child["dep"].startswith("obj"):
+                   hasObjectN = True
           if hasSubject or hasObject:
               matrix["S"].append(1 if (hasSubject and not hasObject) else 0)
               matrix["O"].append(1 if (not hasSubject and hasObject) else 0)
               matrix["SO"].append(1 if (hasSubject and hasObject) else 0)
-columns = ["S", "O", "SO"]
+              matrix["SN"].append(1 if (hasSubjectN and not hasObjectN) else 0)
+              matrix["ON"].append(1 if (not hasSubjectN and hasObjectN) else 0)
+              matrix["SON"].append(1 if (hasSubjectN and hasObjectN) else 0)
+columns = ["S", "O", "SO", "SN", "ON", "SON"]
 print(columns)
-total = sum(matrix["S"]) + sum(matrix["O"]) + sum(matrix["SO"]) + 1e-5
+total = 1 #sum(matrix["S"]) + sum(matrix["O"]) + sum(matrix["SO"]) + 1e-5
 with open("outputs/"+__file__+".tsv", "a") as outFile:
    print >> outFile, "\t".join([args.language] + [str(sum(matrix[x])/total) for x in columns])
    print "\t".join([args.language] + [str(sum(matrix[x])/total) for x in columns])
