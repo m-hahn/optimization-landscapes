@@ -29,7 +29,7 @@ from math import log, exp
 from random import random, shuffle
 
 
-from corpusIterator_FuncHead import CorpusIteratorFuncHead as CorpusIterator
+from corpusIterator_V import CorpusIterator_V as CorpusIterator
 
 originalDistanceWeights = {}
 
