@@ -1,63 +1,89 @@
 import os
 import random
-#import accessISWOCData
-#import accessTOROTData
 import sys
 
 header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
 
+SMALL_TREEBANKS = ["UD_Kazakh-KTB", "UD_Cantonese-HK", "UD_Naija-NSC", "UD_Buryat-BDT", "UD_Thai-PUD", "UD_Breton-KEB", "UD_Faroese-OFT", "UD_Amharic-ATT", "UD_Kurmanji-MG", "UD_Upper_Sorbian-UFAL", "UD_Bambara-CRB", "UD_Erzya-JR"]
+SUBSTITUTE_TEST_FOR_DEV = ["UD_North_Sami", "UD_Irish", "UD_Buryat-BDT", "UD_Armenian-ArmTDP"]
+SUBSTITUTE_DEV_FOR_TRAIN = ["UD_Armenian-ArmTDP"]
 
-def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
-      assert partition == "together"
-      l = language.split("_")
-      language = "_".join(l[:-1])
-      version = l[-1]
-      #print(l, language)
-      basePath = "/u/scr/corpora/Universal_Dependencies/Universal_Dependencies_"+version+"/ud-treebanks-v"+version+"/"
-      files = os.listdir(basePath)
-      files = list(filter(lambda x:x.startswith("UD_"+language.replace("-Adap", "")), files))
-      print >> sys.stderr, ("FILES", files)
+def readUDCorpus(language, partition):
+      basePaths = ["/u/scr/corpora/Universal_Dependencies/Universal_Dependencies_2.2/ud-treebanks-v2.2/", "/u/scr/corpora/Universal_Dependencies/Universal_Dependencies_2.1/ud-treebanks-v2.1/", "/u/scr/corpora/Universal_Dependencies/Universal_Dependencies_2.3/ud-treebanks-v2.3/"]
+      files = []
+      while len(files) == 0:
+        if len(basePaths) == 0:
+           print >> sys.stderr, "No files found"
+           raise IOError
+        basePath = basePaths[0]
+        del basePaths[0]
+        files = os.listdir(basePath)
+        files = filter(lambda x:x.startswith("UD_"+language.replace("-Adap", "")), files)
       data = []
       for name in files:
+
+        # Skip Sign Language Treebanks
         if "Sign" in name:
-           print >> sys.stderr, ("Skipping "+name)
+           print >> sys.stderr, "Skipping "+name
            continue
         assert ("Sign" not in name)
-        if "Chinese-CFL" in name or "English-ESL" in name or "Hindi_English" in name or "French-FQB" in name or "Latin-ITTB" in name or "Latin-LLCT" in name or "English-Pronouns" in name or "English-GUMReddit" in name:
-           print >> sys.stderr, ("Skipping "+name)
+
+        # Skip Non-Native Treebanks
+        if "Chinese-CFL" in name:
+           print >> sys.stderr, "Skipping "+name
            continue
         suffix = name[len("UD_"+language):]
         if name == "UD_French-FTB":
-            subDirectory = "/u/scr/mhahn/corpus-temp/UD_French-FTB/"
+            subDirectory = "/juicier/scr120/scr/mhahn/corpus-temp/UD_French-FTB/"
         else:
             subDirectory =basePath+"/"+name
         subDirFiles = os.listdir(subDirectory)
         partitionHere = partition
-            
-        candidates = list(filter(lambda x:"-ud-" in x and x.endswith(".conllu"), subDirFiles))
-#        print >> sys.stderr, ("SUBDIR FILES", subDirFiles)
 
-        print >> sys.stderr, candidates
-        assert len(candidates) >= 1, candidates
-        for cand in candidates:
-           try:
-              dataPath = subDirectory+"/"+cand
-              with open(dataPath, "r") as inFile:
-                 newData = inFile.read().strip().split("\n\n")
-                 assert len(newData) > 1
-                 data = data + newData
-           except IOError:
-              print >> sys.stderr, ("Did not find "+dataPath)
+        # Special procedures for small corpora
+        if (name in SUBSTITUTE_TEST_FOR_DEV) and partition == "dev" and (not language.endswith("-Adap")):
+            print >> sys.stderr, "Substituted test for dev partition"
+            partitionHere = "test"
+        elif language.endswith("-Adap"):
+          if (name in SMALL_TREEBANKS):
+             partitionHere = "test"
+          elif name in SUBSTITUTE_DEV_FOR_TRAIN:
+             partitionHere  = ("train" if partition == "dev" else "test")
+            
+        # Collect corpus files
+        candidates = filter(lambda x:"-ud-"+partitionHere+"." in x and x.endswith(".conllu"), subDirFiles)
+        if len(candidates) == 0:
+           print >> sys.stderr, "Did not find "+partitionHere+" file in "+subDirectory
+           continue
+        if len(candidates) == 2:
+           candidates = filter(lambda x:"merged" in x, candidates)
+        assert len(candidates) == 1, candidates
+        try:
+           dataPath = subDirectory+"/"+candidates[0]
+           with open(dataPath, "r") as inFile:
+              newData = inFile.read().strip().split("\n\n")
+              assert len(newData) > 1
+              if language.endswith("-Adap")  and (name in SMALL_TREEBANKS): # "UD_Armenian-ArmTDP",
+                  random.Random(4).shuffle(newData)
+                  devLength = 100
+                  if partition == "dev":
+                       newData = newData[:devLength]
+                  elif partition == "train":
+                       newData = newData[devLength:]
+                  else:
+                       assert False
+              data = data + newData
+        except IOError:
+           print >> sys.stderr, "Did not find "+dataPath
 
       assert len(data) > 0, (language, partition, files)
 
 
-      print >> sys.stderr, ("Read "+str(len(data))+ " sentences from "+str(len(files))+" "+partition+" datasets. "+str(files)+"   "+basePath)
+      print >> sys.stderr, "Read "+str(len(data))+ " sentences from "+str(len(files))+" "+partition+" datasets. "+str(files)+"   "+basePath
       return data
 
-class CorpusIterator_V():
-   def __init__(self, language, partition="together", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
-      print >> sys.stderr, ("LANGUAGE", language)
+class CorpusIterator():
+   def __init__(self, language, partition="train", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False):
       if splitLemmas:
            assert language == "Korean"
       self.splitLemmas = splitLemmas
@@ -65,11 +91,7 @@ class CorpusIterator_V():
       assert self.splitWords == (language == "BKTreebank_Vietnamese")
 
       self.storeMorph = storeMorph
-      if language.startswith("ISWOC_"):
-          data = accessISWOCData.readISWOCCorpus(language.replace("ISWOC_",""), partition)
-      elif language.startswith("TOROT_"):
-          data = accessTOROTData.readTOROTCorpus(language.replace("TOROT_",""), partition)
-      elif language == "BKTreebank_Vietnamese":
+      if language == "BKTreebank_Vietnamese":
           import accessBKTreebank
           data = accessBKTreebank.readBKTreebank(partition)
       elif language == "TuebaJS":
@@ -82,7 +104,7 @@ class CorpusIterator_V():
          assert len(data) > 0, (language, partition)
         
       else:
-          data = readUDCorpus(language, partition, ignoreCorporaWithoutWords=ignoreCorporaWithoutWords)
+          data = readUDCorpus(language, partition)
       if shuffleData:
        if shuffleDataSeed is None:
          random.shuffle(data)
@@ -98,7 +120,7 @@ class CorpusIterator_V():
    def length(self):
       return len(self.data)
    def processSentence(self, sentence):
-        sentence = list(map(lambda x:x.split("\t"), sentence.split("\n")))
+        sentence = map(lambda x:x.split("\t"), sentence.split("\n"))
         result = []
         for i in range(len(sentence)):
 #           print sentence[i]
@@ -115,10 +137,6 @@ class CorpusIterator_V():
            if self.language == "Thai-Adap":
               assert sentence[i]["lemma"] == "_"
               sentence[i]["lemma"] = sentence[i]["word"]
-           if "ISWOC" in self.language or "TOROT" in self.language:
-              if sentence[i]["head"] == 0:
-                  sentence[i]["dep"] = "root"
-
            if self.splitLemmas:
               sentence[i]["lemmas"] = sentence[i]["lemma"].split("+")
 
@@ -134,10 +152,6 @@ class CorpusIterator_V():
               sentence[i]["dep"] = "root"
            if self.language == "LDC2012T05" and sentence[i]["dep"] == "wp":
               sentence[i]["dep"] = "punct"
-
-           sentence[i]["coarse_dep"] = sentence[i]["dep"].split(":")[0]
-
-
 
            result.append(sentence[i])
  #          print sentence[i]

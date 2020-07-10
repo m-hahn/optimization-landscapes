@@ -166,7 +166,7 @@ def orderSentence(sentence, dhLogits, printThings):
 
    
    linearized = []
-   recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
+   overallLogprobSum = recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
    if printThings or len(linearized) == 0:
      print " ".join(map(lambda x:x["word"], sentence))
      print " ".join(map(lambda x:x["word"], linearized))
@@ -181,7 +181,7 @@ def orderSentence(sentence, dhLogits, printThings):
          x["reordered_head"] = 0
       else:
          x["reordered_head"] = 1+moved[x["head"]-1]
-   return linearized, logits
+   return linearized, overallLogprobSum
 
 
 dhLogits, vocab, vocab_deps, depsVocab = initializeOrderTable()
@@ -322,10 +322,9 @@ while True:
        counter += 1
        printHere = (counter % 50 == 0)
        current = batch[partition*1:(partition+1)*1]
-       batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y==0 and printHere), zip(range(len(current)),current)))
-      
-       batchOrdered = batchOrderedLogits[0]
-       logits = batchOrderedLogits[1]
+       assert len(current)==1
+       batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
+       batchOrdered = [batchOrdered]
    
        lengths = map(len, current)
        maxLength = lengths[-1]
@@ -385,7 +384,7 @@ while True:
            for i in range(1,len(input_words)): 
               for j in range(1):
                  if input_words[i][j] != 0:
-                    policyGradientLoss += batchOrdered[j][-1]["relevant_logprob_sum"] * ((lossesHead[i][j]).detach().cpu())
+                    policyGradientLoss += overallLogprobSum * ((lossesHead[i][j]).detach().cpu())
                     if input_words[i] > 2 and j == 0 and printHere:
                        print [itos[input_words[i][j]-3], itos_pos_ptb[input_pos_p[i][j]-3], "Cumul_DepL_Minus_Baselines", lossesHead[i][j].data.cpu().numpy()[0], "Baseline Here", baseline_predictions[i][j].data.cpu().numpy()[0]]
                     wordNum += 1

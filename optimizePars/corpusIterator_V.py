@@ -8,7 +8,7 @@ header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep",
 
 
 def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
-      assert partition == "together"
+      assert partition != "together"
       l = language.split("_")
       language = "_".join(l[:-1])
       version = l[-1]
@@ -23,7 +23,7 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
            print >> sys.stderr, ("Skipping "+name)
            continue
         assert ("Sign" not in name)
-        if "Chinese-CFL" in name or "English-ESL" in name or "Hindi_English" in name or "French-FQB" in name or "Latin-ITTB" in name or "Latin-LLCT" in name:
+        if "Chinese-CFL" in name or "English-ESL" in name or "Hindi_English" in name or "French-FQB" in name or "Latin-ITTB" in name or "Latin-LLCT" in name or "English-Pronouns" in name or "English-GUMReddit" in name:
            print >> sys.stderr, ("Skipping "+name)
            continue
         suffix = name[len("UD_"+language):]
@@ -34,20 +34,21 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
         subDirFiles = os.listdir(subDirectory)
         partitionHere = partition
             
-        candidates = list(filter(lambda x:"-ud-" in x and x.endswith(".conllu"), subDirFiles))
-        print >> sys.stderr, ("SUBDIR FILES", subDirFiles)
+        candidates = list(filter(lambda x:"-ud-" in x and x.endswith(".conllu") and partition in x, subDirFiles))
+#        print >> sys.stderr, ("SUBDIR FILES", subDirFiles)
 
         print >> sys.stderr, candidates
-        assert len(candidates) >= 1, candidates
-        for cand in candidates:
-           try:
-              dataPath = subDirectory+"/"+cand
-              with open(dataPath, "r") as inFile:
-                 newData = inFile.read().strip().split("\n\n")
-                 assert len(newData) > 1
-                 data = data + newData
-           except IOError:
-              print >> sys.stderr, ("Did not find "+dataPath)
+        if len(candidates) == 0:
+           continue
+#        assert len(candidates) >= 1, candidates
+        try:
+           dataPath = subDirectory+"/"+candidates[0]
+           with open(dataPath, "r") as inFile:
+              newData = inFile.read().strip().split("\n\n")
+              assert len(newData) > 1
+              data = data + newData
+        except IOError:
+           print >> sys.stderr, ("Did not find "+dataPath)
 
       assert len(data) > 0, (language, partition, files)
 
@@ -56,7 +57,7 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
       return data
 
 class CorpusIterator_V():
-   def __init__(self, language, partition="together", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
+   def __init__(self, language, partition, storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
       print >> sys.stderr, ("LANGUAGE", language)
       if splitLemmas:
            assert language == "Korean"
@@ -100,14 +101,9 @@ class CorpusIterator_V():
    def processSentence(self, sentence):
         sentence = list(map(lambda x:x.split("\t"), sentence.split("\n")))
         result = []
-        metadata = {}
         for i in range(len(sentence)):
 #           print sentence[i]
            if sentence[i][0].startswith("#"):
-              posEq = sentence[i][0].index(" = ")
-              key = sentence[i][0][2:posEq]
-              value = sentence[i][0][posEq+3:]
-              metadata[key] = value
               continue
            if "-" in sentence[i][0]: # if it is NUM-NUM
               continue
@@ -146,14 +142,13 @@ class CorpusIterator_V():
 
            result.append(sentence[i])
  #          print sentence[i]
-        return (result, metadata)
+        return result
    def getSentence(self, index):
       result = self.processSentence(self.data[index])
       return result
    def iterator(self, rejectShortSentences = False):
      for sentence in self.data:
         if len(sentence) < 3 and rejectShortSentences:
-           assert False
            continue
         yield self.processSentence(sentence)
 
