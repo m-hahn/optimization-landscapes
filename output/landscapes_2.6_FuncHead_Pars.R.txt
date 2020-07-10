@@ -1,0 +1,134 @@
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: OSSameSide ~ OSSameSide_Real + (1 | Language)
+   Data: data
+
+     AIC      BIC   logLik deviance df.resid 
+    43.6     50.0    -18.8     37.6       59 
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-1.33660 -0.01583 -0.01484 -0.01458  1.80575 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ Language (Intercept) 114.3    10.69   
+Number of obs: 62, groups:  Language, 32
+
+Fixed effects:
+                    Estimate Std. Error z value Pr(>|z|)   
+(Intercept)          -8.3839     2.5914  -3.235  0.00122 **
+OSSameSide_RealTRUE   0.2067     2.8813   0.072  0.94282   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr)
+OSSmS_RTRUE -0.314
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: OSSameSide ~ log(OSSameSide_Real_Prob + 1e-10) + (1 | Language)
+   Data: data
+
+     AIC      BIC   logLik deviance df.resid 
+    43.4     49.8    -18.7     37.4       59 
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-1.33733 -0.01938 -0.01604 -0.01106  1.81155 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ Language (Intercept) 99.9     9.995   
+Number of obs: 62, groups:  Language, 32
+
+Fixed effects:
+                                  Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                         -6.997      3.526  -1.984   0.0472 *
+log(OSSameSide_Real_Prob + 1e-10)    1.230      2.841   0.433   0.6650  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr)
+l(OSSS_R_+1 0.686 
+
+	Pearson's product-moment correlation
+
+data:  u$OSSameSide and u$OSSameSide_Real + 0
+t = 0.04293, df = 30, p-value = 0.966
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.3417904  0.3555599
+sample estimates:
+        cor 
+0.007837684 
+
+                  Language        Family OSSameSide OSSameSide_Real
+1            Afrikaans_2.6      Germanic  0.0000000            TRUE
+2        Ancient_Greek_2.6         Greek  0.0000000            TRUE
+3              Catalan_2.6 Latin_Romance  0.0000000           FALSE
+4    Classical_Chinese_2.6  Sino-Tibetan  0.0000000           FALSE
+5               Coptic_2.6      Egyptian  0.0000000           FALSE
+6               Danish_2.6      Germanic  0.0000000           FALSE
+7              English_2.6      Germanic  0.0000000           FALSE
+8             Estonian_2.6        Finnic  0.0000000           FALSE
+9              Finnish_2.6        Finnic  0.0000000           FALSE
+10              French_2.6 Latin_Romance  0.0000000           FALSE
+11              German_2.6      Germanic  0.0000000            TRUE
+13              Hebrew_2.6       Semitic  0.0000000           FALSE
+14               Hindi_2.6         Indic  0.0000000            TRUE
+18          Lithuanian_2.6        Baltic  0.0000000           FALSE
+20           Norwegian_2.6      Germanic  0.0000000           FALSE
+21 Old_Church_Slavonic_2.6        Slavic  0.0000000           FALSE
+22          Old_French_2.6 Latin_Romance  0.0000000            TRUE
+23          Portuguese_2.6 Latin_Romance  0.0000000           FALSE
+24            Romanian_2.6 Latin_Romance  0.0000000           FALSE
+25             Russian_2.6        Slavic  0.0000000           FALSE
+27              Slovak_2.6        Slavic  0.0000000           FALSE
+28           Slovenian_2.6        Slavic  0.0000000           FALSE
+29             Spanish_2.6 Latin_Romance  0.0000000           FALSE
+30             Turkish_2.6        Turkic  0.0000000            TRUE
+31           Ukrainian_2.6        Slavic  0.0000000           FALSE
+32              Uyghur_2.6        Turkic  0.0000000            TRUE
+16               Latin_2.6 Latin_Romance  0.2500000            TRUE
+26     Scottish_Gaelic_2.6        Celtic  0.5000000            TRUE
+15            Japanese_2.6      Japanese  0.6666667            TRUE
+12              Gothic_2.6      Germanic  1.0000000           FALSE
+17             Latvian_2.6        Baltic  1.0000000           FALSE
+19             Maltese_2.6       Semitic  1.0000000           FALSE
+   OSSameSide_Real_Prob
+1            0.73349002
+2            0.50575100
+3            0.36613129
+4            0.06753733
+5            0.07989821
+6            0.20162009
+7            0.08167869
+8            0.47163904
+9            0.36962933
+10           0.20048622
+11           0.54803236
+13           0.31307626
+14           0.75883754
+18           0.41243136
+20           0.23401577
+21           0.45152515
+22           0.56250518
+23           0.16757516
+24           0.30676506
+25           0.35519387
+27           0.39478000
+28           0.45445801
+29           0.29478824
+30           0.95182300
+31           0.35598162
+32           0.94279648
+16           0.53739986
+26           0.65115607
+15           0.99946434
+12           0.45270105
+17           0.41166441
+19           0.30394165

@@ -6,31 +6,12 @@ perSentence = read.csv("optimizeDLM/perSentence/outputs/collectSentencesProperti
 
 SCR = "~/CS_SCR/"
 DEPS = paste(SCR,"/deps/", sep="")
-#DEPS = "/u/scr/mhahn/deps/"
-data = read.csv(paste(DEPS, "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl", "/", "auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
-dataBackup = data
-data = data %>% filter(HeadPOS == "VERB", DependentPOS == "NOUN") %>% select(-HeadPOS, -DependentPOS)
-
-
-
-
-
-dataO = data %>% filter(CoarseDependency == "obj")
-dataS = data %>% filter(CoarseDependency == "nsubj")
-
-data = merge(dataO, dataS, by=c("Language", "FileName"))
-
-
-data = data %>% mutate(OFartherThanS = (DistanceWeight.x > DistanceWeight.y))
-data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
-
-data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
 
 families = read.csv("families.tsv", sep="\t")
-data = merge(data, families, by=c("Language"))
+data = families
 
 
-u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide))
+u = data
 print(u[order(u$OSSameSide),], n=60)
 
 sigmoid = function(x) {
@@ -82,12 +63,20 @@ plot = ggplot(u, aes(x=OSSameSide_Real_SemiProb, y=objects, color=Family)) + geo
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Language)) 
 ggsave("figures/objects-order-pureud.pdf", width=10, height=10)
 
+
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=correlatingDependents, color=Family)) + geom_label(aes(label=Language)) 
+
+
+
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=verbLength-subjectLength, color=Family)) + geom_label(aes(label=Language)) 
 plot = ggplot(u %>% group_by(Family) %>% summarise(isRoot=mean(isRoot), OSSameSide_Real_Prob=mean(OSSameSide_Real_Prob)), aes(x=OSSameSide_Real_Prob, y=isRoot, color=Family)) + geom_label(aes(label=Family))
 
 plot = ggplot(u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob), objects=mean(objects)), aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Family)) 
 ggsave("figures/objects-order-families-pureud.pdf")
 
+
+v = u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob), objects=mean(objects))
+cor.test(v$OSSameSide_Real_Prob, v$objects)
 
 plot = ggplot(u, aes(x=OSSameSide, y=verbLength, color=Family)) + geom_label(aes(label=Language)) 
 
