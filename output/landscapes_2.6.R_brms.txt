@@ -8,25 +8,25 @@ Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
 Group-Level Effects: 
 ~Family (Number of levels: 29) 
                                         Estimate Est.Error l-95% CI u-95% CI
-sd(Intercept)                               0.43      0.26     0.03     0.99
-sd(OSSameSide_Real_Prob_Log)                0.23      0.17     0.01     0.67
-cor(Intercept,OSSameSide_Real_Prob_Log)     0.28      0.55    -0.89     0.98
+sd(Intercept)                               0.43      0.25     0.04     0.99
+sd(OSSameSide_Real_Prob_Log)                0.22      0.18     0.01     0.66
+cor(Intercept,OSSameSide_Real_Prob_Log)     0.28      0.55    -0.89     0.97
                                         Rhat Bulk_ESS Tail_ESS
-sd(Intercept)                           1.01      674     1256
-sd(OSSameSide_Real_Prob_Log)            1.00      884     1841
-cor(Intercept,OSSameSide_Real_Prob_Log) 1.00     1571     2139
+sd(Intercept)                           1.00      687     1196
+sd(OSSameSide_Real_Prob_Log)            1.01     1005     1586
+cor(Intercept,OSSameSide_Real_Prob_Log) 1.00     1681     2127
 
 ~Language (Number of levels: 71) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.40      0.17     0.05     0.73 1.00      647     1312
+sd(Intercept)     0.40      0.18     0.05     0.73 1.01      595     1211
 
 Population-Level Effects: 
                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-Intercept                    0.61      0.22     0.21     1.06 1.00     2141
-OSSameSide_Real_Prob_Log     0.65      0.17     0.34     1.02 1.00     2029
+Intercept                    0.61      0.22     0.20     1.05 1.00     2447
+OSSameSide_Real_Prob_Log     0.65      0.17     0.34     0.98 1.00     2350
                          Tail_ESS
-Intercept                    1830
-OSSameSide_Real_Prob_Log     1726
+Intercept                    2449
+OSSameSide_Real_Prob_Log     2097
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential

@@ -1,8 +1,8 @@
 library(tidyr)
 library(dplyr)
 
-#DEPS = "~/CS_SCR/deps/"
-DEPS = "/u/scr/mhahn/deps/"
+DEPS = "~/CS_SCR/deps/"
+#DEPS = "/u/scr/mhahn/deps/"
 data = read.csv(paste(DEPS, "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_funchead_ISWOC_OldEnglish", "/", "auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
 dataBackup = data
 data = data %>% filter(HeadPOS == "V", DependentPOS == "N") %>% select(-HeadPOS, -DependentPOS)
