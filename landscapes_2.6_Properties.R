@@ -71,7 +71,7 @@ plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=correlatingDependents, color=Fami
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=verbLength-subjectLength, color=Family)) + geom_label(aes(label=Language)) 
 plot = ggplot(u %>% group_by(Family) %>% summarise(isRoot=mean(isRoot), OSSameSide_Real_Prob=mean(OSSameSide_Real_Prob)), aes(x=OSSameSide_Real_Prob, y=isRoot, color=Family)) + geom_label(aes(label=Family))
 
-plot = ggplot(u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob), objects=mean(objects)), aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Family)) 
+plot = ggplot(u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob, na.rm=TRUE), objects=mean(objects, na.rm=TRUE)), aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Family)) 
 ggsave("figures/objects-order-families-pureud.pdf")
 
 
