@@ -54,3 +54,6 @@ for i in range(11):
    print(i, results[-1], values.sum()/len(data))
 print("plot((1:11), c("+", ".join([str(float(x)) for x in results])+"))")
 
+with open("outputs/"+__file__[:-3]+"_All.py"+".tsv", "a") as outFile:
+   for i in range(len(results)):
+      print >> outFile, ("\t".join([language, str(i), str(float(results[i]))]))
