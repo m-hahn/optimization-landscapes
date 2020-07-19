@@ -26,7 +26,7 @@ for filepath in files:
        continue
    model = filepath[filepath.rfind("_")+1:-4]
    try:
-    with open("/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent_perOcc_coarse_funchead_SUBJ_DLM/optimizeDependencyLength_POS_NoSplit_ByOcc_Coarse_FuncHead_IdentifyOptimalOrders_Deterministic.py_"+language+"_"+model, "r") as inFile:
+    with open("/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent_perOcc_coarse_funchead_SUBJ_DLM/optimizeDependencyLength_POS_NoSplit_ByOcc_Coarse_FuncHead_IdentifyOptimalOrders.py_"+language+"_"+model, "r") as inFile:
      data = sorted([(x[0], objWeight*float(x[1])) for x in [x.split("\t") for x in inFile.read().strip().split("\n")]])
     print(data[:5])
     values = torch.FloatTensor(sorted([x[1] for x in data]))
@@ -41,7 +41,6 @@ for filepath in files:
      pass
    except TypeError:
      pass
-data_ = [x for x in data_ if len(x) == max([len(y) for y in data_])]
 for x in data_:
   print("---")
   print(x[:5])

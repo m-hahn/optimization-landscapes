@@ -357,7 +357,12 @@ def sd(x):
     return (x.pow(2).mean() - x.mean().pow(2)).sqrt()
 from math import sqrt
 counter = 0
-with open("/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent_perOcc_coarse_funchead_SUBJ_DLM/"+__file__+"_"+args.language+"_"+str(args.model), "w") as outFile:
+
+PATH = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent_perOcc_coarse_funchead_SUBJ_DLM/"+__file__+"_"+args.language+"_"+str(args.model)
+import os
+if os.path.exists(PATH):
+   quit()
+with open(PATH, "w") as outFile:
   corpus = list(CorpusIterator(args.language, partition="together").iterator(rejectShortSentences = True))
   shuffle(corpus)
 
@@ -374,13 +379,13 @@ with open("/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_
        sentenceHash = hash_(" ".join([x["word"] for x in sentence]))
        subjects = subjectsPerSentence[sentenceHash]
        for subject in subjects:
-         print("SUBJECT", subject)
+         print("SUBJECT", subject, counter/float(len(corpus)))
          lengthsPerOrder = {-1 : None, 1 : None}
          for order in [-1, 1]:
            best = len(sentence) * len(sentence)
            depLengths = []
            print("    ORDER", order)
-           for key in range(10):
+           for key in range(5):
                batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere, {"subject" : subject, "order" : order, "key" : key})
                depLength = getDependencyLength(batchOrdered)
                best = min(best, depLength)

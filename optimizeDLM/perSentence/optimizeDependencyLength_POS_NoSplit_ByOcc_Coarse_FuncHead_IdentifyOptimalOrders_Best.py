@@ -132,13 +132,13 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, orderKeys
            log_probability = torch.log(softmax[selected])
  #          assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
  #          sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
-           if False and sentence[remainingChildren[selected]-1]["dependency_key"] == orderKeys["subject"]:
+           if sentence[remainingChildren[selected]-1]["dependency_key"] == orderKeys["subject"]:
              relevantSubject = remainingChildren[selected]
            else:
               childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
-#       if relevantSubject is not None:
- #         childrenLinearized.insert(orderKeys["key"] % (len(childrenLinearized)+1), relevantSubject)
+       if relevantSubject is not None:
+          childrenLinearized.insert(orderKeys["key"] % (len(childrenLinearized)+1), relevantSubject)
        if reverseSoftmax:
            childrenLinearized = childrenLinearized[::-1]
        return childrenLinearized           

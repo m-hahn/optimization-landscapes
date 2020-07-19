@@ -13,10 +13,10 @@ parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=0.1)
 parser.add_argument('--momentum', type=float, default=0.9)
-parser.add_argument('--model', type=int)
+parser.add_argument('--model', type=str, default="REAL")
 
 args = parser.parse_args()
-
+assert args.model == "REAL"
 myID = random.randint(0,10000000)
 
 
@@ -125,22 +125,14 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, orderKeys
        childrenLinearized = []
        relevantSubject = None
        while len(remainingChildren) > 0:
-#           print("Starting iteration", remainingChildren)
-           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
-           softmax = softmax_layer(logits.view(1,-1)).view(-1)
-           selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-           log_probability = torch.log(softmax[selected])
- #          assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
- #          sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
-           if False and sentence[remainingChildren[selected]-1]["dependency_key"] == orderKeys["subject"]:
+           selected = 0 #numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
+           if sentence[remainingChildren[selected]-1]["dependency_key"] == orderKeys["subject"]:
              relevantSubject = remainingChildren[selected]
            else:
               childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
-#       if relevantSubject is not None:
- #         childrenLinearized.insert(orderKeys["key"] % (len(childrenLinearized)+1), relevantSubject)
-       if reverseSoftmax:
-           childrenLinearized = childrenLinearized[::-1]
+       if relevantSubject is not None:
+          childrenLinearized.insert(orderKeys["key"] % (len(childrenLinearized)+1), relevantSubject)
        return childrenLinearized           
 
 
@@ -176,10 +168,9 @@ def orderSentence(sentence, dhLogits, printThings, orderKeys):
       dhLogit = dhWeights[stoi_deps[key]]
       probability = 1/(1 + torch.exp(-dhLogit))
       if key == orderKeys["subject"]:
-#          print("Found subject")
           dhSampled = True if orderKeys["order"]== 1 else False
       else:
-         dhSampled = (random() < probability.data.numpy())
+         dhSampled = (line["index"] < line["head"])
 
       direction = "DH" if dhSampled else "HD"
       if printThings: 
@@ -249,28 +240,6 @@ for i, key in enumerate(itos_deps):
    dhLogits[key] = 0.0
    originalDistanceWeights[key] = 0.0 #random()  
 
-
-__file__Optimize = "optimizeDependencyLength_POS_NoSplit_ByOcc_Coarse_FuncHead.py"
-TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent_perOcc_coarse_funchead/"
-print "Saving"
-with open(TARGET_DIR+"/"+args.language+"_"+__file__Optimize+"_model_"+str(args.model)+".tsv", "r") as inFile:
-   next(inFile)
-   for line in inFile:
-      dhWeight, dep, distanceWeight, language, model = line.strip().split("\t")
-      dhWeights.data[stoi_deps[dep]] = float(dhWeight)
-      distanceWeights.data[stoi_deps[dep]] = float(distanceWeight)
-
-
-
-
-
-words = list(vocab.iteritems())
-words = sorted(words, key = lambda x:x[1], reverse=True)
-itos = map(lambda x:x[0], words)
-stoi = dict(zip(itos, range(len(itos))))
-
-if len(itos) > 6:
-   assert stoi[itos[5]] == 5
 
 
 
