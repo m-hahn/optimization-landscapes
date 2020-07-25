@@ -38,6 +38,10 @@ for filepath in files:
     bySentence = {x : [] for x in set([x[0] for x in data])}
     for line in data:
       bySentence[line[0]].append(line)
+    bySentenceIndices = sorted(list(bySentence))
+ #   print(len(bySentence))
+#    quit()
+    bySentence = {x : bySentence[x] for x in bySentenceIndices[:2000]} # Restrict to small set to make the linear programming efficient
     withO = []
     withoutO = []
     multipleO = []
@@ -70,46 +74,56 @@ for filepath in files:
     # with objects. E.g. SOV, OSV, VSO, VOS, SVO, OVS
     # penalty for OS
     # penalty for VS
-    orders = sorted(list(set([x[2] for x in data if "O" in x[2]])))
-    print(orders)
-    lengthWithO = []
-    for x in withO:
-       byOrder = {x: 10000 for x in orders}
-       for y in bySentence[x]:
-          byOrder[y[2]] = min(int(y[1]), byOrder[y[2]])
-       lengthWithO.append([byOrder[x] for x in orders])
-    lengthWithO = np.array(lengthWithO)
-    OS_Penalty = 1
-    VS_Penalty = 0
-    for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
-      penalty = np.array([[(OS_Penalty if order.index("O") < order.index("S") else 0) + (VS_Penalty if order.index("V") < order.index("S") else 0) for order in orders] for _ in range(len(withO))])
-  #    print(lengthWithO)
-  #    print(penalty)
-  #    print(lengthWithO.mean(axis=0))
-      coefficients = (penalty + lengthWithO) / len(withO)
-      coefficients = np.reshape(coefficients, (-1,))
-      
-  #    print(coefficients)
-      equalityConstraintsObj = np.array([[0 for _ in range(coefficients.size)] for _ in range(len(withO))])
-      for i in range(len(withO)):
-         equalityConstraintsObj[i][i*3:(i+1)*3] = 1
-  #    equalityConstraintsObj = np.reshape(equalityConstraintsObj, (-1,))
-   #   print(equalityConstraintsObj)
-      equalityConstraintsBound = np.array([1 for _ in range(len(withO))])
-      x_bounds = np.array([[0,1] for _ in range(coefficients.size)])
-    #  print(coefficients.shape)
-     # print(equalityConstraintsObj.shape)
-      #print(x_bounds.shape)
-      res = linprog(coefficients, A_eq=equalityConstraintsObj, b_eq=equalityConstraintsBound, bounds=x_bounds)            
-      solution = res.x
-  #    print(np.reshape(solution, (-1, 3)))
-      print(OS_Penalty)
+    ResultsWithO = {"forward" : [], "backward" : []}
+    for version in ["forward", "backward"][::-1]:
+      orders = sorted(list(set([x[2][::-1] if version == "backward" else x[2] for x in data if "O" in x[2]])))
       print(orders)
-      print(np.reshape(solution, (-1, 3)).mean(axis=0))
-  #    print(res)
-  #    res = linprog(-coefficients, A_eq=equalityConstraintsObj, b_eq=equalityConstraintsBound, bounds=x_bounds)            
-   #   print(res)
-    quit()
-  
-  
-  
+      lengthWithO = []
+      for x in withO:
+         byOrder = {x: 10000 for x in orders}
+         for y in bySentence[x]:
+            byOrder[y[2][::-1] if version == "backward" else y[2]] = min(int(y[1]), byOrder[y[2][::-1] if version == "backward" else y[2]])
+         lengthWithO.append([byOrder[x] for x in orders])
+      lengthWithO = np.array(lengthWithO)
+      OS_Penalty = 1
+      VS_Penalty = 0
+      for bonused in orders:
+        for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
+          penalty = np.array([[(-0.1 if order == bonused else 0.0) + (OS_Penalty if order.index("O") < order.index("S") else 0) + (VS_Penalty if order.index("V") < order.index("S") else 0) for order in orders] for _ in range(len(withO))])
+      #    print(lengthWithO)
+      #    print(penalty)
+      #    print(lengthWithO.mean(axis=0))
+          coefficients = (penalty + lengthWithO) / len(withO)
+          coefficients = np.reshape(coefficients, (-1,))
+          
+      #    print(coefficients)
+          equalityConstraintsObj = np.array([[0 for _ in range(coefficients.size)] for _ in range(len(withO))])
+          for i in range(len(withO)):
+             equalityConstraintsObj[i][i*len(orders):(i+1)*len(orders)] = 1
+      #    equalityConstraintsObj = np.reshape(equalityConstraintsObj, (-1,))
+       #   print(equalityConstraintsObj)
+          equalityConstraintsBound = np.array([1 for _ in range(len(withO))])
+          x_bounds = np.array([[0,1] for _ in range(coefficients.size)])
+        #  print(coefficients.shape)
+         # print(equalityConstraintsObj.shape)
+          #print(x_bounds.shape)
+          res = linprog(coefficients, A_eq=equalityConstraintsObj, b_eq=equalityConstraintsBound, bounds=x_bounds)            
+          solution = res.x
+      #    print(np.reshape(solution, (-1, 3)))
+          print(version, bonused)
+          print(OS_Penalty)
+          print(orders)
+          print(np.reshape(solution, (-1, len(orders))).mean(axis=0))
+          solution = np.reshape(solution, (-1, len(orders)))
+          depLengthAverage = (lengthWithO * solution).sum(axis=1).mean()
+          frequencyPerOrder = np.reshape(solution, (-1, len(orders))).mean(axis=0)
+          ResultsWithO[version].append((OS_Penalty, [(orders[i], float(frequencyPerOrder[i])) for i in range(len(orders))], depLengthAverage))
+          print(ResultsWithO)
+          #quit()
+      #    print(res)
+      #    res = linprog(-coefficients, A_eq=equalityConstraintsObj, b_eq=equalityConstraintsBound, bounds=x_bounds)            
+       #   print(res)
+#      quit()
+    
+    
+    
