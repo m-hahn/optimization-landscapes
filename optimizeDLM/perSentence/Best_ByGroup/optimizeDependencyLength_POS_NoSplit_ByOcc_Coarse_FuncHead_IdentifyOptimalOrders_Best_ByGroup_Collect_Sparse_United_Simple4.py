@@ -48,7 +48,7 @@ for filepath in files:
     # penalty for OS
     # penalty for VS
     ResultsWithO = [] #{"forward" : [], "backward" : []}
-    for version in ["forward", "backward"][::-1]:
+    for version in ["forward"]: #, "backward"][::-1]:
       orders = sorted(list(set([x[2][::-1] if version == "backward" else x[2] for x in data])))
       print(orders)
       lengthWithO = []
@@ -65,17 +65,13 @@ for filepath in files:
       OS_Penalty = 1
       VS_Penalty = 0
       for bonused in orders:
-        if len([x for x in bonused if x == "O"]) != 1:
-             continue
-        for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
-         for SV_ConsistencyPenalty in [0.0, 1.0, 2.0, 50.0]: # encourage consistency by forcing SV
-          print(bonused, OS_Penalty, SV_ConsistencyPenalty)
+        for OS_Penalty in [0.0]: #, 1.0, 2.0, 3.0]:
           penalty = []
           lengthWithOSparse = []
           equalityConstraintsObj = []
           variablesByX = []
           orderByVar = []
-          cachedPenaltyPerOrder = { order: (-0.1 if order == bonused or order == bonused.replace("O", "") else 0.0) + (OS_Penalty if ("O" in order and order.index("O") < order.index("S")) else 0) + (SV_ConsistencyPenalty if order.index("V") < order.index("S") else 0) for order in orders}
+          cachedPenaltyPerOrder = { order: (-0.1 if order == bonused or order == bonused.replace("O", "") else 0.0) + (OS_Penalty if ("O" in order and order.index("O") < order.index("S")) else 0) for order in orders}
           for i_x in range(len(sentenceIndices)):
              variablesByX.append([])
              for i_order in range(len(orders)):
@@ -88,10 +84,10 @@ for filepath in files:
           lengthWithOSparse = np.array(lengthWithOSparse)
           coefficients = (penalty + lengthWithOSparse)
           coefficients = np.reshape(coefficients, (-1, len(orders)))
-  #        print(coefficients.shape)
+          print(coefficients.shape)
           solution_choices = np.argmin(coefficients, axis=1)
-#          print(coefficients[1])
- #         print(solution_choices)
+          print(coefficients[1])
+          print(solution_choices)
           depLengthAverage = 0
           rewardAverage = 0
           countByOrder = {x : 0 for x in orders}
@@ -104,14 +100,13 @@ for filepath in files:
           depLengthAverage /= len(sentenceIndices)
           rewardAverage /= len(sentenceIndices)
 
-          ResultsWithO.append((OS_Penalty, [(orders[i], float(countByOrder[orders[i]])) for i in range(len(orders)) if countByOrder[orders[i]] > 0.05], depLengthAverage, rewardAverage, SV_ConsistencyPenalty))
-   #       print(ResultsWithO)
+          ResultsWithO.append((OS_Penalty, [(orders[i], float(countByOrder[orders[i]])) for i in range(len(orders))], depLengthAverage, rewardAverage))
+          print(ResultsWithO)
           #quit()
       #    print(res)
       #    res = linprog(-coefficients, A_eq=equalityConstraintsObj, b_eq=equalityConstraintsBound, bounds=x_bounds)            
        #   print(res)
 #      quit()
-    break
     
 ResultsWithO = sorted(ResultsWithO, key=lambda x:x[3], reverse=True)
 for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
@@ -120,9 +115,15 @@ for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
        continue
     print(x)
 
-print("================")
-print("================")
-for x in ResultsWithO:
-    if x[0] != 3 or x[4] != 50:
+for OS_Penalty in [0.0]:
+  for x in ResultsWithO:
+    if x[0] != OS_Penalty:
        continue
-    print(x)
+    order = x[1]
+    SV = round(sum([y[1] for y in order if y[0].replace("O", "") == "SV"]), 5)
+    VS = round(sum([y[1] for y in order if y[0].replace("O", "") == "VS"]), 5)
+    objPosOV = any([y[0].replace("S", "") == "OV" for y in order if y[1] > 0.05])
+    print(x[2], "{SO}V" if objPosOV else "SVO", SV, "OVS" if objPosOV else "V{SO}", VS)
+
+
+

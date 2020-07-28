@@ -48,14 +48,18 @@ for filepath in files:
     # penalty for OS
     # penalty for VS
     ResultsWithO = [] #{"forward" : [], "backward" : []}
-    for version in ["forward", "backward"][::-1]:
-      orders = sorted(list(set([x[2][::-1] if version == "backward" else x[2] for x in data])))
+    for version in ["both"]:
+      orders  = list(set([x[2] for x in data]))
+      orders += list(set([x[2][::-1] for x in data]))
+      orders = list(set(orders))
+      orders = sorted(orders)
       print(orders)
       lengthWithO = []
       for x in sentenceIndices:
          byOrder = {x: 10000 for x in orders}
          for y in bySentence[x]:
-            byOrder[y[2][::-1] if version == "backward" else y[2]] = min(int(y[1]), byOrder[y[2][::-1] if version == "backward" else y[2]])
+            byOrder[y[2][::-1]] = min(int(y[1]), byOrder[y[2][::-1]])
+            byOrder[y[2]] = min(int(y[1]), byOrder[y[2]])
          lengthWithO.append([byOrder[x] for x in orders])
 #      lengthWithO = np.array(lengthWithO)
 #      print((lengthWithO < 1000).mean(axis=0))

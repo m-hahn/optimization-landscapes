@@ -144,23 +144,42 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, orderKeys
            del remainingChildren[selected]
        if reverseSoftmax:
            childrenLinearized = childrenLinearized[::-1]
-       if False and len(childrenLinearized) == 0 and len(relevantSubjects) == 1:
+       if len(childrenLinearized) == 0 and len(relevantSubjects) == 1:
            return relevantSubjects
        elif len(relevantSubjects) > 0:
-          print(remainingChildren)
-          print(relevantSubjects)
-          print(orderKeys["relative"])
+#        print(relevantSubjects)
+ #       print([x["dep"] for x in orderKeys["dependents"]])
+  #      print(orderKeys["relative"])
+        while len(relevantSubjects) > 0:
+  #        print(remainingChildren)
+   #       print(relevantSubjects)
           # find direction where the head is
-          print(sentence[relevantSubjects[0]-1]["dependency_key"])
+    #      print(sentence[relevantSubjects[0]-1]["dependency_key"])
           directionHere = sentence[relevantSubjects[0]-1]["DirectionDecision"]
           lengths_Other = [sentence[x-1]["length"] for x in childrenLinearized]
           lengths_Arguments = [sentence[x-1]["length"] for x in relevantSubjects]
-          print(lengths_Other, lengths_Arguments)
-          sideLengths_Other = [sum([y["length"] for y in sentence[x-1]["children_"+("HD" if directionHere == "DH" else "DH")]]) for x in childrenLinearized]
-          sideLengths_Arguments = [sum([y["length"] for y in sentence[x-1]["children_"+("HD" if directionHere == "DH" else "DH")]]) for x in relevantSubjects]
-          print(sideLengths_Other, sideLengths_Arguments)
-          quit()
-          childrenLinearized.insert(orderKeys["key"] % (len(childrenLinearized)+1), relevantSubject)
+     #     print(lengths_Other, lengths_Arguments)
+          sideLengths_Other = [sum([sentence[y-1]["length"] for y in sentence[x-1]["children_"+("HD" if directionHere == "DH" else "DH")]]) for x in childrenLinearized]
+          sideLengths_Arguments = [sum([sentence[y-1]["length"] for y in sentence[x-1]["children_"+("HD" if directionHere == "DH" else "DH")]]) for x in relevantSubjects]
+      #    print(sideLengths_Other, sideLengths_Arguments)
+          sideLength = sideLengths_Arguments[0]
+          length = lengths_Arguments[0]
+          optimalLength = 1000000
+          optimalAssignment = None
+          for newPosition in range(len(childrenLinearized)+1):
+                lengths = lengths_Other[:newPosition] + [length] + lengths_Other[newPosition:]
+                sideLength = sideLengths_Other[:newPosition] + [length] + sideLengths_Other[newPosition:]
+                depLen = 0
+                for k in range(len(lengths)):
+                    depLen += sum(lengths[:k]) + sideLength[k]
+#                print(depLen)
+                if depLen <= optimalLength:
+                   optimalLength = depLen
+                   optimalAssignment = newPosition
+ #               print(newPosition)
+          assert optimalAssignment is not None
+          childrenLinearized = childrenLinearized[:optimalAssignment] + [relevantSubjects[0]] + childrenLinearized[optimalAssignment:]
+          relevantSubjects = relevantSubjects[1:]
        return childrenLinearized           
 
 
@@ -401,21 +420,14 @@ counter = 0
 
 
 
-def detectOrder(subject, verb, objects):
-    subject = subject["reordered_index"]
-    verb = verb["reordered_index"]
-    objects = [x["reordered_index"] for x in objects]
-    assert verb != subject
-    assert (all([y != verb for y in objects]))
-    assert (all([y != subject for y in objects]))
-
-    objects = [(y, "O") for y in objects]
-    elements = objects + [(subject, "S"), (verb, "V")]
-    elements.sort()
-    order = "".join([y[1] for y in elements])
+def detectOrder(verb, arguments):
+    everything = [("V", verb["reordered_index"])] + [("O" if x["dep"].startswith("obj") else "S", x["reordered_index"]) for x in arguments]
+    everything.sort(key=lambda x:x[1])
+    order = "".join([y[0] for y in everything])
+    while "SS" in order:
+       order = order.replace("SS", "S")
     while "OO" in order:
        order = order.replace("OO", "O")
-    #print(order)
     return order
 #    quit()
 
@@ -458,47 +470,38 @@ with open(PATH, "w") as outFile:
        batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere, {"verb" : "NONE", "dependents" : [], "orders" : [], "relative" : "NONE", "keys" : []})
        depLengthReal = getDependencyLength(batchOrdered)
        arguments = [x for x in current[0] if (x["dep"].startswith("nsubj") or x["dep"].startswith("obj")) and "reordered_index" in x]
-       print(arguments)
-       print(subjects)
+  #     print(arguments)
+ #      print(subjects)
        verbs = {y : [] for y in set([x["head"] for x in arguments])}
        for a in arguments:
             verbs[a["head"]].append(a)
-       print(verbs)
-       
+#       print(verbs)
+       realOrder = {}
+       for verb in verbs:
+           realOrder[verb] = detectOrder(current[0][verb-1], verbs[verb])
+
        for verb in verbs:
          #realOrderType = detectOrder(current[0][verb-1], verbs[verb])
          bestLengthsPerOrder = {-1 : None, 1 : None}
          lengthsPerOrder = {-1 : None, 1 : None}
          bestResult = {-1 : None, 1 : None}
          lengthsPerType = defaultdict(list)
-         print(len(verbs[verb]))
+ #        print(len(verbs[verb]))
          orders_ = product([-1, 1], len(verbs[verb]))
-         print(orders_)
+#         print(verb)
          for orders in orders_:
            best = len(sentence) * len(sentence)
            depLengths = []
-           for relative in ["SO", "OS"]:
+           for relative in ["WhicheverWorksBest"]:
                batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere, {"verb" : verb, "dependents" : verbs[verb], "orders" : orders, "relative" : relative, "keys" : [x["dep"] for x in verbs[verb]]})
                depLength = getDependencyLength(batchOrdered)
-               lengthsPerType[detectOrder(subjectItem, verbObject, objectItems)].append(depLength)
-               if depLength < best:
-                 bestResult[order] = " ".join([x["word"] for x in batchOrdered])
-               best = min(best, depLength)
-               depLengths.append(depLength)
-#           print("          Dependency length", best, sum(depLengths)/(0.001+len(depLengths)), sd(depLengths)/sqrt(100))
-           bestLengthsPerOrder[order] = best
-           lengthsPerOrder[order] = sum(depLengths)/(0.001+len(depLengths))
+               lengthsPerType[detectOrder(current[0][verb-1], verbs[verb])].append(depLength)
          bestLengthsPerType = {x : min(y) for x, y in lengthsPerType.iteritems()}
-#         print(bestLengthsPerType)
-         best1[1].append(bestLengthsPerOrder[1])
-         mean1[1].append(lengthsPerOrder[1])
-         best1[-1].append(bestLengthsPerOrder[-1])
-         mean1[-1].append(lengthsPerOrder[-1])
          real1.append(depLengthReal)
-         realOrder1.append(realOrder)
-         print >> outFile, subject +"\t"+str(depLengthReal) + "\t" + str("Real_"+realOrderType)
+         realOrder1.append(realOrder[verb])
+         print >> outFile, sentenceHash+"_"+str(verb) +"\t"+str(depLengthReal) + "\t" + str("Real_"+realOrder[verb])
          for x, y in bestLengthsPerType.iteritems():
-            print >> outFile, subject +"\t"+str(y) + "\t" + str(x)
+            print >> outFile, sentenceHash+"_"+str(verb) +"\t"+str(y) + "\t" + str(x)
 
 #       if counter % 10 == 0:
  #          print(mean(best1[1]), mean(best1[-1]), mean(mean1[1]), mean(mean1[-1]), mean(real1), mean(realOrder1), mean([1 if x < y else (0 if x == y else -1) for x, y in zip(best1[1], best1[-1])]))
