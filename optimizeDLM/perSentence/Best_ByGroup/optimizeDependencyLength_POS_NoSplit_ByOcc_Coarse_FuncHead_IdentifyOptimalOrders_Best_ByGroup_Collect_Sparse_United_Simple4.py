@@ -84,10 +84,10 @@ for filepath in files:
           lengthWithOSparse = np.array(lengthWithOSparse)
           coefficients = (penalty + lengthWithOSparse)
           coefficients = np.reshape(coefficients, (-1, len(orders)))
-          print(coefficients.shape)
+          #print(coefficients.shape)
           solution_choices = np.argmin(coefficients, axis=1)
-          print(coefficients[1])
-          print(solution_choices)
+          #print(coefficients[1])
+          #print(solution_choices)
           depLengthAverage = 0
           rewardAverage = 0
           countByOrder = {x : 0 for x in orders}
@@ -101,29 +101,31 @@ for filepath in files:
           rewardAverage /= len(sentenceIndices)
 
           ResultsWithO.append((OS_Penalty, [(orders[i], float(countByOrder[orders[i]])) for i in range(len(orders))], depLengthAverage, rewardAverage))
-          print(ResultsWithO)
+          #print(ResultsWithO)
           #quit()
       #    print(res)
       #    res = linprog(-coefficients, A_eq=equalityConstraintsObj, b_eq=equalityConstraintsBound, bounds=x_bounds)            
        #   print(res)
 #      quit()
-    
-ResultsWithO = sorted(ResultsWithO, key=lambda x:x[3], reverse=True)
-for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
-  for x in ResultsWithO:
-    if x[0] != OS_Penalty:
-       continue
-    print(x)
-
-for OS_Penalty in [0.0]:
-  for x in ResultsWithO:
-    if x[0] != OS_Penalty:
-       continue
-    order = x[1]
-    SV = round(sum([y[1] for y in order if y[0].replace("O", "") == "SV"]), 5)
-    VS = round(sum([y[1] for y in order if y[0].replace("O", "") == "VS"]), 5)
-    objPosOV = any([y[0].replace("S", "") == "OV" for y in order if y[1] > 0.05])
-    print(x[2], "{SO}V" if objPosOV else "SVO", SV, "OVS" if objPosOV else "V{SO}", VS)
-
-
-
+   # 
+   ResultsWithO = sorted(ResultsWithO, key=lambda x:x[3], reverse=True)
+   for OS_Penalty in [0.0, 1.0, 2.0, 3.0]:
+     for x in ResultsWithO:
+       if x[0] != OS_Penalty:
+          continue
+       print(x)
+   
+   for OS_Penalty in [0.0]:
+     for x in ResultsWithO:
+       if x[0] != OS_Penalty:
+          continue
+       order = x[1]
+       SV = round(sum([y[1] for y in order if y[0].replace("O", "") == "SV"]), 5)
+       VS = round(sum([y[1] for y in order if y[0].replace("O", "") == "VS"]), 5)
+       objPosOV = any([y[0].replace("S", "") == "OV" for y in order if y[1] > 0.05])
+       print(x[2], "{SO}V" if objPosOV else "SVO", SV, "OVS" if objPosOV else "V{SO}", VS)
+       sameSide = SV if objPosOV else VS
+       with open("results/Simple4.txt", "a") as outFile:
+          print("\t".join([language, model, str(sameSide), str(x[2])]), file=outFile)
+   
+   
