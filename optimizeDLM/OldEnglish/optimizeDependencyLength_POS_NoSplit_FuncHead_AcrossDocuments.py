@@ -433,7 +433,7 @@ while True:
        if counter % 10000 == 0:
           TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
           print "Saving"
-          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_funchead_ISWOC_OldEnglish/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
+          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_funchead_ISWOC_OldEnglish/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", #"w") as outFile:
              print >> outFile, "\t".join(list(map(str,["CoarseDependency", "Document", "DH_Weight","DistanceWeight", "HeadPOS", "DependentPOS", "FileName"])))
 
              for i in range(len(itos_deps)):

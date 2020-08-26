@@ -83,6 +83,9 @@ plot = ggplot(u, aes(x=OSSameSide_Real_SemiProb, y=objects, color=Family)) + geo
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Language)) 
 ggsave("figures/objects-order.pdf", width=10, height=10)
 
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=isRoot, color=Family)) + geom_label(aes(label=Language)) 
+
+
 plot = ggplot(u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob), objects=mean(objects)), aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Family)) 
 ggsave("figures/objects-order-families.pdf")
 

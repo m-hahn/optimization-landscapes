@@ -39,14 +39,15 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
 
         print >> sys.stderr, candidates
         assert len(candidates) >= 1, candidates
-        try:
-           dataPath = subDirectory+"/"+candidates[0]
-           with open(dataPath, "r") as inFile:
-              newData = inFile.read().strip().split("\n\n")
-              assert len(newData) > 1
-              data = data + newData
-        except IOError:
-           print >> sys.stderr, ("Did not find "+dataPath)
+        for cand in candidates:
+           try:
+              dataPath = subDirectory+"/"+cand
+              with open(dataPath, "r") as inFile:
+                 newData = inFile.read().strip().split("\n\n")
+                 assert len(newData) > 1
+                 data = data + newData
+           except IOError:
+              print >> sys.stderr, ("Did not find "+dataPath)
 
       assert len(data) > 0, (language, partition, files)
 

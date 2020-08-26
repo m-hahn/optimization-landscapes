@@ -124,6 +124,7 @@ matrix["objects"] = []
 matrix["isRoot"] = []
 matrix["verbLength"] = []
 matrix["subjectLength"] = []
+matrix["realOrders"] = []
 
 def mean(x):
    return sum(x)/(len(x)+1e-10)
@@ -134,6 +135,7 @@ for x in sentenceToHash:
     annotateChildren(sent)
     subjects = [i for i in range(len(sent)) if sent[i]["dep"] == "nsubj" and sent[i]["posUni"] == "NOUN" and sent[sent[i]["head"]-1]["posUni"] == "VERB"]
 #    print(subjects)
+    subjectsOrders = [1 if sent[i]["head"] < sent[i]["index"] else -1 for i in subjects]
     subjectsToVerbs = [sent[sent[i]["head"]-1]["index"]-1 for i in subjects]
 #    print(sent)
     verbDependents = [len([x["index"]-1 for x in sent if x["head"] == i+1]) for i in subjectsToVerbs]
@@ -153,12 +155,13 @@ for x in sentenceToHash:
        matrix["isRoot"].append(mean(isRoot))
        matrix["verbLength"].append(mean(verbConstituentLength) - mean(subjectLength))
        matrix["subjectLength"].append(mean(subjectLength))
+       matrix["realOrders"].append(mean(subjectsOrders))
 
 
 columns = sorted(list(matrix))
 print(columns)
 with open("outputs/"+__file__+".tsv", "a") as outFile:
-   print >> outFile, "\t".join([args.language] + [str(mean(matrix[x])) for x in columns])
+   print >> outFile, "\t".join([args.language] + [str(mean(matrix[x])) for x in columns if x != "realOrders"])
 import torch
 for x in matrix:
   if x != "order":
@@ -176,7 +179,8 @@ with open("/u/scr/mhahn/TMP.tsv", "w") as outFile:
 """
 data = read.csv("~/scr/TMP.tsv", sep="\t")
 summary(lm(order ~ isRoot * objects + isRoot * subjectLength + isRoot * verbDependents + isRoot * verbLength, data=data))
-
+summary(lm(realOrders ~ isRoot * objects + isRoot * subjectLength + isRoot * verbDependents + isRoot * verbLength, data=data))
+summary(lm(realOrders ~ order, data=data))
 
 KOREAN
 ('isRoot', 0.4019203910251941)
