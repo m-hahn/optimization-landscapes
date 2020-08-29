@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
-parser.add_argument('--lr_policy', type=float, default=0.1)
+parser.add_argument('--lr_policy', type=float, default=0.001)
 parser.add_argument('--momentum', type=float, default=0.9)
 
 args = parser.parse_args()
@@ -92,49 +92,58 @@ from torch.autograd import Variable
 
 
 # "linearization_logprobability"
-def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum):
+def recursivelyLinearize(sentence, position, result, batch):
    line = sentence[position-1]
-   # Loop Invariant: these are the gradients relevant at everything starting at the left end of the domain of the current element
-   allGradients = gradients_from_the_left_sum + sum(line.get("children_decisions_logprobs",[]))
-
-   if "linearization_logprobability" in line:
-      allGradients += line["linearization_logprobability"] # the linearization of this element relative to its siblings affects everything starting at the start of the constituent, but nothing to the left of it
-   else:
-      assert line["fine_dep"] == "root"
-
-
-   # there are the gradients of its children
    if "children_DH" in line:
-      for child in line["children_DH"]:
-         allGradients = recursivelyLinearize(sentence, child, result, allGradients)
+      for child in line["children_DH"][batch]:
+         recursivelyLinearize(sentence, child, result, batch)
    result.append(line)
-   line["relevant_logprob_sum"] = allGradients
    if "children_HD" in line:
-      for child in line["children_HD"]:
-         allGradients = recursivelyLinearize(sentence, child, result, allGradients)
-   return allGradients
+      for child in line["children_HD"][batch]:
+         recursivelyLinearize(sentence, child, result, batch)
 
 import numpy.random
 
-softmax_layer = torch.nn.Softmax()
-logsoftmax = torch.nn.LogSoftmax()
+softmax_layer = torch.nn.Softmax(dim=1)
+logsoftmax = torch.nn.LogSoftmax(dim=1)
 
 
 
 def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, wordToDistanceLogits):
-       childrenLinearized = []
-       while len(remainingChildren) > 0:
-           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) if x not in wordToDistanceLogits else wordToDistanceLogits[x].view(1) for x in remainingChildren])
-           softmax = softmax_layer(logits.view(1,-1)).view(-1)
-           selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-           log_probability = torch.log(softmax[selected])
-           assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
-           sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
-           childrenLinearized.append(remainingChildren[selected])
-           del remainingChildren[selected]
+  #     print(remainingChildren)
+       children = sorted(list(set(flatten(remainingChildren))))
+       stoi_children = dict(list(zip(children, range(len(children)))))
+       childrenLinearized = [[] for _ in range(BATCH_SIZE)]
+       if len(children) == 0:
+         return childrenLinearized, []
+  #     print(children)
+       mask = torch.FloatTensor([[0 if child in remainingChildren[i] else -100 for child in children] for i in range(BATCH_SIZE)])
+ #      print(mask)
+       logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) if x not in wordToDistanceLogits else wordToDistanceLogits[x].view(1) for x in children])
+#       print(logits)
+       log_probabilities = []
+       for _ in range(len(children)):
+           masked_logits = logits.unsqueeze(0) + mask
+           softmax = softmax_layer(masked_logits)
+           distrib = torch.distributions.categorical.Categorical(probs=softmax)
+           selected = distrib.sample()
+           log_probability = distrib.log_prob(selected)
+           stillHasOpen = (mask.max(dim=1)[0] > -1)
+       #    print(stillHasOpen)
+           log_probability = log_probability * stillHasOpen.float()
+           log_probabilities.append(log_probability)
+           selected_ = selected.cpu()
+           mask_ = mask.cpu()
+           for i in range(BATCH_SIZE):
+             if mask_[i][selected_[i].item()] > -1:
+        #       print(children)
+         #      print(selected_[i])
+               childrenLinearized[i].append(children[selected_[i].item()])
+               mask_[i][selected_[i].item()] = -100
        if reverseSoftmax:
-           childrenLinearized = childrenLinearized[::-1]
-       return childrenLinearized           
+        for i in range(BATCH_SIZE):
+           childrenLinearized[i] = childrenLinearized[i][::-1]
+       return childrenLinearized, log_probabilities
 
 def annotateLength(x):
     if "length" not in x:
@@ -156,6 +165,9 @@ def itos_encodings(x):
    if x not in itos_encodings_:
       itos_encodings_[x] = len(itos_encodings_)
    return itos_encodings_[x]
+
+
+BATCH_SIZE=12
 
 def orderSentence(sentence, dhLogits, printThings):
    root = None
@@ -191,13 +203,14 @@ def orderSentence(sentence, dhLogits, printThings):
      pooled = convolved.max(dim=2)[0]
      hidden = relu(amortized_hidden(pooled))
      decision_logits = amortized_out(hidden)
-     print(decision_logits)
+     if random() < 0.05:
+        print("LOGITS FROM MODEL", decision_logits)
      wordToDecisionLogits = {subjects_or_objects[i]["index"] : decision_logits[i,0] for i in range(len(subjects_or_objects))}
      wordToDistanceLogits = {subjects_or_objects[i]["index"] : decision_logits[i,1] for i in range(len(subjects_or_objects))}
    else:
      wordToDecisionLogits = {}
      wordToDistanceLogits = {}
-
+   log_probabilities = []
    for line in sentence:
       line["fine_dep"] = line["dep"]
       if line["fine_dep"] == "root":
@@ -218,45 +231,65 @@ def orderSentence(sentence, dhLogits, printThings):
       else:
         dhLogit = dhWeights[stoi_deps[key]]
       probability = 1/(1 + torch.exp(-dhLogit))
-      dhSampled = (random() < probability.data.numpy())
-      line["ordering_decision_log_probability"] = torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
+      dhSampled = torch.FloatTensor([1 if (random() < probability.data.numpy()) else 0 for _ in range(BATCH_SIZE)])
+      log_probabilities.append(torch.log(1/(1 + torch.exp(- (2*dhSampled-1.0) * dhLogit))))
 
-      direction = "DH" if dhSampled else "HD"
       if printThings: 
-         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(float(probability))+"      ")[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8]  ]  ))
+         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], str(round(float(dhSampled[0]),4)), (str(float(probability[0]))+"      ")[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8]  ]  ))
 
       headIndex = line["head"]-1
-      sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
-      sentence[headIndex]["children_decisions_logprobs"] = (sentence[headIndex].get("children_decisions_logprobs", []) + [line["ordering_decision_log_probability"]])
+      for direction in ["DH", "HD"]:
+         if "children_"+direction not in sentence[headIndex]:
+            sentence[headIndex]["children_"+direction] = [[] for _ in range(BATCH_SIZE)]
+      for i in range(BATCH_SIZE):
+         direction = "DH" if float(dhSampled[i]) > 0.5 else "HD"
+         sentence[headIndex]["children_"+direction][i].append(line["index"])
 
 
-
+   
    for line in sentence:
       if "children_DH" in line:
-         childrenLinearized = orderChildrenRelative(sentence, line["children_DH"][:], False, wordToDistanceLogits)
+         childrenLinearized, relativeOrderLogprobs = orderChildrenRelative(sentence, line["children_DH"], False, wordToDistanceLogits)
+         log_probabilities += relativeOrderLogprobs
          line["children_DH"] = childrenLinearized
       if "children_HD" in line:
-         childrenLinearized = orderChildrenRelative(sentence, line["children_HD"][:], True, wordToDistanceLogits)
+         childrenLinearized, relativeOrderLogprobs = orderChildrenRelative(sentence, line["children_HD"], True, wordToDistanceLogits)
+         log_probabilities += relativeOrderLogprobs
          line["children_HD"] = childrenLinearized
 
    
-   linearized = []
-   overallLogprobSum = recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
-   if printThings or len(linearized) == 0:
+   linearized = [[] for _ in range(BATCH_SIZE)]
+   for i in range(BATCH_SIZE):
+      recursivelyLinearize(sentence, root, linearized[i], i)
+   if printThings or len(linearized[0]) == 0:
      print " ".join(map(lambda x:x["word"], sentence))
-     print " ".join(map(lambda x:x["word"], linearized))
+     print " ".join(map(lambda x:x["word"], linearized[0]))
+     print " ".join(map(lambda x:x["word"], linearized[1]))
 
 
    # store new dependency links
-   moved = [None] * len(sentence)
-   for i, x in enumerate(linearized):
-      moved[x["index"]-1] = i
-   for i,x in enumerate(linearized):
-      if x["head"] == 0: # root
-         x["reordered_head"] = 0
-      else:
-         x["reordered_head"] = 1+moved[x["head"]-1]
-   return linearized, overallLogprobSum
+   dependencyLengths = [0 for _ in range(BATCH_SIZE)]
+   for batch in range(BATCH_SIZE):
+     moved = [None] * len(sentence)
+     for i, x in enumerate(linearized[batch]):
+        moved[x["index"]-1] = i
+     for i,x in enumerate(linearized[batch]):
+        if x["head"] == 0: # root
+           x["reordered_head"] = 0
+        else:
+          dependencyLengths[batch] += abs(moved[x["head"]-1] - i)
+          assert moved[x["head"]-1] != i
+#          x["reordered_head"] = 1+moved[x["head"]-1]
+#   if True:  
+ #    print " ".join(map(lambda x:x["word"], sentence))
+  #   print " ".join(map(lambda x:x["word"], linearized[0]))
+   #  print " ".join(map(lambda x:x["word"], linearized[1]))
+
+   if len(linearized[0]) == 1:
+        return None, None
+ 
+#   print(log_probabilities)
+   return dependencyLengths, torch.stack(log_probabilities, dim=1).sum(dim=1)
 
 
 dhLogits, vocab, vocab_deps, depsVocab = initializeOrderTable()
@@ -330,8 +363,8 @@ amortized_out = torch.nn.Linear(200, 2, bias=False)
 relu = torch.nn.ReLU()
 amortized_out.weight.data.zero_()
 
-components = [word_embeddings, pos_u_embeddings, pos_p_embeddings, baseline] # rnn
-components += [amortized_embeddings, amortized_conv, amortized_hidden, amortized_out]
+components_baseline = [word_embeddings, pos_u_embeddings, pos_p_embeddings, baseline] # rnn
+components_amortized = [amortized_embeddings, amortized_conv, amortized_hidden, amortized_out]
 
 def parameters():
  for c in components:
@@ -340,8 +373,26 @@ def parameters():
  yield dhWeights
  yield distanceWeights
 
-#for pa in parameters():
-#  print pa
+
+def parameters_grammar():
+ yield dhWeights
+ yield distanceWeights
+
+def parameters_baseline():
+ for c in components_baseline:
+   for param in c.parameters():
+      yield param
+
+def parameters_amortized():
+ for c in components_amortized:
+   for param in c.parameters():
+      yield param
+
+def parameters():
+   for x in [parameters_grammar(), parameters_amortized()]:
+      for y in x:
+         yield y
+
 
 initrange = 0.1
 word_embeddings.weight.data.uniform_(-initrange, initrange)
@@ -361,7 +412,8 @@ def encodeWord(w):
    return stoi[w]+3 if stoi[w] < vocab_size else 1
 
 
-
+optim_grammar = torch.optim.SGD(parameters_grammar(), lr=0.0001, momentum=args.momentum)
+optim_amortized = torch.optim.SGD(parameters_amortized(), lr=1e-4, momentum=0.1)
 
 import torch.nn.functional
 
@@ -376,109 +428,26 @@ while True:
            print "Quitting at counter "+str(counter)
            quit()
        counter += 1
-       printHere = (counter % 50 == 0)
+       printHere = (counter % 200 == 0)
        current = [sentence]
        assert len(current)==1
-       batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
-       batchOrdered = [batchOrdered]
-   
-       lengths = map(len, current)
-       maxLength = lengths[-1]
-       if maxLength <= 2:
-         print "Skipping extremely short sentence"
-         continue
-       input_words = []
-       input_pos_u = []
-       input_pos_p = []
-       for i in range(maxLength+2):
-          input_words.append(map(lambda x: 2 if i == 0 else (encodeWord(x[i-1]["word"]) if i <= len(x) else 0), batchOrdered))
-          input_pos_u.append(map(lambda x: 2 if i == 0 else (stoi_pos_uni[x[i-1]["posUni"]]+3 if i <= len(x) else 0), batchOrdered))
-          input_pos_p.append(map(lambda x: 2 if i == 0 else (stoi_pos_ptb[x[i-1]["posFine"]]+3 if i <= len(x) else 0), batchOrdered))
-
-       loss = 0
-       wordNum = 0
-       lossWords = 0
-       policyGradientLoss = 0
-       baselineLoss = 0
-       for c in components:
-          c.zero_grad()
-
-       for p in  [dhWeights, distanceWeights]:
-          if p.grad is not None:
-             p.grad.data = p.grad.data.mul(args.momentum)
-
-
-
-
-       if True:
-           words_layer = word_embeddings(Variable(torch.LongTensor(input_words))) #.cuda())
-           pos_u_layer = pos_u_embeddings(Variable(torch.LongTensor(input_pos_u))) #.cuda())
-           pos_p_layer = pos_p_embeddings(Variable(torch.LongTensor(input_pos_p))) #.cuda())
-           inputEmbeddings = dropout(torch.cat([words_layer, pos_u_layer, pos_p_layer], dim=2))
-           baseline_predictions = baseline(inputEmbeddings)
-           lossesHead = [[Variable(torch.FloatTensor([0.0]))]*1 for i in range(maxLength+1)]
-
-           cudaZero = Variable(torch.FloatTensor([0.0]), requires_grad=False)
-           for i in range(1,len(input_words)): 
-              for j in range(1):
-                 if input_words[i][j] != 0:
-                    if batchOrdered[j][i-1]["head"] == 0:
-                       realHead = 0
-                    else:
-                       realHead = batchOrdered[j][i-1]["reordered_head"] 
-                    if batchOrdered[j][i-1]["fine_dep"] == "root":
-                       continue
-                    # to make sure reward attribution considers this correctly
-                    registerAt = max(i, realHead)
-                    depLength = abs(i - realHead)
-                    assert depLength >= 0
-                    baselineLoss += torch.nn.functional.mse_loss(baseline_predictions[i][j] + baseline_predictions[realHead][j], depLength + cudaZero )
-                    depLengthMinusBaselines = depLength - baseline_predictions[i][j] - baseline_predictions[realHead][j]
-                    lossesHead[registerAt][j] += depLengthMinusBaselines
-                    lossWords += depLength
-
-           for i in range(1,len(input_words)): 
-              for j in range(1):
-                 if input_words[i][j] != 0:
-                    policyGradientLoss += overallLogprobSum * ((lossesHead[i][j]).detach().cpu())
-                    if input_words[i] > 2 and j == 0 and printHere:
-                       print [itos[input_words[i][j]-3], itos_pos_ptb[input_pos_p[i][j]-3], "Cumul_DepL_Minus_Baselines", lossesHead[i][j].data.cpu().numpy()[0], "Baseline Here", baseline_predictions[i][j].data.cpu().numpy()[0]]
-                    wordNum += 1
-       if wordNum == 0:
-         print input_words
-         print batchOrdered
-         continue
-       if printHere:
-         print loss/wordNum
-         print lossWords/wordNum
-         print ["CROSS ENTROPY", crossEntropy, exp(crossEntropy)]
-       crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum)
-       probabilities = torch.sigmoid(dhWeights)
-
-       neg_entropy = torch.sum( probabilities * torch.log(probabilities) + (1-probabilities) * torch.log(1-probabilities))
-
-       policy_related_loss = args.lr_policy * (args.entropy_weight * neg_entropy + policyGradientLoss) # lives on CPU
-       if printHere:
-         print "BACKWARD 1"
-       policy_related_loss.backward()
-       if printHere:
-         print "BACKWARD 2"
-
-       loss += baselineLoss # lives on GPU
-       if loss is 0:
-          print "Absolutely Zero Loss"
-          print current
+       depLength, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
+       if depLength is None:
           continue
+       loss = (torch.FloatTensor(depLength) * overallLogprobSum).mean()
+  #     print(depLength, overallLogprobSum)
+       if printHere:
+         print ["AVERAGE DEPENDENCY LENGTH", crossEntropy]
+       crossEntropy = 0.99 * crossEntropy + 0.01 * sum(depLength)/(len(depLength)*len(sentence)) 
+
+       optim_grammar.zero_grad()
+       optim_amortized.zero_grad()
+
        loss.backward()
        if printHere:
          print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)
-
-       torch.nn.utils.clip_grad_norm(parameters(), 5.0, norm_type='inf')
-       for param in parameters():
-         if param.grad is None:
-           print "WARNING: None gradient"
-           continue
-         param.data.sub_(lr_lm * param.grad.data)
+       optim_grammar.step()
+       optim_amortized.step()
        if counter % 10000 == 0:
           TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
           print "Saving"

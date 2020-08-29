@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
-parser.add_argument('--lr_policy', type=float, default=0.1)
+parser.add_argument('--lr_policy', type=float, default=0.001)
 parser.add_argument('--momentum', type=float, default=0.9)
 
 args = parser.parse_args()
@@ -191,7 +191,8 @@ def orderSentence(sentence, dhLogits, printThings):
      pooled = convolved.max(dim=2)[0]
      hidden = relu(amortized_hidden(pooled))
      decision_logits = amortized_out(hidden)
-     print(decision_logits)
+     if random() < 0.05:
+        print("LOGITS FROM MODEL", decision_logits)
      wordToDecisionLogits = {subjects_or_objects[i]["index"] : decision_logits[i,0] for i in range(len(subjects_or_objects))}
      wordToDistanceLogits = {subjects_or_objects[i]["index"] : decision_logits[i,1] for i in range(len(subjects_or_objects))}
    else:
@@ -330,8 +331,8 @@ amortized_out = torch.nn.Linear(200, 2, bias=False)
 relu = torch.nn.ReLU()
 amortized_out.weight.data.zero_()
 
-components = [word_embeddings, pos_u_embeddings, pos_p_embeddings, baseline] # rnn
-components += [amortized_embeddings, amortized_conv, amortized_hidden, amortized_out]
+components_baseline = [word_embeddings, pos_u_embeddings, pos_p_embeddings, baseline] # rnn
+components_amortized = [amortized_embeddings, amortized_conv, amortized_hidden, amortized_out]
 
 def parameters():
  for c in components:
@@ -340,8 +341,26 @@ def parameters():
  yield dhWeights
  yield distanceWeights
 
-#for pa in parameters():
-#  print pa
+
+def parameters_grammar():
+ yield dhWeights
+ yield distanceWeights
+
+def parameters_baseline():
+ for c in components_baseline:
+   for param in c.parameters():
+      yield param
+
+def parameters_amortized():
+ for c in components_amortized:
+   for param in c.parameters():
+      yield param
+
+def parameters():
+   for x in [parameters_grammar(), parameters_baseline(), parameters_amortized()]:
+      for y in x:
+         yield y
+
 
 initrange = 0.1
 word_embeddings.weight.data.uniform_(-initrange, initrange)
@@ -361,7 +380,9 @@ def encodeWord(w):
    return stoi[w]+3 if stoi[w] < vocab_size else 1
 
 
-
+optim_grammar = torch.optim.SGD(parameters_grammar(), lr=0.1, momentum=args.momentum)
+optim_baseline = torch.optim.SGD(parameters_baseline(), lr=0.001, momentum=0.0)
+optim_amortized = torch.optim.SGD(parameters_amortized(), lr=1e-3, momentum=0.1)
 
 import torch.nn.functional
 
@@ -376,7 +397,7 @@ while True:
            print "Quitting at counter "+str(counter)
            quit()
        counter += 1
-       printHere = (counter % 50 == 0)
+       printHere = (counter % 200 == 0)
        current = [sentence]
        assert len(current)==1
        batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
@@ -400,13 +421,16 @@ while True:
        lossWords = 0
        policyGradientLoss = 0
        baselineLoss = 0
-       for c in components:
-          c.zero_grad()
-
-       for p in  [dhWeights, distanceWeights]:
-          if p.grad is not None:
-             p.grad.data = p.grad.data.mul(args.momentum)
-
+       optim_baseline.zero_grad()
+       optim_amortized.zero_grad()
+       optim_grammar.zero_grad()
+#       for c in components:
+#          c.zero_grad()
+#
+#       for p in  [dhWeights, distanceWeights]:
+#          if p.grad is not None:
+#             p.grad.data = p.grad.data.mul(args.momentum)
+#
 
 
 
@@ -451,7 +475,7 @@ while True:
        if printHere:
          print loss/wordNum
          print lossWords/wordNum
-         print ["CROSS ENTROPY", crossEntropy, exp(crossEntropy)]
+         print ["AVERAGE DEPENDENCY LENGTH", crossEntropy]
        crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum)
        probabilities = torch.sigmoid(dhWeights)
 
@@ -474,11 +498,14 @@ while True:
          print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)
 
        torch.nn.utils.clip_grad_norm(parameters(), 5.0, norm_type='inf')
-       for param in parameters():
-         if param.grad is None:
-           print "WARNING: None gradient"
-           continue
-         param.data.sub_(lr_lm * param.grad.data)
+#       for param in parameters():
+#         if param.grad is None:
+#           print "WARNING: None gradient"
+#           continue
+#         param.data.sub_(lr_lm * param.grad.data)
+       optim_grammar.step()
+       optim_baseline.step()
+       optim_amortized.step()
        if counter % 10000 == 0:
           TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
           print "Saving"
