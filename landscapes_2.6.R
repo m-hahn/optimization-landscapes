@@ -27,7 +27,7 @@ families = read.csv("families.tsv", sep="\t")
 data = merge(data, families, by=c("Language"))
 
 
-u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide))
+u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide), OFartherThanS = mean(OFartherThanS))
 print(u[order(u$OSSameSide),], n=60)
 
 sigmoid = function(x) {
@@ -72,8 +72,12 @@ samp = posterior_samples(model)
 capture.output(mean(samp$b_OSSameSide_Real_Prob_Log > 0), file="output/landscapes_2.6.R_brms.txt", append=TRUE)
 
 library(ggplot2)
-plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Language)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)") + theme_bw()
 ggsave("figures/fracion-optimized_DLM_2.6.pdf", height=13, width=13)
+
+
+plot = ggplot(u, aes(x=OSSameSide, y=OFartherThanS, color=Family)) + geom_label(aes(label=Language)) 
+ggsave("figures/distance_DLM_2.6.pdf", height=13, width=13)
 
 plot = ggplot(u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob=mean(OSSameSide_Real_Prob), OSSameSide=mean(OSSameSide)), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Family)) + geom_label(aes(label=Family)) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)")
 
