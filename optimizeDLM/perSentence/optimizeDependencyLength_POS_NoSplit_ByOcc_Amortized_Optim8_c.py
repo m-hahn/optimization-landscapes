@@ -1,5 +1,5 @@
 # Optimizing a grammar for dependency length minimization
-
+import math
 import random
 import sys
 
@@ -11,10 +11,10 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
-parser.add_argument('--lr_grammar', type=float, default=0.01) #random.choice([0.000001, 0.00001, 0.00002, 0.0001, 0.001, 0.01]))
+parser.add_argument('--lr_grammar', type=float, default=0.001) #random.choice([0.000001, 0.00001, 0.00002, 0.0001, 0.001, 0.01]))
 parser.add_argument('--momentum_grammar', type=float, default=0.8) #random.choice([0.0, 0.2, 0.8, 0.9]))
-parser.add_argument('--lr_amortized', type=float, default=random.choice([0.000001, 0.00001, 0.00002, 0.0001, 0.001, 0.01]))
-parser.add_argument('--momentum_amortized', type=float, default=random.choice([0.0, 0.2, 0.8, 0.9]))
+parser.add_argument('--lr_amortized', type=float, default=0.001)
+parser.add_argument('--momentum_amortized', type=float, default=0.0)
 
 args = parser.parse_args()
 
@@ -207,21 +207,14 @@ def orderSentence(sentence, dhLogits, printThings):
      for line in sentence:
         annotateLength(line)
       
-   subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj", "obj"]]
+   subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj"]]
    if len(subjects_or_objects) > 0:
-     encodings = [[x["dep"], x["posUni"], x["length"]] + ["@"+str(z) for z in flatten(sorted([(y["dep"], y["posUni"], y["length"]) for y in sentence[x["head"]-1]["children"]]))] for x in subjects_or_objects]
+     encodings = [[x["posUni"]+"_"+str(x["length"])] + ["@"+str(z) for z in flatten(sorted([(y["dep"]+"_"+str(int(math.sqrt(y["length"]-1))),) for y in sentence[x["head"]-1]["children"]]))] for x in subjects_or_objects]
      maxLength = max([len(x) for x in encodings])
      encodings = [x + ["PAD" for _ in range(maxLength-len(x))] for x in encodings]
   
      numerified = [[itos_encodings(x) for x in y] for y in encodings]
-     embedded = amortized_embeddings(torch.LongTensor(numerified))
-#     print(embedded)
- #    print(embedded.size())
-     convolved = amortized_conv(embedded.transpose(1,2))
-  #   print(convolved.size())
-     pooled = convolved.max(dim=2)[0]
-     hidden = relu(amortized_hidden(pooled))
-     decision_logits = amortized_out(hidden)
+     decision_logits = amortized_embeddings(torch.LongTensor(numerified)).sum(dim=1)
      if random() < 0.05:
         print("LOGITS FROM MODEL", decision_logits)
      wordToDecisionLogits = {subjects_or_objects[i]["index"] : decision_logits[i,0] for i in range(len(subjects_or_objects))}
@@ -386,15 +379,11 @@ baseline = nn.Linear(3, 1) #.cuda()
 dropout = nn.Dropout(0.5) #.cuda()
 
 
-amortized_embeddings = torch.nn.Embedding(300, 200)
-amortized_conv = torch.nn.Conv1d(in_channels=200, out_channels=300, kernel_size=3)
-amortized_hidden = torch.nn.Linear(300, 200)
-amortized_out = torch.nn.Linear(200, 2, bias=False)
-relu = torch.nn.ReLU()
-amortized_out.weight.data.zero_()
+amortized_embeddings = torch.nn.Embedding(400, 2)
+amortized_embeddings.weight.data.zero_()
 
 components_baseline = [word_embeddings, pos_u_embeddings, pos_p_embeddings, baseline] # rnn
-components_amortized = [amortized_embeddings, amortized_conv, amortized_hidden, amortized_out]
+components_amortized = [amortized_embeddings]
 
 def parameters():
  for c in components:
@@ -452,7 +441,7 @@ counter = 0
 dependencyLengthsLast = 1000
 dependencyLengths = [1000]
 dependencyLengthsPerEpoch = []
-for epoch in range(5):
+for epoch in range(50):
   corpus = list(CorpusIterator(args.language, partition="together").iterator(rejectShortSentences = True))
   shuffle(corpus)
   dependencyLengthsPerEpoch.append(sum(dependencyLengths)/(0.0+len(dependencyLengths)))

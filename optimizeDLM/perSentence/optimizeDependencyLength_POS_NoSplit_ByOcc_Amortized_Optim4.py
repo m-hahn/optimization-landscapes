@@ -207,7 +207,7 @@ def orderSentence(sentence, dhLogits, printThings):
      for line in sentence:
         annotateLength(line)
       
-   subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj", "obj"]]
+   subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj"]]
    if len(subjects_or_objects) > 0:
      encodings = [[x["dep"], x["posUni"], x["length"]] + ["@"+str(z) for z in flatten(sorted([(y["dep"], y["posUni"], y["length"]) for y in sentence[x["head"]-1]["children"]]))] for x in subjects_or_objects]
      maxLength = max([len(x) for x in encodings])
@@ -220,8 +220,7 @@ def orderSentence(sentence, dhLogits, printThings):
      convolved = amortized_conv(embedded.transpose(1,2))
   #   print(convolved.size())
      pooled = convolved.max(dim=2)[0]
-     hidden = relu(amortized_hidden(pooled))
-     decision_logits = amortized_out(hidden)
+     decision_logits = amortized_out(pooled)
      if random() < 0.05:
         print("LOGITS FROM MODEL", decision_logits)
      wordToDecisionLogits = {subjects_or_objects[i]["index"] : decision_logits[i,0] for i in range(len(subjects_or_objects))}
@@ -388,13 +387,14 @@ dropout = nn.Dropout(0.5) #.cuda()
 
 amortized_embeddings = torch.nn.Embedding(300, 200)
 amortized_conv = torch.nn.Conv1d(in_channels=200, out_channels=300, kernel_size=3)
-amortized_hidden = torch.nn.Linear(300, 200)
-amortized_out = torch.nn.Linear(200, 2, bias=False)
+amortized_conv.weight.data.zero_()
+
+amortized_out = torch.nn.Linear(300, 2, bias=False)
 relu = torch.nn.ReLU()
 amortized_out.weight.data.zero_()
 
 components_baseline = [word_embeddings, pos_u_embeddings, pos_p_embeddings, baseline] # rnn
-components_amortized = [amortized_embeddings, amortized_conv, amortized_hidden, amortized_out]
+components_amortized = [amortized_embeddings, amortized_conv, amortized_out]
 
 def parameters():
  for c in components:

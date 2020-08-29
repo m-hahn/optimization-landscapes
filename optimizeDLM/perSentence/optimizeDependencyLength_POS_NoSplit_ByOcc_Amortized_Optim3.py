@@ -207,7 +207,7 @@ def orderSentence(sentence, dhLogits, printThings):
      for line in sentence:
         annotateLength(line)
       
-   subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj", "obj"]]
+   subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj"]]
    if len(subjects_or_objects) > 0:
      encodings = [[x["dep"], x["posUni"], x["length"]] + ["@"+str(z) for z in flatten(sorted([(y["dep"], y["posUni"], y["length"]) for y in sentence[x["head"]-1]["children"]]))] for x in subjects_or_objects]
      maxLength = max([len(x) for x in encodings])
