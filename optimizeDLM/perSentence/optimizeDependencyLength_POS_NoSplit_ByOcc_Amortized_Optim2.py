@@ -11,8 +11,10 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
-parser.add_argument('--lr_policy', type=float, default=0.001)
-parser.add_argument('--momentum', type=float, default=0.9)
+parser.add_argument('--lr_grammar', type=float, default=random.choice([0.000001, 0.00001, 0.00002, 0.0001, 0.001, 0.01]))
+parser.add_argument('--momentum_grammar', type=float, default=random.choice([0.0, 0.2, 0.8, 0.9]))
+parser.add_argument('--lr_amortized', type=float, default=random.choice([0.000001, 0.00001, 0.00002, 0.0001, 0.001, 0.01]))
+parser.add_argument('--momentum_amortized', type=float, default=random.choice([0.0, 0.2, 0.8, 0.9]))
 
 args = parser.parse_args()
 
@@ -110,8 +112,14 @@ logsoftmax = torch.nn.LogSoftmax(dim=1)
 
 
 def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, wordToDistanceLogits):
+       if max([len(x) for x in remainingChildren]) <= 1:
+            return remainingChildren, []
+          
   #     print(remainingChildren)
        children = sorted(list(set(flatten(remainingChildren))))
+ #      if len(children) == 1:
+#           return remainingChildren, []
+          
        stoi_children = dict(list(zip(children, range(len(children)))))
        childrenLinearized = [[] for _ in range(BATCH_SIZE)]
        if len(children) == 0:
@@ -122,6 +130,7 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, wordToDis
        logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) if x not in wordToDistanceLogits else wordToDistanceLogits[x].view(1) for x in children])
 #       print(logits)
        log_probabilities = []
+       #print(children)
        for _ in range(len(children)):
            masked_logits = logits.unsqueeze(0) + mask
            softmax = softmax_layer(masked_logits)
@@ -131,6 +140,7 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, wordToDis
            stillHasOpen = (mask.max(dim=1)[0] > -1)
        #    print(stillHasOpen)
            log_probability = log_probability * stillHasOpen.float()
+           #print(log_probability)
            log_probabilities.append(log_probability)
            selected_ = selected.cpu()
            mask_ = mask.cpu()
@@ -212,6 +222,10 @@ def orderSentence(sentence, dhLogits, printThings):
      wordToDistanceLogits = {}
    log_probabilities = []
    for line in sentence:
+      for direction in ["DH", "HD"]:
+            line["children_"+direction] = [[] for _ in range(BATCH_SIZE)]
+
+   for line in sentence:
       line["fine_dep"] = line["dep"]
       if line["fine_dep"] == "root":
           root = line["index"]
@@ -233,14 +247,12 @@ def orderSentence(sentence, dhLogits, printThings):
       probability = 1/(1 + torch.exp(-dhLogit))
       dhSampled = torch.FloatTensor([1 if (random() < probability.data.numpy()) else 0 for _ in range(BATCH_SIZE)])
       log_probabilities.append(torch.log(1/(1 + torch.exp(- (2*dhSampled-1.0) * dhLogit))))
-
+      #print(dhSampled)
+      #print(log_probabilities[-1])
       if printThings: 
          print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], str(round(float(dhSampled[0]),4)), (str(float(probability[0]))+"      ")[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8]  ]  ))
 
       headIndex = line["head"]-1
-      for direction in ["DH", "HD"]:
-         if "children_"+direction not in sentence[headIndex]:
-            sentence[headIndex]["children_"+direction] = [[] for _ in range(BATCH_SIZE)]
       for i in range(BATCH_SIZE):
          direction = "DH" if float(dhSampled[i]) > 0.5 else "HD"
          sentence[headIndex]["children_"+direction][i].append(line["index"])
@@ -248,16 +260,21 @@ def orderSentence(sentence, dhLogits, printThings):
 
    
    for line in sentence:
-      if "children_DH" in line:
+      lengths = [len(line["children_DH"][i])+len(line["children_HD"][i]) for i in range(BATCH_SIZE)]
+      assert min(lengths) == max(lengths)
+      lengthsBefore = min(lengths)
+      if len(line["children_DH"]) > 0:
          childrenLinearized, relativeOrderLogprobs = orderChildrenRelative(sentence, line["children_DH"], False, wordToDistanceLogits)
          log_probabilities += relativeOrderLogprobs
          line["children_DH"] = childrenLinearized
-      if "children_HD" in line:
+      if len(line["children_HD"]) > 0:
          childrenLinearized, relativeOrderLogprobs = orderChildrenRelative(sentence, line["children_HD"], True, wordToDistanceLogits)
          log_probabilities += relativeOrderLogprobs
          line["children_HD"] = childrenLinearized
-
-   
+      lengths = [len(line["children_DH"][i])+len(line["children_HD"][i]) for i in range(BATCH_SIZE)]
+      assert min(lengths) == max(lengths)
+      assert lengthsBefore == min(lengths)
+  
    linearized = [[] for _ in range(BATCH_SIZE)]
    for i in range(BATCH_SIZE):
       recursivelyLinearize(sentence, root, linearized[i], i)
@@ -265,7 +282,8 @@ def orderSentence(sentence, dhLogits, printThings):
      print " ".join(map(lambda x:x["word"], sentence))
      print " ".join(map(lambda x:x["word"], linearized[0]))
      print " ".join(map(lambda x:x["word"], linearized[1]))
-
+     print " ".join(map(lambda x:x["word"], linearized[2]))
+   assert min([len(x) for x in linearized]) == max([len(x) for x in linearized])
 
    # store new dependency links
    dependencyLengths = [0 for _ in range(BATCH_SIZE)]
@@ -279,6 +297,8 @@ def orderSentence(sentence, dhLogits, printThings):
         else:
           dependencyLengths[batch] += abs(moved[x["head"]-1] - i)
           assert moved[x["head"]-1] != i
+   if printThings:
+      print(dependencyLengths)
 #          x["reordered_head"] = 1+moved[x["head"]-1]
 #   if True:  
  #    print " ".join(map(lambda x:x["word"], sentence))
@@ -356,7 +376,7 @@ baseline = nn.Linear(3, 1) #.cuda()
 dropout = nn.Dropout(0.5) #.cuda()
 
 
-amortized_embeddings = torch.nn.Embedding(200, 200)
+amortized_embeddings = torch.nn.Embedding(300, 200)
 amortized_conv = torch.nn.Conv1d(in_channels=200, out_channels=300, kernel_size=3)
 amortized_hidden = torch.nn.Linear(300, 200)
 amortized_out = torch.nn.Linear(200, 2, bias=False)
@@ -412,17 +432,21 @@ def encodeWord(w):
    return stoi[w]+3 if stoi[w] < vocab_size else 1
 
 
-optim_grammar = torch.optim.SGD(parameters_grammar(), lr=0.0001, momentum=args.momentum)
-optim_amortized = torch.optim.SGD(parameters_amortized(), lr=1e-4, momentum=0.1)
+optim_grammar = torch.optim.SGD(parameters_grammar(), lr=args.lr_grammar, momentum=args.momentum_grammar)
+optim_amortized = torch.optim.SGD(parameters_amortized(), lr=args.lr_amortized, momentum=args.momentum_amortized)
 
 import torch.nn.functional
 
 
 counter = 0
-while True:
+dependencyLengthsLast = 1000
+dependencyLengths = [1000]
+dependencyLengthsPerEpoch = []
+for epoch in range(5):
   corpus = list(CorpusIterator(args.language, partition="together").iterator(rejectShortSentences = True))
   shuffle(corpus)
-
+  dependencyLengthsPerEpoch.append(sum(dependencyLengths)/(0.0+len(dependencyLengths)))
+  dependencyLengths = []
   for sentence in corpus:
        if counter > 200000:
            print "Quitting at counter "+str(counter)
@@ -434,11 +458,16 @@ while True:
        depLength, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
        if depLength is None:
           continue
+#       print(depLength, overallLogprobSum)
+#      
+#       if len(sentence) > 3 and len(sentence) < 5 and random() > 0.9:
+#           quit()
+
        loss = (torch.FloatTensor(depLength) * overallLogprobSum).mean()
-  #     print(depLength, overallLogprobSum)
        if printHere:
-         print ["AVERAGE DEPENDENCY LENGTH", crossEntropy]
-       crossEntropy = 0.99 * crossEntropy + 0.01 * sum(depLength)/(len(depLength)*len(sentence)) 
+         print ["AVERAGE DEPENDENCY LENGTH", crossEntropy, dependencyLengthsPerEpoch[-10:]]
+       dependencyLengths.append(sum(depLength)/(1.0*len(depLength)*len(sentence)))
+       crossEntropy = 0.99 * crossEntropy + 0.01 *  dependencyLengths[-1]
 
        optim_grammar.zero_grad()
        optim_amortized.zero_grad()
@@ -448,15 +477,7 @@ while True:
          print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)
        optim_grammar.step()
        optim_amortized.step()
-       if counter % 10000 == 0:
-          TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
-          print "Saving"
-          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_perSent_perOcc/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
-             print >> outFile, "\t".join(map(str,["DH_Weight","CoarseDependency","HeadPOS", "DependentPOS", "DistanceWeight", "Language", "FileName"]))
-             for i in range(len(itos_deps)):
-                head, rel, dependent = itos_deps[i]
-                dhWeight = dhWeights[i].data.numpy()
-                distanceWeight = distanceWeights[i].data.numpy()
-                print >> outFile, "\t".join(map(str,[round(dhWeight, 2), rel, head, dependent, round(distanceWeight, 2), args.language, myID]))
-
+  with open("output/"+__file__+"_"+args.language+"_"+str(myID), "w") as outFile:
+          print >> outFile, dependencyLengthsPerEpoch
+          print >> outFile, args
 
