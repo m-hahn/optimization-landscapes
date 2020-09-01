@@ -1,10 +1,35 @@
 import glob
+import json
 files = glob.glob("output/*viz*")
 results = []
+from collections import defaultdict
+byLang = defaultdict(list)
+byLangDir = defaultdict(list)
 for r in files:
   with open(r, "r") as inFile:
       results.append(inFile.read().strip().split("\n") + [r])
       results[-1][0] = results[-1][0][1:-1].split(", ")
       results[-1][0] = (results[-1][0][-1], len(results[-1][0]))
+      if results[-1][2].startswith("{'"):
+         os = (results[-1][2])
+         exec("os = "+os)
+         print(os)
+         totalS = (os["SV"] + os["VS"])
+         totalO = (os["OV"] + os["VO"])
+         consistent = (os["SV"] * os["OV"] + os["VS"] * os["VO"])/(totalS*totalO)
+         results[-1][2] = ("SYMMETRY", consistent)
+         lang = r[r.index(".py")+4:r.index("_2.6")]
+         byLang[lang].append(consistent)
+         byLangDir[lang].append(1 if consistent > 0.5 else 0.0)
 for x in sorted(results, key=lambda x:x[0][0], reverse=True):
    print(x)
+
+def mean(x):
+  return sum(x)/(0.0001+len(x))
+
+with open("results/results_i.tsv", "w") as outFile:
+ print("\t".join(["Language", "Symmetry", "BinarySymmetry"]), file=outFile)
+ for lang in sorted(list(byLang), key=lambda x:mean(byLang[x])):
+  print(lang, mean(byLang[lang]), mean(byLangDir[lang]), len(byLang[lang]))
+  print("\t".join([str(x) for x in [lang, mean(byLang[lang]), mean(byLangDir[lang])]]), file=outFile)
+print(len(byLang))

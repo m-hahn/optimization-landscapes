@@ -212,7 +212,7 @@ def orderSentence(sentence, dhLogits, printThings):
       
    subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj", "obj"]]
    if len(subjects_or_objects) > 0:
-     encodings = [[x["dep"]+"_"+x["posUni"]+"_"+str(x["length"])] + [x["dep"]+"_"+"@"+str(z) for z in flatten(sorted([(y["dep"]+"_"+str(int(math.sqrt(y["length"]-1))),) for y in sentence[x["head"]-1]["children"] if x != y]))] for x in subjects_or_objects]
+     encodings = [[x["dep"]+"_"+x["posUni"], x["dep"]+"_"+x["posUni"]+"_"+str(x["length"])] + [x["dep"]+"_"+"@"+str(z) for z in flatten(sorted([(y["dep"]+"_"+str(int(math.sqrt(y["length"]-1))),) for y in sentence[x["head"]-1]["children"] if x != y]))] for x in subjects_or_objects]
      maxLength = max([len(x) for x in encodings])
      encodings = [x + ["PAD" for _ in range(maxLength-len(x))] for x in encodings]
   
@@ -509,13 +509,5 @@ for epoch in range(100):
      print(i, [float(x) for x in amortized_embeddings.weight[itos_encodings_[i]]])
   if counter > 200000:
       print "Quitting at counter "+str(counter)
-      break
-if True:
-         print(dependencyLengthsPerEpoch)
-         print(args)
-         print __file__
-         STotal = POSITION_COUNTS["SV"] + POSITION_COUNTS["VS"] + 0.0001
-         OTotal = POSITION_COUNTS["OV"] + POSITION_COUNTS["VO"] + 0.0001
-         
-         print("Subject-Object Symmetry Rate", (POSITION_COUNTS["SV"] * POSITION_COUNTS["OV"] + POSITION_COUNTS["VS"] * POSITION_COUNTS["VO"])/(STotal*OTotal))
+      quit()
 

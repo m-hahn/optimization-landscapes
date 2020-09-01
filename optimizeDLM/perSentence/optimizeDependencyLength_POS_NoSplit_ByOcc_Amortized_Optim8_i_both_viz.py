@@ -212,7 +212,7 @@ def orderSentence(sentence, dhLogits, printThings):
       
    subjects_or_objects = [x for x in sentence if x["dep"] in ["nsubj", "obj"]]
    if len(subjects_or_objects) > 0:
-     encodings = [[x["dep"]+"_"+x["posUni"]+"_"+str(x["length"])] + [x["dep"]+"_"+"@"+str(z) for z in flatten(sorted([(y["dep"]+"_"+str(int(math.sqrt(y["length"]-1))),) for y in sentence[x["head"]-1]["children"] if x != y]))] for x in subjects_or_objects]
+     encodings = [[x["dep"]+"_"+x["posUni"], x["dep"]+"_"+x["posUni"]+"_"+str(x["length"])] for x in subjects_or_objects]
      maxLength = max([len(x) for x in encodings])
      encodings = [x + ["PAD" for _ in range(maxLength-len(x))] for x in encodings]
   
@@ -453,7 +453,7 @@ counter = 0
 dependencyLengthsLast = 1000
 dependencyLengths = []
 dependencyLengthsPerEpoch = [1000]
-for epoch in range(100):
+for epoch in range(150):
   POSITION_COUNTS = {"VS" : 0, "SV" : 0, "VO" : 0, "OV" : 0}
 
   corpus = list(CorpusIterator(args.language, partition="together").iterator(rejectShortSentences = True))
