@@ -27,9 +27,17 @@ for x in sorted(results, key=lambda x:x[0][0], reverse=True):
 def mean(x):
   return sum(x)/(0.0001+len(x))
 
+def extreme(x):
+   mi = min(x)
+   ma = max(x)
+   if abs(mi-0.5) > abs(ma-0.5):
+     return mi
+   else:
+     return ma
+
 with open("results/results_i.tsv", "w") as outFile:
- print("\t".join(["Language", "Symmetry", "BinarySymmetry"]), file=outFile)
+ print("\t".join(["Language", "Symmetry", "BinarySymmetry", "ExtremeSymmetry"]), file=outFile)
  for lang in sorted(list(byLang), key=lambda x:mean(byLang[x])):
   print(lang, mean(byLang[lang]), mean(byLangDir[lang]), len(byLang[lang]))
-  print("\t".join([str(x) for x in [lang, mean(byLang[lang]), mean(byLangDir[lang])]]), file=outFile)
+  print("\t".join([str(x) for x in [lang+"_2.6", mean(byLang[lang]), mean(byLangDir[lang]), extreme(byLang[lang])]]), file=outFile)
 print(len(byLang))
