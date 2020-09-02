@@ -28,9 +28,9 @@ deps = ["acl", "acl:relcl", "advcl", "advmod", "amod", "appos", "aux", "auxpass"
 
 PATH = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_perSent_perOcc_coarse_funchead_SUBJ_DLM/"+__file__+"_"+args.language+"_"+str(args.model)
 import os
-#if os.path.exists(PATH):
-#   print("Exists")
-#   quit()
+if os.path.exists(PATH):
+   print("Exists")
+   quit()
 
 
 from math import log, exp
@@ -185,6 +185,8 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, orderKeys
 
 
 def orderSentence(sentence, dhLogits, printThings, orderKeys):
+   if printThings:
+     print(orderKeys["verb"])
    root = None
    logits = [None]*len(sentence)
    logProbabilityGradient = 0
