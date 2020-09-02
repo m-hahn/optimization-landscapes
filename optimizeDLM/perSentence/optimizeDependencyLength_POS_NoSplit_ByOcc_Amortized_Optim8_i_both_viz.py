@@ -253,9 +253,15 @@ def orderSentence(sentence, dhLogits, printThings):
       if line["dep"] == "nsubj":
          POSITION_COUNTS["SV"] += float(probability)
          POSITION_COUNTS["VS"] += (1-float(probability))
+#         if POSITION_COUNTS_deQueue["Subjects"].full():
+ #            POSITION_COUNTS_deQueue["Subjects"].popleft()
+         POSITION_COUNTS_deQueue["Subjects"].append(float(probability))
       if line["dep"] == "obj":
          POSITION_COUNTS["OV"] += float(probability)
          POSITION_COUNTS["VO"] += (1-float(probability))
+   #      if POSITION_COUNTS_deQueue["Objects"].full():
+  #           POSITION_COUNTS_deQueue["Objects"].popleft()
+         POSITION_COUNTS_deQueue["Objects"].append(float(probability))
       dhSampled = torch.FloatTensor([1 if (random() < probability.data.numpy()) else 0 for _ in range(BATCH_SIZE)])
       log_probabilities.append(torch.log(1/(1 + torch.exp(- (2*dhSampled-1.0) * dhLogit))))
       #print(dhSampled)
@@ -446,13 +452,16 @@ optim_amortized = torch.optim.SGD(parameters_amortized(), lr=args.lr_amortized, 
 import torch.nn.functional
 
 
-
-
+import Queue
+import collections
+def mean(x):
+  return sum(x)/(len(x)+0.0001)
 
 counter = 0
 dependencyLengthsLast = 1000
 dependencyLengths = []
 dependencyLengthsPerEpoch = [1000]
+POSITION_COUNTS_deQueue = {"Objects" : collections.deque(maxlen=1000), "Subjects" : collections.deque(maxlen=1000)}
 for epoch in range(150):
   POSITION_COUNTS = {"VS" : 0, "SV" : 0, "VO" : 0, "OV" : 0}
 
@@ -486,8 +495,10 @@ for epoch in range(150):
          print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)
          STotal = POSITION_COUNTS["SV"] + POSITION_COUNTS["VS"] + 0.0001
          OTotal = POSITION_COUNTS["OV"] + POSITION_COUNTS["VO"] + 0.0001
-         
+#         POSITIONS_COUNTS_deQueue["Subject"] 
          print("Subject-Object Symmetry Rate", (POSITION_COUNTS["SV"] * POSITION_COUNTS["OV"] + POSITION_COUNTS["VS"] * POSITION_COUNTS["VO"])/(STotal*OTotal))
+#         print(mean(POSITIONS_COUNTS["Subjects"]))
+ #        print(mean(POSITIONS_COUNTS["Objects"]))
        optim_grammar.step()
        optim_amortized.step()
        if "PAD" in itos_encodings_:
@@ -499,6 +510,8 @@ for epoch in range(150):
           print >> outFile, dependencyLengthsPerEpoch
           print >> outFile, args
           print >> outFile, POSITION_COUNTS
+          print >> outFile, ({x : mean(y) for x, y in POSITION_COUNTS_deQueue.items()})
+
   print(amortized_embeddings.weight.size())
   withAt = sorted([x for x in stoi_encodings_ if "@" in x])
   noAt = sorted([x for x in stoi_encodings_ if "@" not in x])
@@ -518,4 +531,4 @@ if True:
          OTotal = POSITION_COUNTS["OV"] + POSITION_COUNTS["VO"] + 0.0001
          
          print("Subject-Object Symmetry Rate", (POSITION_COUNTS["SV"] * POSITION_COUNTS["OV"] + POSITION_COUNTS["VS"] * POSITION_COUNTS["VO"])/(STotal*OTotal))
-
+         print({x : mean(y) for x, y in POSITION_COUNTS_deQueue.items()})
