@@ -12,7 +12,7 @@ data = families
 
 
 u = data
-print(u[order(u$OSSameSide),], n=60)
+#print(u[order(u$OSSameSide),], n=60)
 
 sigmoid = function(x) {
 	return(1/(1+exp(-x)))
@@ -41,18 +41,31 @@ u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob, OS
 
 
 u = merge(u, perSentence, by=c("Language"), all=TRUE)
-summary(lm(OSSameSide ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=u))
+#summary(lm(OSSameSide ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=u))
 summary(lm(OSSameSide_Real_Prob ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=u))
 summary(lm(OSSameSide_Real_Prob ~ objects, data=u))
 
 library(lme4)
 summary(lmer(OSSameSide_Real_Prob ~ objects + (1+objects|Family), data=u))
-summary(lmer(OSSameSide ~ objects + (1+objects|Family), data=u))
+
+library(brms)
+summary(brm(OSSameSide_Real_Prob ~ objects + (1+objects|Family), data=u, iter=10000))
+#          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+#Intercept     0.52      0.12     0.31     0.78 1.00     1615      771
+#objects      -0.15      0.34    -0.89     0.47 1.00     1520      499
+summary(brm(objects ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u, iter=10000))
+#                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+#Intercept                0.39      0.04     0.32     0.46 1.00    10176
+#OSSameSide_Real_Prob    -0.16      0.07    -0.29    -0.02 1.00     9424
+
+
+
+#summary(lmer(OSSameSide ~ objects + (1+objects|Family), data=u))
 
 data = merge(data, real, by=c("Language"))
 data = merge(data, perSentence, by=c("Language"), all=TRUE)
 
-summary(glm(OSSameSide ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=data, family="binomial"))
+#summary(glm(OSSameSide ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=data, family="binomial"))
 
 data$OSSameSide_Real_Prob_Log = log(data$OSSameSide_Real_Prob)
 
@@ -75,7 +88,7 @@ plot = ggplot(u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(O
 ggsave("figures/objects-order-families-pureud.pdf")
 
 
-v = u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob), objects=mean(objects))
+v = u %>% group_by(Family) %>% summarise(OSSameSide_Real_Prob = mean(OSSameSide_Real_Prob), objects=mean(objects), subjectLength=mean(subjectLength))
 cor.test(v$OSSameSide_Real_Prob, v$objects)
 
 plot = ggplot(u, aes(x=OSSameSide, y=verbLength, color=Family)) + geom_label(aes(label=Language)) 
