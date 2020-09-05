@@ -74,7 +74,10 @@ class CorpusIterator_V():
           data = accessBKTreebank.readBKTreebank(partition)
       elif language == "TuebaJS":
          import accessTuebaJS
-         data = accessTuebaJS.readTuebaJSTreebank(partition)
+         assert partition == "together", partition
+         data_valid = accessTuebaJS.readTuebaJSTreebank("dev")
+         data_train = accessTuebaJS.readTuebaJSTreebank("train")
+         data = data_train + data_valid
          assert len(data) > 0, (language, partition)
       elif language == "LDC2012T05":
          import accessChineseDependencyTreebank
