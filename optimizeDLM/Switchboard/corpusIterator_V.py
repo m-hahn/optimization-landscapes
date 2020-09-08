@@ -72,12 +72,11 @@ class CorpusIterator_V():
       elif language == "BKTreebank_Vietnamese":
           import accessBKTreebank
           data = accessBKTreebank.readBKTreebank(partition)
-      elif language == "TuebaJS":
-         import accessTuebaJS
+      elif language == "English_SWBD":
+         import accessSWBD
          assert partition == "together", partition
-         data_valid = accessTuebaJS.readTuebaJSTreebank("dev")
-         data_train = accessTuebaJS.readTuebaJSTreebank("train")
-         data = data_train + data_valid
+         data_train = accessSWBD.readSWBDTreebank("together")
+         data = data_train
          assert len(data) > 0, (language, partition)
       elif language == "LDC2012T05":
          import accessChineseDependencyTreebank
@@ -101,10 +100,10 @@ class CorpusIterator_V():
    def length(self):
       return len(self.data)
    def processSentence(self, sentence):
+        sentence_raw = sentence
         sentence = list(map(lambda x:x.split("\t"), sentence.split("\n")))
         result = []
         for i in range(len(sentence)):
-#           print sentence[i]
            if sentence[i][0].startswith("#"):
               continue
            if "-" in sentence[i][0]: # if it is NUM-NUM
@@ -112,7 +111,14 @@ class CorpusIterator_V():
            if "." in sentence[i][0]:
               continue
            sentence[i] = dict([(y, sentence[i][x]) for x, y in enumerate(header)])
-           sentence[i]["head"] = int(sentence[i]["head"])
+           try:
+             sentence[i]["head"] = int(sentence[i]["head"])
+           except ValueError:
+    #          print(sentence_raw)
+   #           print(sentence)
+              print("WARNING: Not linked to rest of sentence: ", sentence[i])
+ #             assert False
+              sentence[i]["head"] = None
            sentence[i]["index"] = int(sentence[i]["index"])
            sentence[i]["word"] = sentence[i]["word"].lower()
            if self.language == "Thai-Adap":
