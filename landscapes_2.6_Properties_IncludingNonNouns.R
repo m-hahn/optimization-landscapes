@@ -51,7 +51,9 @@ summary(lmer(OSSameSide_Real_Prob ~ objects + (1+objects|Family), data=u))
 library(brms)
 summary(brm(OSSameSide_Real_Prob ~ isRoot + objects + subjectLength + verbDependents+ verbLength + (1+isRoot + objects + subjectLength + verbDependents+ verbLength|Family), data=u, iter=6000))
 
-
+summary(lmer(objects ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u))
+u$objects_logOdds = log((u$objects)/(1-u$objects+1e-10))
+summary(lmer(objects_logOdds ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u)) # this essentially corresponds to running a logistic model on the individual clases in the corpus
 
 summary(brm(OSSameSide_Real_Prob ~ objects + (1+objects|Family), data=u, iter=6000))
 #Population-Level Effects: 
@@ -62,6 +64,10 @@ summary(brm(objects ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), da
 #                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
 #Intercept                0.43      0.03     0.36     0.50 1.00     4471
 #OSSameSide_Real_Prob    -0.15      0.07    -0.29    -0.01 1.00     4527
+
+
+summary(brm(objects_logOdds ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u, iter=6000)) # this essentially corresponds to running a logistic model on the individual clases in the corpus
+
 
 
 #summary(lmer(OSSameSide ~ objects + (1+objects|Family), data=u))
@@ -79,6 +85,12 @@ plot = ggplot(u, aes(x=OSSameSide, y=isRoot, color=Family)) + geom_label(aes(lab
 plot = ggplot(u, aes(x=OSSameSide_Real_SemiProb, y=objects, color=Family)) + geom_label(aes(label=Language)) 
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Language)) 
 ggsave("figures/objects-order-pureud-all.pdf", width=10, height=10)
+
+
+
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Language)) + facet_wrap(~Family)
+ggsave("figures/objects-order-pureud-all-facets.pdf", width=10, height=10)
+
 
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_label(aes(label=Language)) + facet_wrap(~Family)
 
