@@ -292,17 +292,37 @@ The sample includes multiple languages that started with flexible order and move
 \section{Analysis 2: Spoken Corpora}
 
 
+The locus of change is naturally occurring spoken language.
+However, most annotated corpus data is written (e.g. news and web text).
+We verified that the conclusions of Analysis 1 continued to hold when using existing dependency treebanks that consist of transcribed spoken text.
+
+For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French).
+For Japanese, we used Tueba J/S, a treebank of telephone conversations.
+For English, we used a conversion of the Swuitchboard section of the Penn Treebank to Universal Dependencies.
+
+
 
 \begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{analysis_spoken/spoken.pdf}
-    \caption{Spoken.}
+    \caption{Comparing subject-object symmetry using spoken corpora. We show the corresponding points using the full UD data in gray.}
     \label{fig:spoken}
 \end{figure}
 
 
 
 \section{Analysis 3: Historical Evolution}
+
+As languages change, should see coevolution.
+We selected groups of treebanks that reflect different historical stages of the same language.
+In addition to treebanks from the UD project, we also brought in data from Old English from CITE (While there are some other historical treebanks such as Middle English, they are not in the dependency format, and calculating dependency length is highly nontrivial without a high-quality conversion).
+In some cases, different languages share a common ancestor (Mandarin and Cantonese, Spanish and French).
+
+These languages have seen no change in basic order or change from flexible order to dominant SVO.
+
+We predict that a language that changed from SVO towards SOV should have correspondingly moved towards the top-right of the plane. 
+Currently, no annotated treebanks are available for such a language; our prediction can be tested once such a treebank becomes available.
+
 
 \begin{figure}
     \centering
