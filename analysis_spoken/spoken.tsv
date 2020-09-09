@@ -1,7 +1,7 @@
-Corpus	OSSameSide	OSSameSide_Real_Prob	Language	OSSameSide_Other
-French-Spoken_2.6	0.235	0.2004862	French	0.4
-Norwegian-NynorskLIA_2.6	0.3	0.2340158	Norwegian	0.2
-Slovenian-SST_2.6	0.65	0.454458	Slovenian	0.5
-TuebaJS	1.0	1.0	Japanese	1
-Naija_2.6	0.3	0.02087207	Naija	0.3
-English_SWBD	0.21	0.08167869	English	0.3
+Corpus	OSSameSide	OSSameSide_Real_Prob	Language	OSSameSide_Other	Family
+French-Spoken_2.6	0.235	0.2004862	French	0.4	Romance
+Norwegian-NynorskLIA_2.6	0.3	0.2340158	Norwegian	0.2	Germanic
+Slovenian-SST_2.6	0.65	0.454458	Slovenian	0.5	Slavic
+TuebaJS	1.0	1.0	Japanese	1	Japanese
+Naija_2.6	0.3	0.02087207	Naija	0.3	Naija
+English_SWBD	0.21	0.08167869	English	0.3	English
