@@ -327,11 +327,11 @@ They do, however, find evidence that ancestral languages of multiple families we
 We compare two groups of word orders: SVO-like order where S and O are ordered on different sides of the verb, and SOV/VSO-like order where S and O are ordered on the same side of the verb.
 Languages can fall on a spectrum between languages with entirely strict SVO order and languages with entirely strict SOV order.
 Japanese falls entirely on one end of the spectrum, allowing only SOV and OSV order.
-We propose two quantitative metrics measuring where a language falls on this spectrum.
-First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments (\key{Same-Side Count}).\mhahn{Come up with names for these measures}
 
+We propose two quantitative metrics measuring where a language falls on this spectrum.
+First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments (\key{Same-Side Count}).\mhahn{Are there better names for these measures?}
 This measure does not take into account what happens in sentences where only S or O is realized.
-Second, we propose \key{Subject-Object Symmetry} measuring the chance that two randomly selected instances of S and O from the corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs.
+To address this, we also propose \key{Subject-Object Symmetry} measuring the chance that two randomly selected instances of S and O from the corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs.
 
 
 We compare the symmetry measures between real observed word orders and hypothetical orderings optimized for Dependency Length Minimization.
@@ -352,6 +352,7 @@ Results are shown in Figure~\ref{fig:study1}.
 %Without controlling for language families, predicted and real subject-object symmetry are correlated ($R=0.32$).
 To quantify the degree to which model output predicts real subject-object symmetry, we ran a Bayesian mixed-effects model with random slopes and intercepts per language family.
 Real subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
+The same held for the same-side count ($\beta = 0.28$, $SE=0.09$,  $95\%$ credible interval $[0.11, 0.47]$, $P(\beta<0) = 0.00025$).
 This result agrees with the predictions of the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
 
 {\color{blue} If you plan to go for NHB, then you can encapsulate some methodologies in the Methods section and focus on explaining and interpreting the main results.}
@@ -360,7 +361,7 @@ This result agrees with the predictions of the coadaptation hypothesis: Language
 \begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/fracion-optimized_DLM_2.6.pdf}
-    \caption{Study 1 (Prevalence of SOV-like order). x-axis real order distributions, y-axis model prediction.}
+    \caption{Study 1: Subject-object symmetry and real and optimized orderings. x-axis real order distributions, y-axis model prediction.}
     \label{fig:study1}
 \end{figure}
 
@@ -378,7 +379,7 @@ For English, we used a conversion of the Swuitchboard section of the Penn Treeba
 Results on these treebanks are shown in Figure~\ref{fig:spoken}.
 In a Bayesian linear regression, model output predicts real values ($\beta=1.11$, $SE=0.29$, $95\%$ CrI $[0.58, 1.69]$).\footnote{The small number of datapoints does not support a mixed-effects analysis. Even with strong priors and more iterations, we encountered small values of Tail Effective Sample Size. However, we found qualitatively similar results when excluding either English or Norwegian, in which case all languages come from different families, and the simple linear model is fully appropriate.}.
 This result is in agreement with that from the full set of corpora.
-
+\mhahn{TODO the other measure}
 
 \begin{figure}
     \centering
@@ -405,6 +406,7 @@ The sample includes multiple languages that started with flexible order and move
 If the coadaptation hypothesis is true, then languages should stay close to or move towards the diagonal in the plane described by predicted and real subject-object symmetry.
 
 We visualize the results in Figure~\ref{fig:historical}.
+\mhahn{TODO the other measure}
 
 In the case of the languages that have remained SVO (Cantonese and Mandarin), predicted subject-object symmetry moved towards its true values; that is, these languages appear to have evolved their usage patterns in a way that makes their basic word order more efficient.
 
@@ -441,7 +443,7 @@ Based on the discussion in the introduction, we hypothesized that languages favo
 We quantified the frequency of co-expression of subjects and objects by calculating what fraction of all verbs that realize at least a subject or an object simultaneously realize both.
 
 We show this ratio together with subject-object symmetry in Figure~\ref{fig:study2}.
-In a linear mixed-effects models, with by-family intercept and slope, subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
+In a linear mixed-effects models, with by-family intercept and slope, subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).\mhahn{TODO the other measure}
 
 %{\color{blue}Did you mention that there were some novel discoveries or generalizations, do you want to mention them here?}
 
