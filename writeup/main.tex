@@ -127,53 +127,48 @@ This work can be a useful reference (e.g., style of writing, and standard of fig
 {\color{blue}1. Problem motivation and significance - cross-linguistic variation in syntactic structure, and how it is central to understanding the nature of human language (e.g. Greenberg)}\\
 
 {\color{blue}2. Existing theory of efficient communication}
--Introduce efficiency-based explanations
+%-Introduce efficiency-based explanations
 
--Raise variation between languages and what efficiency-based theories have to say about it\\
+%-Raise variation between languages and what efficiency-based theories have to say about it\\
 
 {\color{blue}3. Relation of efficient communication and basic word order}
 
-Crosslinguistic variation. central to understanding human language.
-\cite{greenberg-universals-1963} 
-Languages show both variation and similarities.
-Explaining similarities and the limits on variation is an important goal of linguistic research.\mhahn{make this a paragraph}
+% \cite{greenberg-universals-1963} 
 
-
-
-A large body of research argues that similarities across languages are due to convergent evolution favoring efficient communication under cognitive resource limitations.
-In the domain of word order, prominent efficiency-based proposals are centered around various locality principles, which assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function.
-A prominent formalization of this idea is Dependency Length Minimization.
-This refers to the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words.
+Human languages show both tremendous variation and striking similarities in their grammatical structure. Understanding these is central to the understanding of the nature of human language.
+A large body of research argues that similarities across languages are due to convergent evolution favoring efficient communication under cognitive resource limitations (CITE).
+In the domain of word order, prominent efficiency-based proposals are centered around various locality principles, which assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function (CITE).
+A prominent formalization of this idea is \key{Dependency Length Minimization}, the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words (CITE).
 This is supported by corpus studies on dozens of languages, and computational simulations show that it predicts word order universals.
 Dependency Length Minimization and related locality principles can be explained in terms of memory usage and general communicative efficiency.
-Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
+%Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
 
-Variation between the grammars of different languages, and change of languages over time, poses an interesting question for such efficiency-based explanations.
-When languages differ, this could be because they reflect different optima or points along a Pareto frontier \cite{zaslavsky2018efficient, hahn2020universals}.
-As languages change, they move between different optima of efficiency \cite{zaslavsky2019evolution} (should this citation go to the next option?).
+Variation between the grammars of different languages, and change of languages over time, pose an interesting question for such efficiency-based explanations.
+When languages differ, this could be because they reflect different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
+As languages change, they move along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
 However, it could also be because the way language is used differs between two languages, making different grammars most efficient given the ways languages are used differently.
-As a language changes, change in grammatical structure then has to be accompanied by change in the way the language is used, i.e., there is a process of coadaptation between grammar and use.
-
-\mhahn{fix this}
-In the domain of color terms, \cite{gibson2017color} suggest that color naming systems are efficient given the usefulness of color in a society.
+As a language changes, change in grammatical structure then has to be accompanied by change in the way the language is used, i.e., there is a process of \key{coadaptation} between grammar and use.
+In a different domain, \cite{gibson2017color} suggest that color naming systems are efficient given the usefulness of color in a society.
 
 Here, we present evidence for coadaptation in the domain of word order syntactic typology.
 Typologists have long classified languages according to their basic word order, the order in which they order verbs, subjects, and objects.
-About 40\% of the world's languages are classified as having subject-verb-object order (as in English, a dog bites a human), and 40 \% are classified as having subject-object-verb order (dog-human-bites, e.g. Japanese).
+About 40\% of the world's languages are classified as having subject-verb-object order (as in English, a dog bites a human), and 40 \% are classified as having subject-object-verb order (dog-human-bites) (CITE).
 Other orders, such as verb-subject-object (bites-dog-human) are less common.
 A large fraction of languages allows different orderings, though typically with one of the possible orderings being most common or least marked, which is considered its basic word order in the typological literature.
 
 In this paper, we examine whether variation between basic word orders reflects different optima, or coadaptation between grammar and usage, under Dependency Length Minimization (DLM) as the measure of efficiency.
-Currently, no annotated treebanks are available for such a language; our prediction can be tested once such a treebank becomes available.
 To understand how DLM might make predictions about basic word order, we begin with a thought experiment.
-We first consider a simple transitive sentence such as `dog bites a human' (Figure~\ref{fig:sent-dep}). \mhahn{TODO what to do about the English article, it distracts. maybe make it `dogs bite people'}
-In the formalism of Dependency Grammar, the syntactic strcuture of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
+We first consider a simple transitive sentence such as `dog bites a human' (Figure~\ref{fig:sent-dep}). \mhahn{TODO what to do about the English article, it distracts. maybe make it `dogs bite people'?}
+DLM is defined formally in terms of Dependency Grammar (CITE).
+In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
 For instance, arcs link the verb to its subjects and objects.
+The length of an arc is one plus the number of other words that it crosses.
+The dependency length of an entire sentence is the sum of the lengths of all dependency arcs.
 
-In such a simple sentence, SVO order results in overall shorter dependencies:
+In a simple sentence as in Figure~\ref{fig:sent-dep}, SVO order results in overall lower dependency length:
 In SVO order, both dependencies have length $1$, resulting in a total length of $2$.
 In SOV order, the arc between the verb and its subject is longer because it crosses the object, resulting in a total length of $3$.
-Based on this consideration, \cite{ferrer-i-cancho-placement-2017} argued that DLM is generally optimized by SVO order.
+Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argued that DLM is generally optimized by SVO order, but we will see that the picture is more complex.
 
 
 \begin{figure}
@@ -270,8 +265,8 @@ Specifically, we contrast orderings that order S and O on the same or different 
 
 Note that DLM does not make predictions as to the direction in which S and O appear: As the length of dependencies does not depend on their direction, there is no difference between, say, SOV and VOS.
 Independent principles are needed to explain why SOV and SVO are more common than, say, VOS and OVS.
-A key component is a strong preference for subjects to come earlier.
-Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages.
+A key component is a strong preference for subjects to come earlier (CITE).
+Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages (CITE).
 This principle favors, say, SVO over OVS, while being equally well satisfied by SVO and SOV order.
 
 %Now explain examples from presentations, in particular how frequency of co-expression of S and O can differentially favor SVO or SOV. {\color{blue} this is good -- i wonder if you want to illustrate the throught experiment or the basic idea of coadaptation in an opening diagram.}\\
@@ -281,42 +276,51 @@ This principle favors, say, SVO over OVS, while being equally well satisfied by 
 
 {\color{blue}4. related to the above paragraph -- state limitations of existing theory/approach and our proposal. Articulate how existing theories of efficient communication may be limited or insufficient to explain basic word order variation across languages, and change over time. Therefore introduce the new proposal of coadaptation. (also, if we stick with ``coadaptation'', then don't use ``co-adaptation'') }
 
-\mhahn{TODO fix this}
+%\mhahn{TODO fix this}
 
-existing proposals insufficient:
+%existing proposals insufficient:
 
 
 
-Existing efficiency-based theories of word order variation:
+%Existing efficiency-based theories of word order variation:
 
+There are a range of previous theories of basic word order variation.
 \cite{maurits2010why} propose that the frequency of different basic word order pattern is predicted by Uniform Information Density, the idea that information in language is distributed in such a way as to avoid peaks and troughs in the rate at which information is transmitted.
 Their model predicts object-initial order to be strongly dispreferred.
 However, it also suggests SVO to be more considerably efficient than SOV, even on usage data from an SOV language (Japanese), in contrast with the empirically observed distribution.
 
 Some work has argued that SOV is the more default order, and that SVO order later results from shift.
+This is partly motivated by evidence suggesting that SOV emerges spontaneously in gestural communication (CITE).
 %(Gell-Mann  &  Ruhlen,  2011;  Givón,  1979;  Newmeyer,  2000a,  2000b).
 % (Senghas,  Coppola,  Newport,  &  Supalla,  1997
 % Sandler, Meir, Padden, & Aronoff, 2005
 % Goldin-Meadow, So, Ozyurek, and Mylander (2008) 
 % (Goldin-Meadow  et  al.,  2008), and Italian (Langus & Nespor, 2010)
 
+%Gershkoff-Stowe L, Goldin-Medow S (2002) Is there a natural order for expressingsemantic relations?Cognit Psychol45(3):375–412.13. 
+%Sandler W, Meir I, Padden C, Aronoff M (2005) The emergence of grammar: Sys-tematic structure in a new language.Proc Natl Acad Sci USA102(7):2661–2665.14. 
+%Goldin-Meadow S, So WC, Ozyürek A, Mylander C (2008) The natural order of events:How speakers of different languages represent events nonverbally.Proc Natl Acad SciUSA105(27):9163–9168.15. %Langus A, Nespor M (2010) Cognitive systems struggling for word order.CognitPsychol60(4):291–318
+
 \cite{gibson-noisy-channel-2013} argue that SVO order is more robust under noise in communication for semantically reversible events, because deletion of one argument due to noise makes meaning recovery easier when arguments are on different sides of the verb.
 
-\citep{maurits2014tracing} doesn't quite so far
+\cite{ferrer-i-cancho-placement-2017} argues that the variation is caused by a tension between optimizing DLM (thought to favor SVO) and making the verb predictable (thought to favor SOV). This hypothesis is predicated on the idea that DLM favors SVO, which our empirical results will show is not true in general.
+
+\cite{maurits2014tracing} apply phylogenetic modeling to infer how frequently different changes in basic word order are.
+They do not find evidence that one of SOV or SVO is favored, and that languages can cycle between these two orders over time.
+They do, however, find evidence that ancestral languages of multiple families were SOV.
+
+
+
 
 %http://tedlab.mit.edu/tedlab_website/researchpapers/Gibson_et_al_2013_PsychSci.pdf
 
+%- our results argue against work that has suggested SVO as the more efficient order (Gibson et al 2013, \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4534792/})
 
+%\url{https://www.eva.mpg.de/fileadmin/content_files/linguistics/conferences/2015-diversity-linguistics/Hammarstroem_slides.pdf}
 
-{\color{blue}i think this section needs to be moved forward to the place where you introduced basic word order, in introduction.}
+%- Trudgill,2011
 
-- our results argue against work that has suggested SVO as the more efficient order (Gibson et al 2013, \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4534792/})
-
-\url{https://www.eva.mpg.de/fileadmin/content_files/linguistics/conferences/2015-diversity-linguistics/Hammarstroem_slides.pdf}
-
-- Trudgill,2011
-
-- Gell-MannandRuhlen2011,MauritsandGriths2014
+%- Gell-MannandRuhlen2011,MauritsandGriths2014
 
 \section{Study 1: Evidence for Coadaptation}
 
@@ -414,10 +418,6 @@ Beyond these observations, the coadaptation hypothesis predicts that a language 
 Currently, no annotated treebanks are available for such a language; our prediction can be tested once such a treebank becomes available.
 
 
--Results: Figure  plus stats, historical visualization
-
-
-%These languages have seen no change in basic order or change from flexible order to dominant SVO.
 
 
 
