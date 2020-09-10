@@ -50,6 +50,9 @@ u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), b
 
 library(brms)
 sink("output/landscapes_2.6.R_avgs.txt")
+model = (brm(OSSameSide_Real_Prob ~ OSSameSide + (1+OSSameSide|Family), data=u))
+print(mean(posterior_samples(model)$b_OSSameSide < 0))
+print(summary(model))
 model = (brm(OSSameSide ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u))
 print(mean(posterior_samples(model)$b_OSSameSide_Real_Prob < 0))
 print(summary(model))
