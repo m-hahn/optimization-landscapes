@@ -9,24 +9,24 @@ Group-Level Effects:
 ~Family (Number of levels: 29) 
                                         Estimate Est.Error l-95% CI u-95% CI
 sd(Intercept)                               0.43      0.25     0.04     0.99
-sd(OSSameSide_Real_Prob_Log)                0.22      0.18     0.01     0.66
-cor(Intercept,OSSameSide_Real_Prob_Log)     0.28      0.55    -0.89     0.97
+sd(OSSameSide_Real_Prob_Log)                0.22      0.17     0.01     0.63
+cor(Intercept,OSSameSide_Real_Prob_Log)     0.27      0.56    -0.91     0.98
                                         Rhat Bulk_ESS Tail_ESS
-sd(Intercept)                           1.00      687     1196
-sd(OSSameSide_Real_Prob_Log)            1.01     1005     1586
-cor(Intercept,OSSameSide_Real_Prob_Log) 1.00     1681     2127
+sd(Intercept)                           1.00      737      964
+sd(OSSameSide_Real_Prob_Log)            1.00      594      701
+cor(Intercept,OSSameSide_Real_Prob_Log) 1.00     1487     1584
 
 ~Language (Number of levels: 71) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.40      0.18     0.05     0.73 1.01      595     1211
+sd(Intercept)     0.40      0.18     0.03     0.74 1.01      517      434
 
 Population-Level Effects: 
                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-Intercept                    0.61      0.22     0.20     1.05 1.00     2447
-OSSameSide_Real_Prob_Log     0.65      0.17     0.34     0.98 1.00     2350
+Intercept                    0.61      0.21     0.21     1.05 1.00     2094
+OSSameSide_Real_Prob_Log     0.65      0.16     0.34     0.99 1.00     2980
                          Tail_ESS
-Intercept                    2449
-OSSameSide_Real_Prob_Log     2097
+Intercept                     985
+OSSameSide_Real_Prob_Log     2394
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential

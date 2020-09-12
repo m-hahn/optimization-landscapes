@@ -64,6 +64,10 @@
 \usepackage{amssymb}
 
 
+
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
 \usepackage{amsthm}
  
 
@@ -123,39 +127,51 @@ This work can be a useful reference (e.g., style of writing, and standard of fig
 {\color{blue}1. Problem motivation and significance - cross-linguistic variation in syntactic structure, and how it is central to understanding the nature of human language (e.g. Greenberg)}\\
 
 {\color{blue}2. Existing theory of efficient communication}
--Introduce efficiency-based explanations
+%-Introduce efficiency-based explanations
 
--Raise variation between languages and what efficiency-based theories have to say about it\\
+%-Raise variation between languages and what efficiency-based theories have to say about it\\
 
 {\color{blue}3. Relation of efficient communication and basic word order}
 
--Introduce basic word order
+% \cite{greenberg-universals-1963} 
 
-Several efficiency measures have been proposed as predictive theories of word order patterns.
-A particularly successful one is Dependency Length Minimization, also known as Domain Minimization and Head Proximity.
-This refers to the observation that languages tend to order words in such a way as to reduce the distance between syntactically related words, compared to other possible orderings.
+Human languages show both tremendous variation and striking similarities in their grammatical structure. Understanding these is central to the understanding of the nature of human language.
+A large body of research argues that similarities across languages are due to convergent evolution favoring efficient communication under cognitive resource limitations (CITE).
+In the domain of word order, prominent efficiency-based proposals are centered around various locality principles, which assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function (CITE).
+A prominent formalization of this idea is \key{Dependency Length Minimization}, the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words (CITE).
 This is supported by corpus studies on dozens of languages, and computational simulations show that it predicts word order universals.
-Dependency Length Minimization can be explained in terms of memory usage and general communicative efficiency.
+Dependency Length Minimization and related locality principles can be explained in terms of memory usage and general communicative efficiency.
+%Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
 
-To understand how DLM might make predictions about basic word order, we begin with a thought experiment. Now explain examples from presentations, in particular how frequency of co-expression of S and O can differentially favor SVO or SOV. {\color{blue} this is good -- i wonder if you want to illustrate the throught experiment or the basic idea of coadaptation in an opening diagram.}\\
+Variation between the grammars of different languages, and change of languages over time, pose an interesting question for such efficiency-based explanations.
+When languages differ, this could be because they reflect different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
+As languages change, they move along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
+However, it could also be because the way language is used differs between two languages, making different grammars most efficient given the ways languages are used differently.
+As a language changes, change in grammatical structure then has to be accompanied by change in the way the language is used, i.e., there is a process of \key{coadaptation} between grammar and use.
+In a different domain, \cite{gibson2017color} suggest that color naming systems are efficient given the usefulness of color in a society.
+
+Here, we present evidence for coadaptation in the domain of word order syntactic typology.
+Typologists have long classified languages according to their basic word order, the order in which they order verbs, subjects, and objects.
+About 40\% of the world's languages are classified as having subject-verb-object order (as in English, a dog bites a human), and 40 \% are classified as having subject-object-verb order (dog-human-bites) (CITE).
+Other orders, such as verb-subject-object (bites-dog-human) are less common.
+A large fraction of languages allows different orderings, though typically with one of the possible orderings being most common or least marked, which is considered its basic word order in the typological literature.
+
+In this paper, we examine whether variation between basic word orders reflects different optima, or coadaptation between grammar and usage, under Dependency Length Minimization (DLM) as the measure of efficiency.
+To understand how DLM might make predictions about basic word order, we begin with a thought experiment.
+We first consider a simple transitive sentence such as `dog bites a human' (Figure~\ref{fig:sent-dep}). \mhahn{TODO what to do about the English article? -- it distracts a bit by making dependencies longer. Maybe make it `dogs bite people', so it's more parallel to the Japanese?}
+DLM is defined formally in terms of Dependency Grammar (CITE).
+In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
+For instance, arcs link the verb to its subjects and objects.
+The length of an arc is one plus the number of other words that it crosses.
+The dependency length of an entire sentence is the sum of the lengths of all dependency arcs.
+
+In a simple sentence as in Figure~\ref{fig:sent-dep}, SVO order results in overall lower dependency length:
+In SVO order, both dependencies have length $1$, resulting in a total length of $2$.
+In SOV order, the arc between the verb and its subject is longer because it crosses the object, resulting in a total length of $3$.
+Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argued that DLM is generally optimized by SVO order, but we will see that the picture is more complex.
 
 
-{\color{blue}4. related to the above paragraph -- state limitations of existing theory/approach and our proposal. Articulate how existing theories of efficient communication may be limited or insufficient to explain basic word order variation across languages, and change over time. Therefore introduce the new proposal of coadaptation. (also, if we stick with ``coadaptation'', then don't use ``co-adaptation'') }
-
-Existing efficiency-based theories of word order variation:
-
-- UID
-
-
-\paragraph{Relation to prior work}
-
-{\color{blue}i think this section needs to be moved forward to the place where you introduced basic word order, in introduction.}
-
-- our results argue against work that has suggested SVO as the more efficient order (Gibson et al 2013, \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4534792/})
-
-
-
-\begin{figure}[ht]
+\begin{figure}
 %\begin{center}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
@@ -173,37 +189,21 @@ Existing efficiency-based theories of word order variation:
    \depedge{3}{1}{subject}
    \depedge{3}{2}{object}
 \end{dependency}
-
-
-
-%\end{center}
         \caption{SVO and SOV order. Simple sentences where both subjects and objects are expressed tend to favor SVO order.}
         \label{fig:sent-dep}
 \end{figure}
 
+However, now consider what happens in more complex sentences, where verbs are embedded as dependents of other words.
+In Figure~\ref{fig:sent-dep-embedded}, we consider sentences of the form `I think that big dogs bite humans'.
+Here, dependency length is 5 in SVO order, and 4 in SOV order, reversing the advantage  of SVO order seen in basic sentences.
+
+One might hypothesize that simple unembedded sentences are more frequent than more complex sentences, and that the advantage of SVO in more simple sentences outweighs its disadvantage in embedded contexts.
+However, this depends on the precise details of the frequency with which different syntactic configurations appear.
+For example, the advantage of SVO in simple sentences is neutralized in sentences where only a subject or only an object is expressed (Figure~\ref{fig:sent-dep-1arg}).
+Such sentences, while not always possible in English, are very frequent in languages like Japanese.
+This means that the frequency with which different configurations appear in language use influences the degree to which SVO or SOV order are more efficient for DLM.
+
 \begin{figure}
-\begin{dependency}[theme = simple]
-   \begin{deptext}[column sep=1em]
-   \japanese{人を} \& \japanese{噛みます}\\ 
-   hito-o \& kamimasu \\
-   HUMAN \& BITES  \\
-   \end{deptext}
-   \depedge{2}{1}{object}
-\end{dependency}
-\begin{dependency}[theme = simple]
-   \begin{deptext}[column sep=1em]
-   \japanese{犬は} \& \japanese{噛みます}\\ 
-   inu-wa \& kamimasu \\
-          DOG \& BITES  \\
-   \end{deptext}
-   \depedge{2}{1}{subject}
-\end{dependency}
-    \caption{The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.}
-    \label{fig:my_label}
-\end{figure}
-
-
-\begin{figure}[ht]
 %\begin{center}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
@@ -225,68 +225,214 @@ Existing efficiency-based theories of word order variation:
 \end{dependency}
 %\end{center}
         \caption{SVO and SOV order: Embedded contexts tend to favor SOV order.}
-        \label{fig:sent-dep}
+        \label{fig:sent-dep-embedded}
 \end{figure}
 
 
-\section{Study 1: Evidence for Co-Adaptation}
+
+
+\begin{figure}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+   \japanese{人を} \& \japanese{噛みます}\\ 
+   hito-o \& kamimasu \\
+   HUMAN \& BITES  \\
+   \end{deptext}
+   \depedge{2}{1}{object}
+\end{dependency}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+   \japanese{犬は} \& \japanese{噛みます}\\ 
+   inu-wa \& kamimasu \\
+          DOG \& BITES  \\
+   \end{deptext}
+   \depedge{2}{1}{subject}
+\end{dependency}
+%`someone/some animal/... bites a human' `dog bites someone/something'
+    \caption{The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.}
+    \label{fig:sent-dep-1arg}
+\end{figure}
+
+
+
+
+The reasoning above focused on SVO and SOV, but this approach can be extended to other orderings.
+The crucial difference between the two orderings was whether S and O are ordered on the same or on different sides of the verb.
+Other orderings can also be classified along this dimension, for instance, VSO as the third-most ordering patterns with SOV with respect to Figures \ref{fig:sent-dep}--\ref{fig:sent-dep-1arg}.
+
+In this work, we provide evidence that languages show coadaptation between their basic word order and the frequencies with which different syntactic configurations are used.
+Specifically, we contrast orderings that order S and O on the same or different sides of the verb.
+
+Note that DLM does not make predictions as to the direction in which S and O appear: As the length of dependencies does not depend on their direction, there is no difference between, say, SOV and VOS.
+Independent principles are needed to explain why SOV and SVO are more common than, say, VOS and OVS.
+A key component is a strong preference for subjects to come earlier (CITE).
+Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages (CITE).
+This principle favors, say, SVO over OVS, while being equally well satisfied by SVO and SOV order.
+
+%Now explain examples from presentations, in particular how frequency of co-expression of S and O can differentially favor SVO or SOV. {\color{blue} this is good -- i wonder if you want to illustrate the throught experiment or the basic idea of coadaptation in an opening diagram.}\\
+
+
+
+
+{\color{blue}4. related to the above paragraph -- state limitations of existing theory/approach and our proposal. Articulate how existing theories of efficient communication may be limited or insufficient to explain basic word order variation across languages, and change over time. Therefore introduce the new proposal of coadaptation. (also, if we stick with ``coadaptation'', then don't use ``co-adaptation'') }
+
+%\mhahn{TODO fix this}
+
+%existing proposals insufficient:
+
+
+
+%Existing efficiency-based theories of word order variation:
+
+There are a range of previous theories of basic word order variation.
+\cite{maurits2010why} propose that the frequency of different basic word order pattern is predicted by Uniform Information Density, the idea that information in language is distributed in such a way as to avoid peaks and troughs in the rate at which information is transmitted.
+Their model predicts object-initial order to be strongly dispreferred.
+However, it also suggests SVO to be more considerably more efficient than SOV, even on usage data from an SOV language (Japanese), in contrast with the empirically observed distribution.
+
+%(Gell-Mann  &  Ruhlen,  2011;  Givón,  1979;  Newmeyer,  2000a,  2000b).
+% (Senghas,  Coppola,  Newport,  &  Supalla,  1997
+% Sandler, Meir, Padden, & Aronoff, 2005
+% Goldin-Meadow, So, Ozyurek, and Mylander (2008) 
+% (Goldin-Meadow  et  al.,  2008), and Italian (Langus & Nespor, 2010)
+%Gershkoff-Stowe L, Goldin-Medow S (2002) Is there a natural order for expressingsemantic relations?Cognit Psychol45(3):375–412.13. 
+%Sandler W, Meir I, Padden C, Aronoff M (2005) The emergence of grammar: Sys-tematic structure in a new language.Proc Natl Acad Sci USA102(7):2661–2665.14. 
+%Goldin-Meadow S, So WC, Ozyürek A, Mylander C (2008) The natural order of events:How speakers of different languages represent events nonverbally.Proc Natl Acad SciUSA105(27):9163–9168.15. %Langus A, Nespor M (2010) Cognitive systems struggling for word order.CognitPsychol60(4):291–318
+\cite{gibson-noisy-channel-2013} argue that SVO order is more robust under noise in communication for semantically reversible events, because deletion of one argument due to noise makes meaning recovery easier when arguments are on different sides of the verb.
+Under this account, the high prevalence of SOV order is explained by the idea that SOV is the more default order, and that SVO order later results from shift.
+Indeed, there is evidence that SOV emerges spontaneously in gestural communication (CITE).
+\cite{maurits2014tracing} apply phylogenetic modeling to infer how frequently different changes in basic word order are.
+They do not find evidence that one of SOV or SVO is favored over the other in language change, and that languages can cycle between these two orders over time.
+%They do, however, find evidence that ancestral languages of multiple families were SOV.
+
+\cite{ferrer-i-cancho-placement-2017} argues that the variation is caused by a tension between optimizing DLM (thought to favor SVO) and making the verb predictable (thought to favor SOV). This hypothesis is predicated on the idea that DLM favors SVO, which our empirical results will show is not true in general.
+
+
+
+
+
+
+%http://tedlab.mit.edu/tedlab_website/researchpapers/Gibson_et_al_2013_PsychSci.pdf
+
+%- our results argue against work that has suggested SVO as the more efficient order (Gibson et al 2013, \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4534792/})
+
+%\url{https://www.eva.mpg.de/fileadmin/content_files/linguistics/conferences/2015-diversity-linguistics/Hammarstroem_slides.pdf}
+
+%- Trudgill,2011
+
+%- Gell-MannandRuhlen2011,MauritsandGriths2014
+
+\section{Study 1: Evidence for Coadaptation}
+
+We begin by testing whether, across languages, basic word order reflects coadaptation.
+We contrast two hypotheses: Basic word order reflects coadaptation between grammar and usage, and basic word order reflects different optima, or is not driven by optimization.
+In the first case, we expect that languages tend to have the basic word order that is most efficient given their usage distributions.
+In th second case
 
 We compare two groups of word orders: SVO-like order where S and O are ordered on different sides of the verb, and SOV/VSO-like order where S and O are ordered on the same side of the verb.
-DLM is invariant under reversal -- thus, DLM does not speak to the frequency of, say, SVO compared to OVS.
-Arguably, this is accounted for by a general bias for subjects to appear earlier, plausibly grounded in the fact that subjects often are animate and topical, two classes of referents that also tend to occur earlier in sentences.
-
-- subject and object simultaneously appear
-
-- Subject-Object Symmetry
-
 Languages can fall on a spectrum between languages with entirely strict SVO order and languages with entirely strict SOV order.
 Japanese falls entirely on one end of the spectrum, allowing only SOV and OSV order.
-We propose two quantitative metrics measuring where a language falls on this spectrum.
-First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments (\key{Same-Side Count}).\mhahn{Come up with names for these measures}
 
-This measure does not take into account what happens in sentences where only S or O is realized.
-Second, we propose \key{Subject-Object Symmetry} measuring the chance that two randomly selected instances of S and O from the corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs.
+We use three measures:
+
+First, we first use the label from WALS, which we partitioned into different-side, same-side, and free.
+
+Second, as a rough measure (CITE), corpus-based, whether O and S have the most-frequent direction in the treebank.
+
+Third, we use a quantitative corpus-based metric which we call \key{Subject-Object Symmetry}.
+This is the chance that two randomly selected instances of S and O from the corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs.
+
+%We propose two quantitative metrics measuring where a language falls on this spectrum.
+%First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments (\key{Same-Side Count}).\mhahn{Are there better names for these measures?}
+%This measure does not take into account what happens in sentences where only S or O is realized.
 
 
-We compare the symmetry measures between real observed word orders and hypothetical orderings optimized for Dependency Length Minimization.
+We compare these measures between real observed word orders and hypothetical orderings optimized for Dependency Length Minimization.
 To model such hypothetical orderings, we adopt the model of \key{counterfactural order grammar} introduced by (CITE).
 These are simple, parametric models parameterizing how the words in a syntactic structure are linearized depending on their syntactic relations.
 For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns.
-%To account for word order freedom, we adopt a stochastic version introduced by (CITE) that models probability distributions over possible orderings.
 We use the method of (CITE) to construct grammars that approximately minimize average dependency length using stochastic gradient descent.
 
-
+In order to approximately determine optimal orderings for a given language, we approximated the distribution over different syntactic configurations using large corpora.
+For each language, we construct orderings that are approximately optimized for DLM.
 In order to control for variation across different optima, for each of 72 languages, we construct 12 approximately optimized grammars, and compute the average Subject-Object Symmetry across these counterfactual orderings.
 
-We found that, in a mixed-effects model with languages and families as random effects, real subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = ...$, $95\% CrI [...]$, $P(\beta<0) = ...$).
+If there is coadaptation between usage and basic word order, we expect that the subject-object symmetry of optimized orderings predicts real orderings.
+Conversely, if different orders simply reflect different optima, or basic word order does not reflect DLM optimization, then no such association is expected.
 
-
-Correspondingly, we found a positive correlation between real Subject-Object Symmetry and the average subject-object symmetry of optimized grammars (R=..., p....).
-
+Results are shown in Figure~\ref{fig:study1}.
+%Without controlling for language families, predicted and real subject-object symmetry are correlated ($R=0.32$).
+To quantify the degree to which model output predicts real subject-object symmetry, we ran a Bayesian mixed-effects model with random slopes and intercepts per language family.
+Real subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
+%The same held for the same-side count ($\beta = 0.28$, $SE=0.09$,  $95\%$ credible interval $[0.11, 0.47]$, $P(\beta<0) = 0.00025$).
+This result agrees with the predictions of the \textsc{Coadaptation} hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
+It is incompatible with the \textsc{MultipleOptima} or \textsc{NoOptimization} hypotheses.
 
 {\color{blue} If you plan to go for NHB, then you can encapsulate some methodologies in the Methods section and focus on explaining and interpreting the main results.}
-
-These results are as predicted by the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
-
-Language change.
-
-For some languages, our database includes data from different stages.
-We visualize these in Figure~\ref{fig:historical}.
-The sample includes multiple languages that started with flexible order and moved towards SVO (English, French, Spanish, Russian, Bulgarian, Greek), languages that have remained SVO (Mandarin and Cantonese), and languages that have remained predominantly SOV (Hindi/Urdu).
-
--Results: Figure \ref{fig:study1} plus stats, historical visualization
-
-
--Possibly also describe control experiment using spoken corpora; {\color{blue} This can be good, particularly if you can find languages that span the spectrum of word order variation.}
-
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/fracion-optimized_DLM_2.6.pdf}
-    \caption{Study 1 (Prevalence of SOV-like order). x-axis real order distributions, y-axis model prediction.}
+    \caption{Study 1: Subject-object symmetry and real and optimized orderings. x-axis real order distributions, y-axis model prediction.}
     \label{fig:study1}
 \end{figure}
+
+
+\section{Analysis 2: Spoken Corpora}
+
+We have approximated the usage distribution over syntactic configurations using corpora.
+However, a large part of annotated corpus data is written (e.g., news and web text), whereas spoken language is thought to be most important for language change, particularly as widespread literacy is very recent.
+We verified that the conclusions of Analysis 1 continued to hold when using existing dependency treebanks that consist of transcribed spoken text.
+
+For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French).
+For Japanese, we used Tueba J/S, a treebank of telephone conversations.
+For English, we used a conversion of the Swuitchboard section of the Penn Treebank to Universal Dependencies.
+
+Results on these treebanks are shown in Figure~\ref{fig:spoken}.
+In a Bayesian linear regression, model output predicts real values ($\beta=1.11$, $SE=0.29$, $95\%$ CrI $[0.58, 1.69]$).\footnote{The small number of datapoints does not support a mixed-effects analysis. Even with strong priors and more iterations, we encountered small values of Tail Effective Sample Size. However, we found qualitatively similar results when excluding either English or Norwegian, in which case all languages come from different families, and the simple linear model is fully appropriate.}.
+This result is in agreement with that from the full set of corpora.
+\mhahn{TODO the other measure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{analysis_spoken/spoken.pdf}
+    \caption{Comparing subject-object symmetry using spoken corpora. We show the corresponding points using the full UD data in gray.}
+    \label{fig:spoken}
+\end{figure}
+
+
+
+\section{Analysis 3: Historical Evolution}
+
+
+If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages change.
+
+To test this, we specifically looked at languages where dependency treebanks with data from difgferent stages of the same language are available.
+
+We selected groups of treebanks that reflect different historical stages of the same language.
+In addition to treebanks from the UD project, we also brought in data from Old English from CITE (While there are some other historical treebanks such as Middle English, they are not in the dependency format, and calculating dependency length is highly nontrivial without a high-quality conversion).
+In some cases, different languages share a common ancestor (Mandarin and Cantonese, Spanish and French).
+
+The sample includes multiple languages that started with flexible order and moved towards SVO (English, French, Spanish, Russian, Bulgarian, Greek), languages that have remained SVO (Mandarin and Cantonese), and languages that have remained predominantly SOV (Hindi/Urdu).
+
+If the coadaptation hypothesis is true, then languages should stay close to or move towards the diagonal in the plane described by predicted and real subject-object symmetry.
+
+We visualize the results in Figure~\ref{fig:historical}.
+\mhahn{TODO the other measure}
+
+In the case of the languages that have remained SVO (Cantonese and Mandarin), predicted subject-object symmetry moved towards its true values; that is, these languages appear to have evolved their usage patterns in a way that makes their basic word order more efficient.
+
+Hindi/Urdu, which have remained predominantly SOV, show little movement in either dimension, slightly away from the diagonal.
+
+Finally, among the remaining languages, which started with flexible order and moved towards SVO, all moved along or towards the diagonal.
+
+\mhahn{is there a way to also quantify this result?}
+
+Beyond these observations, the coadaptation hypothesis predicts that a language that changed from SVO towards SOV should have correspondingly moved towards the top-right of the plane. 
+Currently, no annotated treebanks are available for such a language; our prediction can be tested once such a treebank becomes available.
+
+
+
 
 
 \begin{figure}
@@ -299,19 +445,24 @@ The sample includes multiple languages that started with flexible order and move
 
 
 
-\section{Study 2: Co-Expressing Subjects and Objects}
+\section{Analysis 4: Co-Expressing Subjects and Objects}
 
--In what ways do usage patterns influence which word order is optimally efficient?
+So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of language.
+In what aspects of usage patterns do languages differ and change to realize this coadaptation?
+That is, in what ways do usage patterns influence which basic word order is optimally efficient?
+Based on the discussion in the introduction, we hypothesized that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
 
--Co-expression of subjects and objects (referenced from the thought experiment above)
+We quantified the frequency of co-expression of subjects and objects by calculating what fraction of all verbs that realize at least a subject or an object simultaneously realize both.
 
--Results: Figure \ref{fig:study2} plus stats
+We show this ratio together with subject-object symmetry in Figure~\ref{fig:study2}.
+In a linear mixed-effects models, with by-family intercept and slope, subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).\mhahn{TODO the other measure}
 
-{\color{blue}Did you mention that there were some novel discoveries or generalizations, do you want to mention them here?}
+
+%{\color{blue}Did you mention that there were some novel discoveries or generalizations, do you want to mention them here?}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/objects-order-families.pdf}
+    \includegraphics[width=0.95\textwidth]{figures/objects-order-pureud-byVerb.pdf}
     \caption{Study 2 (Coexpression of suibjects and objects)}
     \label{fig:study2}
 \end{figure}
@@ -373,31 +524,31 @@ While (CITE) introduced this stochastic parameterization to enable gradient-base
 \paragraph{Data}
 
 \begin{tabular}{llll} \hline
-Chinese (Cantonese) & Classical Chinese (-400)  \\
-& Cantonese \\ \hline
+Chinese (Cantonese) & Classical Chinese & -400  \\
+& Cantonese & +2000\\ \hline
 Chinese (Mandarin) & Classical Chinese (-400)  \\
-& Mandarin \\ \hline
-East Slavic & Old Russian \\
-& Russian \\ \hline
-English & Old English \\
-& English \\ \hline
-French & Latin \\
-& Old French \\
-& French \\ \hline
-Greek & Ancient Greek \\
-& Greek \\ \hline
-Hindi/Urdu & Sanskrit \\
-& Hindi \\
-& Urdu \\ \hline
-South Slavic & Old Church Slavonic \\
-& Bulgarian \\ \hline
-Spanish & Latin \\
-& Spanish \\ \hline
+& Mandarin & +2000 \\ \hline
+East Slavic & Old Russian & +1200 \\
+& Russian & +2000 \\ \hline
+English & Old English & +900 \\
+& English  & +2000\\ \hline
+French & Latin &+0  \\
+& Old French &+1200\\
+& French  & +2000\\ \hline
+Greek & Ancient Greek & +0 \\
+& Greek  & +2000\\ \hline
+Hindi/Urdu & Sanskrit & -200 \\
+& Hindi  & +2000\\
+& Urdu  & +2000\\ \hline
+South Slavic & Old Church Slavonic & +800 \\
+& Bulgarian  & +2000\\ \hline
+Spanish & Latin &+0 \\
+& Spanish  & +2000\\ \hline
 \end{tabular}
 
 (Hindi/Urdu are a single language linguistically, but they have separate treebanks in the available datasets.)
 \bibliography{literature}
-\bibliographystyle{acl_natbib}
+\bibliographystyle{natbib}
 
 
 \end{document}
