@@ -7,7 +7,7 @@ import sys
 header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
 
 
-def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
+def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True, errorWhenEmpty=True):
       assert partition != "together"
       l = language.split("_")
       language = "_".join(l[:-1])
@@ -15,7 +15,7 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
       #print(l, language)
       basePath = "/u/scr/corpora/Universal_Dependencies/Universal_Dependencies_"+version+"/ud-treebanks-v"+version+"/"
       print(basePath, language, version)
-      files = os.listdir(basePath)
+      files = sorted(os.listdir(basePath))
       files = list(filter(lambda x:x.startswith("UD_"+language.replace("-Adap", "")), files))
       print >> sys.stderr, ("FILES", files)
       data = []
@@ -50,15 +50,15 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
               data = data + newData
         except IOError:
            print >> sys.stderr, ("Did not find "+dataPath)
-
-      assert len(data) > 0, (language, partition, files)
+      if errorWhenEmpty:
+         assert len(data) > 0, (language, partition, files)
 
 
       print >> sys.stderr, ("Read "+str(len(data))+ " sentences from "+str(len(files))+" "+partition+" datasets. "+str(files)+"   "+basePath)
       return data
 
 class CorpusIterator_V():
-   def __init__(self, language, partition, storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
+   def __init__(self, language, partition, storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True, errorWhenEmpty=True):
       print >> sys.stderr, ("LANGUAGE", language)
       if splitLemmas:
            assert language == "Korean"
@@ -84,7 +84,7 @@ class CorpusIterator_V():
          assert len(data) > 0, (language, partition)
         
       else:
-          data = readUDCorpus(language, partition, ignoreCorporaWithoutWords=ignoreCorporaWithoutWords)
+          data = readUDCorpus(language, partition, ignoreCorporaWithoutWords=ignoreCorporaWithoutWords, errorWhenEmpty=errorWhenEmpty)
       if shuffleData:
        if shuffleDataSeed is None:
          random.shuffle(data)
@@ -94,7 +94,8 @@ class CorpusIterator_V():
       self.data = data
       self.partition = partition
       self.language = language
-      assert len(data) > 0, (language, partition)
+      if errorWhenEmpty:
+         assert len(data) > 0, (language, partition)
    def permute(self):
       random.shuffle(self.data)
    def length(self):
