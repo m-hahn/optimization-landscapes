@@ -1,0 +1,43 @@
+library(dplyr)
+library(tidyr)
+
+
+data = read.csv("/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_PTB/auto-summary-lstm_2.6.tsv", sep="\t")
+
+sbj = data %>% filter(CoarseDependency == "nsubj") %>% mutate(SBJ_DH = sign(DH_Weight)) %>% select(SBJ_DH, FileName, HeadPOS, DependentPOS)
+comp = data %>% filter(CoarseDependency == "obj") %>% mutate(COMP_DH = sign(DH_Weight)) %>% select(COMP_DH, FileName)
+
+
+data = merge(sbj, comp, by=c("FileName"))
+
+#(('P', 'comp', 'NT'), 1035)
+#(('V', 'sbj', 'N'), 1076)
+#(('VS', 'punct', '.'), 1078)
+#(('PV', 'adj', 'PS'), 1102)
+#(('PV', 'punct', '.'), 1205)
+#(('UNIT', '-', 'CD'), 1270)
+#(('PS', 'comp', 'V'), 1353)
+#(('V', 'adj', 'ADV'), 1356)
+#(('N', 'comp', 'N'), 1413)
+#(('CD', 'hd', 'CD'), 1463)
+#(('V', 'sbj', 'P'), 1510)
+#(('V', 'adj', 'P'), 1517)
+#(('VAUX', 'comp', 'V'), 1747)
+#(('V', 'punct', '.'), 1804)
+#(('PV', 'comp', 'ADJ'), 1890)
+#(('VS', 'comp', 'N'), 2029)
+#(('P', 'comp', 'NAME'), 2325)
+#(('N', 'comp', 'V'), 2499)
+#(('P', 'comp', 'CD'), 2850)
+#(('PV', 'comp', 'ADV'), 2919)
+#(('PS', 'comp', 'PV'), 3426)
+#(('N', 'adj', 'P'), 3427)
+#(('N', 'comp', 'P'), 3793)
+#(('ITJ', 'punct', '.'), 4078)
+#(('N', 'mrk', 'P'), 4096)
+#(('PV', 'comp', 'N'), 4265)
+#(('PV', 'mrk', 'PS'), 5525)
+#(('V', 'comp', 'P'), 5581)
+#(('PS', 'punct', '.'), 7549)
+#(('P', 'comp', 'N'), 14489)
+
