@@ -13,7 +13,7 @@ parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=random.choice([0.01, 0.1]))
 parser.add_argument('--momentum', type=float, default=0.9)
-parser.add_argument('--surprisalWeight', type=float, default=random.choice([0.25, 0.5, 0.75, 1.0]))
+parser.add_argument('--surprisalWeight', type=float, default=random.choice([0.25, 0.5])) #[0.25, 0.5, 0.75, 1.0]))
 
 args = parser.parse_args()
 

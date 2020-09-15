@@ -30,6 +30,8 @@ for f in files:
    dist_a += abs(np.index("A") - np.index("_"))/(len(files)+0.0)
    args_ = dict([x.split("=") for x in args[3:-3]])
    print(language, "\t", order, [x for x in correl if d(x) == d("obj")], "\t", [x for x in correl if d(x) != d("obj")], "\t", args[:3], "\t", np, "\t", args_.get("aucWeight", "NA"))
+#   if args_.get("aucWeight", "NA") != "0.5":
+ #    continue
    byLanguage[language].append(order)
    for x in correl:
      if d(x) == d("obj"):
