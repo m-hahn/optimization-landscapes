@@ -1,0 +1,17 @@
+Amharic_2.6
+Bambara_2.6
+Breton_2.6
+Buryat_2.6
+Cantonese_2.6
+Erzya_2.6
+Faroese_2.6
+Icelandic_2.6
+Kazakh_2.6
+Kurmanji_2.6
+Mbya_Guarani_2.6
+North_Sami_2.6
+Sanskrit_2.6
+Sindhi_2.6
+Thai_2.6
+Welsh_2.6
+Yoruba_2.6

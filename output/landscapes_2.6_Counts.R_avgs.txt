@@ -336,7 +336,8 @@ Chain 3:                0.417493 seconds (Sampling)
 Chain 3:                1.07948 seconds (Total)
 Chain 3: 
 
-SAMPLING FOR MODEL '7cc25efbf6d5041926abaf8a7128ba54' NOW (CHAIN 4).
+SAMPLING FOR MODEL '7
+c25efbf6d5041926abaf8a7128ba54' NOW (CHAIN 4).
 Chain 4: 
 Chain 4: Gradient evaluation took 5.8e-05 seconds
 Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.58 seconds.
