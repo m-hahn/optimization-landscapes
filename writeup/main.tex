@@ -86,7 +86,7 @@
 
 \newcommand{\R}[0]{\mathbb{R}}
 \newcommand{\Ff}[0]{\mathcal{F}}
-\newcommand{\key}[1]{\textbf{#1}}
+\newcommand{}[1]{\textbf{#1}}
 
 
 \newcommand{\soft}[1]{}
@@ -99,7 +99,7 @@
 \newcommand{\thetap}[0]{{\theta_{P}}}
 
 
-\title{Coadaptation between usage and grammar in the evolution of basic word order}
+\title{Coadaptation between usage and grammar in the evolution of word order}
 
 \author{Michael Hahn and Yang Xu}
 
@@ -112,8 +112,8 @@ Languages vary considerably in syntactic structure.
 About 40\% of the world's languages have subject-verb-object order, and about 40\% have subject-object-verb order.
 A wide range of existing work has argued that the structure of human language reflects adaptation toward efficiency in communication.
 In these studies, variation across languages can reflect different optima or points along a Pareto frontier.
-We report evidence for an additional functional pressure in the evolution of basic word order across languages:
-Coadaptation between usage and grammar. We show across 72 languages that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint efficiency consideration of grammar for Dependency Length Minimization.
+We report evidence for an additional functional pressure in the evolution of word order across languages:
+Coadaptation between usage and grammar. We show across 72 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint efficiency consideration of grammar for Dependency Length Minimization.
 We show further that historical word order change over time is accompanied by change in the usage distributions.
 We identify relevant characteristics that reflect this joint optimization, in particular the frequency with which subjects and objects are expressed together for the same verb.
 Our findings highlight that functional optimization in language structure and in language usage go hand in hand in shaping the evolution of syntactic structure across languages.
@@ -141,7 +141,7 @@ A large body of research argues that similarities across languages are due to co
 
 One key dimension that languages vary along is word order.
 Typologists have long classified languages according to their basic word order, the order in which they order verbs, subjects, and objects.
-About 40\% of the world's languages are classified as having subject-verb-object order (\key{SVO}, as in English, a dog bites a human), and 40 \% are classified as having subject-object-verb order (\key{SOV}, dog-human-bites) (CITE).
+About 40\% of the world's languages are classified as having subject-verb-object order ({SVO}, as in English, a dog bites a human), and 40 \% are classified as having subject-object-verb order ({SOV}, dog-human-bites) (CITE).
 Other orders, such as verb-subject-object (bites-dog-human) are less common.
 A large fraction of languages allows different orderings, though typically with one of the possible orderings being most common or least marked, which is considered its basic word order in the typological literature.
 
@@ -152,20 +152,20 @@ On the other hand, phylogenetic modeling suggests that languages can cycle betwe
 Efficiency-based accounts have been argued to either favor SVO or SOV \citep{maurits-why-2010, gibson-noisy-channel-2013, ferrer-i-cancho-placement-2017}.
 
 In this work, we suggest a new explanation for the distribution of SOV and SVO order:
-\key{Coadaptation} between grammar and usage.
+{Coadaptation} between grammar and usage.
 We argue that neither SVO nor SOV are more efficient in principle.
 Rather, languages tend to have the basic word order that is most communicatively efficient given the utterances speakers typically produce.
 As languages change, usage and grammar coevolve; change in usage goes hand-in-hand with change in basic word order.
 
-In the domain of word order, prominent efficiency-based proposals are centered around various locality principles, which assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function (CITE).
-A prominent formalization of this idea is \key{Dependency Length Minimization}, the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,futrell-cross-linguistic-2015, liu-dependency-2017}.
+In the domain of word order, prominent efficiency-based proposals are centered around various locality principles, which assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function \citep{behaghel1932deutsche,givon1985iconicity,rijkhoff-word-1986,hawkins-performance-1994}.
+A prominent formalization of this idea is {Dependency Length Minimization} (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,futrell-cross-linguistic-2015, liu-dependency-2017}.
 This is supported by corpus studies on dozens of languages, and explains word order universals \citep{rijkhoff-word-1986, hawkins-performance-1994, hahn2020universals}.
 Dependency Length Minimization and related locality principles can be explained in terms of memory usage \citep{gibson-linguistic-1998} and general communicative efficiency \citep{hahn2020universals}.
 %Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
 
 In this paper, we argue that languages have the basic word orders that are most efficient for DLM, given the utterances typically produced in a language.
 To understand how DLM might make predictions about basic word order, we begin with a thought experiment.
-We first consider a simple transitive sentence such as `dog bites a human' (Figure~\ref{fig:sent-dep}). \mhahn{TODO what to do about the English article? -- it distracts a bit by making dependencies longer. Maybe make it `dogs bite people', so it's more parallel to the Japanese?}
+We first consider a simple transitive sentence such as `dogs bite people' (Figure~\ref{fig:sent-dep}A). 
 DLM is defined formally in terms of Dependency Grammar (CITE).
 In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
 For instance, arcs link the verb to its subjects and objects.
@@ -180,9 +180,10 @@ Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argue
 
 \begin{figure}
 %\begin{center}
+\textbf{A}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
-          dog \& bites \& human  \\
+          dogs \& bite \& people  \\
    \end{deptext}
    \depedge{2}{1}{subject}
    \depedge{2}{3}{object}
@@ -196,25 +197,11 @@ Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argue
    \depedge{3}{1}{subject}
    \depedge{3}{2}{object}
 \end{dependency}
-        \caption{SVO and SOV order. Simple sentences where both subjects and objects are expressed tend to favor SVO order.}
-        \label{fig:sent-dep}
-\end{figure}
 
-However, now consider what happens in more complex sentences, where verbs are embedded as dependents of other words.
-In Figure~\ref{fig:sent-dep-embedded}, we consider sentences of the form `I think that big dogs bite humans'.
-Here, dependency length is 5 in SVO order, and 4 in SOV order, reversing the advantage  of SVO order seen in basic sentences.
-
-One might hypothesize that simple unembedded sentences are more frequent than more complex sentences, and that the advantage of SVO in more simple sentences outweighs its disadvantage in embedded contexts.
-However, this depends on the precise details of the frequency with which different syntactic configurations appear.
-For example, the advantage of SVO in simple sentences is neutralized in sentences where only a subject or only an object is expressed (Figure~\ref{fig:sent-dep-1arg}).
-Such sentences, while not always possible in English, are very frequent in languages like Japanese.
-This means that the frequency with which different configurations appear in language use influences the degree to which SVO or SOV order are more efficient for DLM.
-
-\begin{figure}
-%\begin{center}
+B
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
-       thinks that \& a big dog \& bites \& human  \\
+       thinks that \& big dogs \& bite \& people  \\
    \end{deptext}
     \depedge{1}{3}{subject}
    \depedge{3}{2}{subject}
@@ -230,20 +217,13 @@ This means that the frequency with which different configurations appear in lang
    \depedge{3}{2}{object}
    \depedge{4}{3}{object}
 \end{dependency}
-%\end{center}
-        \caption{SVO and SOV order: Embedded contexts tend to favor SOV order.}
-        \label{fig:sent-dep-embedded}
-\end{figure}
 
-
-
-
-\begin{figure}
+C
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
    \japanese{人を} \& \japanese{噛みます}\\ 
    hito-o \& kamimasu \\
-   HUMAN \& BITES  \\
+   HUMAN \& BITE  \\
    \end{deptext}
    \depedge{2}{1}{object}
 \end{dependency}
@@ -251,15 +231,24 @@ This means that the frequency with which different configurations appear in lang
    \begin{deptext}[column sep=1em]
    \japanese{犬は} \& \japanese{噛みます}\\ 
    inu-wa \& kamimasu \\
-          DOG \& BITES  \\
+          DOG \& BITE  \\
    \end{deptext}
    \depedge{2}{1}{subject}
 \end{dependency}
-%`someone/some animal/... bites a human' `dog bites someone/something'
-    \caption{The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.}
-    \label{fig:sent-dep-1arg}
+
+        \caption{A: Word order variation across languages. English (left) follows Subject-Verb-Object (SVO) order. Japanese (right) follows Subject-Object-Verb (SOV) order. Such simple sentences where both subjects and objects are expressed tend to favor SVO order. B: Embedded contexts tend to favor SOV order. C: The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.}
+        \label{fig:sent-dep}
 \end{figure}
 
+However, now consider what happens in more complex sentences, where verbs are embedded as dependents of other words.
+In Figure~\ref{fig:sent-dep-embedded}, we consider sentences of the form `I think that big dogs bite people'.
+Here, dependency length is 5 in SVO order, and 4 in SOV order, reversing the advantage  of SVO order seen in basic sentences.
+
+One might hypothesize that simple unembedded sentences are more frequent than more complex sentences, and that the advantage of SVO in more simple sentences outweighs its disadvantage in embedded contexts.
+However, this depends on the precise details of the frequency with which different syntactic configurations appear.
+For example, the advantage of SVO in simple sentences is neutralized in sentences where only a subject or only an object is expressed (Figure~\ref{fig:sent-dep-1arg}).
+Such sentences, while not always possible in English, are very frequent in languages like Japanese.
+This means that the frequency with which different configurations appear in language use influences the degree to which SVO or SOV order are more efficient for DLM.
 
 
 
@@ -324,16 +313,16 @@ English is close to one end of the spectrum with dominant SVO order, with rare e
 Japanese falls entirely on one end of the spectrum, allowing only SOV and OSV order.
 Many languages occupy intermediate positions; for instance, in Russian, all logically possible orderings of S, V, O can occur, though with different frequencies.
 
-We quantify the position of an individual language on this continuum using a quantitative corpus-based metric which we call \key{Subject-Object Symmetry}.
+We quantify the position of an individual language on this continuum using a quantitative corpus-based metric which we call {Subject-Object Symmetry}.
 This is the chance that two randomly selected instances of S and O from the corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs. This number is 1 in strict SOV languages like Japanese, close to 0.5 in languages with flexible word order, and close to 0 in English.
 
 %We propose two quantitative metrics measuring where a language falls on this spectrum.
-%First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments (\key{Same-Side Count}).\mhahn{Are there better names for these measures?}
+%First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments ({Same-Side Count}).\mhahn{Are there better names for these measures?}
 %This measure does not take into account what happens in sentences where only S or O is realized.
 
 
 We compare these measures between real observed word orders and hypothetical orderings optimized for Dependency Length Minimization.
-To model such hypothetical orderings, we adopt the model of \key{counterfactural order grammar} introduced by (CITE).
+To model such hypothetical orderings, we adopt the model of {counterfactural order grammar} introduced by (CITE).
 These are simple, parametric models parameterizing how the words in a syntactic structure are linearized depending on their syntactic relations.
 For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns.
 We use the method of (CITE) to construct grammars that approximately minimize average dependency length using stochastic gradient descent.
@@ -365,7 +354,7 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 \end{figure}
 
 
-\section{Analysis 2: Spoken Corpora}
+%\section{Analysis 2: Spoken Corpora}
 
 We have approximated the usage distribution over syntactic configurations using corpora.
 However, a large part of annotated corpus data is written (e.g., news and web text), whereas spoken language is thought to be most important for language change, particularly as widespread literacy is very recent.
@@ -432,7 +421,7 @@ Currently, no annotated treebanks are available for such a language; our predict
 
 
 
-\section{Analysis 4: Co-Expressing Subjects and Objects}
+\section{Analysis 4: Co-Expression of Subjects and Objects}
 
 So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of language.
 In what aspects of usage patterns do languages differ and change to realize this coadaptation?
@@ -490,7 +479,7 @@ Variation between the grammars of different languages, and change of languages o
 When languages differ, this could be because they reflect different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
 As languages change, they move along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
 However, it could also be because the way language is used differs between two languages, making different grammars most efficient given the ways languages are used differently.
-As a language changes, change in grammatical structure then has to be accompanied by change in the way the language is used, i.e., there is a process of \key{coadaptation} between grammar and use.
+As a language changes, change in grammatical structure then has to be accompanied by change in the way the language is used, i.e., there is a process of {coadaptation} between grammar and use.
 In a different domain, \cite{gibson2017color} suggest that color naming systems are efficient given the usefulness of color in a society.
 
 \paragraph{More detailed discussion of previous work (should partly go into intro?}
