@@ -59,14 +59,13 @@ Russian_2.6	Old_Russian_2.6	Slavic	Indo_European
 Sanskrit_2.6	Indo_Iranian	Indo_European
 Scottish_Gaelic_2.6	Insular_Celtic
 Serbian_2.6	Serbo_Croatian	South_Slavic	Slavic	Indo_European
-Sindhi_2.6	Sanskrit_2.6	Indo_Iranian	Indo_European
 Slovak_2.6	West_Slavic	Slavic	Indo_European
 Slovenian_2.6	South_Slavic	Slavic	Indo_European
 Spanish_2.6	Latin_2.6	Indo_European
 Swedish_2.6	North_Germanic	Germanic	Indo_European
 Thai_2.6	Tai-Kadai
 Turkish_2.6	Turkic
-Ukrainian_2.6	Slavic	Indo_European
+Ukrainian_2.6	Old_Russian_2.6	Slavic	Indo_European
 Urdu_2.6	Hindustani	Sanskrit_2.6	Indo_Iranian	Indo_European
 Uyghur_2.6	Turkic
 Vietnamese_2.6	Viet-Muong
