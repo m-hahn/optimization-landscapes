@@ -25,6 +25,13 @@ for line in data:
 
 observations = [y for _, y in observations.items()]
 
+for i in range(len(observations)):
+    x = observations[i]
+    if x[0][0] > x[1][0]:
+        observations[i] = observations[i][::-1]
+    x = observations[i]
+    assert x[0][0] < x[1][0], x
+
 import torch
 
 xmean = 0 #torch.FloatTensor([0.0])
