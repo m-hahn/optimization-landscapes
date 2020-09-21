@@ -9,7 +9,7 @@ data {
   int ParentIndex[TotalN];
   int Total2Observed[TotalN];
   int Total2Hidden[TotalN];
-  int ParentDistance[TotalN];
+  vector<lower=0>[TotalN] ParentDistance;
   int prior_only;  // should the likelihood be ignored?
   int Components;
 }
@@ -19,7 +19,6 @@ parameters {
   matrix<lower=0, upper=1>[HiddenN, 2] TraitsHidden;
 }
 model {
-  int parent;
   matrix[TotalN-1, 2] own;
   matrix[TotalN-1, 2] reference;
   matrix[2, 2] LSigma = diag_pre_multiply(sd_1, Lrescor);
@@ -27,7 +26,7 @@ model {
     - 2 * student_t_lccdf(0 | 3, 0, 2.5);
   target += lkj_corr_cholesky_lpdf(Lrescor | 1);
   for (n in 2:TotalN) {
-     if (IsHidden[parent]) {
+     if (IsHidden[ParentIndex[n]]) {
          reference[n-1] = TraitsHidden[Total2Hidden[ParentIndex[n]]];
      } else {
          reference[n-1] = TraitsObserved[Total2Observed[ParentIndex[n]]];
@@ -39,5 +38,9 @@ model {
      }
      target += multi_normal_cholesky_lpdf(own[n-1] | reference[n-1], sqrt(ParentDistance[n]) * LSigma);
   }
+}
+generated quantities {
+  // residual correlations
+  corr_matrix[Components] Rescor = multiply_lower_tri_self_transpose(Lrescor);
 }
 
