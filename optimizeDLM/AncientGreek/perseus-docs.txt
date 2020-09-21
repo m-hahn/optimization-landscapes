@@ -1,0 +1,99 @@
+===== Sophocles
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0011.tlg002.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Sophocles</author> <title>Sophocles. Vol 1: Oedipus the king. Oedipus at Colonus. Antigone. With an English translation by F. Storr. The Loeb classical library, 20.</title> <editor role="editor">Francis Storr</editor> <imprint> <pubPlace>London; New York</pubPlace> <publisher>William Heinemann Ltd.; The Macmillan Company</publisher> <date>1912</date> </imprint> </monogr> </biblStruct>
+===== Homer
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0020.tlg002.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Hesiod</author> <title>The Homeric Hymns and Homerica with an English Translation by Hugh G. Evelyn-White. Works and Days.</title> <imprint> <publisher>Cambridge, MA.,Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1914</date> </imprint> </monogr> </biblStruct>
+===== Sophocles
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0011.tlg005.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Sophocles</author> <title>Sophocles. Vol 2: Ajax. Electra. Trachiniae. Philoctetes With an English translation by F. Storr. The Loeb classical library, 21.</title> <editor role="editor">Francis Storr</editor> <imprint> <pubPlace>London; New York</pubPlace> <publisher>William Heinemann Ltd.; The Macmillan Company</publisher> <date>1913</date> </imprint> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg007.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 2.Eumenides</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Athenaeus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0008.tlg001.perseus-grc1.12.tb.xml
+<biblStruct> <monogr> <author>Athenaeus</author> <title>The Deipnosophists</title> <respStmt> <resp>with an English Translation by</resp> <name>Charles Burton Gulick</name> </respStmt> <imprint> <pubPlace>Cambridge, MA</pubPlace> <publisher>Harvard University Press</publisher> <pubPlace>London</pubPlace> <publisher>William Heinemann Ltd.</publisher> <date>1927</date> </imprint> <biblScope type="volume">1</biblScope> </monogr> </biblStruct>
+===== Aesop
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0096.tlg002.opp-grc2.1-53.tb.xml
+<biblStruct> <monogr> <title>Aesopi Fabulae by Aemilius Chambry</title> <author>Aesop</author> <imprint> <publisher>Les Belles Lettres</publisher> <date>1925</date> </imprint> <biblScope>1-53</biblScope> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg002.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 1.Persians</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Plutarch
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0007.tlg004.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Plutarch</author> <title>Plutarch's Lives</title> <respStmt> <resp>with an English Translation by</resp> <name>Bernadotte Perrin</name> </respStmt> <imprint> <pubPlace>Cambridge, MA</pubPlace> <publisher>Harvard University Press</publisher> <pubPlace>London</pubPlace> <publisher>William Heinemann Ltd.</publisher> <date>1914</date> </imprint> <biblScope type="volume">1</biblScope> <biblScope>Lycurgus</biblScope> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg001.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 1.Suppliant Women</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Sophocles
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0011.tlg003.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Sophocles</author> <title>Sophocles. Vol 2: Ajax. Electra. Trachiniae. Philoctetes With an English translation by F. Storr. The Loeb classical library, 21.</title> <editor role="editor">Francis Storr</editor> <imprint> <pubPlace>London; New York</pubPlace> <publisher>William Heinemann Ltd.; The Macmillan Company</publisher> <date>1913</date> </imprint> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg006.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 2.Libation Bearers</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Sophocles
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0011.tlg004.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Sophocles</author> <title>Sophocles. Vol 1: Oedipus the king. Oedipus at Colonus. Antigone. With an English translation by F. Storr. The Loeb classical library, 20.</title> <editor role="editor">Francis Storr</editor> <imprint> <pubPlace>London; New York</pubPlace> <publisher>William Heinemann Ltd.; The Macmillan Company</publisher> <date>1912</date> </imprint> </monogr> </biblStruct>
+===== Thucydides
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0003.tlg001.perseus-grc1.1.tb.xml
+<biblStruct> <monogr> <author>Thucydides</author> <title>Historiae in two volumes</title> <imprint> <publisher>Oxford, Oxford University Press</publisher> <date>1942</date> </imprint> <biblScope>Book I</biblScope> </monogr> </biblStruct>
+===== Sophocles
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0011.tlg001.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Sophocles</author> <title>Sophocles. Vol 2: Ajax. Electra. Trachiniae. Philoctetes With an English translation by F. Storr. The Loeb classical library, 21.</title> <editor role="editor">Francis Storr</editor> <imprint> <pubPlace>London; New York</pubPlace> <publisher>William Heinemann Ltd.; The Macmillan Company</publisher> <date>1913</date> </imprint> </monogr> </biblStruct>
+===== Hesiod
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0020.tlg001.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Hesiod</author> <title>The Homeric Hymns and Homerica with an English Translation by Hugh G. Evelyn-White. Theogony.</title> <imprint> <publisher>Cambridge, MA.,Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1914</date> </imprint> </monogr> </biblStruct>
+===== Lysias
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0540.tlg014.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Lysias</author> <title>Lysias with an English translation by W.R.M. Lamb, M.A.</title> <imprint> <publisher>Cambridge, MA, Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1930</date> </imprint> <biblScope>Against Alcibiades 1</biblScope> </monogr> </biblStruct>
+===== Diodorus Siculus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0060.tlg001.perseus-grc3.11.tb.xml
+<biblStruct> <monogr> <author>Diodorus Siculus</author> <title>Diodorus of Sicily in Twelve Volumes with an English Translation by C. H. Oldfather. Vol. 4-8</title> <imprint> <publisher>Cambridge, Mass.: Harvard University Press; London: William Heinemann, Ltd.</publisher> <date>1989</date> </imprint> </monogr> </biblStruct>
+===== Herodotus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0016.tlg001.perseus-grc1.1.tb.xml
+<biblStruct> <monogr> <author>Herodotus</author> <title>Herodotus, with an English translation by A. D. Godley</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Harvard University Press</publisher> <date>1920</date> </imprint> <biblScope>Liber I</biblScope> </monogr> </biblStruct>
+===== Polybius
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0543.tlg001.perseus-grc1.tb.xml
+<biblStruct> <monogr> <title>Historiae</title> <author>Polybius</author> <editor role="editor">Theodorus Büttner-Wobst after L. Dindorf</editor> <imprint> <pubPlace>Leipzig</pubPlace> <publisher>Teubner</publisher> <date>1893-</date> </imprint> <biblScope>Book I</biblScope> </monogr> </biblStruct>
+===== Homer
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0013.tlg002.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Anonymous</author> <title>The Homeric Hymns and Homerica with an English Translation by Hugh G. Evelyn-White. Homeric Hymns</title> <imprint> <publisher>Cambridge, MA.,Harvard University Press; London, William HeinemannLtd.</publisher> <date>1914</date> </imprint> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg003.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 1.Prometheus</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg004.perseus-grc2.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 1.Seven Against Thebes</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Homer
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0012.tlg002.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Homer</author> <title>The Odyssey with an English Translation by A.T. Murray, PH.D. in two volumes</title> <imprint> <publisher>Cambridge, MA., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1919</date> </imprint> </monogr> </biblStruct>
+===== Plato
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0059.tlg001.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Plato</author> <title>Platonis Opera, ed. John Burnet</title> <imprint> <publisher>Oxford University Press</publisher> <date>1903</date> </imprint> </monogr> </biblStruct>
+===== Lysias
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0540.tlg023.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Lysias</author> <title>Lysias with an English translation by W.R.M. Lamb, M.A.</title> <imprint> <publisher>Cambridge, MA, Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1930</date> </imprint> </monogr> </biblStruct>
+===== Hesiod
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0020.tlg003.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Hesiod</author> <title>The Homeric Hymns and Homerica with an English Translation by Hugh G. Evelyn-White. Shield of Heracles</title> <imprint> <publisher>Cambridge, MA.,Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1914</date> </imprint> </monogr> </biblStruct>
+===== Athenaeus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0008.tlg001.perseus-grc1.13.tb.xml
+<biblStruct> <monogr> <author>Athenaeus</author> <title>The Deipnosophists</title> <respStmt> <resp>with an English Translation by</resp> <name>Charles Burton Gulick</name> </respStmt> <imprint> <pubPlace>Cambridge, MA</pubPlace> <publisher>Harvard University Press</publisher> <pubPlace>London</pubPlace> <publisher>William Heinemann Ltd.</publisher> <date>1927</date> </imprint> <biblScope type="volume">1</biblScope> </monogr> </biblStruct>
+===== Lysias
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0540.tlg001.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Lysias</author> <title>Lysias with an English translation by W.R.M. Lamb, M.A.</title> <imprint> <publisher>Cambridge, MA, Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1930</date> </imprint> </monogr> </biblStruct>
+===== Lysias
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0540.tlg015.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Lysias</author> <title>Lysias with an English translation by W.R.M. Lamb, M.A.</title> <imprint> <publisher>Cambridge, MA, Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1930</date> </imprint> <biblScope>Against Alcibiades 2</biblScope> </monogr> </biblStruct>
+===== Plutarch
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0007.tlg015.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Plutarch</author> <title>Plutarch's Lives</title> <respStmt> <resp>with an English Translation by</resp> <name>Bernadotte Perrin</name> </respStmt> <imprint> <pubPlace>Cambridge, MA</pubPlace> <publisher>Harvard University Press</publisher> <pubPlace>London</pubPlace> <publisher>William Heinemann Ltd.</publisher> <date>1916</date> </imprint> <biblScope type="volume">4</biblScope> <biblScope>Alcibiades</biblScope> </monogr> </biblStruct>
+===== Aeschylus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0085.tlg005.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Aeschylus</author> <title>Aeschylus, with an English translation by Herbert Weir Smyth, Ph. D. in two volumes. 2.Agamemnon</title> <imprint> <pubPlace>Cambridge</pubPlace> <publisher>Cambridge, Mass., Harvard University Press; London, William Heinemann, Ltd.</publisher> <date>1926</date> </imprint> </monogr> </biblStruct>
+===== Apollodorus
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0548.tlg001.perseus-grc1.1.1.1-1.4.1.tb.xml
+<biblStruct> <monogr> <title>Apollodorus, The Library, with an English Translation by Sir James George Frazer, F.B.A., F.R.S. in 2 Volumes.</title> <author>Apollodorus</author> <imprint> <publisher>Cambridge, MA, Harvard University Press; London, William Heinemann Ltd.</publisher> <date>1921</date> </imprint> <biblScope>1.1.1-1.4.1</biblScope> </monogr> </biblStruct>
+===== Homer
+/u/scr/mhahn/treebank_data/v2.1/Greek/texts/tlg0012.tlg001.perseus-grc1.tb.xml
+<biblStruct> <monogr> <author>Homer</author> <title>Homeri Opera in five volumes.</title> <imprint> <publisher>Oxford, Oxford University Press</publisher> <date>1920</date> </imprint> </monogr> </biblStruct>

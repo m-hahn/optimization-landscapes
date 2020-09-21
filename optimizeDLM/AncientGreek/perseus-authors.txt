@@ -1,0 +1,14 @@
+=====	Aeschylus	-500
+=====	Aesop	-600
+=====	Apollodorus	100
+=====	Athenaeus	+200
+=====	Diodorus Siculus	-50
+=====	Herodotus	-450
+=====	Hesiod	-700
+=====	Homer	-700
+=====	Lysias	-400
+=====	Plato	-400
+=====	Plutarch	+100
+=====	Polybius	-150
+=====	Sophocles	-450
+=====	Thucydides	-400
