@@ -59,6 +59,7 @@ print(allLangs)
 hiddenLangs = [x for x in allLangs if x not in observedLangs]
 print(hiddenLangs)
 
+#observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
 observedLanguages = list(observedLangs)
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
