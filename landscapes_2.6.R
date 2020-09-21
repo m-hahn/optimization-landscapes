@@ -48,6 +48,9 @@ real = real %>% mutate(Order_Real = ifelse(OSSameSide_Real & OFartherThanS_Real,
 
 u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), by=c("Language"))
 
+
+write.table(u, file="landscapes_2.6.R.tsv")
+
 library(brms)
 sink("output/landscapes_2.6.R_avgs.txt")
 model = (brm(OSSameSide_Real_Prob ~ OSSameSide + (1+OSSameSide|Family), data=u))

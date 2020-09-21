@@ -62,6 +62,9 @@ data$OSSameSide_Real_Prob_Log = log(data$OSSameSide_Real_Prob)
 #########################
 
 u = rbind(u, data.frame(Language=c("ISWOC_Old_English"), Family=c("Germanic"), OSSameSide = c(0.769), OSSameSide_Real = c(TRUE), OSSameSide_Real_Prob = c(0.49)))
+u = rbind(u, data.frame(Language=c("Archaic_Greek"), Family=c("Germanic"), OSSameSide = c(0.8), OSSameSide_Real = c(TRUE), OSSameSide_Real_Prob = c(0.56)))
+u = rbind(u, data.frame(Language=c("Classical_Greek"), Family=c("Germanic"), OSSameSide = c(0.53), OSSameSide_Real = c(TRUE), OSSameSide_Real_Prob = c(0.52)))
+u = rbind(u, data.frame(Language=c("Koine_Greek"), Family=c("Germanic"), OSSameSide = c(0.67), OSSameSide_Real = c(TRUE), OSSameSide_Real_Prob = c(0.47)))
 # OldEnglish: OSSameSide 0.769, OSSameSide_Real_Prob 0.49
 
 
@@ -93,7 +96,13 @@ us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Urdu_2.6")) %>% mut
 us = rbind(us, u %>% filter(Language %in% c("Old_Church_Slavonic_2.6", "Bulgarian_2.6")) %>% mutate(Trajectory="Bulgarian", Group="South Slavic") %>% mutate(Time = ifelse(Age == -1, "+800", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Russian_2.6")) %>% mutate(Trajectory="Russian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Ukrainian_2.6")) %>% mutate(Trajectory="Ukrainian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
-us = rbind(us, u %>% filter(Language %in% c("Ancient_Greek_2.6", "Greek_2.6")) %>% mutate(Trajectory="Greek", Group="Greek") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
+#us = rbind(us, u %>% filter(Language %in% c("Ancient_Greek_2.6", "Greek_2.6")) %>% mutate(Trajectory="Greek", Group="Greek") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
+us = rbind(us, u %>% filter(Language %in% c("Archaic_Greek", "Classical_Greek")) %>% mutate(Trajectory="Classical_Greek", Group="Greek") %>% mutate(Time = ifelse(Language == "Archaic_Greek", "-700", "-400")) %>% mutate(Age = as.numeric(as.character(Time))))
+us = rbind(us, u %>% filter(Language %in% c("Classical_Greek", "Koine_Greek")) %>% mutate(Trajectory="Koine_Greek", Group="Greek") %>% mutate(Time = ifelse(Language == "Classical_Greek", "-400", "+0")) %>% mutate(Age = as.numeric(as.character(Time))))
+us = rbind(us, u %>% filter(Language %in% c("Koine_Greek", "Greek_2.6")) %>% mutate(Trajectory="Modern_Greek", Group="Greek") %>% mutate(Time = ifelse(Language == "Koine_Greek", "+0", "+2000")) %>% mutate(Age = as.numeric(as.character(Time))))
+
+
+
 
 
 trajectories = unique(us$Trajectory)
@@ -130,6 +139,11 @@ baselines = baselines %>% mutate(Dev_FALSE=abs(OSSameSide_FALSE-OSSameSide_Real_
 
 
 baselines = merge(baselines, baselines %>% filter(Baseline==2) %>% select(Dev_FALSE, Dev_TRUE, Trajectory), by=c("Trajectory"))
+
+library(brms)
+imake_stancode(Dev_FALSE.x - Dev_FALSE.y ~ Dev_TRUE.x + (1+Dev_TRUE.x|Group), data=baselines %>% filter(Baseline==3))
+
+
 
 library(lme4)
 summary(lmer(Dev_FALSE.x - Dev_FALSE.y ~ 1 + (1|Group), data=baselines %>% filter(Baseline==3))) #
@@ -175,7 +189,7 @@ plot = plot + facet_wrap(~Group)
 
 cor.test(u2s$OSSameSide_FALSE-u2s$OSSameSide_TRUE, u2s$OSSameSide_Real_Prob_FALSE-u2s$OSSameSide_Real_Prob_TRUE)
 
-write.table(u, file="historical/us.tsv", sep="\t")
+write.table(us, file="historical/us.tsv", sep="\t")
 
 
 
