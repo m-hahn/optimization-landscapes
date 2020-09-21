@@ -30,7 +30,26 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
+with open("../landscapes_2.6.R.tsv", "r") as inFile:
+   data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
+header = data[0]
+header = ["ROWNUM"] + header
+header = dict(list(zip(header, range(len(header)))))
+data = data[1:]
+print(header)
+valueByLanguage = {}
+for line in data:
+   language = line[header["Language"]]
+   x = line[header["OSSameSide"]]
+   y = line[header["OSSameSide_Real_Prob"]]
+   valueByLanguage[language] = [x,y] 
 
+valueByLanguage["ISWOC_Old_English"] = [0.769, 0.49]
+valueByLanguage["Archaic_Greek"] = [0.8, 0.56]
+valueByLanguage["Classical_Greek"] = [0.53, 0.52]
+valueByLanguage["Koine_Greek"] = [0.67, 0.47]
+
+print(valueByLanguage)
 quit()
 
 distanceToParent = {}

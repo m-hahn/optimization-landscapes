@@ -1,7 +1,9 @@
 Language	Family
-Afrikaans_2.6	Germanic	Indo_European
+Afrikaans_2.6	West_Germanic	Germanic	Indo_European
 Amharic_2.6	West_Semitic	Semitic
-Ancient_Greek_2.6	Greek	Indo_European
+Archaic_Greek	Greek	Indo_European
+Classical_Greek	Archaic_Greek	Greek	Indo_European
+Koine_Greek	Classical_Greek	Archaic_Greek	Greek	Indo_European
 Arabic_2.6	Arabic	North_West_Semitic	Semitic
 Armenian_2.6	Armenian	Indo_European
 Bambara_2.6	Mande	Niger_Congo
@@ -16,21 +18,21 @@ Classical_Chinese_2.6	Sino-Tibetan
 Coptic_2.6	Egyptian	Afroasiatic
 Croatian_2.6	Serbo_Croatian	South_Slavic	Slavic	Indo_European
 Czech_2.6	West_Slavic	Slavic	Indo_European
-Danish_2.6	Germanic	Indo_European
-Dutch_2.6	Germanic	Indo_European
-English_2.6	Germanic	Indo_European
+Danish_2.6	North_Germanic	Germanic	Indo_European
+Dutch_2.6	West_Germanic	Germanic	Indo_European
+English_2.6	West_Germanic	Germanic	Indo_European
 Erzya_2.6	Mordvin	Uralic
 Estonian_2.6	Finnic	Uralic
-Faroese_2.6	Germanic	Indo_European
+Faroese_2.6	North_Germanic	Germanic	Indo_European
 Finnish_2.6	Finnic	Uralic
 French_2.6	Latin_2.6	Indo_European
-German_2.6	Germanic	Indo_European
+German_2.6	West_Germanic	Germanic	Indo_European
 Gothic_2.6	Germanic	Indo_European
-Greek_2.6	Greek	Indo_European
+Greek_2.6	Koine_Greek	Classical_Greek	Archaic_Greek	Greek	Indo_European
 Hebrew_2.6	North_West_Semitic	Semitic
 Hindi_2.6	Hindustani	Sanskrit_2.6	Indo_Iranian	Indo_European
 Hungarian_2.6	Ugric	Uralic
-Icelandic_2.6	Germanic	Indo_European
+Icelandic_2.6	North_Germanic	Germanic	Indo_European
 Indonesian_2.6	Malayo-Sumbawan
 Irish_2.6	Insular_Celtic	Indo_European
 Italian_2.6	Latin_2.6	Indo_European
@@ -45,7 +47,7 @@ Maltese_2.6	Arabic	North_West_Semitic	Semitic	Afroasiatic
 Mbya_Guarani_2.6	Tupian
 Naija_2.6	Creole_Naija
 North_Sami_2.6	Sami	Uralic
-Norwegian_2.6	Germanic	Indo_European
+Norwegian_2.6	North_Germanic	Germanic	Indo_European
 Old_Church_Slavonic_2.6	South_Slavic	Slavic	Indo_European
 Old_French_2.6	Latin_2.6	Indo_European
 Old_Russian_2.6	Slavic	Indo_European
@@ -61,7 +63,7 @@ Sindhi_2.6	Sanskrit_2.6	Indo_Iranian	Indo_European
 Slovak_2.6	West_Slavic	Slavic	Indo_European
 Slovenian_2.6	South_Slavic	Slavic	Indo_European
 Spanish_2.6	Latin_2.6	Indo_European
-Swedish_2.6	Germanic	Indo_European
+Swedish_2.6	North_Germanic	Germanic	Indo_European
 Thai_2.6	Tai-Kadai
 Turkish_2.6	Turkic
 Ukrainian_2.6	Slavic	Indo_European
