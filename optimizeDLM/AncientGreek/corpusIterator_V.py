@@ -6,6 +6,21 @@ import sys
 
 header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
 
+with open("perseus-authors.txt", "r") as inFile:
+   perseusAuthors = inFile.read().strip().split("\n")
+print(perseusAuthors)
+perseusAuthors = {x[1] : int(x[2]) for x in [y.split("\t") for y in perseusAuthors]}
+print(perseusAuthors)
+with open("perseus-docs.txt", "r") as inFile:
+   perseusDocs = inFile.read().strip().split("\n")
+fromDocToYear = {}
+for i in range(0, len(perseusDocs), 3):
+  author = perseusDocs[i].replace("=", "").strip()
+  filename = perseusDocs[i+1]
+  filename = filename[filename.rfind("/")+1:]
+  print(author, filename, perseusAuthors[author])
+  fromDocToYear[filename] = perseusAuthors[author]
+
 
 def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
       assert partition == "together"
@@ -56,7 +71,8 @@ def readUDCorpus(language, partition, ignoreCorporaWithoutWords=True):
       return data
 
 class CorpusIterator_V():
-   def __init__(self, language, partition="together", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
+   def __init__(self, language, partition="together", epoch=None, storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False, ignoreCorporaWithoutWords=True):
+      self.years = {"archaic" : (-1000, -525), "classical" : (-525, -325), "koine" : (-325, 1000)}[epoch]
       print >> sys.stderr, ("LANGUAGE", language)
       if splitLemmas:
            assert language == "Korean"
@@ -75,6 +91,8 @@ class CorpusIterator_V():
       self.data = data
       self.partition = partition
       self.language = language
+      self.data = list(self.iterator_filter())
+      print("EPOCH", epoch, len(self.data))
       assert len(data) > 0, (language, partition)
    def permute(self):
       random.shuffle(self.data)
@@ -130,12 +148,24 @@ class CorpusIterator_V():
  #          print sentence[i]
         return (result, metadata)
    def getSentence(self, index):
-      result = self.processSentence(self.data[index])
+      result = self.processSentence(self.data[index])[0]
       return result
-   def iterator(self, rejectShortSentences = False):
+   def iterator(self):
      for sentence in self.data:
-        if len(sentence) < 3 and rejectShortSentences:
-           assert False
-           continue
-        yield self.processSentence(sentence)
+           yield self.processSentence(sentence)[0]
+
+   def iterator_filter(self):
+     for sentence in self.data:
+        processed = self.processSentence(sentence)
+
+        metadata = processed[1]
+        if "source" in metadata:
+          year = 100 if "New Test" in metadata["source"] else (-450 if "Histories" in metadata["source"] else "NA")
+        elif "sent_id" in metadata:
+          text_id = metadata["sent_id"]
+          text_id = text_id[:text_id.index("@")]
+          year = fromDocToYear[text_id]
+#        print(year, self.years, year >= self.years[0] and year <= self.years[1])
+        if year >= self.years[0] and year <= self.years[1]:
+           yield sentence
 

@@ -9,7 +9,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--language', type=str, default="Old_French_2.4")
+parser.add_argument('--language', type=str)
 parser.add_argument('--entropy_weight', type=float, default=0.001)
 parser.add_argument('--lr_policy', type=float, default=0.1)
 parser.add_argument('--momentum', type=float, default=0.9)
@@ -39,10 +39,6 @@ def makeCoarse(x):
       return x[:x.index(":")]
    return x
 
-from collections import defaultdict
-docs = defaultdict(int)
-
-
 def initializeOrderTable():
    orderTable = {}
    keys = set()
@@ -51,7 +47,7 @@ def initializeOrderTable():
    distanceCounts = {}
    depsVocab = set()
    for partition in ["together"]:
-     for sentence, metadata in CorpusIterator(args.language,partition).iterator():
+     for sentence in CorpusIterator("Ancient_Greek_2.6", partition, args.language).iterator():
       for line in sentence:
           vocab[line["word"]] = vocab.get(line["word"], 0) + 1
           line["fine_dep"] = line["dep"]
@@ -115,10 +111,10 @@ logsoftmax = torch.nn.LogSoftmax()
 
 
 
-def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, distanceWeights_):
+def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
        childrenLinearized = []
        while len(remainingChildren) > 0:
-           logits = torch.cat([distanceWeights_[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
+           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
            softmax = softmax_layer(logits.view(1,-1)).view(-1)
            selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
            log_probability = torch.log(softmax[selected])
@@ -127,7 +123,7 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax, distanceW
            childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
        if reverseSoftmax:
-          childrenLinearized = childrenLinearized[::-1]
+           childrenLinearized = childrenLinearized[::-1]
        return childrenLinearized           
 
 
@@ -170,7 +166,7 @@ def orderSentence(sentence, dhLogits, printThings):
 
    
    linearized = []
-   recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
+   overallLogprobSum = recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
    if printThings or len(linearized) == 0:
      print " ".join(map(lambda x:x["word"], sentence))
      print " ".join(map(lambda x:x["word"], linearized))
@@ -185,7 +181,7 @@ def orderSentence(sentence, dhLogits, printThings):
          x["reordered_head"] = 0
       else:
          x["reordered_head"] = 1+moved[x["head"]-1]
-   return linearized, logits
+   return linearized, overallLogprobSum
 
 
 dhLogits, vocab, vocab_deps, depsVocab = initializeOrderTable()
@@ -210,7 +206,7 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl/"
+relevantPath = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_greek/"
 
 import os
 files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_") and __file__ in x]
@@ -309,7 +305,7 @@ import torch.nn.functional
 
 counter = 0
 while True:
-  corpus = CorpusIterator(args.language).iterator(rejectShortSentences = True)
+  corpus = CorpusIterator("Ancient_Greek_2.6", "together", args.language).iterator()
 
   while True:
     try:
@@ -326,10 +322,9 @@ while True:
        counter += 1
        printHere = (counter % 50 == 0)
        current = batch[partition*1:(partition+1)*1]
-       batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y==0 and printHere), zip(range(len(current)),current)))
-      
-       batchOrdered = batchOrderedLogits[0]
-       logits = batchOrderedLogits[1]
+       assert len(current)==1
+       batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
+       batchOrdered = [batchOrdered]
    
        lengths = map(len, current)
        maxLength = lengths[-1]
@@ -389,7 +384,7 @@ while True:
            for i in range(1,len(input_words)): 
               for j in range(1):
                  if input_words[i][j] != 0:
-                    policyGradientLoss += batchOrdered[j][-1]["relevant_logprob_sum"] * ((lossesHead[i][j]).detach().cpu())
+                    policyGradientLoss += overallLogprobSum * ((lossesHead[i][j]).detach().cpu())
                     if input_words[i] > 2 and j == 0 and printHere:
                        print [itos[input_words[i][j]-3], itos_pos_ptb[input_pos_p[i][j]-3], "Cumul_DepL_Minus_Baselines", lossesHead[i][j].data.cpu().numpy()[0], "Baseline Here", baseline_predictions[i][j].data.cpu().numpy()[0]]
                     wordNum += 1
@@ -431,7 +426,7 @@ while True:
        if counter % 10000 == 0:
           TARGET_DIR = "/u/scr/mhahn/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/"
           print "Saving"
-          with open(TARGET_DIR+"/manual_output_funchead_fine_depl/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
+          with open(TARGET_DIR+"/manual_output_funchead_fine_depl_greek/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["DH_Weight","CoarseDependency","HeadPOS", "DependentPOS", "DistanceWeight", "Language", "FileName"]))
              for i in range(len(itos_deps)):
                 head, rel, dependent = itos_deps[i]
