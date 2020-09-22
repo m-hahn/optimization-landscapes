@@ -45,12 +45,17 @@ for line in data:
      continue
    x = float(line[header["OSSameSide"]])
    y = float(line[header["OSSameSide_Real_Prob"]])
-   valueByLanguage[language] = [x,y] 
+   valueByLanguage[language] = [x, y] 
 
 valueByLanguage["ISWOC_Old_English"] = [0.769, 0.49]
 valueByLanguage["Archaic_Greek"] = [0.8, 0.56]
 valueByLanguage["Classical_Greek"] = [0.53, 0.52]
 valueByLanguage["Koine_Greek"] = [0.67, 0.47]
+
+for language in set(valueByLanguage):
+   x, y = valueByLanguage[language]
+   valueByLanguage[language] = [(x-y)/sqrt(2),(x+y)/sqrt(2)] 
+
 
 print(valueByLanguage)
 
@@ -93,7 +98,7 @@ dat["Components"] = 2
 
 print(dat)
 
-sm = pystan.StanModel(file='3model.stan')
+sm = pystan.StanModel(file='5model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
@@ -101,6 +106,4 @@ la = fit.extract(permuted=True)  # return a dictionary of arrays
 print(fit)
 print(la)
 print("Inferred hidden traits", la["TraitsHidden"].mean(axis=0))
-print(la["Rescor"][:, 1, 0])
-print(la["Rescor"][:, 1, 0] > 0)
-print((la["Rescor"][:, 1, 0] > 0).mean())
+

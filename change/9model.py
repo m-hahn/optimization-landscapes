@@ -93,7 +93,7 @@ dat["Components"] = 2
 
 print(dat)
 
-sm = pystan.StanModel(file='3model.stan')
+sm = pystan.StanModel(file='9model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
@@ -101,6 +101,4 @@ la = fit.extract(permuted=True)  # return a dictionary of arrays
 print(fit)
 print(la)
 print("Inferred hidden traits", la["TraitsHidden"].mean(axis=0))
-print(la["Rescor"][:, 1, 0])
-print(la["Rescor"][:, 1, 0] > 0)
-print((la["Rescor"][:, 1, 0] > 0).mean())
+

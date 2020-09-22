@@ -41,6 +41,8 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
+   if language == "Afrikaans_2.6":
+     continue
    if language == "Ancient_Greek_2.6":
      continue
    x = float(line[header["OSSameSide"]])
@@ -60,7 +62,7 @@ hiddenLangs = [x for x in allLangs if x not in observedLangs]
 print(hiddenLangs)
 
 #observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
-observedLanguages = list(observedLangs)
+observedLanguages = [x for x in list(observedLangs) if x in valueByLanguage]
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
@@ -93,7 +95,7 @@ dat["Components"] = 2
 
 print(dat)
 
-sm = pystan.StanModel(file='3model.stan')
+sm = pystan.StanModel(file='10model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
@@ -101,6 +103,4 @@ la = fit.extract(permuted=True)  # return a dictionary of arrays
 print(fit)
 print(la)
 print("Inferred hidden traits", la["TraitsHidden"].mean(axis=0))
-print(la["Rescor"][:, 1, 0])
-print(la["Rescor"][:, 1, 0] > 0)
-print((la["Rescor"][:, 1, 0] > 0).mean())
+

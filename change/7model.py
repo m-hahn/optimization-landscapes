@@ -1,3 +1,5 @@
+# Baseline model: no correlations in the Brownian motion
+
 import pystan
 from math import sqrt, log
 import math
@@ -93,7 +95,7 @@ dat["Components"] = 2
 
 print(dat)
 
-sm = pystan.StanModel(file='3model.stan')
+sm = pystan.StanModel(file='7model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
