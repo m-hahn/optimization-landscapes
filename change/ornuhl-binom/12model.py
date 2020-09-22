@@ -98,7 +98,7 @@ dat["Components"] = 2
 
 print(dat)
 
-sm = pystan.StanModel(file='11model.stan')
+sm = pystan.StanModel(file='12model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
@@ -110,5 +110,4 @@ print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
 print("alpha", la["alpha"].mean(axis=0))
 print("sigma_B", la["sigma_B"].mean(axis=0))
 print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
-print("Lrescor_B", (la["Lrescor_B"][:, 1, 0] > 0).mean())
 
