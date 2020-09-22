@@ -16,7 +16,7 @@ data {
 parameters {
   matrix<lower=0, upper=1>[HiddenN, 2] TraitsHidden;
   vector<lower=-4, upper=4>[2] alpha; // the mean of the process
-  vector<lower=0>[2] residual_sigma; // the mean of the process
+  vector<lower=0>[2] residual_sigma; // measurement error
   real<lower=0.1, upper=2> sigma_Lambda;
   vector<lower=0, upper=2>[2] sigma_B;
 //  cholesky_factor_corr[2] Lrescor_Lambda; // notation follows Blackwell 2003, Bayesian Inference for Markov processes...
