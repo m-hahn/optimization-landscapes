@@ -59,7 +59,7 @@ def initializeOrderTable():
    distanceCounts = {}
    depsVocab = set()
    for partition in ["together"]:
-     for sentence in CorpusIterator(language,partition).iterator():
+     for sentence in CorpusIterator("Ancient_Greek_2.6", partition=partition, epoch=language).iterator():
       for line in sentence:
           vocab[line["word"]] = vocab.get(line["word"], 0) + 1
           line["coarse_dep"] = makeCoarse(line["dep"])
@@ -265,7 +265,7 @@ dhWeights_Prior = Normal(Variable(torch.FloatTensor([0.0] * len(itos_deps))), Va
 distanceWeights_Prior = Normal(Variable(torch.FloatTensor([0.0] * len(itos_deps))), Variable(torch.FloatTensor([1.0]* len(itos_deps))))
 
 counter = 0
-corpus = CorpusIterator(language,"together")
+corpus = CorpusIterator("Ancient_Greek_2.6","together", language)
 
 def guide(corpus):
   mu_DH = pyro.param("mu_DH", Variable(torch.FloatTensor([0.0]*len(itos_deps)), requires_grad=True))

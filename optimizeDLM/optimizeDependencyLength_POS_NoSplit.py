@@ -226,9 +226,9 @@ for name in files:
 
 print(["Neg count", negCount, "Pos count", posCount])
 
-if posCount >= 8 and negCount >= 8:
-   print("Enough models!")
-   quit()
+#if posCount >= 8 and negCount >= 8:
+#   print("Enough models!")
+#   quit()
 
 dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
 distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
