@@ -5,27 +5,27 @@ Formula: OSSameSide ~ OSSameSide_Real + (1 | Language)
    Data: data
 
      AIC      BIC   logLik deviance df.resid 
-   973.4    987.2   -483.7    967.4      718 
+  1144.5   1158.7   -569.2   1138.5      842 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--1.6155 -0.8262 -0.6031  0.9345  1.6580 
+-1.7269 -0.8899 -0.6339  0.9359  1.6064 
 
 Random effects:
  Groups   Name        Variance Std.Dev.
- Language (Intercept) 0.3907   0.625   
-Number of obs: 721, groups:  Language, 71
+ Language (Intercept) 0.37     0.6083  
+Number of obs: 845, groups:  Language, 71
 
 Fixed effects:
-                    Estimate Std. Error z value Pr(>|z|)   
-(Intercept)          -0.3599     0.1391  -2.587  0.00969 **
-OSSameSide_RealTRUE   0.6276     0.2220   2.827  0.00470 **
+                    Estimate Std. Error z value Pr(>|z|)  
+(Intercept)          -0.2847     0.1312  -2.170   0.0300 *
+OSSameSide_RealTRUE   0.5396     0.2101   2.569   0.0102 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr)
-OSSmS_RTRUE -0.628
+OSSmS_RTRUE -0.625
 Generalized linear mixed model fit by maximum likelihood (Laplace
   Approximation) [glmerMod]
  Family: binomial  ( logit )
@@ -33,180 +33,180 @@ Formula: OSSameSide ~ log(OSSameSide_Real_Prob + 1e-10) + (1 | Language)
    Data: data
 
      AIC      BIC   logLik deviance df.resid 
-   960.0    973.7   -477.0    954.0      718 
+  1128.8   1143.0   -561.4   1122.8      842 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--1.6002 -0.8990 -0.5330  0.9161  2.6698 
+-1.6701 -0.9475 -0.5188  0.9251  2.5379 
 
 Random effects:
  Groups   Name        Variance Std.Dev.
- Language (Intercept) 0.2485   0.4985  
-Number of obs: 721, groups:  Language, 71
+ Language (Intercept) 0.2253   0.4747  
+Number of obs: 845, groups:  Language, 71
 
 Fixed effects:
                                   Estimate Std. Error z value Pr(>|z|)    
-(Intercept)                         0.4984     0.1604   3.108  0.00188 ** 
-log(OSSameSide_Real_Prob + 1e-10)   0.5825     0.1233   4.725  2.3e-06 ***
+(Intercept)                         0.5137     0.1499   3.426 0.000613 ***
+log(OSSameSide_Real_Prob + 1e-10)   0.5568     0.1144   4.866 1.14e-06 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr)
-l(OSSS_R_+1 0.789 
+l(OSSS_R_+1 0.790 
 
 	Pearson's product-moment correlation
 
 data:  u$OSSameSide and u$OSSameSide_Real + 0
-t = 2.7927, df = 69, p-value = 0.006759
+t = 2.5265, df = 69, p-value = 0.01382
 alternative hypothesis: true correlation is not equal to 0
 95 percent confidence interval:
- 0.09222152 0.51377517
+ 0.06189595 0.49096897
 sample estimates:
       cor 
-0.3186689 
+0.2909975 
 
-                  Language            Family OSSameSide OFartherThanS
-1            Afrikaans_2.6          Germanic  0.0000000     0.4000000
-13             Chinese_2.6      Sino-Tibetan  0.1000000     0.8000000
-33          Indonesian_2.6   Malayo-Sumbawan  0.1000000     1.0000000
-68          Vietnamese_2.6        Viet-Muong  0.1000000     0.9000000
-53          Portuguese_2.6     Latin_Romance  0.1818182     0.9090909
-29              Hebrew_2.6           Semitic  0.2000000     0.7000000
-35             Italian_2.6     Latin_Romance  0.2000000     0.7000000
-47           Norwegian_2.6          Germanic  0.2000000     0.9000000
-63                Thai_2.6         Tai-Kadai  0.2000000     0.2000000
-32           Icelandic_2.6          Germanic  0.2500000     1.0000000
-4               Arabic_2.6           Semitic  0.3000000     1.0000000
-7               Basque_2.6            Basque  0.3000000     0.8000000
-20             English_2.6          Germanic  0.3000000     0.9000000
-28               Greek_2.6             Greek  0.3000000     0.9000000
-43             Maltese_2.6           Semitic  0.3000000     0.8000000
-45               Naija_2.6      Creole_Naija  0.3000000     0.6000000
-57     Scottish_Gaelic_2.6            Celtic  0.3000000     0.8000000
-61             Spanish_2.6     Latin_Romance  0.3000000     1.0000000
-71              Yoruba_2.6            Defoid  0.3000000     0.9000000
-18              Danish_2.6          Germanic  0.3333333     1.0000000
-9            Bulgarian_2.6            Slavic  0.3636364     0.8181818
-30               Hindi_2.6             Indic  0.3636364     0.4545455
-11           Cantonese_2.6      Sino-Tibetan  0.4000000     0.7000000
-15              Coptic_2.6          Egyptian  0.4000000     0.9000000
-16            Croatian_2.6            Slavic  0.4000000     0.6000000
-19               Dutch_2.6          Germanic  0.4000000     0.5000000
-23             Faroese_2.6          Germanic  0.4000000     1.0000000
-25              French_2.6     Latin_Romance  0.4000000     0.7000000
-31           Hungarian_2.6             Ugric  0.4000000     0.6000000
-41             Latvian_2.6            Baltic  0.4000000     1.0000000
-42          Lithuanian_2.6            Baltic  0.4000000     0.8000000
-54            Romanian_2.6     Latin_Romance  0.4000000     1.0000000
-55             Russian_2.6            Slavic  0.4000000     0.8000000
-62             Swedish_2.6          Germanic  0.4000000     0.8000000
-64             Turkish_2.6            Turkic  0.4000000     0.8000000
-65           Ukrainian_2.6            Slavic  0.4000000     0.8000000
-3        Ancient_Greek_2.6             Greek  0.5000000     0.8000000
-12             Catalan_2.6     Latin_Romance  0.5000000     1.0000000
-27              Gothic_2.6          Germanic  0.5000000     0.3000000
-40               Latin_2.6     Latin_Romance  0.5000000     0.5000000
-46          North_Sami_2.6              Sami  0.5000000     0.9000000
-51             Persian_2.6           Iranian  0.5000000     0.9000000
-56            Sanskrit_2.6             Indic  0.5000000     0.7000000
-58             Serbian_2.6            Slavic  0.5000000     0.7000000
-60           Slovenian_2.6            Slavic  0.5000000     0.7500000
-66                Urdu_2.6             Indic  0.5000000     0.7000000
-67              Uyghur_2.6            Turkic  0.5000000     0.3000000
-10              Buryat_2.6          Mongolic  0.5454545     0.0000000
-59              Slovak_2.6            Slavic  0.5454545     0.9090909
-2              Amharic_2.6           Semitic  0.6000000     0.9000000
-5             Armenian_2.6          Armenian  0.6000000     1.0000000
-6              Bambara_2.6             Mande  0.6000000     0.4000000
-14   Classical_Chinese_2.6      Sino-Tibetan  0.6000000     0.0000000
-48 Old_Church_Slavonic_2.6            Slavic  0.6000000     0.3000000
-52              Polish_2.6            Slavic  0.6000000     0.7000000
-69               Welsh_2.6            Celtic  0.6000000     0.7000000
-70               Wolof_2.6 Northern_Atlantic  0.6000000     0.9000000
-22            Estonian_2.6            Finnic  0.7000000     0.6000000
-24             Finnish_2.6            Finnic  0.7000000     0.9000000
-26              German_2.6          Germanic  0.7000000     0.9000000
-34               Irish_2.6            Celtic  0.7000000     0.7000000
-37              Kazakh_2.6            Turkic  0.7000000     0.0000000
-49          Old_French_2.6     Latin_Romance  0.7000000     1.0000000
-44        Mbya_Guarani_2.6            Tupian  0.8000000     1.0000000
-50         Old_Russian_2.6            Slavic  0.8000000     1.0000000
-8               Breton_2.6            Celtic  0.9000000     0.7000000
-21               Erzya_2.6           Mordvin  0.9000000     0.3000000
-38              Korean_2.6            Korean  0.9000000     0.6000000
-39            Kurmanji_2.6           Iranian  0.9000000     0.8000000
-17               Czech_2.6            Slavic  1.0000000     1.0000000
-36            Japanese_2.6          Japanese  1.0000000     0.6000000
-   OSSameSide_Real OSSameSide_Real_Prob LogOSSameSide LogOSSameSide_Real_Prob
-1             TRUE           0.73349002 -2.302585e+01           -0.3099412846
-13           FALSE           0.01609827 -2.302585e+00           -4.1290433819
-33           FALSE           0.08219810 -2.302585e+00           -2.4986230470
-68           FALSE           0.09238605 -2.302585e+00           -2.3817793012
-53           FALSE           0.16757516 -1.704748e+00           -1.7863232970
-29           FALSE           0.31307626 -1.609438e+00           -1.1613084774
-35           FALSE           0.25897637 -1.609438e+00           -1.3510184724
-47           FALSE           0.23401577 -1.609438e+00           -1.4523667585
-63           FALSE           0.08461058 -1.609438e+00           -2.4696959451
-32           FALSE           0.17673512 -1.386294e+00           -1.7331031871
-4             TRUE           0.64626813 -1.203973e+00           -0.4365407986
-7             TRUE           0.72215246 -1.203973e+00           -0.3255189952
-20           FALSE           0.08167869 -1.203973e+00           -2.5049621981
-28           FALSE           0.35135125 -1.203973e+00           -1.0459688402
-43           FALSE           0.30394165 -1.203973e+00           -1.1909195297
-45           FALSE           0.02087207 -1.203973e+00           -3.8693433691
-57            TRUE           0.65115607 -1.203973e+00           -0.4290059284
-61           FALSE           0.29478824 -1.203973e+00           -1.2214980258
-71           FALSE           0.10081831 -1.203973e+00           -2.2944353078
-18           FALSE           0.20162009 -1.098612e+00           -1.6013700800
-9            FALSE           0.34798876 -1.011601e+00           -1.0555850936
-30            TRUE           0.75883754 -1.011601e+00           -0.2759675733
-11           FALSE           0.05532203 -9.162907e-01           -2.8945841301
-15           FALSE           0.07989821 -9.162907e-01           -2.5270018682
-16           FALSE           0.36021015 -9.162907e-01           -1.0210676601
-19            TRUE           0.56468560 -9.162907e-01           -0.5714861669
-23           FALSE           0.19200101 -9.162907e-01           -1.6502546629
-25           FALSE           0.20048622 -9.162907e-01           -1.6070097534
-31            TRUE           0.53526165 -9.162907e-01           -0.6249995819
-41           FALSE           0.41166441 -9.162907e-01           -0.8875467941
-42           FALSE           0.41243136 -9.162907e-01           -0.8856854800
-54           FALSE           0.30676506 -9.162907e-01           -1.1816730924
-55           FALSE           0.35519387 -9.162907e-01           -1.0350915327
-62           FALSE           0.20276339 -9.162907e-01           -1.5957155320
-64            TRUE           0.95182300 -9.162907e-01           -0.0493761858
-65           FALSE           0.35598162 -9.162907e-01           -1.0328761910
-3             TRUE           0.50575100 -6.931472e-01           -0.6817108243
-12           FALSE           0.36613129 -6.931472e-01           -1.0047632959
-27           FALSE           0.45270105 -6.931472e-01           -0.7925232944
-40            TRUE           0.53739986 -6.931472e-01           -0.6210128421
-46           FALSE           0.37641446 -6.931472e-01           -0.9770644483
-51            TRUE           0.96704657 -6.931472e-01           -0.0335086282
-56            TRUE           0.68040819 -6.931472e-01           -0.3850623876
-58           FALSE           0.29190247 -6.931472e-01           -1.2313355302
-60           FALSE           0.45445801 -6.931472e-01           -0.7886497487
-66            TRUE           0.73946116 -6.931472e-01           -0.3018335185
-67            TRUE           0.94279648 -6.931472e-01           -0.0589048362
-10            TRUE           0.72455651 -6.061358e-01           -0.3221955200
-59           FALSE           0.39478000 -6.061358e-01           -0.9294266269
-2             TRUE           0.53738511 -5.108256e-01           -0.6210402950
-5             TRUE           0.62791802 -5.108256e-01           -0.4653456564
-6             TRUE           0.98922873 -5.108256e-01           -0.0108297025
-14           FALSE           0.06753733 -5.108256e-01           -2.6950748659
-48           FALSE           0.45152515 -5.108256e-01           -0.7951241961
-52           FALSE           0.37001466 -5.108256e-01           -0.9942126491
-69            TRUE           0.60139136 -5.108256e-01           -0.5085093746
-70           FALSE           0.32138218 -5.108256e-01           -1.1351242690
-22           FALSE           0.47163904 -3.566749e-01           -0.7515413295
-24           FALSE           0.36962933 -3.566749e-01           -0.9952545987
-26            TRUE           0.54803236 -3.566749e-01           -0.6014209449
-34            TRUE           0.57739213 -3.566749e-01           -0.5492336373
-37            TRUE           0.78844737 -3.566749e-01           -0.2376896273
-49            TRUE           0.56250518 -3.566749e-01           -0.5753549446
-44            TRUE           0.52904562 -2.231436e-01           -0.6366806128
-50           FALSE           0.47802277 -2.231436e-01           -0.7380969173
-8             TRUE           0.50695375 -1.053605e-01           -0.6793355080
-21           FALSE           0.47779687 -1.053605e-01           -0.7385695995
-38            TRUE           0.98719535 -1.053605e-01           -0.0128873375
-39            TRUE           0.93818381 -1.053605e-01           -0.0638093890
-17           FALSE           0.42417999  1.000000e-10           -0.8575974152
-36            TRUE           0.99946434  1.000000e-10           -0.0005358014
+                  Language            Family OSSameSideSum OSSameSideTotal
+1            Afrikaans_2.6          Germanic             0              11
+13             Chinese_2.6      Sino-Tibetan             1              10
+29              Hebrew_2.6           Semitic             2              12
+33          Indonesian_2.6   Malayo-Sumbawan             2              12
+63                Thai_2.6         Tai-Kadai             2              12
+47           Norwegian_2.6          Germanic             3              13
+28               Greek_2.6             Greek             3              12
+53          Portuguese_2.6     Latin_Romance             3              12
+68          Vietnamese_2.6        Viet-Muong             3              12
+35             Italian_2.6     Latin_Romance             4              15
+61             Spanish_2.6     Latin_Romance             3              11
+32           Icelandic_2.6          Germanic             4              14
+20             English_2.6          Germanic             3              10
+11           Cantonese_2.6      Sino-Tibetan             4              13
+25              French_2.6     Latin_Romance             4              12
+45               Naija_2.6      Creole_Naija             4              12
+71              Yoruba_2.6            Defoid             4              12
+19               Dutch_2.6          Germanic             4              11
+30               Hindi_2.6             Indic             4              11
+31           Hungarian_2.6             Ugric             4              11
+43             Maltese_2.6           Semitic             4              11
+4               Arabic_2.6           Semitic             5              13
+18              Danish_2.6          Germanic             5              13
+42          Lithuanian_2.6            Baltic             5              13
+55             Russian_2.6            Slavic             4              10
+62             Swedish_2.6          Germanic             4              10
+7               Basque_2.6            Basque             5              12
+57     Scottish_Gaelic_2.6            Celtic             5              12
+64             Turkish_2.6            Turkic             5              12
+67              Uyghur_2.6            Turkic             5              12
+12             Catalan_2.6     Latin_Romance             6              14
+15              Coptic_2.6          Egyptian             5              11
+27              Gothic_2.6          Germanic             5              11
+41             Latvian_2.6            Baltic             5              11
+54            Romanian_2.6     Latin_Romance             5              11
+65           Ukrainian_2.6            Slavic             5              11
+9            Bulgarian_2.6            Slavic             6              13
+10              Buryat_2.6          Mongolic             6              13
+14   Classical_Chinese_2.6      Sino-Tibetan             6              13
+23             Faroese_2.6          Germanic             6              13
+60           Slovenian_2.6            Slavic             6              13
+3        Ancient_Greek_2.6             Greek             5              10
+16            Croatian_2.6            Slavic             6              12
+40               Latin_2.6     Latin_Romance             5              10
+51             Persian_2.6           Iranian             5              10
+66                Urdu_2.6             Indic             5              10
+56            Sanskrit_2.6             Indic             7              13
+59              Slovak_2.6            Slavic             7              13
+58             Serbian_2.6            Slavic             6              11
+69               Welsh_2.6            Celtic             6              11
+44        Mbya_Guarani_2.6            Tupian             8              14
+5             Armenian_2.6          Armenian             7              12
+52              Polish_2.6            Slavic             7              12
+70               Wolof_2.6 Northern_Atlantic             7              12
+2              Amharic_2.6           Semitic             6              10
+46          North_Sami_2.6              Sami             9              15
+26              German_2.6          Germanic             8              13
+6              Bambara_2.6             Mande             7              11
+48 Old_Church_Slavonic_2.6            Slavic             7              11
+37              Kazakh_2.6            Turkic            10              14
+24             Finnish_2.6            Finnic             8              11
+49          Old_French_2.6     Latin_Romance             8              11
+22            Estonian_2.6            Finnic             9              12
+34               Irish_2.6            Celtic            11              14
+8               Breton_2.6            Celtic            11              13
+50         Old_Russian_2.6            Slavic            11              13
+38              Korean_2.6            Korean             9              10
+21               Erzya_2.6           Mordvin            10              11
+17               Czech_2.6            Slavic            12              13
+39            Kurmanji_2.6           Iranian            12              13
+36            Japanese_2.6          Japanese            10              10
+   OSSameSide OFartherThanS OSSameSide_Real OSSameSide_Real_Prob
+1   0.0000000     0.4545455            TRUE           0.73349002
+13  0.1000000     0.8000000           FALSE           0.01609827
+29  0.1666667     0.7500000           FALSE           0.31307626
+33  0.1666667     1.0000000           FALSE           0.08219810
+63  0.1666667     0.1666667           FALSE           0.08461058
+47  0.2307692     0.9230769           FALSE           0.23401577
+28  0.2500000     0.9166667           FALSE           0.35135125
+53  0.2500000     0.9166667           FALSE           0.16757516
+68  0.2500000     0.9166667           FALSE           0.09238605
+35  0.2666667     0.7333333           FALSE           0.25897637
+61  0.2727273     1.0000000           FALSE           0.29478824
+32  0.2857143     1.0000000           FALSE           0.17673512
+20  0.3000000     0.9000000           FALSE           0.08167869
+11  0.3076923     0.7692308           FALSE           0.05532203
+25  0.3333333     0.7500000           FALSE           0.20048622
+45  0.3333333     0.5833333           FALSE           0.02087207
+71  0.3333333     0.8333333           FALSE           0.10081831
+19  0.3636364     0.5454545            TRUE           0.56468560
+30  0.3636364     0.4545455            TRUE           0.75883754
+31  0.3636364     0.5454545            TRUE           0.53526165
+43  0.3636364     0.8181818           FALSE           0.30394165
+4   0.3846154     1.0000000            TRUE           0.64626813
+18  0.3846154     1.0000000           FALSE           0.20162009
+42  0.3846154     0.8461538           FALSE           0.41243136
+55  0.4000000     0.8000000           FALSE           0.35519387
+62  0.4000000     0.8000000           FALSE           0.20276339
+7   0.4166667     0.7500000            TRUE           0.72215246
+57  0.4166667     0.8333333            TRUE           0.65115607
+64  0.4166667     0.8333333            TRUE           0.95182300
+67  0.4166667     0.3333333            TRUE           0.94279648
+12  0.4285714     1.0000000           FALSE           0.36613129
+15  0.4545455     0.9090909           FALSE           0.07989821
+27  0.4545455     0.3636364           FALSE           0.45270105
+41  0.4545455     1.0000000           FALSE           0.41166441
+54  0.4545455     1.0000000           FALSE           0.30676506
+65  0.4545455     0.8181818           FALSE           0.35598162
+9   0.4615385     0.8461538           FALSE           0.34798876
+10  0.4615385     0.0000000            TRUE           0.72455651
+14  0.4615385     0.0000000           FALSE           0.06753733
+23  0.4615385     1.0000000           FALSE           0.19200101
+60  0.4615385     0.7692308           FALSE           0.45445801
+3   0.5000000     0.8000000            TRUE           0.50575100
+16  0.5000000     0.6666667           FALSE           0.36021015
+40  0.5000000     0.5000000            TRUE           0.53739986
+51  0.5000000     0.9000000            TRUE           0.96704657
+66  0.5000000     0.7000000            TRUE           0.73946116
+56  0.5384615     0.6923077            TRUE           0.68040819
+59  0.5384615     0.8461538           FALSE           0.39478000
+58  0.5454545     0.7272727           FALSE           0.29190247
+69  0.5454545     0.6363636            TRUE           0.60139136
+44  0.5714286     1.0000000            TRUE           0.52904562
+5   0.5833333     1.0000000            TRUE           0.62791802
+52  0.5833333     0.7500000           FALSE           0.37001466
+70  0.5833333     0.8333333           FALSE           0.32138218
+2   0.6000000     0.9000000            TRUE           0.53738511
+46  0.6000000     0.9333333           FALSE           0.37641446
+26  0.6153846     0.9230769            TRUE           0.54803236
+6   0.6363636     0.3636364            TRUE           0.98922873
+48  0.6363636     0.2727273           FALSE           0.45152515
+37  0.7142857     0.0000000            TRUE           0.78844737
+24  0.7272727     0.9090909           FALSE           0.36962933
+49  0.7272727     1.0000000            TRUE           0.56250518
+22  0.7500000     0.6666667           FALSE           0.47163904
+34  0.7857143     0.7142857            TRUE           0.57739213
+8   0.8461538     0.7692308            TRUE           0.50695375
+50  0.8461538     1.0000000           FALSE           0.47802277
+38  0.9000000     0.6000000            TRUE           0.98719535
+21  0.9090909     0.3636364           FALSE           0.47779687
+17  0.9230769     1.0000000           FALSE           0.42417999
+39  0.9230769     0.7692308            TRUE           0.93818381
+36  1.0000000     0.6000000            TRUE           0.99946434

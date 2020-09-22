@@ -27,7 +27,7 @@ families = read.csv("families.tsv", sep="\t")
 data = merge(data, families, by=c("Language"))
 
 
-u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide), OFartherThanS = mean(OFartherThanS))
+u = data %>% group_by(Language, Family) %>% summarise(OSSameSideSum=sum(OSSameSide), OSSameSideTotal=NROW(OSSameSide), OSSameSide = mean(OSSameSide), OFartherThanS = mean(OFartherThanS))
 print(u[order(u$OSSameSide),], n=60)
 
 sigmoid = function(x) {
@@ -71,6 +71,7 @@ library(lme4)
 sink("output/landscapes_2.6.R.txt")
 print(summary(glmer(OSSameSide ~ OSSameSide_Real + (1|Language), family="binomial", data=data)))
 print(summary(glmer(OSSameSide ~ log(OSSameSide_Real_Prob+1e-10) + (1|Language), family="binomial", data=data)))
+print(summary(glmer(OSSameSide ~ OSSameSide_Real_Prob + (1|Language) + (1+OSSameSide_Real_Prob|Family), family="binomial", data=data)))
 print(cor.test(u$OSSameSide, u$OSSameSide_Real+0.0))
 print(u[order(u$OSSameSide),])
 sink()

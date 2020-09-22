@@ -27,7 +27,7 @@ families = read.csv("families.tsv", sep="\t")
 data = merge(data, families, by=c("Language"))
 
 
-u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide))
+u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide), OSSameSideSum=sum(OSSameSide), OSSameSideTotal=NROW(OSSameSide))
 print(u[order(u$OSSameSide),], n=60)
 
 sigmoid = function(x) {
