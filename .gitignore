@@ -10,3 +10,11 @@ optimizeDLM/SpokenJapanese/corpusIterator_V.py
 v2020.zip
 wals81A.csv
 49A.tab
+optimizeDLM/SpokenJapanese/corpusIterator_V.py
+optimizeDLM/UD_Spoken/corpusIterator_V.py
+optimizeDLM/perSentence/ud_languages.txt
+optimizeDLM/perSentence/ud_languages.py
+optimizeDLM/perSentence/Best_ByGroup_SO/ud_languages.txt
+optimizeEff/ud_languages.txt
+optimizeEff/ud_languages.py
+
