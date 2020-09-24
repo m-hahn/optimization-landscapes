@@ -14,7 +14,6 @@ data {
   vector<lower=0>[TotalN] ParentDistance;
   int prior_only;  // should the likelihood be ignored?
   int Components;
-  matrix[TotalN, TotalN] DistanceMatrix;
 }
 parameters {
   vector<lower=0, upper=1>[HiddenN] TraitHidden;
@@ -22,26 +21,11 @@ parameters {
   vector<lower=-2, upper=2>[2] alpha; // the mean of the process
   vector<lower=0.1, upper=2>[2] sigma_B;
   vector<lower=0.1, upper=2>[2] sigma_Sigma;
-  real<lower=-0.9, upper=0.9> corr_B;
   real<lower=-0.9, upper=0.9> corr_Sigma;
-  vector[TotalN] mu1;
-  vector[TotalN] mu2;
-  real<lower=0.000001> kernel_mu1_alpha;
-  real<lower=0.000001, upper=100> kernel_mu1_rho;
-  real<lower=0> kernel_mu1_sigma;
-  real<lower=0.000001> kernel_mu2_alpha;
-  real<lower=0.000001, upper=100> kernel_mu2_rho;
-  real<lower=0> kernel_mu2_sigma;
-  matrix[TotalN,2]   alphaByLanguage;
 }
 transformed parameters {
-
-  matrix[TotalN, TotalN] K1;
-  matrix[TotalN, TotalN] K2;
-
-
   // intermediate steps
-  matrix[2, 2] Lrescor_B = [[1, 0], [corr_B, 1]];
+  matrix[2, 2] Lrescor_B = [[1, 0], [0, 1]];
   matrix[2, 2] Lrescor_Sigma = [[1, 0], [corr_Sigma, 1]];
 //
   matrix[2, 2] B_chol = diag_pre_multiply(sigma_B, Lrescor_B);
@@ -58,27 +42,6 @@ transformed parameters {
   vector[3] instant_cov_components = [Sigma[1,1], Sigma[1,2], Sigma[2,2]]';
   vector[3] Omega_components = factor \ instant_cov_components;
   matrix[2,2] Omega = [[Omega_components[1], Omega_components[2]], [Omega_components[2], Omega_components[3]]];
-
-
-  vector[TotalN] zero_mean = rep_vector(0, TotalN);
-  for (i in 1:(TotalN - 1)) {
-    K1[i, i] = kernel_mu1_alpha + kernel_mu1_sigma;
-    for (j in (i + 1):TotalN) {
-      K1[i, j] = kernel_mu1_alpha * exp(-kernel_mu1_rho * square(DistanceMatrix[i,j]));
-      K1[j, i] = K1[i, j];
-    }
-  }
-  K1[TotalN, TotalN] = 1 + kernel_mu1_sigma;
-  
-  for (i in 1:(TotalN - 1)) {
-    K2[i, i] = kernel_mu2_alpha + kernel_mu2_sigma;
-    for (j in (i + 1):TotalN) {
-      K2[i, j] = kernel_mu2_alpha * exp(-kernel_mu2_rho * square(DistanceMatrix[i,j]));
-      K2[j, i] = K2[i, j];
-    }
-  }
-  K2[TotalN, TotalN] = 1 + kernel_mu2_sigma;
-  
 //  print("====")
 //  print(B)
 //  print(Omega)
@@ -90,10 +53,6 @@ model {
   target += student_t_lpdf(sigma_B | 3, 0, 2.5);
   target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
   target += normal_lpdf(alpha[1] | 0, 1);
- 
-  mu1 ~ multi_normal(zero_mean, K1);
-  mu2 ~ multi_normal(zero_mean, K2);
-
   for (n in 2:TotalN) {
      real reference_trait;
      real reference_logit;
@@ -101,7 +60,7 @@ model {
      real own_logit;
      vector[2] own_overall;
      vector[2] reference_overall;
-     vector[2] target_mean_here;
+
      if (IsHidden[ParentIndex[n]]) {
          reference_trait = TraitHidden[Total2Hidden[ParentIndex[n]]];
      } else {
@@ -116,7 +75,6 @@ model {
      own_logit = LogitsAll[n];
      own_overall = [own_logit, own_trait]';
      reference_overall = [reference_logit, reference_trait]';
-     target_mean_here = alpha + [mu1[n], mu2[n]]';
      if (ParentIndex[n] == 1) {
         target += multi_normal_lpdf(own_overall | alpha, Omega);
      } else {

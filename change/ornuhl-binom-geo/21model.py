@@ -118,7 +118,7 @@ getGeolocation("_ROOT_")
 print(latitudes)
 print(longitudes)
 
-totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
+totalLanguages = ["_ROOT_"] + sorted(hiddenLanguages) + sorted(observedLanguages)
 
 import geopy.distance
 
@@ -133,7 +133,8 @@ for i in range(len(kernel)):
 #     print(lat1, long1, lat2, long2, l1, l2, geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000)
      kernel[i][j] = distance
      kernel[j][i] = distance
-
+print(kernel[5][5])
+print(kernel[8][8])
 dat = {}
 
 dat["ObservedN"] = len(observedLanguages)
@@ -153,7 +154,7 @@ dat["Components"] = 2
 print(dat)
 dat["DistanceMatrix"] = kernel
 
-sm = pystan.StanModel(file='20model.stan')
+sm = pystan.StanModel(file='21model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
