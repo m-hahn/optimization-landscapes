@@ -2,16 +2,6 @@ import pystan
 from math import sqrt, log
 import math
 
-with open("../geolocations.tsv", "r") as inFile:
-  geolocations = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
-print(geolocations)
-languages = [x[1] for x in geolocations]
-latitudes = [float(x[4]) for x in geolocations]
-longitudes = [float(x[5]) for x in geolocations]
-latitudes = dict(list(zip(languages, latitudes)))
-longitudes = dict(list(zip(languages, longitudes)))
-
-
 with open("../trees.tsv", "r") as inFile:
   trees = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(trees)
@@ -88,51 +78,7 @@ for language in allLangs:
    dateParent = dates[parent]
    distanceToParent[language] = (float(dateLang)-float(dateParent))/1000
 print(distanceToParent)
-
-from collections import defaultdict
-fromParentsToDescendants = defaultdict(list)
-for lang, parent in parents.items():
-   fromParentsToDescendants[parent].append(lang)
-fromParentsToDescendants["_ROOT_"] = []
-for lang in fromParentsToDescendants:
-    if lang not in parents and lang != "_ROOT_":
-        fromParentsToDescendants["_ROOT_"].append(lang)
-print(fromParentsToDescendants)
-
-def mean(x):
-    return sum(x)/len(x)
-
-done = set()
-def getGeolocation(lang):
-   if lang in done:
-       return
-   for lang2 in fromParentsToDescendants[lang]:
-       assert lang2 != lang, lang
-       getGeolocation(lang2)
-   if lang not in latitudes:
-     latitudes[lang] = mean([latitudes[x] for x in fromParentsToDescendants[lang]])
-     longitudes[lang] = mean([longitudes[x] for x in fromParentsToDescendants[lang]])
-   done.add(lang)
-
-getGeolocation("_ROOT_")
-print(latitudes)
-print(longitudes)
-
-totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
-
-import geopy.distance
-
-kernel = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
-for i in range(len(kernel)):
-   for j in range(i):
-     l1 = totalLanguages[i]
-     l2 = totalLanguages[j]
-     lat1, long1 = latitudes[l1], longitudes[l1]
-     lat2, long2 = latitudes[l2], longitudes[l2]
-     distance = geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000
-#     print(lat1, long1, lat2, long2, l1, l2, geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000)
-     kernel[i][j] = distance
-     kernel[j][i] = distance
+#quit()
 
 dat = {}
 
@@ -142,7 +88,6 @@ dat["TrialsTotal"] = [valueByLanguage[x][1] for x in observedLanguages]
 dat["TraitObserved"] = [valueByLanguage[x][2] for x in observedLanguages]
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
-assert dat["TotalN"] == len(totalLanguages)
 dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
 dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hiddenLanguages+observedLanguages]
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
@@ -150,10 +95,10 @@ dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in 
 dat["ParentDistance"] = [0] + [distanceToParent.get(x, 10) for x in hiddenLanguages+observedLanguages]
 dat["prior_only"] = 0
 dat["Components"] = 2
-print(dat)
-dat["DistanceMatrix"] = kernel
 
-sm = pystan.StanModel(file='20model.stan')
+print(dat)
+
+sm = pystan.StanModel(file='21model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
