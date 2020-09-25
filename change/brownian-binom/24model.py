@@ -41,8 +41,6 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
-   if language == "Afrikaans_2.6":
-     continue
    if language == "Ancient_Greek_2.6":
      continue
    x = int(line[header["OSSameSideSum"]])
@@ -85,7 +83,7 @@ dat = {}
 dat["ObservedN"] = len(observedLanguages)
 dat["TrialsSuccess"] = [valueByLanguage[x][0] for x in observedLanguages]
 dat["TrialsTotal"] = [valueByLanguage[x][1] for x in observedLanguages]
-dat["TraitObserved"] = [valueByLanguage[x][2] for x in observedLanguages]
+dat["TraitObserved"] = [valueByLanguage[x][2]*2-1 for x in observedLanguages]
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
 dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]

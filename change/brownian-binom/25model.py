@@ -31,7 +31,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../landscapes_2.6.R.tsv", "r") as inFile:
+with open("../../landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -41,10 +41,9 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
-   if language == "Afrikaans_2.6":
-     continue
    if language == "Ancient_Greek_2.6":
      continue
+   assert language in parents, language
    x = int(line[header["OSSameSideSum"]])
    y = int(line[header["OSSameSideTotal"]])
    z = float(line[header["OSSameSide_Real_Prob"]])
@@ -85,7 +84,7 @@ dat = {}
 dat["ObservedN"] = len(observedLanguages)
 dat["TrialsSuccess"] = [valueByLanguage[x][0] for x in observedLanguages]
 dat["TrialsTotal"] = [valueByLanguage[x][1] for x in observedLanguages]
-dat["TraitObserved"] = [valueByLanguage[x][2] for x in observedLanguages]
+dat["TraitObserved"] = [valueByLanguage[x][2]*2-1 for x in observedLanguages]
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
 dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
