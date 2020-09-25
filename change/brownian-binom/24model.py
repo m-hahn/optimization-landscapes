@@ -104,9 +104,9 @@ la = fit.extract(permuted=True)  # return a dictionary of arrays
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
    print(la, file=outFile)
-print("Inferred logits", la["LogitsAll"].mean(axis=0))
-print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
-print("alpha", la["alpha"].mean(axis=0))
-print("sigma_B", la["sigma_B"].mean(axis=0))
-print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
-
+#print("Inferred logits", la["LogitsAll"].mean(axis=0))
+#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
+#print("alpha", la["alpha"].mean(axis=0))
+#print("sigma_B", la["sigma_B"].mean(axis=0))
+#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
+#
