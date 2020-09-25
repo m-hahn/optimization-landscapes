@@ -2,7 +2,7 @@ import pystan
 from math import sqrt, log
 import math
 
-with open("trees.tsv", "r") as inFile:
+with open("../trees.tsv", "r") as inFile:
   trees = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(trees)
 
@@ -20,7 +20,7 @@ for line in trees:
        parents[child] = parent
        allLangs.add(parent)
 
-with open("groups.tsv", "r") as inFile:
+with open("../groups.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
@@ -31,7 +31,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../landscapes_2.6.R.tsv", "r") as inFile:
+with open("../../landscapes_2.6.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -41,16 +41,19 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
+   if language == "Afrikaans_2.6":
+     continue
    if language == "Ancient_Greek_2.6":
      continue
-   x = float(line[header["OSSameSide"]])
-   y = float(line[header["OSSameSide_Real_Prob"]])
-   valueByLanguage[language] = [x,y] 
+   x = int(line[header["OSSameSideSum"]])
+   y = int(line[header["OSSameSideTotal"]])
+   z = float(line[header["OSSameSide_Real_Prob"]])
+   valueByLanguage[language] = [x,y,z] 
 
-valueByLanguage["ISWOC_Old_English"] = [0.769, 0.49]
-valueByLanguage["Archaic_Greek"] = [0.8, 0.56]
-valueByLanguage["Classical_Greek"] = [0.53, 0.52]
-valueByLanguage["Koine_Greek"] = [0.67, 0.47]
+valueByLanguage["ISWOC_Old_English"] = [10, 13, 0.49]
+valueByLanguage["Archaic_Greek"] = [8, 10, 0.56]
+valueByLanguage["Classical_Greek"] = [5, 10, 0.52]
+valueByLanguage["Koine_Greek"] = [6, 10, 0.47]
 
 print(valueByLanguage)
 
@@ -60,7 +63,7 @@ hiddenLangs = [x for x in allLangs if x not in observedLangs]
 print(hiddenLangs)
 
 #observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
-observedLanguages = list(observedLangs)
+observedLanguages = [x for x in list(observedLangs) if x in valueByLanguage]
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
@@ -80,7 +83,9 @@ print(distanceToParent)
 dat = {}
 
 dat["ObservedN"] = len(observedLanguages)
-dat["TraitsObserved"] = [valueByLanguage[x] for x in observedLanguages]
+dat["TrialsSuccess"] = [valueByLanguage[x][0] for x in observedLanguages]
+dat["TrialsTotal"] = [valueByLanguage[x][1] for x in observedLanguages]
+dat["TraitObserved"] = [valueByLanguage[x][2] for x in observedLanguages]
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
 dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
@@ -93,15 +98,16 @@ dat["Components"] = 2
 
 print(dat)
 
-sm = pystan.StanModel(file='8model.stan')
+sm = pystan.StanModel(file='22model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
-with open(f"fits/{__file__}.txt", "w") as outFile:
-   print(fit, file=outFile)
-   print(la, file=outFile)
 print(fit)
 print(la)
-print("Inferred hidden traits", la["TraitsHidden"].mean(axis=0))
+print("Inferred logits", la["LogitsAll"].mean(axis=0))
+print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
+print("alpha", la["alpha"].mean(axis=0))
+print("sigma_B", la["sigma_B"].mean(axis=0))
+print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
 

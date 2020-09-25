@@ -158,8 +158,9 @@ sm = pystan.StanModel(file='20model.stan')
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
-print(fit)
-print(la)
+with open(f"fits/{__file__}.txt", "w") as outFile:
+   print(fit, file=outFile)
+   print(la, file=outFile)
 print("Inferred logits", la["LogitsAll"].mean(axis=0))
 print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
 print("alpha", la["alpha"].mean(axis=0))

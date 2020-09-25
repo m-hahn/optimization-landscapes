@@ -154,7 +154,7 @@ dat["Components"] = 2
 print(dat)
 dat["DistanceMatrix"] = kernel
 
-sm = pystan.StanModel(file='21model.stan')
+sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)

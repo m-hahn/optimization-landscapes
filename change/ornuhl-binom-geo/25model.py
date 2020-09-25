@@ -154,7 +154,7 @@ dat["Components"] = 2
 print(dat)
 dat["DistanceMatrix"] = kernel
 
-sm = pystan.StanModel(file='21model.stan')
+sm = pystan.StanModel(file='25model.stan')
 
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
@@ -165,6 +165,7 @@ with open(f"fits/{__file__}.txt", "w") as outFile:
 print("Inferred logits", la["LogitsAll"].mean(axis=0))
 print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
 print("alpha", la["alpha"].mean(axis=0))
+print("corr_Sigma", la["corr_Sigma"].mean(axis=0))
 print("sigma_B", la["sigma_B"].mean(axis=0))
 print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
 
