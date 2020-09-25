@@ -51,11 +51,16 @@ model {
      } else {
         matrix[2, 2] exp1 = matrix_exp(-B * ParentDistance[n]);
         matrix[2,2] cov = (Lambda - exp1 * Lambda * exp1');
-        if(is_nan(cov[1,2]) || is_nan(cov[2,1])) { // (cov[1,1] < 0) || (cov[2,2] < 0) || (cov[1,1] < cov[1,2]) || (cov[2,2] < cov[1,2]) || 
-        print("B", B)
-        print("exp1", exp1)
-        print("Lambda", Lambda)
-        print("Covariance", Lambda - exp1 * Lambda * exp1')
+        // hacky band-aid fix for numerical trouble
+        cov[1,1] = cov[1,1] + 0.01;
+        cov[2,2] = cov[2,2] + 0.01;
+        if(cov[1,1] + cov[2,2] <= 0 || cov[1,1] * cov[2,2] - cov[1,2] * cov[2,1] <= 0) {
+         print("NOT POSITIVE DEFINITE");
+         print(cov);
+         print(Lambda);
+         print(exp1);
+         print(B);
+         print(ParentDistance[n]);
         }
         target += multi_normal_lpdf(own[n-1] | alpha + exp1 * (reference[n-1]' - alpha), Lambda - exp1 * Lambda * exp1');
      }

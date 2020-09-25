@@ -24,13 +24,13 @@ parameters {
   vector<lower=0.1, upper=2>[2] sigma_Sigma;
   real<lower=-0.9, upper=0.9> corr_B;
   real<lower=-0.9, upper=0.9> corr_Sigma;
-  vector[TotalN] mu1;
-  vector[TotalN] mu2;
+  vector<lower=-10, upper=10>[TotalN] mu1;
+  vector<lower=0, upper=1>[TotalN] mu2;
   real<lower=0.000001, upper=1> kernel_mu1_alpha;
-  real<lower=0.000001, upper=1> kernel_mu1_rho;
+  real<lower=0.000001, upper=100> kernel_mu1_rho;
   real<lower=0> kernel_mu1_sigma;
   real<lower=0.000001, upper=1> kernel_mu2_alpha;
-  real<lower=0.000001, upper=1> kernel_mu2_rho;
+  real<lower=0.000001, upper=100> kernel_mu2_rho;
   real<lower=0> kernel_mu2_sigma;
   matrix[TotalN,2]   alphaByLanguage;
 }
@@ -60,28 +60,12 @@ transformed parameters {
   matrix[2,2] Omega = [[Omega_components[1], Omega_components[2]], [Omega_components[2], Omega_components[3]]];
 
 
+  matrix[TotalN, TotalN] IdentityMatrix = diag_matrix(rep_vector(1.0, TotalN));
+
+
   vector[TotalN] zero_mean = rep_vector(0, TotalN);
-  for (i in 1:(TotalN - 1)) {
-    K1[i, i] = kernel_mu1_alpha + kernel_mu1_sigma;
-    for (j in (i + 1):TotalN) {
-      K1[i, j] = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix[i,j]));
-      K1[j, i] = K1[i, j];
-     if(K1[i,j] > 10) {
-       print(i, " ", j, " ", K1[i, j], " ", kernel_mu1_alpha, " ", kernel_mu1_rho, " ", DistanceMatrix[i,j]);
-     }
-    }
-  }
-  K1[TotalN, TotalN] = 1 + kernel_mu1_sigma;
-  
-  for (i in 1:(TotalN - 1)) {
-    K2[i, i] = kernel_mu2_alpha + kernel_mu2_sigma;
-    for (j in (i + 1):TotalN) {
-      K2[i, j] = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix[i,j]));
-      K2[j, i] = K2[i, j];
-    }
-  }
-  K2[TotalN, TotalN] = 1 + kernel_mu2_sigma;
-  
+  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
+  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
 //  print("====")
 //  print(B)
 //  print(Omega)
@@ -90,10 +74,38 @@ transformed parameters {
 //  print(factor[8,2])
 }
 model {
+
+                                                                                                       
+  for (i in 1:(TotalN - 1)) {                                                                                                                                                                               
+    for (j in (i + 1):TotalN) {                                                                                                                                                                             
+     if(K1[i,j] > 10) {                                                                                                                                                                                     
+       print(i, " ", j," ",  K1[i, j]," ",  kernel_mu1_alpha, " ", kernel_mu1_rho, " ", DistanceMatrix[i,j]);                                                                                                                        
+     }                                                                                                                                                                                                      
+    }                                                                                                                                                                                                       
+  }                                                                                                  
+
+   if(K1[4, 47] != K1[4, 47]) {
+      print("===");
+      print(K1[4,47]);
+      print(kernel_mu1_alpha);
+      print(kernel_mu1_rho);
+       print(DistanceMatrix[4,47]);
+     print(kernel_mu1_sigma);
+     print(IdentityMatrix[4,47]);
+   }
+//  print(K1[4, 47])  ;
+
   target += student_t_lpdf(sigma_B | 3, 0, 2.5);
   target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
   target += normal_lpdf(alpha[1] | 0, 1);
- 
+
+  kernel_mu1_alpha ~ normal(0, 1); 
+  kernel_mu1_rho   ~ normal(0, 1);  
+  kernel_mu1_sigma ~ normal(0, 1); 
+  kernel_mu2_alpha ~ normal(0, 1);  
+  kernel_mu2_rho   ~ normal(0, 1); 
+  kernel_mu2_sigma ~ normal(0, 1);  
+
   mu1 ~ multi_normal(zero_mean, K1);
   mu2 ~ multi_normal(zero_mean, K2);
 
@@ -124,7 +136,15 @@ model {
         target += multi_normal_lpdf(own_overall | alpha, Omega);
      } else {
         matrix[2, 2] exp1 = matrix_exp(-B * ParentDistance[n]);
-        target += multi_normal_lpdf(own_overall | alpha + exp1 * (reference_overall - alpha), Omega - exp1 * Omega * exp1');
+        matrix[2,2] covariance_diagnostic = Omega - exp1 * Omega * exp1';
+        if(covariance_diagnostic[1,1] + covariance_diagnostic[2,2] <= 0 || covariance_diagnostic[1,1] * covariance_diagnostic[2,2] - covariance_diagnostic[1,2] * covariance_diagnostic[2,1] <= 0) {
+         print("NOT POSITIVE DEFINITE")
+         print(covariance_diagnostic)
+         print(Omega)
+         print(exp1)
+         print(B)
+        }
+        target += multi_normal_lpdf(own_overall | alpha + exp1 * (reference_overall - alpha), covariance_diagnostic);
      }
      if(!IsHidden[n]) {
         int success = TrialsSuccess[Total2Observed[n]];
