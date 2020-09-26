@@ -31,7 +31,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../landscapes_2.6.R.tsv", "r") as inFile:
+with open("../../landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -41,8 +41,6 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
-   if language == "Afrikaans_2.6":
-     continue
    if language == "Ancient_Greek_2.6":
      continue
    x = int(line[header["OSSameSideSum"]])
@@ -111,4 +109,4 @@ with open(f"fits/{__file__}.txt", "w") as outFile:
 #print("alpha", la["alpha"].mean(axis=0))
 #print("sigma_B", la["sigma_B"].mean(axis=0))
 #print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
-
+#
