@@ -102,6 +102,7 @@ sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
+
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
 #   print(la, file=outFile)
