@@ -41,7 +41,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../landscapes_2.6.R.tsv", "r") as inFile:
+with open("../../landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -51,8 +51,6 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
-   if language == "Afrikaans_2.6":
-     continue
    if language == "Ancient_Greek_2.6":
      continue
    x = int(line[header["OSSameSideSum"]])
@@ -140,7 +138,9 @@ dat = {}
 dat["ObservedN"] = len(observedLanguages)
 dat["TrialsSuccess"] = [valueByLanguage[x][0] for x in observedLanguages]
 dat["TrialsTotal"] = [valueByLanguage[x][1] for x in observedLanguages]
-dat["TraitObserved"] = [valueByLanguage[x][2] for x in observedLanguages]
+dat["TraitObserved"] = [valueByLanguage[x][2]*2-1 for x in observedLanguages]
+assert min(dat["TraitObserved"]) < 0
+assert max(dat["TraitObserved"]) <= 1
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
 assert dat["TotalN"] == len(totalLanguages)
@@ -156,25 +156,17 @@ dat["DistanceMatrix"] = kernel
 
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
-import sys
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
 
-
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
-
-
-with open("fits/{__file__}_diagnostic.txt", "w") as outFile:
-   sys.stdout = outFile
-   sys.stderr = outFile
-   print(pystan.check_hmc_diagnostics(fit), file=outFile)
-
 #   print(la, file=outFile)
 #print("Inferred logits", la["LogitsAll"].mean(axis=0))
 #print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
 #print("alpha", la["alpha"].mean(axis=0))
+#print("corr_Sigma", la["corr_Sigma"].mean(axis=0))
 #print("sigma_B", la["sigma_B"].mean(axis=0))
 #print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
 #
