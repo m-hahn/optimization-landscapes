@@ -19,17 +19,16 @@ parameters {
   vector<lower=-1, upper=1>[HiddenN] TraitHidden;
   vector<lower=-2, upper=2>[TotalN] LogitsAll;
   vector<lower=0>[2] sd_1; 
-  cholesky_factor_corr[2] Lrescor; 
+  real<lower=-1, upper=1> rho; 
 
 }
 model {
 
-  matrix[2, 2] LSigma = diag_pre_multiply(sd_1, Lrescor);
+  matrix[2, 2] LSigma = diag_pre_multiply(sd_1, [[1, rho], [0, 1]]);
   matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(LSigma);
 
-  target += student_t_lpdf(sd_1 | 3, 0, 2.5)
-    - 2 * student_t_lccdf(0 | 3, 0, 2.5);
-  target += lkj_corr_cholesky_lpdf(Lrescor | 1);
+  target += student_t_lpdf(sd_1 | 3, 0, 2.5);
+//    - 2 * student_t_lccdf(0 | 3, 0, 2.5);
   
 
   for (n in 2:TotalN) {
@@ -66,6 +65,6 @@ model {
   }
 }
 generated quantities {
-  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(diag_pre_multiply(sd_1, Lrescor));
+  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(diag_pre_multiply(sd_1, [[1, rho], [0, 1]]));
 }
 
