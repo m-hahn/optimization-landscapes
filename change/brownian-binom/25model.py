@@ -2,16 +2,6 @@ import pystan
 from math import sqrt, log
 import math
 
-with open("../geolocations.tsv", "r") as inFile:
-  geolocations = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
-print(geolocations)
-languages = [x[1] for x in geolocations]
-latitudes = [float(x[4]) for x in geolocations]
-longitudes = [float(x[5]) for x in geolocations]
-latitudes = dict(list(zip(languages, latitudes)))
-longitudes = dict(list(zip(languages, longitudes)))
-
-
 with open("../trees.tsv", "r") as inFile:
   trees = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(trees)
@@ -41,7 +31,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../landscapes_2.6.R.tsv", "r") as inFile:
+with open("../../landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -51,10 +41,9 @@ print(header)
 valueByLanguage = {}
 for line in data:
    language = line[header["Language"]]
-   if language == "Afrikaans_2.6":
-     continue
    if language == "Ancient_Greek_2.6":
      continue
+   assert language in parents, language
    x = int(line[header["OSSameSideSum"]])
    y = int(line[header["OSSameSideTotal"]])
    z = float(line[header["OSSameSide_Real_Prob"]])
@@ -88,62 +77,16 @@ for language in allLangs:
    dateParent = dates[parent]
    distanceToParent[language] = (float(dateLang)-float(dateParent))/1000
 print(distanceToParent)
+#quit()
 
-from collections import defaultdict
-fromParentsToDescendants = defaultdict(list)
-for lang, parent in parents.items():
-   fromParentsToDescendants[parent].append(lang)
-fromParentsToDescendants["_ROOT_"] = []
-for lang in fromParentsToDescendants:
-    if lang not in parents and lang != "_ROOT_":
-        fromParentsToDescendants["_ROOT_"].append(lang)
-print(fromParentsToDescendants)
-
-def mean(x):
-    return sum(x)/len(x)
-
-done = set()
-def getGeolocation(lang):
-   if lang in done:
-       return
-   for lang2 in fromParentsToDescendants[lang]:
-       assert lang2 != lang, lang
-       getGeolocation(lang2)
-   if lang not in latitudes:
-     latitudes[lang] = mean([latitudes[x] for x in fromParentsToDescendants[lang]])
-     longitudes[lang] = mean([longitudes[x] for x in fromParentsToDescendants[lang]])
-   done.add(lang)
-
-getGeolocation("_ROOT_")
-print(latitudes)
-print(longitudes)
-
-totalLanguages = ["_ROOT_"] + sorted(hiddenLanguages) + sorted(observedLanguages)
-
-import geopy.distance
-
-kernel = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
-for i in range(len(kernel)):
-   for j in range(i):
-     l1 = totalLanguages[i]
-     l2 = totalLanguages[j]
-     lat1, long1 = latitudes[l1], longitudes[l1]
-     lat2, long2 = latitudes[l2], longitudes[l2]
-     distance = geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000
-#     print(lat1, long1, lat2, long2, l1, l2, geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000)
-     kernel[i][j] = distance
-     kernel[j][i] = distance
-print(kernel[5][5])
-print(kernel[8][8])
 dat = {}
 
 dat["ObservedN"] = len(observedLanguages)
 dat["TrialsSuccess"] = [valueByLanguage[x][0] for x in observedLanguages]
 dat["TrialsTotal"] = [valueByLanguage[x][1] for x in observedLanguages]
-dat["TraitObserved"] = [valueByLanguage[x][2] for x in observedLanguages]
+dat["TraitObserved"] = [valueByLanguage[x][2]*2-1 for x in observedLanguages]
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
-assert dat["TotalN"] == len(totalLanguages)
 dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
 dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hiddenLanguages+observedLanguages]
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
@@ -151,26 +94,17 @@ dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in 
 dat["ParentDistance"] = [0] + [distanceToParent.get(x, 10) for x in hiddenLanguages+observedLanguages]
 dat["prior_only"] = 0
 dat["Components"] = 2
+
 print(dat)
-dat["DistanceMatrix"] = kernel
 
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
-import sys
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
 
-
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
-
-
-with open("fits/{__file__}_diagnostic.txt", "w") as outFile:
-   sys.stdout = outFile
-   sys.stderr = outFile
-   print(pystan.check_hmc_diagnostics(fit), file=outFile)
-
 #   print(la, file=outFile)
 #print("Inferred logits", la["LogitsAll"].mean(axis=0))
 #print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
