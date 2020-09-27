@@ -2,7 +2,7 @@ functions {
 }
 data {
   int<lower=1> ObservedN;  // number of observations
-  vector<lower=-1, upper=1>[ObservedN] TraitObserved;  // population-level design matrix
+  vector<lower=0, upper=1>[ObservedN] TraitObserved;  // population-level design matrix
   int<lower=0> TrialsSuccess[ObservedN];
   int<lower=0> TrialsTotal[ObservedN];
   int<lower=1> HiddenN;
@@ -17,14 +17,14 @@ data {
   matrix[TotalN, TotalN] DistanceMatrix;
 }
 parameters {
-  vector<lower=-1, upper=1>[HiddenN] TraitHidden;
+  vector<lower=0, upper=1>[HiddenN] TraitHidden;
   vector<lower=-2, upper=2>[TotalN] LogitsAll;
   vector<lower=-2, upper=2>[2] alpha; // the mean of the process
   vector<lower=0.1, upper=2>[2] sigma_B;
   vector<lower=0.1, upper=2>[2] sigma_Sigma;
   real<lower=-0.9, upper=0.9> corr_Sigma;
   vector<lower=-10, upper=10>[TotalN] mu1;
-  vector<lower=-1, upper=1>[TotalN] mu2;
+  vector<lower=0, upper=1>[TotalN] mu2;
   real<lower=0.000001, upper=1> kernel_mu1_alpha;
   real<lower=0.000001, upper=100> kernel_mu1_rho;
   real<lower=0> kernel_mu1_sigma;

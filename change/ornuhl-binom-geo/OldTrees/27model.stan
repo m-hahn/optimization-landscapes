@@ -31,7 +31,6 @@ parameters {
   real<lower=0.000001, upper=1> kernel_mu2_alpha;
   real<lower=0.000001, upper=100> kernel_mu2_rho;
   real<lower=0> kernel_mu2_sigma;
-  matrix[TotalN,2]   alphaByLanguage;
 }
 transformed parameters {
 

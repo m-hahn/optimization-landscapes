@@ -32,7 +32,7 @@ parameters {
   real<lower=0.000001> kernel_mu2_alpha;
   real<lower=0.000001, upper=100> kernel_mu2_rho;
   real<lower=0> kernel_mu2_sigma;
-  matrix[TotalN,2]   alphaByLanguage;
+//  matrix[TotalN,2]   alphaByLanguage;
 }
 transformed parameters {
 
@@ -64,8 +64,8 @@ transformed parameters {
 
 
   vector[TotalN] zero_mean = rep_vector(0, TotalN);
-  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * square(DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
-  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * square(DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
+  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
+  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
 //  print("====")
 //  print(B)
 //  print(Omega)
@@ -74,6 +74,16 @@ transformed parameters {
 //  print(factor[8,2])
 }
 model {
+
+                                                                                                       
+  for (i in 1:(TotalN - 1)) {                                                                                                                                                                               
+    for (j in (i + 1):TotalN) {                                                                                                                                                                             
+     if(K1[i,j] > 10) {                                                                                                                                                                                     
+       print(i, " ", j," ",  K1[i, j]," ",  kernel_mu1_alpha, " ", kernel_mu1_rho, " ", DistanceMatrix[i,j]);                                                                                                                        
+     }                                                                                                                                                                                                      
+    }                                                                                                                                                                                                       
+  }                                                                                                  
+
    if(K1[4, 47] != K1[4, 47]) {
       print("===");
       print(K1[4,47]);
@@ -88,7 +98,15 @@ model {
   target += student_t_lpdf(sigma_B | 3, 0, 2.5);
   target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
   target += normal_lpdf(alpha[1] | 0, 1);
- 
+
+  target += student_t_lpdf(kernel_mu1_alpha | 3, 0, 2.5);
+  target += student_t_lpdf(kernel_mu1_rho | 3, 0, 2.5);
+  target += student_t_lpdf(kernel_mu1_sigma | 3, 0, 2.5);
+
+  target += student_t_lpdf(kernel_mu2_alpha | 3, 0, 2.5);
+  target += student_t_lpdf(kernel_mu2_rho | 3, 0, 2.5);
+  target += student_t_lpdf(kernel_mu2_sigma | 3, 0, 2.5);
+
   mu1 ~ multi_normal(zero_mean, K1);
   mu2 ~ multi_normal(zero_mean, K2);
 

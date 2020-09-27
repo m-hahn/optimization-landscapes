@@ -22,7 +22,6 @@ parameters {
   vector<lower=-2, upper=2>[2] alpha; // the mean of the process
   vector<lower=0.1, upper=2>[2] sigma_B;
   vector<lower=0.1, upper=2>[2] sigma_Sigma;
-  real<lower=-0.9, upper=0.9> corr_Sigma;
   vector<lower=-10, upper=10>[TotalN] mu1;
   vector<lower=-1, upper=1>[TotalN] mu2;
   real<lower=0.000001, upper=1> kernel_mu1_alpha;
@@ -31,7 +30,7 @@ parameters {
   real<lower=0.000001, upper=1> kernel_mu2_alpha;
   real<lower=0.000001, upper=100> kernel_mu2_rho;
   real<lower=0> kernel_mu2_sigma;
-  matrix[TotalN,2]   alphaByLanguage;
+//  matrix[TotalN,2]   alphaByLanguage;
 }
 transformed parameters {
 
@@ -41,7 +40,7 @@ transformed parameters {
 
   // intermediate steps
   matrix[2, 2] Lrescor_B = [[1, 0], [0, 1]];
-  matrix[2, 2] Lrescor_Sigma = [[1, 0], [corr_Sigma, 1]];
+  matrix[2, 2] Lrescor_Sigma = [[1, 0], [0, 1]];
 //
   matrix[2, 2] B_chol = diag_pre_multiply(sigma_B, Lrescor_B);
   matrix[2, 2] Sigma_chol = diag_pre_multiply(sigma_Sigma, Lrescor_Sigma);

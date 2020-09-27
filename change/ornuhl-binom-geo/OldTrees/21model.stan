@@ -22,16 +22,17 @@ parameters {
   vector<lower=-2, upper=2>[2] alpha; // the mean of the process
   vector<lower=0.1, upper=2>[2] sigma_B;
   vector<lower=0.1, upper=2>[2] sigma_Sigma;
+  real<lower=-0.9, upper=0.9> corr_B;
   real<lower=-0.9, upper=0.9> corr_Sigma;
-  vector<lower=-10, upper=10>[TotalN] mu1;
-  vector<lower=0, upper=1>[TotalN] mu2;
-  real<lower=0.000001, upper=1> kernel_mu1_alpha;
+  vector[TotalN] mu1;
+  vector[TotalN] mu2;
+  real<lower=0.000001> kernel_mu1_alpha;
   real<lower=0.000001, upper=100> kernel_mu1_rho;
   real<lower=0> kernel_mu1_sigma;
-  real<lower=0.000001, upper=1> kernel_mu2_alpha;
+  real<lower=0.000001> kernel_mu2_alpha;
   real<lower=0.000001, upper=100> kernel_mu2_rho;
   real<lower=0> kernel_mu2_sigma;
-  matrix[TotalN,2]   alphaByLanguage;
+//  matrix[TotalN,2]   alphaByLanguage;
 }
 transformed parameters {
 
@@ -40,7 +41,7 @@ transformed parameters {
 
 
   // intermediate steps
-  matrix[2, 2] Lrescor_B = [[1, 0], [0, 1]];
+  matrix[2, 2] Lrescor_B = [[1, 0], [corr_B, 1]];
   matrix[2, 2] Lrescor_Sigma = [[1, 0], [corr_Sigma, 1]];
 //
   matrix[2, 2] B_chol = diag_pre_multiply(sigma_B, Lrescor_B);
@@ -58,40 +59,21 @@ transformed parameters {
   vector[3] Omega_components = factor \ instant_cov_components;
   matrix[2,2] Omega = [[Omega_components[1], Omega_components[2]], [Omega_components[2], Omega_components[3]]];
 
+
   matrix[TotalN, TotalN] IdentityMatrix = diag_matrix(rep_vector(1.0, TotalN));
 
 
   vector[TotalN] zero_mean = rep_vector(0, TotalN);
-  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
-  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
+  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * square(DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
+  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * square(DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
 //  print("====")
 //  print(B)
 //  print(Omega)
 //  print(B * Omega + Omega * B')
 //  print(Sigma)
 //  print(factor[8,2])
-
-        if(Omega[1,1] + Omega[2,2] <= 0 || Omega[1,1] * Omega[2,2] - Omega[1,2] * Omega[2,1] <= 0) {
-         print("Omega is NOT POSITIVE DEFINITE!!");
-         print(Omega);
-         print(Sigma);
-         print(B);
-        }
-
-
-
 }
 model {
-
-                                                                                                       
-  for (i in 1:(TotalN - 1)) {                                                                                                                                                                               
-    for (j in (i + 1):TotalN) {                                                                                                                                                                             
-     if(K1[i,j] > 10) {                                                                                                                                                                                     
-       print(i, " ", j," ",  K1[i, j]," ",  kernel_mu1_alpha, " ", kernel_mu1_rho, " ", DistanceMatrix[i,j]);                                                                                                                        
-     }                                                                                                                                                                                                      
-    }                                                                                                                                                                                                       
-  }                                                                                                  
-
    if(K1[4, 47] != K1[4, 47]) {
       print("===");
       print(K1[4,47]);
@@ -106,14 +88,7 @@ model {
   target += student_t_lpdf(sigma_B | 3, 0, 2.5);
   target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
   target += normal_lpdf(alpha[1] | 0, 1);
-
-  kernel_mu1_alpha ~ normal(0, 1); 
-  kernel_mu1_rho   ~ normal(0, 1);  
-  kernel_mu1_sigma ~ normal(0, 1); 
-  kernel_mu2_alpha ~ normal(0, 1);  
-  kernel_mu2_rho   ~ normal(0, 1); 
-  kernel_mu2_sigma ~ normal(0, 1);  
-
+ 
   mu1 ~ multi_normal(zero_mean, K1);
   mu2 ~ multi_normal(zero_mean, K2);
 
@@ -146,21 +121,11 @@ model {
         matrix[2, 2] exp1 = matrix_exp(-B * ParentDistance[n]);
         matrix[2,2] covariance_diagnostic = Omega - exp1 * Omega * exp1';
         if(covariance_diagnostic[1,1] + covariance_diagnostic[2,2] <= 0 || covariance_diagnostic[1,1] * covariance_diagnostic[2,2] - covariance_diagnostic[1,2] * covariance_diagnostic[2,1] <= 0) {
-         real negDeterminant = -(covariance_diagnostic[1,1] * covariance_diagnostic[2,2] - covariance_diagnostic[1,2] * covariance_diagnostic[2,1]);
          print("NOT POSITIVE DEFINITE")
          print(covariance_diagnostic)
          print(Omega)
          print(exp1)
          print(B)
-         print("Neg Determinant", negDeterminant);
-         covariance_diagnostic[1,1]  = covariance_diagnostic[1,1] + 0.00001 ;
-         covariance_diagnostic[2,2]  = covariance_diagnostic[2,2] + 0.00001 ;
-
-//         if(covariance_diagnostic[1,1] < covariance_diagnostic[2,2]) {
-//           covariance_diagnostic[1,1]  = covariance_diagnostic[1,1] + negDeterminant / covariance_diagnostic[2,2] + 0.00001 ;
-//         } else {
-//           covariance_diagnostic[2,2]  = covariance_diagnostic[2,2] + negDeterminant / covariance_diagnostic[1,1] + 0.00001 ;
-//         }
         }
         target += multi_normal_lpdf(own_overall | alpha + exp1 * (reference_overall - alpha), covariance_diagnostic);
      }
