@@ -38,21 +38,23 @@ parameters {
   real<lower=0.000001, upper=100> kernel_mu2_rho;
   real<lower=0> kernel_mu2_sigma;
 //  matrix[TotalN,2]   alphaByLanguage;
-  matrix[2,2] B;
 }
 transformed parameters {
 
-  real<lower=0.0001> constraint1 = B[1, 1] + B[2, 2];
-  real<lower=0.0001> constraint2 = B[1, 1] * B[2, 2] - B[1, 2] * B[2, 1];
 
 
+  // intermediate steps
+  matrix[2, 2] Lrescor_B = [[1, 0], [0, 1]];
   matrix[2, 2] Lrescor_Sigma = [[1, 0], [corr_Sigma, 1]];
 //
+  matrix[2, 2] B_chol = diag_pre_multiply(sigma_B, Lrescor_B);
   matrix[2, 2] Sigma_chol = diag_pre_multiply(sigma_Sigma, Lrescor_Sigma);
 //
+  matrix[2, 2] B = multiply_lower_tri_self_transpose(B_chol);
   matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(Sigma_chol);
 
 // Sigma = instantaneous covariance
+// B = drift matrix (here assumed to be positive definite & symmetric for simplicity)
 
   // Now calculate Omega, the stationary covariance
   matrix[3, 3] factor = [[2*B[1,1], B[1,2], 0], [B[2,1], B[1,1]+B[2,2], B[1,2]], [0, B[2,1], 2*B[2,2]]]; // using Risken (6.126)
@@ -88,8 +90,7 @@ model {
   K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * DistanceMatrix - kernel_mu1_rho_time * DistanceMatrixTime) + kernel_mu1_sigma * IdentityMatrix;
   K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * DistanceMatrix - kernel_mu2_rho_time * DistanceMatrixTime) + kernel_mu2_sigma * IdentityMatrix;
 
-  to_vector(B) ~ normal(0, 10);
-                                                                                                     
+                                                                                                       
   for (i in 1:(TotalN - 1)) {                                                                                                                                                                               
     for (j in (i + 1):TotalN) {                                                                                                                                                                             
      if(K1[i,j] > 10) {                                                                                                                                                                                     
@@ -151,7 +152,7 @@ model {
      reference_overall = [reference_logit, reference_trait]';
      target_mean_here = alpha + [mu1[n], mu2[n]]';
      if (ParentIndex[n] == 1) {
-        target += multi_normal_lpdf(own_overall | alpha, Omega);
+        target += multi_normal_lpdf(own_overall | target_mean_here, Omega);
      } else {
         matrix[2, 2] exp1 = matrix_exp(-B * ParentDistance[n]);
         matrix[2,2] covariance_diagnostic = Omega - exp1 * Omega * exp1';
@@ -172,7 +173,7 @@ model {
 //           covariance_diagnostic[2,2]  = covariance_diagnostic[2,2] + negDeterminant / covariance_diagnostic[1,1] + 0.00001 ;
 //         }
         }
-        target += multi_normal_lpdf(own_overall | alpha + exp1 * (reference_overall - alpha), covariance_diagnostic);
+        target += multi_normal_lpdf(own_overall | target_mean_here + exp1 * (reference_overall - target_mean_here), covariance_diagnostic);
      }
      if(!IsHidden[n]) {
         int success = TrialsSuccess[Total2Observed[n]];
