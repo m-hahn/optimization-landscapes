@@ -100,12 +100,6 @@ dat["Components"] = 2
 
 print(dat)
 
-
-
-import matplotlib
-import matplotlib.pyplot as plt
-
-
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
 
@@ -114,50 +108,6 @@ la = fit.extract(permuted=True)  # return a dictionary of arrays
 
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
-
-
-fit_df = fit.to_dataframe()
-keys = list(fit_df.keys())
-
-
-print(fit["lp__"])
-print(fit["Lrescor[1,1]"])
-print(max(fit["lp__"]))
-print(max(fit["Lrescor[1,1]"]))
-print(min(fit["lp__"]))
-print(min(fit["Lrescor[1,1]"]))
-
-plt.scatter(fit_df["lp__"], fit_df["Lrescor[1,1]"])
-plt.savefig(f"plots/{__file__}_lp___Lrescor[1,1].png")
-plt.show()
-
-import torch
-
-
-def correlation(x, y):
-  x = torch.FloatTensor(x)
-  y = torch.FloatTensor(y)
-  return float((x*y).mean()/(x.pow(2).mean().sqrt() * y.pow(2).mean().sqrt()))
-
-for i in range(len(keys)):
-  for j in range(i):
-   print("CORR", keys[i], keys[j], correlation(fit_df[keys[i]], fit_df[keys[j]]))
-   if "TraitHidden" not in keys[i]+keys[j] and "LogitsAll" not in keys[i]+keys[j]:
-     plt.clf()
-     plt.scatter(fit_df[keys[i]], fit_df[keys[j]])
-     plt.savefig(f"plots/{__file__}_{keys[i]}_{keys[j]}.png")
-     plt.show()
-
-import arviz
-
-#arviz.plot_pair(fit, var_names=["sd_1[1]", "sd_1[2]", "Lrescor[1,1]", "Lrescor[1,2]", "Lrescor[2,1]", "Lrescor[1,1]", "Sigma[1,1]", "Sigma[1,2]", "Sigma[1,1]", "Sigma[2,2]", "lp__"])
-#plt.savefig(f"plots/{__file__}_pairs.png")
-
-arviz.plot_trace(fit)
-#fit.plot()
-plt.savefig(f"plots/{__file__}_total.png")
-
-
 #   print(la, file=outFile)
 #print("Inferred logits", la["LogitsAll"].mean(axis=0))
 #print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))

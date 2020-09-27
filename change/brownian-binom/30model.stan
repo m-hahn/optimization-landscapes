@@ -19,12 +19,11 @@ parameters {
   vector<lower=-1, upper=1>[HiddenN] TraitHidden;
   vector<lower=-2, upper=2>[TotalN] LogitsAll;
   vector<lower=0>[2] sd_1; 
-  real<lower=-1, upper=1> rho; 
 
 }
 model {
 
-  matrix[2, 2] LSigma = diag_pre_multiply(sd_1, [[1, 0], [rho, 1]]);
+  matrix[2, 2] LSigma = diag_pre_multiply(sd_1, [[1, 0], [0, 1]]);
   matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(LSigma);
 
   target += student_t_lpdf(sd_1 | 3, 0, 2.5);
@@ -65,6 +64,6 @@ model {
   }
 }
 generated quantities {
-  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(diag_pre_multiply(sd_1, [[1, 0], [rho, 1]]));
+  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(diag_pre_multiply(sd_1, [[1, 0], [0, 1]]));
 }
 
