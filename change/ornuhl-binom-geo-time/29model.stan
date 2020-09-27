@@ -15,6 +15,7 @@ data {
   int prior_only;  // should the likelihood be ignored?
   int Components;
   matrix[TotalN, TotalN] DistanceMatrix;
+  matrix[TotalN, TotalN] DistanceMatrixTime;
 }
 parameters {
   vector<lower=-1, upper=1>[HiddenN] TraitHidden;
@@ -22,8 +23,14 @@ parameters {
   vector<lower=-2, upper=2>[2] alpha; // the mean of the process
   vector<lower=0.1, upper=2>[2] sigma_B;
   vector<lower=0.1, upper=2>[2] sigma_Sigma;
+  real<lower=-0.9, upper=0.9> corr_Sigma;
   vector<lower=-10, upper=10>[TotalN] mu1;
   vector<lower=-1, upper=1>[TotalN] mu2;
+
+  real<lower=0.000001, upper=100> kernel_mu1_rho_time;
+  real<lower=0.000001, upper=100> kernel_mu2_rho_time;
+
+
   real<lower=0.000001, upper=1> kernel_mu1_alpha;
   real<lower=0.000001, upper=100> kernel_mu1_rho;
   real<lower=0> kernel_mu1_sigma;
@@ -34,11 +41,13 @@ parameters {
 }
 transformed parameters {
 
+  matrix[TotalN, TotalN] K1;
+  matrix[TotalN, TotalN] K2;
 
 
   // intermediate steps
   matrix[2, 2] Lrescor_B = [[1, 0], [0, 1]];
-  matrix[2, 2] Lrescor_Sigma = [[1, 0], [0, 1]];
+  matrix[2, 2] Lrescor_Sigma = [[1, 0], [corr_Sigma, 1]];
 //
   matrix[2, 2] B_chol = diag_pre_multiply(sigma_B, Lrescor_B);
   matrix[2, 2] Sigma_chol = diag_pre_multiply(sigma_Sigma, Lrescor_Sigma);
@@ -58,6 +67,9 @@ transformed parameters {
   matrix[TotalN, TotalN] IdentityMatrix = diag_matrix(rep_vector(1.0, TotalN));
 
 
+  vector[TotalN] zero_mean = rep_vector(0, TotalN);
+  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * DistanceMatrix - kernel_mu1_rho_time * DistanceMatrixTime) + kernel_mu1_sigma * IdentityMatrix;
+  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * DistanceMatrix - kernel_mu2_rho_time * DistanceMatrixTime) + kernel_mu2_sigma * IdentityMatrix;
 //  print("====")
 //  print(B)
 //  print(Omega)
@@ -76,12 +88,7 @@ transformed parameters {
 
 }
 model {
-  matrix[TotalN, TotalN] K1;
-  matrix[TotalN, TotalN] K2;
 
-  vector[TotalN] zero_mean = rep_vector(0, TotalN);
-  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
-  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
                                                                                                        
   for (i in 1:(TotalN - 1)) {                                                                                                                                                                               
     for (j in (i + 1):TotalN) {                                                                                                                                                                             
@@ -105,6 +112,10 @@ model {
   target += student_t_lpdf(sigma_B | 3, 0, 2.5);
   target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
   target += normal_lpdf(alpha[1] | 0, 1);
+
+
+  kernel_mu1_rho_time   ~ normal(0, 1); 
+  kernel_mu2_rho_time   ~ normal(0, 1); 
 
   kernel_mu1_alpha ~ normal(0, 1); 
   kernel_mu1_rho   ~ normal(0, 1);  
