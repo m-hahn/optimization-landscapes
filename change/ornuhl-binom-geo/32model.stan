@@ -35,8 +35,6 @@ parameters {
 }
 transformed parameters {
 
-  matrix[TotalN, TotalN] K1;
-  matrix[TotalN, TotalN] K2;
 
 
   // intermediate steps
@@ -61,9 +59,6 @@ transformed parameters {
   matrix[TotalN, TotalN] IdentityMatrix = diag_matrix(rep_vector(1.0, TotalN));
 
 
-  vector[TotalN] zero_mean = rep_vector(0, TotalN);
-  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
-  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
 //  print("====")
 //  print(B)
 //  print(Omega)
@@ -82,7 +77,12 @@ transformed parameters {
 
 }
 model {
+  matrix[TotalN, TotalN] K1;
+  matrix[TotalN, TotalN] K2;
 
+  vector[TotalN] zero_mean = rep_vector(0, TotalN);
+  K1 = kernel_mu1_alpha * exp(-kernel_mu1_rho * (DistanceMatrix)) + kernel_mu1_sigma * IdentityMatrix;
+  K2 = kernel_mu2_alpha * exp(-kernel_mu2_rho * (DistanceMatrix)) + kernel_mu2_sigma * IdentityMatrix;
                                                                                                        
   for (i in 1:(TotalN - 1)) {                                                                                                                                                                               
     for (j in (i + 1):TotalN) {                                                                                                                                                                             

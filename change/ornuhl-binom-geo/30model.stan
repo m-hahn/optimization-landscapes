@@ -140,7 +140,7 @@ model {
      reference_overall = [reference_logit, reference_trait]';
      target_mean_here = alpha + [mu1[n], mu2[n]]';
      if (ParentIndex[n] == 1) {
-        target += multi_normal_lpdf(own_overall | alpha, Omega);
+        target += multi_normal_lpdf(own_overall | target_mean_here, Omega);
      } else {
         matrix[2, 2] exp1 = matrix_exp(-B * ParentDistance[n]);
         matrix[2,2] covariance_diagnostic = Omega - exp1 * Omega * exp1';
@@ -161,7 +161,7 @@ model {
 //           covariance_diagnostic[2,2]  = covariance_diagnostic[2,2] + negDeterminant / covariance_diagnostic[1,1] + 0.00001 ;
 //         }
         }
-        target += multi_normal_lpdf(own_overall | alpha + exp1 * (reference_overall - alpha), covariance_diagnostic);
+        target += multi_normal_lpdf(own_overall | target_mean_here + exp1 * (reference_overall - target_mean_here), covariance_diagnostic);
      }
      if(!IsHidden[n]) {
         int success = TrialsSuccess[Total2Observed[n]];
