@@ -74,7 +74,6 @@ print(hiddenLangs)
 observedLanguages = [x for x in list(observedLangs) if x in valueByLanguage]
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
-assert len(set(totalLanguages)) == len(totalLanguages)
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
 lang2Observed = dict(list(zip(observedLanguages, range(len(observedLanguages)))))
 
@@ -125,30 +124,44 @@ totalLanguages = ["_ROOT_"] + sorted(hiddenLanguages) + sorted(observedLanguages
 import geopy.distance
 
 
-#kernelTime = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
-#for i in range(len(kernelTime)):
-#   for j in range(i):
-#     l1 = totalLanguages[i]
-#     l2 = totalLanguages[j]
-#     d1 = int(dates.get(l1, 2000))
-#     d2 = int(dates.get(l1, 2000))
-#     kernelTime[i][j] = abs(d1-d2)/1000
-#     kernelTime[j][i] = abs(d1-d2)/1000
-#
-#
-#kernel = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
-#for i in range(len(kernel)):
-#   for j in range(i):
-#     l1 = totalLanguages[i]
-#     l2 = totalLanguages[j]
-#     lat1, long1 = latitudes[l1], longitudes[l1]
-#     lat2, long2 = latitudes[l2], longitudes[l2]
-#     distance = geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000
-##     print(lat1, long1, lat2, long2, l1, l2, geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000)
-#     kernel[i][j] = distance
-#     kernel[j][i] = distance
-#print(kernel[5][5])
-#print(kernel[8][8])
+
+# Sanity check: fit when distance kernel becomes meaningless
+import random
+languageKeys = list(latitudes)
+languageKeys2 = languageKeys[::]
+random.shuffle(languageKeys2)
+languagePermutation = dict(list(zip(languageKeys, languageKeys2)))
+latitudes = {x : latitudes[languagePermutation[x]] for x in languagePermutation}
+longitudes = {x : longitudes[languagePermutation[x]] for x in languagePermutation}
+dates = {x : dates.get(languagePermutation[x], 2000) for x in languagePermutation}
+
+
+kernelTime = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
+for i in range(len(kernelTime)):
+   for j in range(i):
+     l1 = totalLanguages[i]
+     l2 = totalLanguages[j]
+     d1 = int(dates.get(l1, 2000))
+     d2 = int(dates.get(l1, 2000))
+     kernelTime[i][j] = 1 if i!=j else 0#abs(d1-d2)/1000
+     kernelTime[j][i] = 1 if i!=j else 0# abs(d1-d2)/1000
+
+
+
+
+kernel = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
+for i in range(len(kernel)):
+   for j in range(i):
+     l1 = totalLanguages[i]
+     l2 = totalLanguages[j]
+     lat1, long1 = latitudes[l1], longitudes[l1]
+     lat2, long2 = latitudes[l2], longitudes[l2]
+     distance = 1 if i!=j else 0 #geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000
+#     print(lat1, long1, lat2, long2, l1, l2, geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000)
+     kernel[i][j] = distance
+     kernel[j][i] = distance
+print(kernel[5][5])
+print(kernel[8][8])
 dat = {}
 
 dat["ObservedN"] = len(observedLanguages)
@@ -168,30 +181,22 @@ dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+obse
 dat["prior_only"] = 0
 dat["Components"] = 2
 print(dat)
-#dat["DistanceMatrix"] = kernel
-#dat["DistanceMatrixTime"] = kernelTime
+dat["DistanceMatrix"] = kernel
+dat["DistanceMatrixTime"] = kernelTime
 
-mus = {}
-mus["1"] = [None for x in range((dat["TotalN"]))]
-mus["2"] = [None for x in range((dat["TotalN"]))]
+sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
-def sign(x):
-   if x < 0:
-       return -1
-   elif x == 0:
-       return 0
-   else:
-       return 1
 
-with open("fits/35model.py.txt", "r") as inFile:
-   for line in inFile:
-       if line.startswith("mu") or line.startswith("LogitsAll") or line.startswith("TraitHidden"):
-          line = [x for x in line.strip().split(" ") if len(x) > 0]
-          ind = line[0]
-          estimate = float(line[1])
-          ind1 = ind[2]
-          ind2 = ind[ind.index("[")+1:ind.index("]")]
-          #mus[ind1][int(ind2)-1] = estimate
-          if sign(float(line[5])) == sign(float(line[7])):
-             print(ind, totalLanguages[int(ind2)-1], estimate)
-print(mus)
+fit = sm.sampling(data=dat, iter=2000, chains=4)
+la = fit.extract(permuted=True)  # return a dictionary of arrays
+
+with open(f"fits/{__file__}.txt", "w") as outFile:
+   print(fit, file=outFile)
+#   print(la, file=outFile)
+#print("Inferred logits", la["LogitsAll"].mean(axis=0))
+#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
+#print("alpha", la["alpha"].mean(axis=0))
+#print("corr_Sigma", la["corr_Sigma"].mean(axis=0))
+#print("sigma_B", la["sigma_B"].mean(axis=0))
+#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
+#
