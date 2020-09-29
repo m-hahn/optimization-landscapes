@@ -65,10 +65,12 @@ plot = plot + geom_density2d(data=data_inf_japanese, color="red")
 plot = plot + geom_density2d(data=data_inf_arabic, color="red")
 plot = plot + geom_density2d(data=data_inf_russian, color="red")
 data_langs = data.frame(Real = (c(arabic[2], russian[2],english[2], japanese[2])+1)/2, Model = sigmoid(c(arabic[1], russian[1], english[1], japanese[1])), Name = c("Arabic", "Russian", "English", "Japanese"))
-plot = plot + geom_point(data=data_langs, aes(x=Real, y=Model), color="black") + geom_text(data=data_langs, aes(x=Real, y=Model, label=Name), nudge_y=-0.08)
+plot = plot + geom_point(data=data_langs, aes(x=Real, y=Model), color="black") + geom_text(data=data_langs, aes(x=Real, y=Model, label=Name), nudge_y=-0.08, size=5)
+plot = plot + theme_bw()
+plot = plot + theme(axis.text=element_text(size=7))
 plot = plot + xlab("Real Subject-Object Symmetry")
 plot = plot + ylab("Optimal Subject-Object-Symmetry")
-ggsave(plot, file="stationary.pdf")
+ggsave(plot, file="stationary.pdf", height=4, width=4)
 
 
 # geom_point(data=data_inf_russian, aes(x=Real, y=Model), color="red") + 
