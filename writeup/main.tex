@@ -417,6 +417,11 @@ This result is in agreement with that from the full set of corpora.
 \section{Analysis 3: Historical Evolution}
 
 
+If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages change.
+
+To test this, we conducted a phylogenetic analysis of the evolution of usage and word order.
+
+%We also drew on languages where dependency treebanks with data from different stages of the same language are available (see Materials and Methods for details).
 
 %We also drew on languages where dependency treebanks with data from different stages of the same language are available (see Materials and Methods for details).
 
@@ -433,6 +438,15 @@ We model the change of $\xi_{L,t}$ over time using an Ornstein-Uhlenbeck process
 This model allows us to determine the dynamics of how $X_{L,t}, Y_{L,t}$ evolve:
 Under the coadaptation hypothesis, changes in both variables should be positively correlated.
 Under the null hypothesis, no such correlation is expected.
+We modeled how usage (optimal subject-object symmetry) and grammar (real subject-objectn symmetry) evolve over time.
+We adopted an Ornstein-Uhlenbeck process (CITE).
+This model considers how the two quantities change responding both to random fluctuations and to systematic drift towards certain regions of the plane.
+
+Under the coadaptation hypothesis, drift in usage and grammar should be correlated, so that languages move towards the diagonal.
+
+
+We used phylogenetic trees from (CITE) and .
+We modified these trees by adding historical stages of existing languages for which we have corpora, such as Old English (approx. 900 AD) as an ancestor of English.
 
 %We obtained phylogenetic trees for the languages in our dataset (see Materials and Methods for details).
 %We modified these trees by adding historical stages of existing languages for which we have corpora, such as Old English (approx. 900 AD) as an ancestor of English.
@@ -458,6 +472,8 @@ We compared the model with a simpler version in which usage and grammar evolve i
 
 We visualize model fit in Figure~\ref{fig:drift-model}.
 The model predicts that languages will, over their evolution concentrate in such a way that grammar and usage come to be positively correlated.
+We also indicate expected direction of future changes in three languages (English, Russian, Japanese). TODO
+
 We also indicate expected direction of future changes in three languages (English, Russian, Japanese). TODO
 
 We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}.
@@ -650,6 +666,17 @@ $\Gamma$ and $\mu$ encode
 
 
 See SI Section X for implementation details, for comparison with a simple Brownian motion model, and for comparison with non-diagonal $\Gamma$.
+We adopt the model of Brownian motion on phylogenetic trees.
+As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
+We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
+We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as Brownian motion:
+\begin{equation*}
+    d\xi_t = \Lambda dB_t
+\end{equation*}
+where $\Lambda \in \mathbb{R}^{2\times 2}$.
+$\Lambda_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
+$A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that movement in both directions is not correlated.
 
 
 \bibliography{literature}
@@ -760,6 +787,34 @@ where $\Lambda \in \mathbb{R}^{2\times 2}$ is non-degenerate.
 In our setting, the Brownian motion model has the unrealistic property that trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$, whereas $\xi_t$ in reality remains bounded.
 (See below for likelihood results, showing poor fit of the simple Brownian model).
 
+
+\section{Details for Phylogenetic Models}
+
+
+
+We adopt the model of random walks on phylogenetic trees.
+We model the development of grammar and usage as an Ornstein-Uhlenbeck process (See SI Section X for results with a simpler Brownian motion model).
+According to the model of random walks on phylogenetic trees, whenever a (historical) language branches off into multiple successor languages, they independently develop according to this process.
+
+
+As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
+We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
+
+\subsection{Simple Brownian Motion Model}
+
+
+We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as a correlated Brownian motion in two dimensions:
+\begin{equation*}
+    d\xi_t = \Lambda dB_t
+\end{equation*}
+where $\Lambda \in \mathbb{R}^{2\times 2}$ is non-degenerate.
+
+\subsection{Model with Drift}
+
+In our setting, the Brownian motion model has the unrealistic property that trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$, whereas $\xi_t$ in reality remains bounded.
+(See below for likelihood results, showing poor fit of the simple Brownian model).
+
 This limitation can be addressed by adding a drift term, whereby languages tend to stay within a bounded area, while subjected to random walk dynamics within this area.
 
 This is expressed by the following stochastic differential equation, known as the Ornstein-Uhlenbeck process:
@@ -768,6 +823,19 @@ This is expressed by the following stochastic differential equation, known as th
     d\xi_t = -A(\xi_t-\mu) + \Lambda dB_t
 \end{equation*}
 where $A, \Lambda \in \mathbb{R}^{2\times 2}$, all eigenvalues of $A$ have positive real part, and $\Lambda$ has full rank.
+
+
+The matrix $A$ encodes the direction of drift.
+$A_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
+$A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that languages do not drift towards a correlation (See Si Section X for an alternative formulation in terms of correlated Brownian motion).
+
+
+We model the instantaneous change of the state $\xi_t \in \mathbb{R}^2$ of a language at a given time $t$ as a combination of drift and Brownian motion, formalized by the following stochastic differential equation defining the Ornstein-Uhlenbeck process \citep[p. 109, eq. 4.4.42]{gardiner1983handbook}:
+\begin{equation*}
+    d\xi_t = -\Gamma \cdot (\xi_t-\mu) dt + \Lambda \cdot dB_t
+\end{equation*}
+where $\mu \in \mathbb{R}^2$, $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$, the real part of each eigenvalue of $\Gamma$ is positive, and $\Lambda$ has full rank (so that $\Lambda\Lambda^T$ is positive definite).
+%is positive definite, and $\Lambda$ is diagonal with positive entries (see SI Section for results with non-diagonal $\Lambda$).
 
 
 The matrix $A$ encodes the direction of drift.
