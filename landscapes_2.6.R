@@ -24,7 +24,7 @@ data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
 data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
 
 families = read.csv("families.tsv", sep="\t")
-data = merge(data, families, by=c("Language"))
+data = merge(data, families, by=c("Language"), all.x=TRUE)
 
 
 u = data %>% group_by(Language, Family) %>% summarise(OSSameSideSum=sum(OSSameSide), OSSameSideTotal=NROW(OSSameSide), OSSameSide = mean(OSSameSide), OFartherThanS = mean(OFartherThanS))
@@ -49,7 +49,7 @@ real = real %>% mutate(Order_Real = ifelse(OSSameSide_Real & OFartherThanS_Real,
 u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), by=c("Language"))
 
 
-write.table(u, file="landscapes_2.6.R.tsv")
+write.table(u, file="landscapes_2.6_new.R.tsv")
 
 library(brms)
 sink("output/landscapes_2.6.R_avgs.txt")
