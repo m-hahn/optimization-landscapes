@@ -104,6 +104,7 @@ sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
 stepping = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 stepping = [0.0, 0.01, 0.02, 0.05, 0.08, 0.1, 0.2, 0.3, 0.4, 0.7, 1.0]
+stepping = [0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.06, 0.075, 0.08, 0.085, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5,0.6,  0.7, 0.8, 1.0]
 
 def mean(x):
    return sum(x)/len(x)
@@ -112,7 +113,7 @@ perStone = []
 
 import torch
 
-for idx in range(10):
+for idx in range(len(stepping)-1):
   dat["stepping"] = stepping[idx]
   
   fit = sm.sampling(data=dat, iter=2000, chains=4)

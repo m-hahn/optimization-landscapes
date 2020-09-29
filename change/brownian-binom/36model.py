@@ -69,6 +69,7 @@ totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
 lang2Observed = dict(list(zip(observedLanguages, range(len(observedLanguages)))))
 
+
 distanceToParent = {}
 for language in allLangs:
    parent = parents.get(language, "_ROOT_")
@@ -81,6 +82,39 @@ print(distanceToParent)
 print(parents.get("Classical_Chinese_2.6"))
 assert "Classical_Chinese_2.6" in observedLangs
 #quit()
+
+from collections import defaultdict
+
+
+listOfAllAncestors = defaultdict(list)
+
+def processDescendants(l, desc):
+   listOfAllAncestors[desc].append(l)
+   if l != "_ROOT_":
+      parent = parents.get(l, "_ROOT_")
+      processDescendants(parent, desc)
+   
+for language in totalLanguages:
+   processDescendants(language, language)
+print(listOfAllAncestors)
+
+
+
+
+covarianceMatrix = [[None for _ in range(len(observedLanguages))] for _ in range(len(observedLanguages))]
+for i in range(len(observedLanguages)):
+   for j in range(i+1):
+      l1 = observedLanguages[i]
+      l2 = observedLanguages[j]
+      print("----------")
+      print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      commonAncestors = max([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      print((commonAncestors - (-50000))/1000)
+
+      covarianceMatrix[i][j] = (commonAncestors - (-50000))/1000
+      covarianceMatrix[j][i] = (commonAncestors - (-50000))/1000
+
 
 dat = {}
 
@@ -95,6 +129,7 @@ dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hidde
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
 dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in observedLanguages]
 dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+observedLanguages]
+dat["CovarianceMatrix"] = covarianceMatrix
 dat["prior_only"] = 0
 dat["Components"] = 2
 
@@ -102,9 +137,9 @@ print(dat)
 
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
-stepping = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+#stepping = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 stepping = [0.0, 0.01, 0.02, 0.05, 0.08, 0.1, 0.2, 0.3, 0.4, 0.7, 1.0]
-stepping = [0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.06, 0.075, 0.08, 0.085, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5,0.6,  0.7, 0.8, 1.0]
+#stepping = [0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.06, 0.075, 0.08, 0.085, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5,0.6,  0.7, 0.8, 1.0]
 
 def mean(x):
    return sum(x)/len(x)

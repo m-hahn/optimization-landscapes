@@ -28,7 +28,7 @@ transformed parameters {
   real targetLikelihood = 0;
   matrix[2, 2] LSigma = diag_pre_multiply(sd_1, Lrescor);
   matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(LSigma);
-  {
+  { ////////////////////
   targetPrior += student_t_lpdf(sd_1 | 3, 0, 2.5) + log(2.0);
   targetPrior += lkj_corr_cholesky_lpdf(Lrescor | 1);
   targetPrior += normal_lpdf(TraitHidden[1] | 0, 1);
