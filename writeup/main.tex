@@ -384,9 +384,16 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/fracion-optimized_DLM_2.6.pdf}
+    \includegraphics[width=0.6\textwidth]{figures/fracion-optimized_DLM_2.6_format.pdf}
     \caption{Study 1: Subject-object symmetry and real and optimized orderings. x-axis real order distributions, y-axis model prediction. \comment{can you increase the fontsize of the axes labels? also i wonder if it's possible to increase the font size of the languages too, and perhaps get rid of the grids? each langauge has 2.6 next to it -- seems redundant; remove?}}
     \label{fig:study1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.3\textwidth]{analysis_spoken/spoken.pdf}
+    \caption{Comparing subject-object symmetry using spoken corpora. We show the corresponding points using the full UD data in gray.}
+    \label{fig:spoken}
 \end{figure}
 
 
@@ -404,13 +411,6 @@ In a linear regression with real subject-object symmetry as the dependent variab
 This result is in agreement with that from the full set of corpora.
 %\mhahn{TODO the other measure}
 %\mhahn{what is the dependent and independent variables in the linear regression? (and perhaps why a Bayes LR as opposed to a plain LR? need to justify a bit more}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.95\textwidth]{analysis_spoken/spoken.pdf}
-    \caption{Comparing subject-object symmetry using spoken corpora. We show the corresponding points using the full UD data in gray.}
-    \label{fig:spoken}
-\end{figure}
 
 
 
@@ -438,17 +438,25 @@ We model the change of $\xi_{L,t}$ over time using an Ornstein-Uhlenbeck process
 This model allows us to determine the dynamics of how $X_{L,t}, Y_{L,t}$ evolve:
 Under the coadaptation hypothesis, changes in both variables should be positively correlated.
 Under the null hypothesis, no such correlation is expected.
-We modeled how usage (optimal subject-object symmetry) and grammar (real subject-objectn symmetry) evolve over time.
-We adopted an Ornstein-Uhlenbeck process (CITE).
-This model considers how the two quantities change responding both to random fluctuations and to systematic drift towards certain regions of the plane.
 
-Under the coadaptation hypothesis, drift in usage and grammar should be correlated, so that languages move towards the diagonal.
+In its simplest form, the model can be described informally by the following update equations, describing how $\xi$ changes over a time interval of length $\Delta$:
+\begin{align}
+    X_{t+\Delta} &= X_{t} + \epsilon_1 \\
+    Y_{t+\Delta} &= Y_{t} + \epsilon_2 \\
+\end{align}
+where $\epsilon_1, \epsilon_2$ are random changes that are modeled as draws from Gaussians.
+Under the coadaptation hypothesis, change in both directions is positively correlated: $Cor(\epsilon_1, \epsilon_2) > 0$.
+Under the null hypothesis, there is no such correlation.
+See Materials and Methods for a rigorous specification of this model.
 
 
-We used phylogenetic trees from (CITE) and .
-We modified these trees by adding historical stages of existing languages for which we have corpora, such as Old English (approx. 900 AD) as an ancestor of English.
+This model draws statistical evidence both from synchronic data and from historical corpora.
+In several cases, our dataset includes data from different stages of the same language (such as Old English and Modern English).
+Such datasets provide direct evidence of diachronic development.
+Using phylogenetic information, the model can also draw strength from purely synchronic data.
+Data from related languages may permit inferences about their (not directly documented) common ancestor, and thus about trajectories of change.
 
-%We obtained phylogenetic trees for the languages in our dataset (see Materials and Methods for details).
+%We obtained phylogenferenvnetic trees for the languages in our dataset (see Materials and Methods for details).
 %We modified these trees by adding historical stages of existing languages for which we have corpora, such as Old English (approx. 900 AD) as an ancestor of English.
 
 In the resulting model, change in the two directions was positively correlated (posterior probability of negative or no correlation XXX).
@@ -459,7 +467,7 @@ We compared the model with a simpler version in which usage and grammar evolve i
     \includegraphics[width=0.5\textwidth]{change/visualize/stationary.pdf}
     \caption{Result of the phylogenetic drift model.
     The blue distribution indicates the estimated long-term stationary distribution of languages, indicating where languages tend to lie after long-term evolution.
-    The red dots indicate sampled directions of movement for three individual languages (English, Russian, Japanese) over the next 100 years.}
+    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage (y-axis).}
     \label{fig:drift-model}
 \end{figure}
 
