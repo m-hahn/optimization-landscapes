@@ -439,15 +439,6 @@ This model allows us to determine the dynamics of how $X_{L,t}, Y_{L,t}$ evolve:
 Under the coadaptation hypothesis, changes in both variables should be positively correlated.
 Under the null hypothesis, no such correlation is expected.
 
-In its simplest form, the model can be described informally by the following update equations, describing how $\xi$ changes over a time interval of length $\Delta$:
-\begin{align}
-    X_{t+\Delta} &= X_{t} + \epsilon_1 \\
-    Y_{t+\Delta} &= Y_{t} + \epsilon_2 \\
-\end{align}
-where $\epsilon_1, \epsilon_2$ are random changes that are modeled as draws from Gaussians.
-Under the coadaptation hypothesis, change in both directions is positively correlated: $Cor(\epsilon_1, \epsilon_2) > 0$.
-Under the null hypothesis, there is no such correlation.
-See Materials and Methods for a rigorous specification of this model.
 
 
 This model draws statistical evidence both from synchronic data and from historical corpora.
@@ -535,7 +526,7 @@ In a linear mixed-effects models, with by-family intercept and slope, subject-ob
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/objects-order-pureud-byVerb.pdf}
+    \includegraphics[width=0.95\textwidth]{figures/objects-order-pureud-byVerb_FORMAT.pdf}
     \caption{Study 2 (Coexpression of suibjects and objects) \comment{ditto -- consider getting rid of the grids and gray background? also maybe improve the aesthetics of this figure, and add a legend (e.g. black box for spoken, gray box for written equivalent?)}}
     \label{fig:study2}
 \end{figure}
@@ -660,6 +651,19 @@ We adopt the model of Brownian motion on phylogenetic trees, with an added drift
 As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
 We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
 $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
+
+In its simplest form, the model can be described informally by the following update equations, describing how $\xi$ changes over a time interval of length $\Delta$:
+\begin{align}
+    X_{t+\Delta} &= X_{t} + \epsilon_1 \\
+    Y_{t+\Delta} &= Y_{t} + \epsilon_2 \\
+\end{align}
+where $\epsilon_1, \epsilon_2$ are random changes that are modeled as draws from Gaussians.
+Under the coadaptation hypothesis, change in both directions is positively correlated: $Cor(\epsilon_1, \epsilon_2) > 0$.
+Under the null hypothesis, there is no such correlation.
+See Materials and Methods for a rigorous specification of this model.
+
+
+
 We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ using the following stochastic differential equation, describing an Ornstein-Uhlenbeck process:
 \begin{equation*}
     d\xi_t = \Gamma \cdot (\xi_t-\mu) dt + \Lambda dB_t
