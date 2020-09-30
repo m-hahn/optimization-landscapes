@@ -13,6 +13,7 @@
 \newcommand\confname{EMNLP-IJCNLP 2019}
 \newcommand\conforg{SIGDAT}
 
+\usepackage{longtable}
 
 \usepackage{amsmath}
 \usepackage{tikz-dependency}
@@ -465,7 +466,7 @@ For illustration, we also indicate expected direction of future changes in four 
 
 According to the model, changes in grammar and usage are positively correlated:
 This is seen both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
-Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (Bayes Factor TODO).
+Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated log Bayes Factor 7.4 bits).
 
 
 \begin{figure}
@@ -504,7 +505,7 @@ The model (and the coadaptation hypothesis) predicts that a language that change
 Currently, no annotated treebanks are available for such a language to directly test this prediction; our prediction can be tested once such a treebank becomes available.
 We note that our model indicates no evidence that languages tend to drift towards either SOV or SVO in the long run.
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
-A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (Bayes Factor TODO).
+A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated log Bayes Factor 0.1).
 
 
 
@@ -749,30 +750,30 @@ We labeled interior nodes for time using estimates based on historical evidence 
 
 
 
-\begin{tabular}{lllllll}
+\begin{longtable}{llp{10cm}lll}
 Group & Split & Source or Rationale \\ \hline
-Afroasiatic & 10,000 BC & CITE \\
-Indo-European & 4,000 BC & CITE \\
-Semitic & 3,500 BC & CITE \\
-Insular Celtic & 500BC & Sound shift k$^w$ $>$ p in Brythonic antedates attestation of name `Britain'\\ % Gray and Atkinson: 900BC. Language-tree divergence times support.. Rexova et al, Cladistic analysis
-Common Turkic & 500AD & Antedates Orkhon Turkic (7th c.), true date might be earlier. \\
-Balto-Slavic & 1,500 BC & TODO refs in wiki Balto-Slavic \\
-Slavic       & 500AD & TODO refs in wiki Balto-Slavic\\
-Indo-Iranian & 2,000 BC \\ % Parpola 1999 suggests 2000 BC. The formation of the Aryan branch of Indo-European.
-Atlantic-Congo & 3,000 BC \\
-Uralic & 4,000 BC & Maurits \\
-West-Semitic & 2,000 BC & \\
-Central-Semitic & 1,500 BC & \\
-South-Slavic & 600 BC & Expansion of Slavic into Balkan, but antedates Old Church Slavonic \\
-West-Slavic & 600 BC & Expansion of Slavic \\
-Iranian & 1000 BC \\ % Kurmanji, Persian. Parpola 1999 suggests 1900 BC.
-Nothern-Atlantic & 0 AD \\
+Afroasiatic & 10,000 BC & \cite{diakonoff1998the} \\
+Indo-European & 6,000 BC & \citep{gray2003language} \\
+Semitic & 3,750 BC & \citep{kitchen2009bayesian} \\
+Insular Celtic & 900BC & \citep{gray2003language} estimate 900BC. Sound shift k$^w$ $>$ p in the Brythonic branch antedates attestation of name `Britain' in 325BC. \\ % Gray and Atkinson: 900BC. Language-tree divergence times support.. Rexova et al, Cladistic analysis
+Common Turkic & 700AD & \cite[p. 49]{savelyev2020bayesian} estimate Common Turkic to have split around 474 AD. However, in their model, Old Turkic split off around 650 AD, earlier than the languages in our dataset, with uncertainty about the time of split of the remaining Common Turkic languages. It should predate the earliest documentation of Karluk Middle Turkic after 900AD. We thus put the divergence of the other Common Turkic languages at 700AD. \\
+Balto-Slavic & 1,400 BC & \citep{gray2003language} \\
+Slavic       & 700AD & \citep{gray2003language} \\
+Indo-Iranian & 2,500 BC & \citep[p. 138]{parpola2013formation} \\ % Parpola 1999 suggests 2000 BC. The formation of the Aryan branch of Indo-European.
+Atlantic-Congo & 3,000 BC & In our sample, this is the common ancestor of Wolof and Yoruba. TODO \\
+Uralic & 4,000 BC & \citep{maurits2020best}, cf \citep[p. 144]{parpola2013formation} for references \\
+West-Semitic & 3,400 BC & \citep{kitchen2009bayesian}  \\
+Central-Semitic & 2,450 BC & \citep{kitchen2009bayesian}   \\
+South-Slavic & 750 BC & Expansion of Slavic into Balkan. Postdates Slavic and antedates Old Church Slavonic (attested after 800AD) \\
+West-Slavic & 750 BC & Expansion of Slavic \\
+Iranian & 500 BC & \citep{gray2003language} \\ % Kurmanji, Persian. Parpola 1999 suggests 1900 BC.
 Baltic & 0 AD & TODO refs in wiki Balto-Slavic\\
-Ugric & 2,000 BC & Maurits \\
+Ugric & 2,000 BC & \citep{maurits2020best} \\
 Hindustani & 1,800 AD & Standardization of Hindi and Urdu\\
-Serbo-Croatian & 1,900 AD & Standardization of Serbain and Croatian\\
+Serbo-Croatian & 1,900 AD & Standardization of Serbian and Croatian\\
+Germanic & 250AD & \cite{gray2003language} \\
 West-Germanic & 500 AD & Migrations into Britain and southern central Europe\\
-North-Germanic & 600 AD & Split of Old Norse into regional variants. \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
+North-Germanic & 600 AD & Split of Old Norse into regional variants. \citep{sandøy2017202} \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
 West-Scandinavian & 1,100 AD & Sound shifts specific to Norwegian\\
 Icelandic-Faroese & 1,200 AD & Sound shifts specific to Faroese (Petersen, Hjalmar, The change of TH to h in Faroese) \\
 Goidelic & 1,300 AD & Migrations from Ireland to Scotland \\
@@ -783,7 +784,7 @@ Western Romance & 800 AD & Expansion of Christian kingdoms into Iberia \\
 Italo-Western-Romance & 500 AD & End of the Western Roman empire \\
 Iberian Romance & 1,000 AD & Expansion of Christian kingdoms in Iberia, earliest Iberian Romance texts \\
 West Iberian & 1,100 & Independence of Portugal \\
-\end{tabular}
+\end{longtable}
 
 Dates of split are not always strictly meaningful (e.g. for Romance).
 
