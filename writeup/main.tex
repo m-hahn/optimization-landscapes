@@ -435,13 +435,13 @@ A phylogenetic analysis allows us to construct an explicit model of language cha
 First, in several cases, our dataset includes data from different stages of the same language (such as Ancient Greek and Modern Greek).
 Such datasets provide direct evidence of diachronic development.
 Second, using phylogenetic information, the model can also draw strength from purely synchronic data:
-Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change \citep{dunn-evolved-2011, maurits2014tracing}.
+Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change \citep{pagel2004bayesian, dunn-evolved-2011, maurits2014tracing}.
 
 
-We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring} to model how grammar and usage of a language evolve over time, and to test the Coadaptation Hypothesis.
+We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and usage of a language evolve over time, and to test the Coadaptation Hypothesis.
 We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by usage (optimal subject-object symmetry) and grammar (real subject-object symmetry).
 Whenever a language splits into daughter languages, the point $\xi_{L,t}$ continues to evolve independently in each daughter language.
-As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{sy1997a, blackwell2003bayesian}, see Materials and Methods for details).
+As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{blackwell2003bayesian}, see Materials and Methods for details).
 This process is parameterized by, first, rates of change in the two dimensions and, second, the correlation between the changes in both dimensions \citep{felsenstein1973maximum,freckleton2012fast}.
 Under the Coadaptation Hypothesis, changes in both dimensions should be positively correlated.
 Under the null hypothesis, no such correlation is expected.
@@ -668,8 +668,7 @@ We obtained the topology of phylogenetic trees from Glottolog (CITE), inserted d
 %    dX_t = A dB_t
 %\end{equation}
 
-We adopt the model of random walks on phylogenetic trees (CITE).
-We model the state of the grammar as $X_L$, the observed subject-object symmetry.
+We model the state of the grammar of a language $L$ as $X_L$, the observed subject-object symmetry.
 As the data for optimized grammars comes in the form of counts (each optimized grammar has subject-object symmetry of $0$ or $1$), we model the usage of a language $L$ as a latent variable $Y_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
 $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the language.
 
@@ -684,7 +683,7 @@ $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the languag
 %See Materials and Methods for a rigorous specification of this model.
 
 
-A common choice in phylogenetic modeling of coevolving traits is correlated Brownian motion (CITE).
+A common choice in phylogenetic modeling of coevolving traits is correlated Brownian motion, also known as the Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast}.
 We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section X for comparison).
 This leads to an Ornstein-Uhlenbeck process \citep{blackwell2003bayesian}, described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
 \begin{equation*}
@@ -696,7 +695,7 @@ The first term, $\Gamma \cdot (\xi_{L,t}-\mu) dt$, encodes deterministic drift, 
 The term encodes the fact that the possible range of $\xi_{L,t}$ is bounded and allows the model to encode the possibility of a bias towards some region of the plane.
 
 The second term, $\Lambda dB_t$ describes the dynamics of stochastic change.
-The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; the off-diagonal encodes correlation: Positive entries in the off-diagonal mean that languages drift in such a way that $X_L, Y_L$ are positively correlated; zero off-diagonal entries indicate independent change in both dimensions.
+The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; the off-diagonal encodes correlation \citep{felsenstein1973maximum,freckleton2012fast}: Positive entries in the off-diagonal mean that languages drift in such a way that $X_L, Y_L$ are positively correlated; zero off-diagonal entries indicate independent change in both dimensions.
 
 Lesioned models referenced in the text are obtained by setting the off-diagonals of $\Lambda$ to zero (no correlations between change in two dimensions), and $\mu_1=0.5$ (no bias towards high or low real subject-object symmetry).
 See SI Section X for additional models that take areal convergence into account.
