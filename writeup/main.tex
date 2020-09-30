@@ -384,9 +384,16 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/fracion-optimized_DLM_2.6.pdf}
-    \caption{Study 1: Subject-object symmetry and real and optimized orderings. x-axis real order distributions, y-axis model prediction. \comment{can you increase the fontsize of the axes labels? also i wonder if it's possible to increase the font size of the languages too, and perhaps get rid of the grids? each langauge has 2.6 next to it -- seems redundant; remove?}}
+    \includegraphics[width=0.6\textwidth]{figures/fracion-optimized_DLM_2.6_format.pdf}
+    \caption{Study 1: Subject-object symmetry and real and optimized orderings. x-axis real order distributions, y-axis model prediction.}
     \label{fig:study1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.3\textwidth]{analysis_spoken/spoken.pdf}
+    \caption{Comparing subject-object symmetry using spoken corpora. We show the corresponding points using the full UD data in gray.}
+    \label{fig:spoken}
 \end{figure}
 
 
@@ -398,21 +405,12 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 We have approximated the usage distribution over syntactic configurations using corpora.
 However, a large part of annotated corpus data is written (e.g., news and web text), whereas spoken language is thought to be most important for language change, particularly as widespread literacy is very recent.
 There are only a small number of spoken corpora with syntactic annotation.
-We collected all spoken corpora in dependency format that we could obtain access to (see Materials and Methods), and verified that the conclusions of Analysis 1 continued to hold when using existing dependency treebanks that consist of transcribed spoken text.
-
-
+We collected all spoken corpora in dependency format that we could obtain access to (see Materials and Methods), and tested whether the conclusions of Analysis 1 continued to hold when using existing dependency treebanks that consist of transcribed spoken text.
 Results on these treebanks are shown in Figure~\ref{fig:spoken}.
 In a linear regression with real subject-object symmetry as the dependent variable, model output predicts real values ($\beta=1.11$, $SE=0.29$, $95\%$ CrI $[0.58, 1.69]$).\footnote{The small number of datapoints does not support a mixed-effects analysis. Even with strong priors and more iterations, we encountered small values of Tail Effective Sample Size. However, we found qualitatively similar results when excluding either English or Norwegian, in which case all languages come from different families, and the simple linear model is fully appropriate.}.
 This result is in agreement with that from the full set of corpora.
 %\mhahn{TODO the other measure}
 %\mhahn{what is the dependent and independent variables in the linear regression? (and perhaps why a Bayes LR as opposed to a plain LR? need to justify a bit more}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.95\textwidth]{analysis_spoken/spoken.pdf}
-    \caption{Comparing subject-object symmetry using spoken corpora. We show the corresponding points using the full UD data in gray.}
-    \label{fig:spoken}
-\end{figure}
 
 
 
@@ -421,49 +419,61 @@ This result is in agreement with that from the full set of corpora.
 
 If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages change.
 
-To test this more directly, we conducted a phylogenetic analysis of the evolution of usage and word order.
+To test this, we conducted a phylogenetic analysis of the evolution of usage and word order.
 
-We also drew on languages where dependency treebanks with data from different stages of the same language are available (see Materials and Methods for details).
+%We also drew on languages where dependency treebanks with data from different stages of the same language are available (see Materials and Methods for details).
+
+%We also drew on languages where dependency treebanks with data from different stages of the same language are available (see Materials and Methods for details).
+
+%The diagonal in Figure~\ref{fig:study1} describes those points where usage and grammar match perfectly in basic word order, i.e., those points where the real order distribution is identical to the order distribution among optimized grammars, given the distribution over tree topologies.
+%Therefore, if the coadaptation hypothesis is true, then languages should stay close to or move towards the diagonal in the plane described by predicted and real subject-object symmetry.
 
 
 
-The diagonal in Figure~\ref{fig:study1} describes those points where usage and grammar match perfectly in basic word order, i.e., those points where the real order distribution is identical to the order distribution among optimized grammars, given the distribution over tree topologies.
-Therefore, if the coadaptation hypothesis is true, then languages should stay close to or move towards the diagonal in the plane described by predicted and real subject-object symmetry.
-
-
-
+If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages change.
+To test this, we conducted a phylogenetic analysis of the evolution of usage and word order.
 We used a model of drift on phylogenetic trees to quantify the evidence for coadaptation.
-We modeled how usage (optimal subject-object symmetry) and grammar (real subject-objectn symmetry) evolve over time.
-We adopted an Ornstein-Uhlenbeck process (CITE).
-This model considers how the two quantities change responding both to random fluctuations and to systematic drift towards certain regions of the plane.
-
-Under the coadaptation hypothesis, drift in usage and grammar should be correlated, so that languages move towards the diagonal.
-
-
-We used phylogenetic trees from (CITE) and .
+We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by usage (optimal subject-object symmetry) and grammar (real subject-object symmetry).
+We model the change of $\xi_{L,t}$ over time using an Ornstein-Uhlenbeck process (see Materials and Methods for details).
+This model allows us to determine the dynamics of how $X_{L,t}, Y_{L,t}$ evolve:
+Under the coadaptation hypothesis, changes in both variables should be positively correlated.
+Under the null hypothesis, no such correlation is expected.
 
 
-In the resulting model, drift in the two directions was positively correlated with high confidence (posterior probability of negative or no correlation XXX).
-We compared the model with a simpler version in which usage and grammar evolve independently, finding that the full model provided better model fit (Bayes Factor XXX).
+
+This model draws statistical evidence both from synchronic data and from historical corpora.
+In several cases, our dataset includes data from different stages of the same language (such as Old English and Modern English).
+Such datasets provide direct evidence of diachronic development.
+Using phylogenetic information, the model can also draw strength from purely synchronic data.
+Data from related languages may permit inferences about their (not directly documented) common ancestor, and thus about trajectories of change.
+
+%We obtained phylogenferenvnetic trees for the languages in our dataset (see Materials and Methods for details).
+%We modified these trees by adding historical stages of existing languages for which we have corpora, such as Old English (approx. 900 AD) as an ancestor of English.
+
+In the resulting model, change in the two directions was positively correlated (posterior probability of negative or no correlation XXX).
+We compared the model with a simpler version in which usage and grammar evolve independently, finding that the full model provided better model fit (Bayes Factor TODO).
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{change/visualize/stationary.pdf}
-    \caption{Drift directions and long-term stationary distribution according to the phylogenetic drift model.
-    The blue distribution indicates the estimated long-term stationary distribution of languages, indicating where languages tend to lie after millenia of evolution.
-    The red dots indicate sampled directions of movement for individual languages at the black dots over TODO years.}
+    \caption{Result of the phylogenetic drift model.
+    The blue distribution indicates the estimated long-term stationary distribution of languages, indicating where languages tend to lie after long-term evolution.
+    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage (y-axis).}
     \label{fig:drift-model}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{TODO}
-    \caption{The phylogenetic tree used in our analysis.}
-    \label{fig:phylogenetic-tree}
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.5\textwidth]{TODO}
+%    \caption{The phylogenetic tree used in our analysis.}
+%    \label{fig:phylogenetic-tree}
+%\end{figure}
 
 We visualize model fit in Figure~\ref{fig:drift-model}.
 The model predicts that languages will, over their evolution concentrate in such a way that grammar and usage come to be positively correlated.
+We also indicate expected direction of future changes in three languages (English, Russian, Japanese). TODO
+
+We also indicate expected direction of future changes in three languages (English, Russian, Japanese). TODO
 
 We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}.
 The sample includes multiple languages that started with flexible order and moved towards SVO (English, French, Spanish, Russian, Bulgarian, Greek), languages that have remained SVO (Mandarin and Cantonese), and languages that have remained predominantly SOV (Hindi/Urdu).
@@ -481,13 +491,13 @@ Finally, among the remaining languages, which started with flexible order and mo
 
 
 Beyond these observations, the model (and the coadaptation hypothesis) predicts that a language that changed from SVO towards SOV should have correspondingly moved towards the top-right of the plane. 
-Currently, no annotated treebanks are available for such a language; our prediction can be tested once such a treebank becomes available.
+Currently, no annotated treebanks are available for such a language to directly test this prediction; our prediction can be tested once such a treebank becomes available.
 
 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/historical_2.6_times.pdf}
+    \includegraphics[width=0.95\textwidth]{figures/historical_2.6_times_stationary.pdf}
     \caption{Study 1 (historical changes) \comment{similar comment -- worth improving the aesthetics of the figure, e.g. get rid of grids and gray background ... etc. also need to explain what are the gray dots in the background.}}
     \label{fig:historical}
 \end{figure}
@@ -510,12 +520,13 @@ We show this ratio together with subject-object symmetry in Figure~\ref{fig:stud
 In a linear mixed-effects models, with by-family intercept and slope, subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
 %\mhahn{TODO the other measure}
 
+\mhahn{also run this through the phylogenetic model in addition to this plain regression}
 
 {\color{blue}Did you mention that there were some novel discoveries or generalizations, do you want to mention them here?}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/objects-order-pureud-byVerb.pdf}
+    \includegraphics[width=0.95\textwidth]{figures/objects-order-pureud-byVerb_FORMAT.pdf}
     \caption{Study 2 (Coexpression of suibjects and objects) \comment{ditto -- consider getting rid of the grids and gray background? also maybe improve the aesthetics of this figure, and add a legend (e.g. black box for spoken, gray box for written equivalent?)}}
     \label{fig:study2}
 \end{figure}
@@ -636,25 +647,48 @@ For English, we used an automated conversion (CITE) of the Switchboard section o
 %    dX_t = A dB_t
 %\end{equation}
 
-We adopt the model of random walks on phylogenetic trees.
-We model the development of grammar and usage as an Ornstein-Uhlenbeck process (See SI Section X for results with a simpler Brownian motion model).
-According to the model of random walks on phylogenetic trees, whenever a (historical) language branches off into multiple successor languages, they independently develop according to this process.
-
-
+We adopt the model of Brownian motion on phylogenetic trees, with an added drift term.
 As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
 We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
 $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
 
-We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as a combination of drift and Brownian motion:
+In its simplest form, the model can be described informally by the following update equations, describing how $\xi$ changes over a time interval of length $\Delta$:
+\begin{align}
+    X_{t+\Delta} &= X_{t} + \epsilon_1 \\
+    Y_{t+\Delta} &= Y_{t} + \epsilon_2 \\
+\end{align}
+where $\epsilon_1, \epsilon_2$ are random changes that are modeled as draws from Gaussians.
+Under the coadaptation hypothesis, change in both directions is positively correlated: $Cor(\epsilon_1, \epsilon_2) > 0$.
+Under the null hypothesis, there is no such correlation.
+See Materials and Methods for a rigorous specification of this model.
+
+
+
+We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ using the following stochastic differential equation, describing an Ornstein-Uhlenbeck process:
 \begin{equation*}
-    d\xi_t = -A(\xi_t-\mu) + \Lambda dB_t
+    d\xi_t = \Gamma \cdot (\xi_t-\mu) dt + \Lambda dB_t
 \end{equation*}
-where $A, \Lambda \in \mathbb{R}^{2\times 2}$, $A$ is positive definite, and $\Lambda$ is diagonal with positive entries (see SI Section for results with non-diagonal $\Lambda$).
+where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are non-degenerate matrices, and $\Gamma$ is diagonal with positive entries (see SI Section X for non-diagonal $\Gamma$).
+The first term encodes drift towards an axis $\mu$, and describes which region of parameter space languages tend to move towards.
+
+The second term encodes the dynamics of change.
+$\Lambda_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
+$\Lambda_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $\Lambda_{1,2} = 0$ means that movement in both directions is not correlated.
+$\Gamma$ and $\mu$ encode 
 
 
-The matrix $A$ encodes the direction of drift.
-$A_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
-$A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that languages do not drift towards a correlation (See Si Section X for an alternative formulation in terms of correlated Brownian motion).
+See SI Section X for implementation details, for comparison with a simple Brownian motion model, and for comparison with non-diagonal $\Gamma$.
+We adopt the model of Brownian motion on phylogenetic trees.
+As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
+We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
+We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as Brownian motion:
+\begin{equation*}
+    d\xi_t = \Lambda dB_t
+\end{equation*}
+where $\Lambda \in \mathbb{R}^{2\times 2}$.
+$\Lambda_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
+$A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that movement in both directions is not correlated.
 
 
 \bibliography{literature}
@@ -691,34 +725,229 @@ Spanish & Latin &+0 \\
 
 \section{Phylogenetic Tree}
 
-\section{Details for Ornstein-Uhlenbeck Model}
+We obtained tree topologies from Glottolog (CITE).
+We only retained interior nodes when more than one of their daughter nodes had languages occurring in our dataset.
 
-We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as a combination of drift and Brownian motion \citep[p. 109, eq. 4.4.42]{gardiner1983handbook}:
+TODO print the tree
+
+We labeled interior nodes for time using estimates based on historical evidence and the linguistic literature.
+
+
+
+\begin{tabular}{lllllll}
+Group & Split & Source or Rationale \\ \hline
+Afroasiatic & 10,000 BC & CITE \\
+Indo-European & 4,000 BC & CITE \\
+Semitic & 3,500 BC & CITE \\
+Insular Celtic & 500BC & Sound shift k$^w$ $>$ p in Brythonic antedates attestation of name `Britain'\\ % Gray and Atkinson: 900BC. Language-tree divergence times support.. Rexova et al, Cladistic analysis
+Common Turkic & 500AD & Antedates Orkhon Turkic (7th c.), true date might be earlier. \\
+Balto-Slavic & 1,500 BC & TODO refs in wiki Balto-Slavic \\
+Slavic       & 500AD & TODO refs in wiki Balto-Slavic\\
+Indo-Iranian & 2,000 BC \\ % Parpola 1999 suggests 2000 BC. The formation of the Aryan branch of Indo-European.
+Atlantic-Congo & 3,000 BC \\
+Uralic & 4,000 BC & Maurits \\
+West-Semitic & 2,000 BC & \\
+Central-Semitic & 1,500 BC & \\
+South-Slavic & 600 BC & Expansion of Slavic into Balkan, but antedates Old Church Slavonic \\
+West-Slavic & 600 BC & Expansion of Slavic \\
+Iranian & 1000 BC \\ % Kurmanji, Persian. Parpola 1999 suggests 1900 BC.
+Nothern-Atlantic & 0 AD \\
+Baltic & 0 AD & TODO refs in wiki Balto-Slavic\\
+Ugric & 2,000 BC & Maurits \\
+Hindustani & 1,800 AD & Standardization of Hindi and Urdu\\
+Serbo-Croatian & 1,900 AD & Standardization of Serbain and Croatian\\
+West-Germanic & 500 AD & Migrations into Britain and southern central Europe\\
+North-Germanic & 600 AD & Split of Old Norse into regional variants. \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
+West-Scandinavian & 1,100 AD & Sound shifts specific to Norwegian\\
+Icelandic-Faroese & 1,200 AD & Sound shifts specific to Faroese (Petersen, Hjalmar, The change of TH to h in Faroese) \\
+Goidelic & 1,300 AD & Migrations from Ireland to Scotland \\
+Brythonic & 400 AD & Migrations from Britain to Bretagne \\
+Global Dutch & 1,600 AD & Dutch colony in South Africa \\
+Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatian texts\\
+Western Romance & 800 AD & Expansion of Christian kingdoms into Iberia \\
+Italo-Western-Romance & 500 AD & End of the Western Roman empire \\
+Iberian Romance & 1,000 AD & Expansion of Christian kingdoms in Iberia, earliest Iberian Romance texts \\
+West Iberian & 1,100 & Independence of Portugal \\
+\end{tabular}
+
+Dates of split are not always strictly meaningful (e.g. for Romance).
+
+\section{Details for Phylogenetic Models}
+
+
+
+We adopt the model of random walks on phylogenetic trees.
+We model the development of grammar and usage as an Ornstein-Uhlenbeck process (See SI Section X for results with a simpler Brownian motion model).
+According to the model of random walks on phylogenetic trees, whenever a (historical) language branches off into multiple successor languages, they independently develop according to this process.
+
+
+As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
+We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
+
+\subsection{Simple Brownian Motion Model}
+
+
+We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as a correlated Brownian motion in two dimensions:
+\begin{equation*}
+    d\xi_t = \Lambda dB_t
+\end{equation*}
+where $\Lambda \in \mathbb{R}^{2\times 2}$ is non-degenerate.
+
+\subsection{Model with Drift}
+
+In our setting, the Brownian motion model has the unrealistic property that trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$, whereas $\xi_t$ in reality remains bounded.
+(See below for likelihood results, showing poor fit of the simple Brownian model).
+
+
+\section{Details for Phylogenetic Models}
+
+
+
+We adopt the model of random walks on phylogenetic trees.
+We model the development of grammar and usage as an Ornstein-Uhlenbeck process (See SI Section X for results with a simpler Brownian motion model).
+According to the model of random walks on phylogenetic trees, whenever a (historical) language branches off into multiple successor languages, they independently develop according to this process.
+
+
+As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
+We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
+
+\subsection{Simple Brownian Motion Model}
+
+
+We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as a correlated Brownian motion in two dimensions:
+\begin{equation*}
+    d\xi_t = \Lambda dB_t
+\end{equation*}
+where $\Lambda \in \mathbb{R}^{2\times 2}$ is non-degenerate.
+
+\subsection{Model with Drift}
+
+In our setting, the Brownian motion model has the unrealistic property that trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$, whereas $\xi_t$ in reality remains bounded.
+(See below for likelihood results, showing poor fit of the simple Brownian model).
+
+This limitation can be addressed by adding a drift term, whereby languages tend to stay within a bounded area, while subjected to random walk dynamics within this area.
+
+This is expressed by the following stochastic differential equation, known as the Ornstein-Uhlenbeck process:
+%We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as a combination of drift and Brownian motion:
 \begin{equation*}
     d\xi_t = -A(\xi_t-\mu) + \Lambda dB_t
 \end{equation*}
-where $A, \Lambda \in \mathbb{R}^{2\times 2}$, $A$ is positive definite, and $\Lambda$ is diagonal with positive entries (see SI Section for results with non-diagonal $\Lambda$).
+where $A, \Lambda \in \mathbb{R}^{2\times 2}$, all eigenvalues of $A$ have positive real part, and $\Lambda$ has full rank.
 
 
 The matrix $A$ encodes the direction of drift.
 $A_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
 $A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that languages do not drift towards a correlation (See Si Section X for an alternative formulation in terms of correlated Brownian motion).
 
+
+We model the instantaneous change of the state $\xi_t \in \mathbb{R}^2$ of a language at a given time $t$ as a combination of drift and Brownian motion, formalized by the following stochastic differential equation defining the Ornstein-Uhlenbeck process \citep[p. 109, eq. 4.4.42]{gardiner1983handbook}:
+\begin{equation*}
+    d\xi_t = -\Gamma \cdot (\xi_t-\mu) dt + \Lambda \cdot dB_t
+\end{equation*}
+where $\mu \in \mathbb{R}^2$, $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$, the real part of each eigenvalue of $\Gamma$ is positive, and $\Lambda$ has full rank (so that $\Lambda\Lambda^T$ is positive definite).
+%is positive definite, and $\Lambda$ is diagonal with positive entries (see SI Section for results with non-diagonal $\Lambda$).
+
+
+The matrix $A$ encodes the direction of drift.
+$A_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
+$A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that languages do not drift towards a correlation (See Si Section X for an alternative formulation in terms of correlated Brownian motion).
+
+
+We model the instantaneous change of the state $\xi_t \in \mathbb{R}^2$ of a language at a given time $t$ as a combination of drift and Brownian motion, formalized by the following stochastic differential equation defining the Ornstein-Uhlenbeck process \citep[p. 109, eq. 4.4.42]{gardiner1983handbook}:
+\begin{equation*}
+    d\xi_t = -\Gamma \cdot (\xi_t-\mu) dt + \Lambda \cdot dB_t
+\end{equation*}
+where $\mu \in \mathbb{R}^2$, $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$, the real part of each eigenvalue of $\Gamma$ is positive, and $\Lambda$ has full rank (so that $\Lambda\Lambda^T$ is positive definite).
+%is positive definite, and $\Lambda$ is diagonal with positive entries (see SI Section for results with non-diagonal $\Lambda$).
+
+
+The matrix $A$ encodes the direction of drift.
+$A_{1,2}$ encodes the extent to which drift of $X_t$ and $Y_t$ is correlated:
+$A_{1,2} > 0$ means that languages drift in such a way that $X_L, Y_L$ are positively correlated (coadaptation); $A_{0,0} = 0$ means that languages do not drift towards a correlation (See Si Section X for an alternative formulation in terms of correlated Brownian motion).
+
+\subsection{Implementation}
+
+We implemented the models in Stan and obtained posterior samples using MCMC. TODO details.
+
+We computed marginal likelihoods using Stepping Stone Sampling with $K=10$ stones.
+We verified stability of the estimates by running the procedure ten times for each model.
+
+\paragraph{Computing Likelihood for Brownian Motion Model}
+
 We impose an LKJ prior on the correlation matrix of $A$, a student $t$ prior on the variance components of $A$ and $\Lambda$, a ... prior on the two components of $\Lambda$.
+
+\paragraph{Computing Likelihood for Ornstein-Uhlenbeck Model}
 
 Then the conditional distribtion is given by \citep[Theorem 3.3]{schach1971weak}, \citep{gardiner1983handbook}, \citep[p. 156, eq. 6.124]{risken1989fokker}
 
 \begin{equation}
-\xi_{t+\Delta} \sim N\left(\mu + \exp(-\Delta \Gamma) (\xi_t-\mu), \Omega - \exp(-\Delta \Gamma) \Omega \exp(\Delta \Gamma^T) \right)
+\xi_{t+\Delta} | \xi_t \sim N\left(\mu + \exp(-\Delta \Gamma) (\xi_t-\mu), \Omega - \exp(-\Delta \Gamma) \Omega \exp(\Delta \Gamma^T) \right)
 \end{equation}
-
-Here $\Gamma$ is the drift kernel from (REF), and the matrix $\Omega$ is obtained as the solution of the equation \citep[p. 110, eq. 4.4.51]{gardiner1983handbook} \citep[p. 156, eq. 6.126]{risken1989fokker}:
+where the matrix $\Omega$ is obtained as the solution of the equation \citep[p. 110, eq. 4.4.51]{gardiner1983handbook} \citep[p. 156, eq. 6.126]{risken1989fokker}:
 \begin{equation}
     \Gamma\Omega+\Omega\Gamma^T = \Lambda \Lambda^T
 \end{equation}
+The stationary distribution is
+\begin{equation}
+\xi_{t} \sim N\left(\mu, \Omega \right)
+\end{equation}
+
+
+\paragraph{Accounting for Areal Effects}
+We accounted for effects of geographic neighborhoods by modeling linguistic areas.
+We modeled linguistic areas as latent variables defining location-dependent values $\mu(x)$ (where $x$ is a point on the surface of the earth) that languages drift towards.
+
+We modeled the grammar and usage components of $\mu$ to depend on the language's geographic position.
+We placed a Gaussian process prior with a Laplace kernel on $\mu$. 
+That is, the covariance between $\mu$ at points $x, y$ on the surface of the earth was taken to be
+\begin{equation}
+    Cov(\mu_x, \mu_y) = \alpha \exp\left(-\frac{1}{\rho^2} d(x,y)\right)
+\end{equation}
+where $d(x,y)$ is the great circle (geodesic) distance between points $x, y$.
+This kernel is positive-definite (whereas the commonly used RBF kernel is not positive-definite with the geodesic distance $d(\cdot, \cdot)$).
+
+We extracted locations of languages from WALS.
+For ancestors, we defined their location as the mean of the locations of their immediate children.
+
 
 We perform inference with MCMC TODO.
 
+In Table, we show all models together with the logarithm of the estimated marginal likelihood of the data.
+Higher marginal likelihood indicates better model fit.
+
+\begin{table}
+\begin{tabular}{lllll}
+Model & SDE & File & Log-Likelihood & loo \\ \hline
+Uncorrelated   & $d\xi_t = \left(\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}\right) dW_t$ & 30.stan & -239\\
+Correlated  & $d\xi_t = \left(\begin{matrix} \sigma_1 & \rho_1 \\ \rho_2 & \sigma_2\end{matrix}\right) dW_t$ & 27, 28, 29 & -197, -220, -195 \\
+\hline
+Correlated Drift & $d\xi_t = - \left(\begin{matrix} \gamma_1 & \gamma_{1,2} \\ \gamma_{2,1} & \gamma_{2,2}\end{matrix}\right) \left(\xi_t-\mu\right) dt + \left(\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}\right) dW_t$ & 28.stan & -297\\
+Correlated + Drift & $d\xi_t = - \left(\begin{matrix} \gamma_1 & 0 \\ 0 & \gamma_{2,2}\end{matrix}\right) \left(\xi_t-\mu\right) dt + \left(\begin{matrix} \sigma_1 & \rho_1 \\ \rho_2 & \sigma_2\end{matrix}\right) dW_t$ & 26.stan & -303 \\
+Uncorrelated + Drift & $d\xi_t = - \left(\begin{matrix} \gamma_1 & 0 \\ 0 & \gamma_{2,2}\end{matrix}\right) \left(\xi_t-\mu\right) dt + \left(\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}\right) dW_t$ & 25.stan & -343 \\
+Correlated Drift & $d\xi_t = - \left(\begin{matrix} \gamma_1 & \gamma_{1,2} \\ \gamma_{2,1} & \gamma_{2,2}\end{matrix}\right) \left(\xi_t-\mu\right) dt + \left(\begin{matrix} \sigma_1 & \rho_1 \\ \rho_2 & \sigma_2\end{matrix}\right) dW_t$ & 27.stan & -297\\
+\hline
+Correlated  + Areas & $d\xi_t = - \left(\begin{matrix} \gamma_1 & 0 \\ 0 & \gamma_2\end{matrix}\right) \left(\xi_t-\mu(x)\right) dt + \left(\begin{matrix} \sigma_1 & \rho_1 \\ \rho_2 & \sigma_2\end{matrix}\right) dW_t$ & 29, 31, 32, 33 & -61, -69\\
+Uncorrelated  + Areas & $d\xi_t = - \left(\begin{matrix} \gamma_1 & 0 \\ 0 & \gamma_2\end{matrix}\right) \left(\xi_t-\mu(x)\right) dt + \left(\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}\right) dW_t$ & 30 & 113\\
+\hline
+Correlated  + Area(t) & $d\xi_t = - \left(\begin{matrix} \gamma_1 & 0 \\ 0 & \gamma_2\end{matrix}\right) \left(\xi_t-\mu(x)\right) dt + \left(\begin{matrix} \sigma_1 & \rho_1 \\ \rho_2 & \sigma_2\end{matrix}\right) dW_t$ & 35, 36, 38 & -47, -72, -54\\
+Uncorrelated  + Area(t) & $d\xi_t = - \left(\begin{matrix} \gamma_1 & 0 \\ 0 & \gamma_2\end{matrix}\right) \left(\xi_t-\mu(x)\right) dt + \left(\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}\right) dW_t$ & 37 & -109\\
+\hline
+\end{tabular}
+\caption{Phylogenetic drift models. For each model, we provide a representation as a stochastic differential equation, and the logarithm of the estimated marginal likelihood.}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c}
+   Parameter & Prior \\ 
+  $\left(\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}\right)$       &  \\
+         $\left(\begin{matrix} \sigma_1 & \rho_1 \\ \rho_2 & \sigma_2\end{matrix}\right)$ & 
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
 
 
 Conditions:
@@ -739,6 +968,8 @@ Things to visualize
 \section{Brownian Motion Model}
 
 Conceptually, a disadvantage of the Brownian motion model is that it does not have a long-term stationary distribution.
+
+% https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
 
 \end{document}
 

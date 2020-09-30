@@ -92,8 +92,8 @@ us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Galician_2.6")) %>% mu
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Catalan_2.6")) %>% mutate(Trajectory="Catalan", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Romanian_2.6")) %>% mutate(Trajectory="Romanian", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Portuguese_2.6")) %>% mutate(Trajectory="Portuguese", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
-us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Hindi_2.6")) %>% mutate(Trajectory="Hindi", Group="Hindi/Urdu") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
-us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Urdu_2.6")) %>% mutate(Trajectory="Urdu", Group="Hindi/Urdu") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
+us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Hindi_2.6")) %>% mutate(Trajectory="Hindi", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
+us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Urdu_2.6")) %>% mutate(Trajectory="Urdu", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Church_Slavonic_2.6", "Bulgarian_2.6")) %>% mutate(Trajectory="Bulgarian", Group="South Slavic") %>% mutate(Time = ifelse(Age == -1, "+800", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Russian_2.6")) %>% mutate(Trajectory="Russian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Belarusian_2.6")) %>% mutate(Trajectory="Belarusian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
@@ -173,6 +173,27 @@ summary(lm(Dev_FALSE.x - Dev_FALSE.y ~ 1, data=baselines %>% filter(Baseline==5)
 summary(lm(Dev_FALSE.x - Dev_FALSE.y ~ 1, data=baselines %>% filter(Baseline==6)))
 
 
+library(MASS)
+
+# Instantaneous Fluctuations
+sigma=c(1.48, 0.99, 0.99, 0.86)
+dim(sigma)=c(2,2)
+
+# Stationary Variance
+omega=c(1.00, 0.63, 0.63, 0.52)
+dim(omega)=c(2,2)
+
+# Drift vector
+drift = c(0.82, 0, 0, 0.89)
+dim(drift)=c(2,2)
+
+
+stationary_sample = mvrnorm(n=1000, mu=c(0,0), Sigma=omega)
+
+sigmoid = function(x) {
+	return(1/(1+exp(-x)))
+}
+
 
 
 library(ggrepel)
@@ -180,18 +201,21 @@ library(ggrepel)
 library(ggplot2)
 #  %>% filter(Language %in% c("Chinese_2.6", "Cantonese_2.6", "Classical_Chinese_2.6", "French_2.6", "Old_French_2.6", "Russian_2.6", "Old_Russian_2.6", "Latin_2.6", "Greek_2.6", "Ancient_Greek_2.6", "Sanskrit_2.6", "Urdu_2.6", "Hindi_2.6", "Spanish_2.6", "Italian_2.6"))
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) #+ geom_smooth(method="lm")
-plot = plot + geom_segment(data=data.frame(x=c(0,1), y=c(0,1)), aes(x=0, xend=1, y=0, yend=1))
-plot = plot + geom_point(alpha=0.2) + xlab("Fraction of SOV/VSO/OSV... Orders (Real)") + ylab("Fraction of SOV/VSO/OSV... Orders (DLM Optimized)") + xlim(0,1) + ylim(0,1)
+plot = plot + geom_density2d(data=data.frame(Real = (stationary_sample[,2]+1)/2, Model = sigmoid(stationary_sample[,1])), aes(x=Real, y=Model), alpha=0.5)
+plot = plot + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + xlim(0,1) + ylim(0,1)
 for(group in unique(us$Group)) { 
    plot = plot + geom_segment(data= u2s %>% filter(Group == group), aes(x=OSSameSide_Real_Prob_TRUE, xend=OSSameSide_Real_Prob_FALSE, y=OSSameSide_TRUE, yend=OSSameSide_FALSE), arrow=arrow(), size=1, color="blue") + geom_label(data=us %>% filter(Group == group), aes(label=Time), color="black")
 }
 plot = plot + facet_wrap(~Group)
-
+plot = plot + theme_bw()
+plot = plot + theme(panel.grid = element_blank())
+plot = plot + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16))
+ggsave("figures/historical_2.6_times_stationary.pdf", width=7, height=7)
 
 
 cor.test(u2s$OSSameSide_FALSE-u2s$OSSameSide_TRUE, u2s$OSSameSide_Real_Prob_FALSE-u2s$OSSameSide_Real_Prob_TRUE)
 
-write.table(us, file="historical/us.tsv", sep="\t")
+#write.table(us, file="historical/us.tsv", sep="\t")
 
 
 
