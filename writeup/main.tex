@@ -359,7 +359,7 @@ In order to control for variation across different optima, for each of 74 langua
 
 %\comment{** Do you plan to say a bit more details about 1) the conterfactual order grammar, and 2) the data, 72 languages, where they came from, and why they are a reasonable sample, either in Methods, and/or in Appendix? I think these details would be needed for reproducibility but also for careful description of the materials and methods. also, you should say how many language families are covered in the 72. languages.}
 
-Under the coadaptation Hypothesis, we expect that the subject-object symmetry of optimized orderings correlates with a language's actual subject-object symmetry.
+Under the Coadaptation Hypothesis, we expect that the subject-object symmetry of optimized orderings correlates with a language's actual subject-object symmetry.
 Otherwise, if one order is more efficient, or there is no systematic association between basic word order and DLM, then no such association is expected.
 
 
@@ -386,7 +386,7 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{figures/fracion-optimized_DLM_2.6_format.pdf}
-    \caption{Study 1: Subject-object symmetry and real and optimized orderings. x-axis real order distributions, y-axis model prediction.}
+    \caption{Study 1: Subject-object symmetry and real (x-axis) and approximately optimized (y-axis) orderings.}
     \label{fig:study1}
 \end{figure}
 
@@ -429,19 +429,20 @@ There is a strong correlation between real and predicted subject-object symmetry
 So far, we have provided evidence for the Coadaptation Hypothesis using a cross-sectional correlational analysis of 74 languages.
 If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages change.
 To test this, we conducted a phylogenetic analysis of the evolution of usage and word order.
+Phylogenetic analyses have previous been applied to studying the evolution of word order patterns \citep{dunn-evolved-2011, maurits2014tracing}.
 
 A phylogenetic analysis allows us to construct an explicit model of language change, drawing on two sources of information:
 First, in several cases, our dataset includes data from different stages of the same language (such as Ancient Greek and Modern Greek).
 Such datasets provide direct evidence of diachronic development.
 Second, using phylogenetic information, the model can also draw strength from purely synchronic data:
-Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change.
+Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change \citep{dunn-evolved-2011, maurits2014tracing}.
 
 
-We used a model of random walks on phylogenetic trees to model how grammar and usage of a language evolve over time, and to test the Coadaptation Hypothesis.
+We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring} to model how grammar and usage of a language evolve over time, and to test the Coadaptation Hypothesis.
 We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by usage (optimal subject-object symmetry) and grammar (real subject-object symmetry).
 Whenever a language splits into daughter languages, the point $\xi_{L,t}$ continues to evolve independently in each daughter language.
-We model the change of $\xi_{L,t}$ over time using a random walk given by an Ornstein-Uhlenbeck process (see Materials and Methods for details).
-This process is parameterized by, first, rates of change in the two dimensions and, second, the correlation between the changes in both dimensions.
+As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{sy1997a, blackwell2003bayesian}, see Materials and Methods for details).
+This process is parameterized by, first, rates of change in the two dimensions and, second, the correlation between the changes in both dimensions \citep{felsenstein1973maximum,freckleton2012fast}.
 Under the Coadaptation Hypothesis, changes in both dimensions should be positively correlated.
 Under the null hypothesis, no such correlation is expected.
 Besides rates of change, the model also incorporates the possibility of a bias towards specific regions of parameter space (e.g., low or high subject-object symmetry).
@@ -685,7 +686,7 @@ $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the languag
 
 A common choice in phylogenetic modeling of coevolving traits is correlated Brownian motion (CITE).
 We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section X for comparison).
-This leads to an Ornstein-Uhlenbeck process (CITE), described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
+This leads to an Ornstein-Uhlenbeck process \citep{blackwell2003bayesian}, described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
 \begin{equation*}
     d\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) dt + \Lambda dB_t
 \end{equation*}
@@ -701,7 +702,7 @@ Lesioned models referenced in the text are obtained by setting the off-diagonals
 See SI Section X for additional models that take areal convergence into account.
 %In each language family, we modeled the state $\xi_{L,t}$ of the root (e.g., Proto-Indo-European) as a draw from the stationary distribution.
 
-We conducted Bayesian inference using Hamiltonian Monte Carlo in Stan (CITE) and computed Bayes factors using Stepping Stone Sampling (CITE).
+We conducted Bayesian inference using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan} and computed Bayes factors using Stepping Stone Sampling \citep{xie2011improving}.
 See SI Section X for implementation details.
 
 
