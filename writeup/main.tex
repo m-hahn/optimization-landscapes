@@ -702,12 +702,7 @@ where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are 
 The dynamics of stochastic change are described by the second term, $\Lambda \operatorname{d}B_t$:
 The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; the off-diagonal encodes correlation \citep{felsenstein1973maximum,freckleton2012fast}: Positive entries in the off-diagonal mean that languages drift in such a way that $X_L, Y_L$ are positively correlated; zero off-diagonal entries indicate independent change in both dimensions.
 
-The matrix $\Sigma := \Lambda\Lambda^T$ indicates the variance-covariance structure of the instantaneous changes at any time $t$.
-The main quantity of interest is the correlation between changes in the two dimensions, which is given by
-\begin{equation}
-R := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
-\end{equation}
-A positive value indicates that changes in both directions are positively correlated.
+
 
 The other term, $\Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t$, encodes deterministic drift, and describes which region $\mu \in \mathbb{R}^2$ of parameter space languages tend to concentrate around in the long run.
 The term encodes the fact that the possible range of $\xi_{L,t}$ is bounded and allows the model to encode the possibility of a bias towards some region of the plane.
@@ -759,11 +754,15 @@ Spanish & Latin &+0 \\
 
 \section{Phylogenetic Tree}
 
+\subsection{Tree Topology}
+
 We obtained tree topologies from Glottolog (CITE).
 We only retained interior nodes when more than one of their daughter nodes had languages occurring in our dataset.
 
 TODO print the tree
 
+
+\subsection{Dating Inner Nodes}
 We labeled interior nodes for time using estimates based on historical evidence and the linguistic literature.
 
 
@@ -947,6 +946,15 @@ We implemented the models in Stan and obtained posterior samples using MCMC. TOD
 We computed marginal likelihoods using Stepping Stone Sampling with $K=10$ stones.
 We verified stability of the estimates by running the procedure ten times for each model.
 
+
+\subsection{Quantifying Instantaneous Correlation}
+The matrix $\Sigma := \Lambda\Lambda^T$ indicates the variance-covariance structure of the instantaneous changes at any time $t$ \citep{felsenstein1973maximum, freckleton2012fast}.
+The main quantity of interest is the correlation between changes in the two dimensions, which is given by
+\begin{equation}
+R := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
+\end{equation}
+A positive value indicates that changes in both directions are positively correlated.
+
 %\paragraph{Computing Likelihood for Brownian Motion Model}
 
 %We impose an LKJ prior on the correlation matrix of $A$, a student $t$ prior on the variance components of $A$ and $\Lambda$, a ... prior on the two components of $\Lambda$.
@@ -959,10 +967,10 @@ The simple Brownian model leaves out the drift term, leading to the stochastic d
 \begin{equation*}
     \operatorname{d}\xi_t = \Lambda \operatorname{d}B_t
 \end{equation*}
-This is known as the Independent Contrasts model \citep{felsenstein1973maximum}.
+This is known as the Independent Contrasts model \citep{felsenstein1973maximum, freckleton2012fast}.
 
 Brownian motion differs from the Ornstein-Uhlenbeck process in that it does not have a long-term stationary solution.
-That is, trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$.
+Instead, trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$.
 This is clearly unrealistic in our setting, as subject-object symmetry is bounded between 0 and 1.
 
 As there is no stationary solution, there is no straightforward way to jointly apply the model to data from languages that do not share a common ancestor.
