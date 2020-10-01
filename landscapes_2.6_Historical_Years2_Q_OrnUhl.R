@@ -94,7 +94,7 @@ us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Romanian_2.6")) %>% mu
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Portuguese_2.6")) %>% mutate(Trajectory="Portuguese", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Hindi_2.6")) %>% mutate(Trajectory="Hindi", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Urdu_2.6")) %>% mutate(Trajectory="Urdu", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
-us = rbind(us, u %>% filter(Language %in% c("Old_Church_Slavonic_2.6", "Bulgarian_2.6")) %>% mutate(Trajectory="Bulgarian", Group="South Slavic") %>% mutate(Time = ifelse(Age == -1, "+800", ifelse(Age==0, "+1200", "+2000"))))
+us = rbind(us, u %>% filter(Language %in% c("Old_Church_Slavonic_2.6", "Bulgarian_2.6")) %>% mutate(Trajectory="Bulgarian", Group="Eastern South Slavic") %>% mutate(Time = ifelse(Age == -1, "+800", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Russian_2.6")) %>% mutate(Trajectory="Russian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Belarusian_2.6")) %>% mutate(Trajectory="Belarusian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Ukrainian_2.6")) %>% mutate(Trajectory="Ukrainian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
@@ -209,7 +209,7 @@ for(group in unique(us$Group)) {
 plot = plot + facet_wrap(~Group)
 plot = plot + theme_bw()
 plot = plot + theme(panel.grid = element_blank())
-plot = plot + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16))
+plot = plot + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16), strip.text.x = element_text(size = 10))
 ggsave("figures/historical_2.6_times_stationary.pdf", width=7, height=7)
 
 
