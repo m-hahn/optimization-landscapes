@@ -17,4 +17,6 @@ optimizeDLM/perSentence/ud_languages.py
 optimizeDLM/perSentence/Best_ByGroup_SO/ud_languages.txt
 optimizeEff/ud_languages.txt
 optimizeEff/ud_languages.py
+fitGrammars/ud_languages.py
+fitGrammars/ud_languages.txt
 
