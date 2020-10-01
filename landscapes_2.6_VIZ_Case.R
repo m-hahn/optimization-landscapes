@@ -78,6 +78,12 @@ plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=value)) + geom_
 
 v = u %>% filter(value)
 cor.test(v$OSSameSide_Real_Prob, v$OSSameSide)
+plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=value)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 v = u %>% filter(!value)
 cor.test(v$OSSameSide_Real_Prob, v$OSSameSide)
+plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=value)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+
+
+
+
 
