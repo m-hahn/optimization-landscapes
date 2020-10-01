@@ -42,7 +42,7 @@ u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob, OS
 
 u = merge(u, perSentence, by=c("Language"), all=TRUE)
 #summary(lm(OSSameSide ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=u))
-summary(lm(OSSameSide_Real_Prob ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=u))
+#summary(lm(OSSameSide_Real_Prob ~ isRoot + objects + subjectLength + verbDependents+ verbLength, data=u))
 summary(lm(OSSameSide_Real_Prob ~ objects, data=u))
 
 library(lme4)
@@ -73,5 +73,5 @@ plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=objects, color=Family)) + geom_te
 ggsave("figures/objects-order-pureud-byVerb_FORMAT.pdf", width=7, height=7)
 
 
-
+write.csv(u, file="landscapes_2.6_Properties_IncludingNonNouns_All_VIZ.R.csv")
 
