@@ -101,6 +101,7 @@
 
 
 \title{Coadaptation between usage and grammar in the evolution of word order}
+% Maybe?: Grammar and Usage Interact in the Evolution of Language
 
 \author{Michael Hahn and Yang Xu}
 
@@ -508,9 +509,12 @@ We note that our model indicates no evidence that languages tend to drift toward
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
 A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated log Bayes Factor 0.1).
 
-A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE).
-In our sample of historical trajectories, movement coincides with the loss of case marking in two cases (English and Romance).
-However, we found that, when applied to the entire dataset, the model continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case (see SI Section XX).
+A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO.
+This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
+In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in two cases (English and Romance).
+This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
+We found that the model continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section XX).
+This shows that languages show coadaptation between word order and usage patterns beyond what is captured by the presence of absence of case marking.
 
 %The model provides no evidence that language evolution favors high or low subject-object %asymmetry.
 %Visually, the stationary distribution in Figure~\ref{fig:drift-model} is essentially centered with equal weight given to low and high real subject-object symmetry.
@@ -697,6 +701,13 @@ where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are 
 
 The dynamics of stochastic change are described by the second term, $\Lambda \operatorname{d}B_t$:
 The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; the off-diagonal encodes correlation \citep{felsenstein1973maximum,freckleton2012fast}: Positive entries in the off-diagonal mean that languages drift in such a way that $X_L, Y_L$ are positively correlated; zero off-diagonal entries indicate independent change in both dimensions.
+
+The matrix $\Sigma := \Lambda\Lambda^T$ indicates the variance-covariance structure of the instantaneous changes at any time $t$.
+The main quantity of interest is the correlation between changes in the two dimensions, which is given by
+\begin{equation}
+R := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
+\end{equation}
+A positive value indicates that changes in both directions are positively correlated.
 
 The other term, $\Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t$, encodes deterministic drift, and describes which region $\mu \in \mathbb{R}^2$ of parameter space languages tend to concentrate around in the long run.
 The term encodes the fact that the possible range of $\xi_{L,t}$ is bounded and allows the model to encode the possibility of a bias towards some region of the plane.
@@ -1019,6 +1030,9 @@ Conceptually, a disadvantage of the Brownian motion model is that it does not ha
 
 \section{Accounting for Case Marking}
 
+Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
+We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
+
 \paragraph{Coding Languages for Case Marking}
 We coded languages from our sample for the presence or absence of case marking on the basis of \citep{iggesen2013number}, supplemented with information from the grammatical literature where no information was provided.
 We also coded all interior nodes of the phylogenetic tree for case marking based on the linguistic literature.
@@ -1041,12 +1055,17 @@ We set priors $\mu_{C(L)} \sim N(0,1)$ for both $C(L) = 0$, and $1$.
 In accordance with the prior literature, fitted values of $\mu$ indicated that languages without case marking favor regions with low observed and optimized subject-object symmetry (TODO).
 For languages with case marking, there was evidence for a bias towards higher subject-object symmetry (TODO).
 
-We plot the posterior of the correlation component of $\Sigma$ in Figure X.
+We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-case}.
 The posterior probability that the correlation is $\leq 0$ is estimated to be $0.0055$.
 
 We found equivalent results when we gave the model additional flexibility by assuming that $\Gamma$ could also depend on $C(L)$ (posterior of non-positive correlation: $0.00325$).
 
-
+\begin{figure}
+    \centering
+    \includegraphics{change/figures/corr_ornuhl-binom_42.pdf}
+    \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking.}
+    \label{fig:posterior-case}
+\end{figure}
 
 %#Oliver A. Iggesen. 2013. Number of Cases.
 %#In: Dryer, Matthew S. & Haspelmath, Martin (eds.)
