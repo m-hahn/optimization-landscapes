@@ -1,0 +1,1 @@
+case_marking_revised.tsv  annotates languages tha6t distinguish subjects and objects in nominal inflection (e.g. the extent Insular Celtic languages have collapsed nominative and accusative)
