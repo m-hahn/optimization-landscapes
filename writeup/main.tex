@@ -331,13 +331,6 @@ We refer to this as the Coadaptation Hypothesis.
 Otherwise, we expect that, either, one of the two basic word orders is systematically more efficient for DLM, or there is no systematic relationship between basic word order and dependency length.
 
 
-\begin{figure}
-    \centering
-    \includegraphics{}
-    \caption{TODO Old English, Modern English, and Japanese}
-    \label{fig:my_label}
-\end{figure}
-
 %First, we first use the label from WALS, which we partitioned into different-side, same-side, and free.
 %Second, as a rough measure (CITE), corpus-based, whether O and S have the most-frequent direction in the treebank.
 
@@ -1045,8 +1038,9 @@ We do this by fitting an extension of the model that can model different directi
 
 \paragraph{Coding Languages for Case Marking}
 We coded languages from our sample for the presence or absence of case marking on the basis of \citep{iggesen2013number}, supplemented with information from the grammatical literature where no information was provided.
-We amended this to include only case 
-We also coded all interior nodes of the phylogenetic tree for case marking based on the linguistic literature.
+We amended the annotation from \citep{iggesen2013number} to include only case marking that distinguishes between subjects and objects; this concerns several modern Celtic and Germanic languages, which have some nominal case marking but do not distinguish subjects and objects (e.g., Swedish and English use -\textit{s} to mark possessives, but do not distinguish nominal subjects and objects.).
+
+We furthermore coded all interior nodes of the phylogenetic tree for case marking based on the linguistic literature.
 In some cases, this annotation was unambiguous due to available historical documentation even though no treebank data was availavble (e.g., Proto-West-Scandinavian was a late form of Old Norse and had case markers).
 In many other cases, cognate case markers are unambiguously attested both within and without a group, showing that they were present in the protolanguage (e.g., Proto-Germanic, Proto-Indo-Iranian).
 Furthermore, in many protolanguages, case markers are commonly reconstructed based on their presence in different descendant branches (e.g., Proto-Indo-European, Proto-Afroasiatic, Proto-Common-Turkic, Proto-Uralic and Proto-Ugric). % Uraloc: Abondolo Uralic; Hajdu uralischen Sprachen; Marcantonio Uralic
@@ -1056,26 +1050,42 @@ Case is not unambiguously reconstructed for Proto-Niger-Congo and Proto-Atlantic
 Based on the prior literature, we expect that languages without case marking will be biased towards low subject-object symmetry (CITE).
 To take this into account, we modified the model by conditioning the mean vector $\mu$ on the presence or absence of case in the language $L$.
 \begin{equation*}
-    \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu_{C(L)}) \operatorname{d}t + \Lambda \operatorname{d}B_t
+    \operatorname{d}\xi_{L,t} = \Gamma_{C(L)} \cdot (\xi_{L,t}-\mu_{C(L)}) \operatorname{d}t + \Lambda \operatorname{d}B_t
 \end{equation*}
 where $C(L)$ is $1$ if $L$ has case and $0$ else.
 We set priors $\mu_{C(L)} \sim N(0,1)$ for both $C(L) = 0$, and $1$.
 
 
 \paragraph{Results}
-In accordance with the prior literature, fitted values of $\mu$ indicated that languages without case marking favor regions with low observed and optimized subject-object symmetry (TODO).
+We plot the distribution of languages and the fitted stationary distributions, conditioned on $C(L)$, in Figure~\ref{fig:langs-case}.
+In accordance with the prior literature, the model indicated that languages without case marking favor regions with low observed and optimized subject-object symmetry (TODO).
 For languages with case marking, there was evidence for a bias towards higher subject-object symmetry (TODO).
-
-We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-case}.
+We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-case} (top).
 The posterior probability that the correlation is $\leq 0$ is estimated to be $0.0055$.
 
-We found equivalent results when we gave the model additional flexibility by assuming that $\Gamma$ could also depend on $C(L)$ (posterior of non-positive correlation: $0.00325$).
+To separately estimate the evidence coming from languages with or without case marking, we also fitted a model where $\Lambda$ was also dependent on $C(L)$.
+The resulting correlation component posteriors are shown in Figure~\ref{fig:posterior-case} (bottom).
+We found a positive correlation in both settings individually (posterior of non-positive correlation $0.04175$ with case, $0.0385$ without case).
+
+\paragraph{Conclusion}
+We found that case marking has a strong impact on subject-object symmetry, and that coadaptation continues to hold when controlling for this.
 
 \begin{figure}
     \centering
-    \includegraphics{change/figures/corr_ornuhl-binom_42.pdf}
-    \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking.}
+    \includegraphics[width=0.3\textwidth]{change/figures/corr_ornuhl-binom_42.pdf}
+    
+    \includegraphics[width=0.3\textwidth]{change/figures/corr_ornuhl-binom_45_Case.pdf}
+    \includegraphics[width=0.3\textwidth]{change/figures/corr_ornuhl-binom_45_NoCase.pdf}
+    \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking. Top: Assuming a joint $\Sigma$. Bottom: Assuming separate values for $\Sigma$.}
     \label{fig:posterior-case}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/by_patient_marking.pdf}
+    \includegraphics[width=0.4\textwidth]{change/visualize/stationary_case.pdf}
+    \caption{Left: Languages by availability of morphological distinction between subject and object nouns. Right: Fitted stationary distribution, conditioned on case marking.}
+    \label{fig:langs-case}
 \end{figure}
 
 %#Oliver A. Iggesen. 2013. Number of Cases.
@@ -1098,14 +1108,35 @@ This correlation was not accounted for by differences in the availability of pro
 
 \section{Within-Language Correlates of Basic Word Order}
 
-\subsection{VS Order in SVO Languages}
-In many SVO languages, intransitive subjects can appear after the verb (``along came a dog'' CITE, see Si Section X).
+Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
 
-\subsection{VSO in Embedded Clauses, SVO in Main Clauses}
-We do not find evidence between order and the frequency of embedding on the between-language level (TODO), but there is evidence within languages.
-In some predominant VSO languages, SVO is an alternative word order in unembedded clauses (e.g., Standard Arabic, Berber, Ancient Egyptian, see SI Section X).
+\subsection{Coexpression: VS Order in SVO Languages}
+In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE, see Si Section X).
+
+- literature
+
+- Unaccusative inversion
+
+-- Leonetti, Two Types of postervbal subject (Spanish): Unaccusative inversion (p. 17)
+
+-- English there inversion
+
+- UD corpus evidence:
+-- among languages, the rate of VS tends to be higher when no object is present than when an object is present
+
+
+
+\subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
+In some predominant VSO languages, SVO is an alternative word order in unembedded clauses, whereas embedded clauses tend to only allow VSO.
+Examples include relative clauses in Standard Arabic (CITE), Breton (Timm, Relative Clause Formation in Breton, p. 80), Ancient Egyptian (CITE), Tuareg (Heath chapter 12.1.2).
+
+
 Conversely, in some SVO languages, embedded clauses may show VSO order (Bantu, see SI Section X).
+%Demuth,Katherine,andCarolynHarford.1999.Verb raising and subject inversion in Bantu relatives. Journal of African Languages and Lingustics20:41ñ61.
 
+- UD corpus evidence
+
+-- among languages, the rate of VS tends to be higher in embedded clauses than in unembedded clauses
 
 
 \end{document}
