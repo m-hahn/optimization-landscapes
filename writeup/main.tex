@@ -328,7 +328,7 @@ We begin by testing whether, across languages, basic word order reflects coadapt
 %We test the  hypotheses: Basic word order reflects coadaptation between grammar and usage (\textsc{Coadaptation}), basic word orders differ in their efficiency for DLM as proposed by \citep{ferrer-i-cancho-placement-2017} (\textsc{DifferentEfficiencies}), or there is no crosslinguistic relation between .
 If there is coadaptation between basic word order and usage, we expect that languages tend to have the basic word order that is most efficient given their usage distributions.
 We refer to this as the Coadaptation Hypothesis.
-Otherwise, we expect that, either, one of the two basic word orders is systematically more efficient for DLM, or there is no systematic relationship between basic word order and dependency length.
+Alternatively, we expect that, either, one of the two basic word orders is systematically more efficient for DLM, or there is no systematic relationship between basic word order and dependency length.
 
 
 %First, we first use the label from WALS, which we partitioned into different-side, same-side, and free.
@@ -341,24 +341,24 @@ English is close to one end of the spectrum with dominant SVO order, with rare e
 Japanese falls entirely on one end of the spectrum, allowing only SOV and OSV order.
 Many languages occupy intermediate positions; for instance, in Russian, all logically possible orderings of S, V, O can occur, though with different frequencies.
 
-We quantify the position of an individual language on this continuum using a quantitative corpus-based metric which we call {Subject-Object Symmetry}.
-This is the chance that two randomly selected instances of S and O from the corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs. This number is 1 in strict SOV languages like Japanese, close to 0.5 in languages with flexible word order, and close to 0 in English.
+We quantify the position of an individual language on this continuum using a quantitative corpus-based metric which we refer to as Subject-Object Symmetry.
+This metric indicates the chance that two randomly selected instances of S and O from a corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs. This number is 1 in strict SOV languages like Japanese, close to 0.5 in languages with flexible word order, and close to 0 in English.
 
 %We propose two quantitative metrics measuring where a language falls on this spectrum.
 %First, we count how often S and O appear on the same side of a verb that realizes both S and O arguments ({Same-Side Count}).\mhahn{Are there better names for these measures?}
 %This measure does not take into account what happens in sentences where only S or O is realized.
 
 
-We compare these measures between real observed word orders and hypothetical orderings optimized for Dependency Length Minimization.
+We compare these measures between observed word orders and hypothetical orderings obtained by optimizing for Dependency Length Minimization.
 
 We approximate the distribution over different syntactic configurations using large corpora.
-We draw on the Universal Dependencies data, which has text data annotated with syntactic tree topologies from over 70 languages from XXX language families (see Materials and Methods for details).
+We draw on the Universal Dependencies data, which includes text data annotated with syntactic tree topologies from over 70 languages from XXX language families (see Materials and Methods for details).
 For each language, we construct orderings that are approximately optimized for DLM.
 
-To parameterize such approximately optimized orderings, we adopt the model of counterfactural order grammar introduced by \citet{gildea-optimizing-2007}.
+To parameterize the approximately optimized orderings, we adopt the established model of counterfactural order grammar introduced by \citet{gildea-optimizing-2007}.
 These are simple, parametric models parameterizing how the words in a syntactic structure are linearized depending on their syntactic relations.
 For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns (see Materials and Methods for details).
-We use the method of \citet{hahn2020universals} to construct grammars that approximately minimize average dependency length using stochastic gradient descent.
+We use the method in \citet{hahn2020universals} to construct grammars that approximately minimize average dependency length using stochastic gradient descent.
 
 In order to control for variation across different optima, for each of 74 languages, we construct 15 approximately optimized grammars, and compute the average Subject-Object Symmetry across these counterfactual orderings.
 
@@ -366,19 +366,19 @@ In order to control for variation across different optima, for each of 74 langua
 
 %\comment{** Do you plan to say a bit more details about 1) the conterfactual order grammar, and 2) the data, 72 languages, where they came from, and why they are a reasonable sample, either in Methods, and/or in Appendix? I think these details would be needed for reproducibility but also for careful description of the materials and methods. also, you should say how many language families are covered in the 72. languages.}
 
-Under the Coadaptation Hypothesis, we expect that the subject-object symmetry of optimized orderings correlates with a language's actual subject-object symmetry.
-Otherwise, if one order is more efficient, or there is no systematic association between basic word order and DLM, then no such association is expected.
+Under the Coadaptation Hypothesis, we expect that the subject-object symmetry of optimized orderings should correlate with a language's actual subject-object symmetry.
+Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such correlation should be.
 
 
-Note that, while the optimized grammars and the real orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely from the tree topologies, and the original word orders do not enter their calculation (See SI Section X for results showing that results do not change when estimating optimizes grammars and real orders using disjoint subsets of corpora).
+While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section X showing that results do not change when estimating optimizes grammars and attested orders using disjoint subsets of corpora).
 
 
 
 In Figure~\ref{fig:study1}, we plot real subject-object symmetries against the average subject-object symmetry in the 74 languages.
-Without controlling for dependencies between related languages, predicted and real subject-object symmetry are correlated ($R=0.32$).
-In order to account for the statistical dependencies between related languages, we then conducted a regression where we entered language families as random effects with random slopes and intercepts.
-Real subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
-This result agrees with the predictions of the Coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
+Without controlling for dependencies between related languages, model-predicted and attested subject-object symmetry are correlated ($R=0.32$, $p<TODO$).
+In order to account for the statistical dependencies between related languages, we conducted a regression where we entered language families as random effects with random slopes and intercepts.
+Attested subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
+This result provides strong support for the Coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
 It is incompatible with the suggestion that SVO is generally more efficient for DLM \citep{ferrer-i-cancho-placement-2017}.
 
 %It is incompatible with the \textsc{MultipleOptima} or \textsc{NoOptimization} hypotheses.
@@ -393,14 +393,14 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{figures/fracion-optimized_DLM_2.6_format.pdf}
-    \caption{Study 1: Subject-object symmetry and real (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families.}
+    \caption{Subject-object symmetry in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families. Small lines connect labels to the position of the language, where needed to avoid overlapping labels. \mhahn{could remove top and right bounding lines. Change labels tpo Optimized, Attested. Also explain short diagonal lines}}
     \label{fig:study1}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{analysis_spoken/spoken.pdf}
-    \caption{Comparing subject-object symmetry using written (blue) and spoken (red) corpora in five languages where spoken corpora are available.}
+    \caption{Comparison of subject-object symmetry between written (blue) and spoken (red) corpora in five languages where spoken corpora are available.}
     \label{fig:spoken}
 \end{figure}
 
@@ -411,8 +411,8 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 
 
 We have approximated the usage distribution over syntactic configurations using corpora.
-However, the vast majority of existing annotated corpus data is in written form (e.g., news and web text), whereas spoken language is thought to be most important for language change, particularly as widespread literacy is very recent.
-We collected all spoken corpora in dependency format that we could obtain access to, resulting in data from fixe languages (see Materials and Methods), and tested whether the conclusions of Analysis 1 continued to hold when using data from these treebanks.
+However, the vast majority of existing annotated corpus data is in written form (e.g., news and web text), whereas spoken language is thought to be most important for language change, particularly since widespread literacy is very recent.
+We collected all spoken corpora in dependency format that we could obtain access to, resulting in data from six languages (see Materials and Methods), and tested whether the conclusion of Analysis 1 continues to hold when using data from these treebanks.
 Results on these treebanks, and comparison to written data from the same languages, are shown in Figure~\ref{fig:spoken}.
 On these five languages, there is a strong agreenent between written and spoken data.
 There is a strong correlation between real and predicted subject-object symmetry in both written ($R=0.96$, $p=0.0023$) and spoken ($R=0.94$, $p=0.0048$) data, in agreement with the Coadaptation Hypothesis.
@@ -434,7 +434,7 @@ There is a strong correlation between real and predicted subject-object symmetry
 %Therefore, if the coadaptation hypothesis is true, then languages should stay close to or move towards the diagonal in the plane described by predicted and real subject-object symmetry.
 
 So far, we have provided evidence for the Coadaptation Hypothesis using a cross-sectional synchronic analysis of 74 languages.
-If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages change.
+If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages evolve over time.
 To test this, we conducted a phylogenetic analysis of the evolution of usage and word order.
 Phylogenetic analyses have previously been applied to studying the evolution of word order patterns \citep{dunn-evolved-2011, maurits2014tracing}.
 
@@ -445,17 +445,17 @@ Second, using phylogenetic information, the model can also draw strength from pu
 Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change \citep{pagel2004bayesian, dunn-evolved-2011, maurits2014tracing}.
 
 
-We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and usage of a language evolve over time, and to test the Coadaptation Hypothesis.
+We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and usage of a language evolve over time, in order to test the Coadaptation Hypothesis.
 We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by usage (optimal subject-object symmetry) and grammar (real subject-object symmetry).
 Whenever a language splits into daughter languages, the point $\xi_{L,t}$ continues to evolve independently in each daughter language.
 As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{blackwell2003bayesian}, see Materials and Methods for details).
-This process is parameterized by, first, rates of change in the two dimensions and, second, the correlation between the changes in both dimensions \citep{felsenstein1973maximum,freckleton2012fast}.
+This process is parameterized by rates of change in the two dimensions and the correlation between the changes in both dimensions \citep{felsenstein1973maximum,freckleton2012fast}.
 Under the Coadaptation Hypothesis, changes in both dimensions should be positively correlated.
-Under the null hypothesis, no such correlation is expected.
+Under the null hypothesis, no such correlation should be expected.
 Besides rates of change, the model also incorporates the possibility of a bias towards specific regions of parameter space (e.g., low or high subject-object symmetry).
 
 We obtained phylogenetic trees for the 74 languages in our sample (see Materials and Methods), and inserted historical stages as inner nodes in these trees.
-We fitted the parameters of the model using Hamiltonian Monte Carlo (see Materials and Methods for details).
+We fitted the parameters of the model using Hamiltonian Monte Carlo methods (see Materials and Methods for details).
 
 
 %First, for several languages, corpus data from different stages is available.
@@ -468,21 +468,21 @@ We fitted the parameters of the model using Hamiltonian Monte Carlo (see Materia
 
 
 
-We visualize model fit in Figure~\ref{fig:drift-model}.
+We visualize the results fit in Figure~\ref{fig:drift-model}.
 The blue distribution indicates the stationary distribution of the process, i.e., after long-term evolution, a language will tend to be lie within this distribution.
-For illustration, we also indicate expected direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
+For illustration, we also illustrate predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
 
 According to the model, changes in grammar and usage are positively correlated:
-This is seen both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
+This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal. \mhahn{TODO quantify the correlation}
 Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated log Bayes Factor 7.4 bits).
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{change/visualize/stationary.pdf}
-    \caption{Result of the phylogenetic drift model.
+    \caption{Result of the phylogenetic drift analysis.
     The blue distribution indicates the estimated long-term stationary distribution of languages, indicating where languages tend to lie after long-term evolution.
-    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage (y-axis).}
+    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage (y-axis). \mhahn{change axis labels}}
     \label{fig:drift-model}
 \end{figure}
 
@@ -530,7 +530,7 @@ This shows that languages show coadaptation between word order and usage pattern
 \begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/historical_2.6_times_stationary.pdf}
-    \caption{Historical Changes: We show the trajectory of change in seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of languages }
+    \caption{The evolutionary trajectories of change in seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined according to the phylogenetic analysis. \mhahn{change axis labels}}
     \label{fig:historical}
 \end{figure}
 
@@ -559,6 +559,18 @@ We quantified the frequency of co-expression of subjects and objects by calculat
 We show this ratio together with subject-object symmetry in Figure~\ref{fig:study2}.
 In a linear mixed-effects models, with by-family intercept and slope, subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
 This correlation was not accounted for by differences in the availability of pro-drop (see SI Section X).
+We also find evidence for a relation between order and co-expression within individual languages (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
+This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
+%Within languages, we found that individual sentences tend to have the basic word order that optimizes DLM (see SI Section XX).
+
+
+
+
+%We do not find evidence between order and the frequency of embedding on the between-language level (TODO), but there is evidence within languages.
+%In some predominant VSO languages, SVO is an alternative word order in unembedded clauses (e.g., Standard Arabic, Berber, Ancient Egyptian, see SI Section X).
+%Conversely, in some SVO languages, embedded clauses may show VSO order (Bantu, see SI Section X).
+
+
 
 
 %Say something specific:
@@ -569,18 +581,12 @@ This correlation was not accounted for by differences in the availability of pro
 
 
 
-We also find evidence for a relation between order and co-expression within individual languages.
-In many SVO languages, intransitive subjects can appear after the verb (``along came a dog'' CITE, see Si Section X).
-We do not find evidence between order and the frequency of embedding on the between-language level (TODO), but there is evidence within languages.
-In some predominant VSO languages, SVO is an alternative word order in unembedded clauses (e.g., Standard Arabic, Berber, Ancient Egyptian, see SI Section X).
-Conversely, in some SVO languages, embedded clauses may show VSO order (Bantu, see SI Section X).
-
 %- Continental West Germanic (except Yiddish). Main clauses predominant SVO/OSV; embedded clauses SOV/OSV.
 %- languages with predominant VSO, but alternative SVO in matrix clauses: Standard Arabic, Berber, Ancient Egyptian
 %- relative clauses in Bantu: Demuth,Katherine,andCarolynHarford.1999.Verb raising and subject inversion in Bantu relatives. Journal of African Languages and Lingustics20:41ñ61.
 
 
-\section{Discussion}
+%\section{Discussion}
 
 
 {\color{blue} 1. how this work impacts the research on basic word order, and particularly, extends the theory of efficient communication and suggests new functional pressures in shaping the evolution of syntactic structure.}\\
@@ -591,17 +597,20 @@ Conversely, in some SVO languages, embedded clauses may show VSO order (Bantu, s
 We have investigated the question of what explains the distribution of word order patterns across languages.
 We have argued that the observed crosslinguistic distribution of basic word order can be explained as resulting from coadaptation between grammar and usage.
 
+Our work combines evidence from richly annotated syntactic corpora with phylogenetic modeling. We believe that this modeling approach can be useful more generally for studying the fine-grained evolution of grammar.
+
 The theory of coadaptation does not privilege either grammar or usage as being the primary causal driver.
 Instead, any language includes both grammar and usage, and they evolve together.
 While, in a given language, a change might first appear in one domain, the preservation of efficiency can lead to compensating changes in the other domain.
 Consequently, grammar and usage constrain each other in their evolution.
 
-The theory of coadaptation adds to existing efficiency-based accounts of language by highlighting that individual aspects do not evolve towards efficiency in isolation; rather, we argue that language as a whole evolves to maintain efficiency.
-We expect that coadaptation may play a role in other aspects of language.
 Variation between the grammars of different languages, and change of languages over time, pose an interesting question for existing efficiency-based explanations.
-When languages differ, this could be because they reflect different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
-As languages change, they move along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
-As mentioned above, there is evidence that differences in culture may determine differences in vocabulary \cite{gibson2017color}.
+In existing effucuency-based models, differences between languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
+Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
+%As mentioned above, there is evidence that differences in culture may determine differences in vocabulary \cite{gibson2017color}.
+The theory of coadaptation adds a new interpretation of differences between languages, by highlighting that individual aspects do not evolve towards efficiency in isolation; rather, we argue that language as a whole evolves to maintain efficiency.
+Under this view, cross-linguistic variation in one area, such as basic word order, may be accompanied by variation in another area, such as usage distributions, resulting in an overall efficiency optimization.
+
 
 %suggest that color naming systems are efficient given the usefulness of color in a society.
 
@@ -627,7 +636,7 @@ As mentioned above, there is evidence that differences in culture may determine 
 %\cite{ferrer-i-cancho-placement-2017} argues that the variation is caused by a tension between optimizing DLM (thought to favor SVO) and making the verb predictable (thought to favor SOV). This hypothesis is predicated on the idea that DLM favors SVO, which our empirical results will show is not true in general.
 
 
-\section{Conclusion}
+%\section{Conclusion}
 
 \section*{Methods}
 
@@ -662,9 +671,10 @@ Optimized grammars are created using the gradient descent method described by \c
 \paragraph{Data}
 We primarily drew on the Universal Dependencies 2.6 treebanks, we included every language for which a training set with at least 500 sentences was available.
 In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar (CITE).
-While there are some other historical treebanks such as Middle English, they are not in the dependency format, and calculating dependency length is highly nontrivial without a high-quality conversion.
-As the Ancient Greek data spans approximately millenium, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD, \citet{taylor1994change}) for the phylogenetic analysis. 
-We excluded medieval Latin data as it does not reflect a living language.
+While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English (CITE) they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
+
+As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD, \citet{taylor1994change}) for the phylogenetic analysis. 
+%We excluded medieval Latin data as it does not reflect a living language.
 
 We obtained spoken treebanks from the following sources.
 For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of telephone conversations (CITE). For English, we used an automated conversion (CITE) of the Switchboard section of the Penn Treebank (CITE) to Universal Dependencies.
@@ -922,6 +932,15 @@ Dates of split are not always strictly meaningful (e.g. for Romance).
 
 \subsection{Calculating the Likelihood}
 For completeness, we describe how to calculate the likelihood of a multidimensional Ornstein-Uhlenbeck model on phylogenetic trees.
+
+As described in Materials and Methods, it is described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
+\begin{equation*}
+    \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t + \Lambda \operatorname{d}B_t
+\end{equation*}
+where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are non-degenerate matrices, and $B_t$ is Brownian motion in two dimensions.
+
+In our model, $\Gamma$ is diagonal with positive entries; we found no improved model fit when taking more general choices for $\Gamma$.
+
 The conditional distribution of a future observation at time $t+\Delta$ given an earlier one at time $t$ is given by the following equation \citep[Theorem 3.3]{schach1971weak}, \citep{gardiner1983handbook}, \citep[p. 156, eq. 6.124]{risken1989fokker}:
 \begin{equation}
 \xi_{L,t+\Delta} | \xi_{L,t} \sim N\left(\mu + e^{-\Delta \Gamma} (\xi_{L,t}-\mu),\ \Omega - e^{-\Delta \Gamma} \Omega e^{-\Delta \Gamma^T}\right)
@@ -930,17 +949,28 @@ where the matrix $\Omega$ is obtained as the solution of the equation \citep[p. 
 \begin{equation}
     \Gamma\Omega+\Omega\Gamma^T = \Lambda \Lambda^T
 \end{equation}
-Based on this, one can compute the stationary distribution of the solution of the differential equation.
+Based on this, one can compute the stationary distribution that solves the differential equation.
 The stationary distribution of an individual observation is
 \begin{equation}\label{eq:ornuhl-var}
 \xi_{t} \sim N\left(\mu, \Omega \right)
 \end{equation}
-The stationary covariance between the states of two languages $L_1, L_2$, possibly on different branches of the phylogenetic tree, is given by
+The stationary cross-covariance between the states of two languages $L_1, L_2$, possibly on different branches of the phylogenetic tree, is given by
 \begin{equation}\label{eq:ornuhl-covar}
-Cov(\xi_{L_1}, \xi_{L_2}) = e^{-(\Delta_1 + \Delta_2) \Gamma} \Omega e^{-(\Delta_1 + \Delta_2) \Gamma^T}
+Cov(\xi_{L_1}, \xi_{L_2}) = e^{-\Delta_1 \Gamma} \Omega e^{-\Delta_2 \Gamma^T}
 \end{equation}
 if $\Delta_1, \Delta_2$ are the times of evolution from their last common ancestor to $L_1$ and $L_2$, respectively.
+\footnote{This can be shown as follows:
+If $\xi_A$ is the last common ancestor, then (we set $\mu=0$ without loss of generality, as it does not affect the covariance):
+\begin{align*}
+Cov(\xi_{L_1}, \xi_{L_2}) &= \mathbb{E} \left[\xi_{L_1} \xi_{L_2}^T\right] - \mathbb{E}\xi_{L_1} \mathbb{E}\xi_{L_2}^T  \\
+ &= \mathbb{E}\left[\mathbb{E} \left[\xi_{L_1} \xi_{L_2}^T | \xi_A\right]\right] - 0 \cdot 0 \\
+ &= \mathbb{E}\left[\mathbb{E} \left[\xi_{L_1}|\xi_A\right] \mathbb{E} \left[\xi_{L_2}^T | \xi_A\right]\right]  \\
+ &= \mathbb{E}\left[   e^{-\Delta_1\Gamma} \xi_A    \xi_A^T e^{-\Delta_2\Gamma^T} \right]  \\
+ &= e^{-\Delta_1\Gamma} \Omega e^{-\Delta_2\Gamma^T}   \\
+\end{align*}}
 If $L_1, L_2$ do not share a common ancestor, the covariance is zero.\footnote{As $\lim_{\Delta \rightarrow \infty} e^{-\Delta B} = 0$, this is practically equivalent to assuming a very large time-depth of the last common ancestor, which would be the case under the assumption of macrofamilies with very large time depth.}
+
+
 
 Since any Ornstein-Uhlenbeck process is Gaussian \citep{schach1971weak}, the joint distribution of any set of observations $\xi_{L, t}$ is determined by (\ref{eq:ornuhl-var}-\ref{eq:ornuhl-covar}).
 
@@ -1110,21 +1140,28 @@ We found that case marking has a strong impact on subject-object symmetry, and t
 Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
 
 \subsection{Coexpression: VS Order in SVO Languages}
-In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE, see Si Section X).
+In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
 
-- literature
+%- literature
+%- Unaccusative inversion
+%-- Leonetti, Two Types of postervbal subject (Spanish): Unaccusative inversion (p. 17)
+%-- English there inversion
 
-- Unaccusative inversion
+We conjectured that, more generally, the rate of VS order is higher when no object is present than when an object is present.
+For each language in our dataset, we collected statistics for all verbs with a subject and conducted the following logistic analysis:
 
--- Leonetti, Two Types of postervbal subject (Spanish): Unaccusative inversion (p. 17)
+\begin{equation}
+\text{SV Order} \sim \text{Object is present}
+\end{equation}
 
--- English there inversion
+A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
+Results are shown below.
+As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
-- UD corpus evidence:
--- among languages, the rate of VS tends to be higher when no object is present than when an object is present
-
-
-VSProb $\sim$ ObjPresent
+\begin{longtable}{l|lllllll}
+Language & SV Frequency & $\beta$ & $p$ \\ \hline
+\include{optimizeDLM/perSentence/results_analyze_VSOrderWhenNoObject.R}
+\end{longtable}
 
 
 \subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
@@ -1135,11 +1172,7 @@ Examples include relative clauses in Standard Arabic (CITE), Breton (Timm, Relat
 Conversely, in some SVO languages, embedded clauses may show VSO order (Bantu, see SI Section X).
 %Demuth,Katherine,andCarolynHarford.1999.Verb raising and subject inversion in Bantu relatives. Journal of African Languages and Lingustics20:41ñ61.
 
-- UD corpus evidence
-
--- among languages, the rate of VS tends to be higher in embedded clauses than in unembedded clauses
-
-
+However, it is not generally true that VS order is more common in embedded clauses across all languages that have variation. For instance, German and Dutch commonly can have VS in main clauses, but are obligatorily SV in subordinate clauses.
 
 %\section{Detailed Diachronic Trajectories}
 %-- coexpression
