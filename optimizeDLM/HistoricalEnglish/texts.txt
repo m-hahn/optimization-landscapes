@@ -1,0 +1,101 @@
+coadrian.o34.psd
+coaelhom.o3.psd	1000
+coaelive.o3.psd	1000
+coalcuin.psd	800
+coalex.o23.psd
+coapollo.o3.psd	1050
+coaugust.psd
+cobede.o2.psd	890
+cobenrul.o3.psd
+coblick.o23.psd	971
+coboeth.o2.psd	890
+cobyrhtf.o3.psd	1000
+cocanedgD.psd	1020
+cocanedgX.psd	1020
+cocathom1.o3.psd	1000
+cocathom2.o3.psd	1000
+cochad.o24.psd
+cochdrul.psd
+cochristoph.psd
+cochronA.o23.psd
+cochronC.psd
+cochronD.psd
+cochronE.o34.psd
+cocuraC.psd	890
+cocura.o2.psd	890
+codicts.o34.psd
+codocu1.o1.psd
+codocu2.o12.psd
+codocu2.o2.psd
+codocu3.o23.psd
+codocu3.o3.psd
+codocu4.o24.psd
+coeluc1.psd
+coeluc2.psd
+coepigen.o3.psd	1000
+coeuphr.psd
+coeust.psd
+coexodusP.psd
+cogenesiC.psd
+cogregdC.o24.psd
+cogregdH.o23.psd
+coherbar.psd
+coinspolD.o34.psd
+coinspolX.psd
+cojames.psd
+colacnu.o23.psd
+colaece.o2.psd
+colaw1cn.o3.psd
+colaw2cn.o3.psd
+colaw5atr.o3.psd	
+colaw6atr.o3.psd
+colawafint.o2.psd	893
+colawaf.o2.psd	893
+colawger.o34.psd
+colawine.ox2.psd
+colawnorthu.o3.psd
+colawwllad.o4.psd
+coleofri.o4.psd
+colsigef.o3.psd	1000
+colsigewB.psd	1000
+colsigewZ.o34.psd	1000
+colwgeat.psd	1000
+colwsigeT.psd	1000
+colwsigeXa.o34.psd	1000
+colwstan1.o3.psd	1000
+colwstan2.o3.psd	1000
+comargaC.o34.psd
+comargaT.psd
+comart1.psd	850
+comart2.psd	850
+comart3.o23.psd	850
+comarvel.o23.psd
+comary.psd
+coneot.psd
+conicodA.psd	
+conicodC.psd
+conicodD.psd
+conicodE.psd
+coorosiu.o2.psd	890
+cootest.o3.psd
+coprefcath1.o3.psd	1000
+coprefcath2.o3.psd	1000
+coprefcura.o2.psd
+coprefgen.o3.psd	1000
+copreflives.o3.psd	1000
+coprefsolilo.psd
+coquadru.o23.psd
+corood.psd
+cosevensl.psd
+cosolilo.psd
+cosolsat1.o4.psd
+cosolsat2.psd
+cotempo.o3.psd	1000
+coverhomE.psd	980
+coverhomL.psd	980
+coverhom.psd	980
+covinceB.psd
+covinsal.psd
+cowsgosp.o3.psd	1100
+cowulf.o34.psd	1010
+#ycoe.txt#
