@@ -946,6 +946,15 @@ The conditional distribution of a future observation at time $t+\Delta$ given an
 \xi_{L,t+\Delta} | \xi_{L,t} \sim N\left(\mu + e^{-\Delta \Gamma} (\xi_{L,t}-\mu),\ \Omega - e^{-\Delta \Gamma} \Omega e^{-\Delta \Gamma^T}\right)
 \end{equation}
 where the matrix $\Omega$ is obtained as the solution of the equation \citep[p. 110, eq. 4.4.51]{gardiner1983handbook} \citep[p. 156, eq. 6.126]{risken1989fokker}:
+\footnote{Setting $\Sigma := \Lambda\Lambda^T$, this can be obtained as follows:
+\begin{equation}
+\left(\begin{matrix} \Omega_{11} \\ \Omega_{12} \\ \Omega_{22} \end{matrix}\right)=    \left(\begin{matrix}
+    2B_{11} & 2B_{12} & 0 \\
+    B_{21} & B_{11}+B_{22} & B_{12} \\
+    0 & 2B_{21} & 2B_{22}
+    \end{matrix}\right)^{-1}  \left(\begin{matrix} \Sigma_{11} \\ \Sigma_{12} \\ \Sigma_{22} \end{matrix}\right)
+\end{equation}
+}
 \begin{equation}
     \Gamma\Omega+\Omega\Gamma^T = \Lambda \Lambda^T
 \end{equation}
@@ -962,9 +971,7 @@ if $\Delta_1, \Delta_2$ are the times of evolution from their last common ancest
 \footnote{This can be shown as follows:
 If $\xi_A$ is the last common ancestor, then (we set $\mu=0$ without loss of generality, as it does not affect the covariance):
 \begin{align*}
-Cov(\xi_{L_1}, \xi_{L_2}) &= \mathbb{E} \left[\xi_{L_1} \xi_{L_2}^T\right] - \mathbb{E}\xi_{L_1} \mathbb{E}\xi_{L_2}^T  \\
- &= \mathbb{E}\left[\mathbb{E} \left[\xi_{L_1} \xi_{L_2}^T | \xi_A\right]\right] - 0 \cdot 0 \\
- &= \mathbb{E}\left[\mathbb{E} \left[\xi_{L_1}|\xi_A\right] \mathbb{E} \left[\xi_{L_2}^T | \xi_A\right]\right]  \\
+Cov(\xi_{L_1}, \xi_{L_2}) &= \mathbb{E} \left[\xi_{L_1} \xi_{L_2}^T\right] - \mathbb{E}\xi_{L_1} \mathbb{E}\xi_{L_2}^T   &= \mathbb{E}\left[\mathbb{E} \left[\xi_{L_1} \xi_{L_2}^T | \xi_A\right]\right] - 0 \cdot 0  &= \mathbb{E}\left[\mathbb{E} \left[\xi_{L_1}|\xi_A\right] \mathbb{E} \left[\xi_{L_2}^T | \xi_A\right]\right]  
  &= \mathbb{E}\left[   e^{-\Delta_1\Gamma} \xi_A    \xi_A^T e^{-\Delta_2\Gamma^T} \right]  \\
  &= e^{-\Delta_1\Gamma} \Omega e^{-\Delta_2\Gamma^T}   \\
 \end{align*}}
