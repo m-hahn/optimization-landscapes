@@ -24,7 +24,7 @@ with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
-dates["_ROOT_"] = -12000
+dates["_ROOT_"] = -50000
 print(dates)
 for x in allLangs:
   if x not in observedLangs:

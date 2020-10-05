@@ -24,7 +24,7 @@ with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
-dates["_ROOT_"] = -12000
+dates["_ROOT_"] = -50000
 print(dates)
 for x in allLangs:
   if x not in observedLangs:
@@ -69,7 +69,6 @@ totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
 lang2Observed = dict(list(zip(observedLanguages, range(len(observedLanguages)))))
 
-
 distanceToParent = {}
 for language in allLangs:
    parent = parents.get(language, "_ROOT_")
@@ -82,60 +81,6 @@ print(distanceToParent)
 print(parents.get("Classical_Chinese_2.6"))
 assert "Classical_Chinese_2.6" in observedLangs
 #quit()
-
-from collections import defaultdict
-
-
-listOfAllAncestors = defaultdict(list)
-
-def processDescendants(l, desc):
-   listOfAllAncestors[desc].append(l)
-   if l != "_ROOT_":
-      parent = parents.get(l, "_ROOT_")
-      processDescendants(parent, desc)
-   
-for language in totalLanguages:
-   processDescendants(language, language)
-print(listOfAllAncestors)
-
-
-
-
-covarianceMatrix = [[None for _ in range(len(observedLanguages))] for _ in range(len(observedLanguages))]
-for i in range(len(observedLanguages)):
-   for j in range(i+1):
-      l1 = observedLanguages[i]
-      l2 = observedLanguages[j]
-#      print("----------")
- #     print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-  #    print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      commonAncestorsDates = [int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2] and l != "_ROOT_"]
-      if len(commonAncestorsDates) > 0:
-         commonTime = max(commonAncestorsDates)
-      else:
-         commonTime = -50000
-      separateTime1 = (int(dates.get(l1, 2000)) - commonTime)
-      separateTime2 = (int(dates.get(l2, 2000)) - commonTime)
-      if commonTime > -50000:
-         print(l1, l2, separateTime1, separateTime2)
-      covarianceMatrix[i][j] = (separateTime1)/1000
-      covarianceMatrix[j][i] = (separateTime2)/1000
-
-families = defaultdict(list)
-for language in observedLanguages:
-  ancestors = listOfAllAncestors[language]
-  print(ancestors)
-  assert ancestors[-1] == "_ROOT_"
-  families[([language] + ancestors)[-2]].append(language)
-print(families)
-familiesLists = [[observedLanguages.index(x)+1 for x in z] for _, z in families.items()]
-print(familiesLists)
-familiesListsMaxLen = max([len(x) for x in familiesLists])
-familiesLists = [x+[0 for _ in range(familiesListsMaxLen-len(x))] for x in familiesLists]
-print(familiesLists)
-
-
-
 
 dat = {}
 
@@ -150,13 +95,8 @@ dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hidde
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
 dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in observedLanguages]
 dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+observedLanguages]
-dat["CovarianceMatrix"] = covarianceMatrix
 dat["prior_only"] = 0
 dat["Components"] = 2
-dat["FamiliesLists"] = familiesLists
-dat["FamiliesNum"] = len(familiesLists)
-dat["FamiliesSize"] = len(familiesLists[0])
-
 
 print(dat)
 
