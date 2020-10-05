@@ -24,7 +24,7 @@ with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
-dates["_ROOT_"] = -12000
+dates["_ROOT_"] = -50000
 print(dates)
 for x in allLangs:
   if x not in observedLangs:
@@ -118,6 +118,9 @@ for i in range(len(observedLanguages)):
       separateTime2 = (int(dates.get(l2, 2000)) - commonTime)
       if commonTime > -50000:
          print(l1, l2, separateTime1, separateTime2)
+      else:
+         separateTime1 = 1000000
+         separateTime2 = 1000000
       covarianceMatrix[i][j] = (separateTime1)/1000
       covarianceMatrix[j][i] = (separateTime2)/1000
 
@@ -165,13 +168,15 @@ sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
-
+import numpy as np
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
-#   print(la, file=outFile)
-#print("Inferred logits", la["LogitsAll"].mean(axis=0))
-#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
-#print("alpha", la["alpha"].mean(axis=0))
-#print("sigma_B", la["sigma_B"].mean(axis=0))
-#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
-#
+print((la["Lrescor_Sigma"] > 0).mean(axis=0))
+print((la["Sigma"] > 0).mean(axis=0))
+print((la["Omega"] > 0).mean(axis=0))
+# Correlation
+#print(la["Sigma"][1,2] / (la["Sigma"][1,1].sqrt() * la["Sigma"][2,2].sqrt()))
+with open(f"fits/CORR_Sigma_{__file__}.txt", "w") as outFile:
+  for x in la["Sigma"][:,0,1] / np.sqrt(la["Sigma"][:,0,0] * la["Sigma"][:,1,1]):
+      print(float(x), file=outFile)
+

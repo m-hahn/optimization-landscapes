@@ -78,7 +78,7 @@ for x in matrix:
 with open("/u/scr/mhahn/TMP.tsv", "w") as outFile:
   print >> outFile, ("\t".join(columns))
   for i in range(len(matrix["verbLength"])):
-     print >> outFile, "\t".join([str(matrix[header][i]) for header in columns]) 
+     print >> outFile, "\t".join([str(round(matrix[header][i],2)) for header in columns]) 
   print(list(matrix))
 
 """
