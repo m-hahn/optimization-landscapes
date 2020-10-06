@@ -2,7 +2,7 @@
 \usepackage{times,latexsym}
 \usepackage{url}
 \usepackage[T1]{fontenc}
-
+\usepackage{grffile}
 
 \usepackage{CJKutf8}
 \usepackage{fullpage}
@@ -392,14 +392,14 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+    \includegraphics[width=0.6\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
     \caption{Subject-object symmetry in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families. Small lines connect labels to the position of the language, where needed to avoid overlapping labels. \mhahn{could remove top and right bounding lines. Change labels tpo Optimized, Attested. Also explain short diagonal lines}}
     \label{fig:study1}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{analysis/analysis_spoken/spoken.pdf}
+    \includegraphics[width=0.4\textwidth]{../analysis/analysis_spoken/spoken.pdf}
     \caption{Comparison of subject-object symmetry between written (blue) and spoken (red) corpora in five languages where spoken corpora are available.}
     \label{fig:spoken}
 \end{figure}
@@ -479,7 +479,7 @@ Model fit was considerably worse in a lesioned model where the correlation betwe
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{change/visualize/stationary.pdf}
+    \includegraphics[width=0.5\textwidth]{../change/visualize/stationary.pdf}
     \caption{Result of the phylogenetic drift analysis.
     The blue distribution indicates the estimated long-term stationary distribution of languages, indicating where languages tend to lie after long-term evolution.
     The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage (y-axis). \mhahn{change axis labels}}
@@ -529,7 +529,7 @@ This shows that languages show coadaptation between word order and usage pattern
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.95\textwidth]{analysis/figures/historical_2.6_times_stationary.pdf}
+    \includegraphics[width=0.95\textwidth]{../analysis/figures/historical_2.6_times_stationary.pdf}
     \caption{The evolutionary trajectories of change in seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined according to the phylogenetic analysis. \mhahn{change axis labels}}
     \label{fig:historical}
 \end{figure}
@@ -546,7 +546,7 @@ This shows that languages show coadaptation between word order and usage pattern
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf}
+    \includegraphics[width=0.7\textwidth]{../analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf}
     \caption{Study 2 (Coexpression of suibjects and objects)}
     \label{fig:study2}
 \end{figure}
@@ -777,8 +777,17 @@ Eastern South Slavic & Old Church Slavonic & +800 \\
 
 We obtained tree topologies from Glottolog (CITE).
 We only retained interior nodes when more than one of their daughter nodes had languages occurring in our dataset.
+The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree obtained with https://icytree.org/.}
 
-TODO print the tree
+
+\begin{figure}
+    \centering
+	\includegraphics[width=0.9\textwidth]{../trees/tree.png}
+       \caption{Phylogenetic tree of the languages in our sample.}
+    \label{fig:tree}
+\end{figure}
+
+
 
 
 \subsection{Dating Inner Nodes}
@@ -796,7 +805,7 @@ Common Turkic & 700AD & \cite[p. 49]{savelyev2020bayesian} estimate Common Turki
 Balto-Slavic & 1,400 BC & \citep{gray2003language} \\
 Slavic       & 700AD & \citep{gray2003language}. \citet[p. 209]{novotna2011glottochronology} date the split of East Slavic to the 6th century. \\
 Indo-Iranian & 2,500 BC & \citep[p. 138]{parpola2013formation} \\ % Parpola 1999 suggests 2000 BC. The formation of the Aryan branch of Indo-European.
-Atlantic-Congo & 3,000 BC & In our sample, this is the common ancestor of Wolof and Yoruba. TODO \\
+	Atlantic-Congo & 4,500 BC & \citet{holman2011automated} estimate an age of 6525 years.\\
 Uralic & 4,000 BC & \citep{maurits2020best}, cf \citep[p. 144]{parpola2013formation} for references \\
 West-Semitic & 3,400 BC & \citep{kitchen2009bayesian}  \\
 Central-Semitic & 2,450 BC & \citep{kitchen2009bayesian}   \\
@@ -809,11 +818,11 @@ Hindustani & 1,800 AD & Standardization of Hindi and Urdu\\
 Serbo-Croatian & 1,900 AD & Standardization of Serbian and Croatian\\
 Germanic & 250AD & \cite{gray2003language} \\
 West-Germanic & 500 AD & Migrations into Britain and southern central Europe\\
-North-Germanic & 600 AD & Split of Old Norse into regional variants. \citep{sandøy2017202} \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
+	North-Germanic & 600 AD & Split of Old Norse into regional variants, such as assimilation of nasals to following stops in Western Norse in the 7th century \citep[p. 1856, 1859]{sandoy2017202} \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
 West-Scandinavian & 1,100 AD & Sound shifts specific to Norwegian\\
-Icelandic-Faroese & 1,200 AD & Sound shifts specific to Faroese (Petersen, Hjalmar, The change of TH to h in Faroese) \\
+Icelandic-Faroese & 1,400 AD & Sound shifts specific to Faroese\\
 Goidelic & 1,300 AD & Migrations from Ireland to Scotland \\
-Brythonic & 400 AD & Migrations from Britain to Bretagne \\
+Brythonic & 400 AD & Migrations from Britain to Brittany \\
 Global Dutch & 1,600 AD & Dutch colony in South Africa \\
 Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatian texts\\
 Western Romance & 800 AD & Expansion of Christian kingdoms into Iberia \\
@@ -1114,18 +1123,18 @@ We found that case marking has a strong impact on subject-object symmetry, and t
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.3\textwidth]{change/visualize/figures/corr_ornuhl-binom_42.pdf}
+    \includegraphics[width=0.3\textwidth]{../change/visualize/figures/corr_ornuhl-binom_42.pdf}
     
-    \includegraphics[width=0.3\textwidth]{change/visualize/figures/corr_ornuhl-binom_45_Case.pdf}
-    \includegraphics[width=0.3\textwidth]{change/visualize/figures/corr_ornuhl-binom_45_NoCase.pdf}
+    \includegraphics[width=0.3\textwidth]{../change/visualize/figures/corr_ornuhl-binom_45_Case.pdf}
+    \includegraphics[width=0.3\textwidth]{../change/visualize/figures/corr_ornuhl-binom_45_NoCase.pdf}
     \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking. Top: Assuming a joint $\Sigma$. Bottom: Assuming separate values for $\Sigma$.}
     \label{fig:posterior-case}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{analysis/figures/by_patient_marking.pdf}
-    \includegraphics[width=0.4\textwidth]{change/visualize/stationary_case.pdf}
+    \includegraphics[width=0.4\textwidth]{../analysis/figures/by_patient_marking.pdf}
+    \includegraphics[width=0.4\textwidth]{../change/visualize/stationary_case.pdf}
     \caption{Left: Languages by availability of morphological distinction between subject and object nouns. Right: Fitted stationary distribution, conditioned on case marking.}
     \label{fig:langs-case}
 \end{figure}
@@ -1171,7 +1180,7 @@ As predicted, in most languages where there is variation between SV and VS order
 
 \begin{longtable}{l|lllllll}
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
-\include{optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R}
+%\include{../optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}
 
 
