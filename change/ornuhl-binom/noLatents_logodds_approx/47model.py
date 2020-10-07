@@ -24,7 +24,7 @@ with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
-dates["_ROOT_"] = -12000
+dates["_ROOT_"] = -50000
 print(dates)
 for x in allLangs:
   if x not in observedLangs:
@@ -106,14 +106,38 @@ for i in range(len(observedLanguages)):
    for j in range(i+1):
       l1 = observedLanguages[i]
       l2 = observedLanguages[j]
-      print("----------")
-      print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      commonAncestors = max([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      print((commonAncestors - (-12000))/1000)
+#      print("----------")
+ #     print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+  #    print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      commonAncestorsDates = [int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2] and l != "_ROOT_"]
+      if len(commonAncestorsDates) > 0:
+         commonTime = max(commonAncestorsDates)
+      else:
+         commonTime = -50000
+      separateTime1 = (int(dates.get(l1, 2000)) - commonTime)
+      separateTime2 = (int(dates.get(l2, 2000)) - commonTime)
+      if commonTime > -50000:
+         print(l1, l2, separateTime1, separateTime2)
+      else:
+         separateTime1 = 1000000
+         separateTime2 = 1000000
+      covarianceMatrix[i][j] = (separateTime1)/1000
+      covarianceMatrix[j][i] = (separateTime2)/1000
 
-      covarianceMatrix[i][j] = (commonAncestors - (-12000))/1000
-      covarianceMatrix[j][i] = (commonAncestors - (-12000))/1000
+families = defaultdict(list)
+for language in observedLanguages:
+  ancestors = listOfAllAncestors[language]
+  print(ancestors)
+  assert ancestors[-1] == "_ROOT_"
+  families[([language] + ancestors)[-2]].append(language)
+print(families)
+familiesLists = [[observedLanguages.index(x)+1 for x in z] for _, z in families.items()]
+print(familiesLists)
+familiesListsMaxLen = max([len(x) for x in familiesLists])
+familiesLists = [x+[0 for _ in range(familiesListsMaxLen-len(x))] for x in familiesLists]
+print(familiesLists)
+
+
 
 
 dat = {}
@@ -132,17 +156,47 @@ dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+obse
 dat["CovarianceMatrix"] = covarianceMatrix
 dat["prior_only"] = 0
 dat["Components"] = 2
+dat["FamiliesLists"] = familiesLists
+dat["FamiliesNum"] = len(familiesLists)
+dat["FamiliesSize"] = len(familiesLists[0])
+
 
 print(dat)
 
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
+#stepping = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+stepping = [0.0, 0.01, 0.02, 0.05, 0.08, 0.1, 0.2, 0.3, 0.4, 0.7, 1.0]
+#stepping = [0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.06, 0.075, 0.08, 0.085, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5,0.6,  0.7, 0.8, 1.0]
 
-fit = sm.sampling(data=dat, iter=2000, chains=4)
-la = fit.extract(permuted=True)  # return a dictionary of arrays
+def mean(x):
+   return sum(x)/len(x)
 
-with open(f"fits/{__file__}.txt", "w") as outFile:
-   print(fit, file=outFile)
+perStone = []
+
+import torch
+
+for idx in range(len(stepping)-1):
+  dat["stepping"] = stepping[idx]
+  
+  fit = sm.sampling(data=dat, iter=2000, chains=4)
+  la = fit.extract(permuted=True)  # return a dictionary of arrays
+  
+  #print(fit)
+  print(mean(la["targetLikelihood"]))
+  log_likelihoods =  torch.FloatTensor(la["targetLikelihood"])
+  log_likelihoods = (stepping[idx+1] - stepping[idx]) * log_likelihoods
+  toSubtract = log_likelihoods.max()
+  averaged = float((log_likelihoods - toSubtract).exp().mean().log() + toSubtract)
+  perStone.append(averaged)
+  print("=========================")
+  print(perStone)
+  print(sum(perStone))
+
+with open(f"marginal_likelihood/{__file__}.txt", "a") as outFile:
+   print(sum(perStone), file=outFile)
+#with open(f"fits/{__file__}.txt", "w") as outFile:
+#   print(fit, file=outFile)
 #   print(la, file=outFile)
 #print("Inferred logits", la["LogitsAll"].mean(axis=0))
 #print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))

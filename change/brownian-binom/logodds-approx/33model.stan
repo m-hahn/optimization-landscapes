@@ -3,8 +3,8 @@ functions {
 data {
   int<lower=1> ObservedN;  // number of observations
   vector<lower=-1, upper=1>[ObservedN] TraitObserved;  // population-level design matrix
-  int<lower=0> TrialsSuccess[ObservedN];
-  int<lower=0> TrialsTotal[ObservedN];
+  vector<lower=0>[ObservedN] TrialsSuccess;
+  vector<lower=0>[ObservedN] TrialsTotal;
   int<lower=1> HiddenN;
   int<lower=1> TotalN;
   int IsHidden[TotalN];
@@ -15,20 +15,36 @@ data {
   int prior_only;  // should the likelihood be ignored?
   int Components;
   matrix[ObservedN, ObservedN] CovarianceMatrix;
+  real stepping;
+}
+transformed data {
+   vector[ObservedN] LogitsAll;
+   {
+     for(i in 1:ObservedN) {
+        real pi = (1.0+TrialsSuccess[i])/(2.0+TrialsTotal[i]);
+        LogitsAll[i] = log(pi/(1-pi));
+     }
+   }
 }
 parameters {
-  vector<lower=-2, upper=2>[ObservedN] LogitsAll;
   vector<lower=0>[2] sd_1; 
   cholesky_factor_corr[2] Lrescor; 
 
 }
-model {
+transformed parameters {
+
+  matrix[2, 2] Sigma ;
+  real targetPrior = 0;
+  real targetLikelihood = 0;
+
+  
+  { ////////////////////
   vector[2*ObservedN] own_overall;
+  matrix[2*ObservedN, 2*ObservedN] fullCovMat;
 
   matrix[2, 2] LSigma = diag_pre_multiply(sd_1, Lrescor);
-  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(LSigma);
+  Sigma = multiply_lower_tri_self_transpose(LSigma);
 
-  matrix[2*ObservedN, 2*ObservedN] fullCovMat;
   for(i in 1:ObservedN) {
      for(j in 1:ObservedN) {
        for(u in 1:2) {
@@ -39,21 +55,20 @@ model {
      }
   }
 
-  target += student_t_lpdf(sd_1 | 3, 0, 2.5);
-  target += lkj_corr_cholesky_lpdf(Lrescor | 1);
+  targetPrior += student_t_lpdf(sd_1 | 3, 0, 2.5);
+  targetPrior += lkj_corr_cholesky_lpdf(Lrescor | 1);
   
   for(i in 1:ObservedN) {
      own_overall[2*(i-1)+1] = LogitsAll[i];
      own_overall[2*(i-1)+2] = TraitObserved[i];
   }
-  own_overall ~ multi_normal(rep_vector(0, 2*ObservedN), fullCovMat);
-  for (n in 1:ObservedN) {
-        int success = TrialsSuccess[n];
-        int total = TrialsTotal[n];
-        target += binomial_logit_lpmf(success | total, LogitsAll[n]);
+  targetLikelihood += multi_normal_lpdf(own_overall | rep_vector(0, 2*ObservedN), fullCovMat);
+
   }
 }
+model {
+  target += stepping * targetLikelihood + targetPrior;
+}
 generated quantities {
-  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(diag_pre_multiply(sd_1, Lrescor));
 }
 
