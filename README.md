@@ -8,33 +8,39 @@
 
 [For spoken corpora](analysis/analysis_spoken/spoken.pdf)
 
-[Correlation on spoken corpora]
+[Correlation on spoken corpora](analysis/analysis_spoken/spoken_results.txt)
 
 [Phylogenetic analysis visualization](change/visualize/stationary.pdf)
 
-[Results of analysis]
+[Results of analysis](change/ornuhl-binom/noLatents/fits/correlation_omega.txt)
 
-[Comparison to Lesioned model without Correlation]
+[Comparison to Lesioned model without Correlation](change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt)
+
+[Correlation (Sigma)](change/ornuhl-binom/noLatents/fits/corr_sigma.pdf)
 
 [Evolutionary trajectories](analysis/figures/historical_2.6_times_stationary.pdf)
 
 [Lesioned model without bias]
 
-[Coexpression]
+[Coexpression](analysis/coexpression/coexpression_results.txt)
 
-[Correlation]
+[Coexpression](analysis/coexpression/coexpression_optim_results.txt)
+
+[Correlation](analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf)
+
+[Correlation](analysis/figures/objects-order-pureud-byVerb_optimized_FORMAT.pdf)
 
 ## Results from Appendix
 
 [Visualizing phylogenetic tree](trees/tree.png)
 
 ### Brownian Model
-[Brownian model]
+[Brownian model](change/brownian-binom/fits/corr_sigma.pdf)
 
 [Likelihood comparison with Brownian model]
 
 ### Areal Convergence
-[Areal convergence: posterior of correlation component]
+[Areal convergence: posterior of correlation component](change/ornuhl-binom-geo-time/fits/corr_sigma.pdf)
 
 ### Case Marking
 [Case: posterior of correlation component (joint Sigma)](change/visualize/figures/corr_ornuhl-binom_42.pdf)

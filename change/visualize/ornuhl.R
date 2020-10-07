@@ -68,8 +68,8 @@ data_langs = data.frame(Real = (c(arabic[2], russian[2],english[2], japanese[2])
 plot = plot + geom_point(data=data_langs, aes(x=Real, y=Model), color="black") + geom_text(data=data_langs, aes(x=Real, y=Model, label=Name), nudge_y=-0.08, size=5)
 plot = plot + theme_bw()
 plot = plot + theme(axis.text=element_text(size=7))
-plot = plot + xlab("Real Subject-Object Symmetry")
-plot = plot + ylab("Optimal Subject-Object-Symmetry")
+plot = plot + xlab("Attested Subject-Object Symmetry")
+plot = plot + ylab("Optimized Subject-Object-Symmetry")
 ggsave(plot, file="stationary.pdf", height=4, width=4)
 
 
