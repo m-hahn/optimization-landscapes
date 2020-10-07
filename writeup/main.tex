@@ -394,7 +394,7 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
     \centering
     \includegraphics[width=0.4\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
     \includegraphics[width=0.4\textwidth]{../analysis/analysis_spoken/spoken.pdf}
-    \caption{Left: Subject-object symmetry in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families. Small lines connect labels to the position of the language, where needed to avoid overlapping labels. Right: Comparison of subject-object symmetry between written (blue) and spoken (red) corpora in five languages where spoken corpora are available.\mhahn{could remove top and right bounding lines. Change labels tpo Optimized, Attested. Also explain short diagonal lines}}
+    \caption{Left: Subject-object symmetry in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families. Small lines connect labels to the position of the language, where needed to avoid overlapping labels. Right: Comparison of subject-object symmetry between written (blue) and spoken (red) corpora in five languages where spoken corpora are available. \mhahn{TODO I'll still think about how to best format these plots.}}
     \label{fig:study1}\label{fig:spoken}
 \end{figure}
 
@@ -467,8 +467,8 @@ The blue distribution indicates the stationary distribution of the process, i.e.
 For illustration, we also illustrate predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
 
 According to the model, changes in grammar and usage are positively correlated:
-This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal. \mhahn{TODO quantify the correlation}
-Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated log Bayes Factor 7.4 bits).
+This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal: In the stationary distribution, positions along the two diagonals are strongly correlated ($R=0.73$, $95\%\ CrI\ [0.28, 0.96]$, $Pr(R<0) = 0.0025$).
+Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 232).
 
 
 \begin{figure}
@@ -507,7 +507,7 @@ The model (and the coadaptation hypothesis) predicts that a language that change
 Currently, no annotated treebanks are available for such a language to directly test this prediction; our prediction can be tested once such a treebank becomes available.
 We note that our model indicates no evidence that languages tend to drift towards either SOV or SVO in the long run.
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
-A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated log Bayes Factor 0.1).
+A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated Bayes Factor 1.1).
 
 A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO (CITE).
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
@@ -550,11 +550,12 @@ In what aspects of usage patterns do languages differ and change to realize this
 That is, in what ways do usage patterns influence which basic word order is optimally efficient?
 Based on the discussion in the introduction, we hypothesized that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
 We quantified the frequency of co-expression of subjects and objects by calculating what fraction of all verbs that realize at least a subject or an object simultaneously realize both.
-We show this ratio together with subject-object symmetry in Figure~\ref{fig:study2}.
-In a linear mixed-effects models, with by-family intercept and slope, subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
-This correlation was not accounted for by differences in the availability of pro-drop (see SI Section X).
+We show this ratio together with attested subject-object symmetry in Figure~\ref{fig:study2}.
+In a linear mixed-effects models, with by-family intercept and slope, observed subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
+Optimized subject-object symmetry was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ CrI $[-0.24,  -0.02]$).
+These results were not accounted for by differences in the availability of pro-drop (see SI Section X).
 We also find evidence for a relation between order and co-expression within individual languages (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
-This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
+%This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
 %Within languages, we found that individual sentences tend to have the basic word order that optimizes DLM (see SI Section XX).
 
 
