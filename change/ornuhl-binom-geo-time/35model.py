@@ -111,6 +111,7 @@ def getGeolocation(lang):
        assert lang2 != lang, lang
        getGeolocation(lang2)
    if lang not in latitudes:
+     print(lang, fromParentsToDescendants[lang])
      latitudes[lang] = mean([latitudes[x] for x in fromParentsToDescendants[lang]])
      longitudes[lang] = mean([longitudes[x] for x in fromParentsToDescendants[lang]])
    done.add(lang)
@@ -175,14 +176,18 @@ sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
 fit = sm.sampling(data=dat, iter=2000, chains=4)
 la = fit.extract(permuted=True)  # return a dictionary of arrays
-
+import numpy as np
 with open(f"fits/{__file__}.txt", "w") as outFile:
    print(fit, file=outFile)
-#   print(la, file=outFile)
-#print("Inferred logits", la["LogitsAll"].mean(axis=0))
-#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
-#print("alpha", la["alpha"].mean(axis=0))
-#print("corr_Sigma", la["corr_Sigma"].mean(axis=0))
-#print("sigma_B", la["sigma_B"].mean(axis=0))
-#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
-#
+print((la["Lrescor_Sigma"] > 0).mean(axis=0))
+print((la["Sigma"] > 0).mean(axis=0))
+print((la["Omega"] > 0).mean(axis=0))
+# Correlation
+#print(la["Sigma"][1,2] / (la["Sigma"][1,1].sqrt() * la["Sigma"][2,2].sqrt()))
+with open(f"fits/CORR_Sigma_{__file__}.txt", "w") as outFile:
+  for x in la["Sigma"][:,0,1] / np.sqrt(la["Sigma"][:,0,0] * la["Sigma"][:,1,1]):
+      print(float(x), file=outFile)
+with open(f"fits/CORR_Omega_{__file__}.txt", "w") as outFile:
+  for x in la["Omega"][:,0,1] / np.sqrt(la["Omega"][:,0,0] * la["Omega"][:,1,1]):
+      print(float(x), file=outFile)
+

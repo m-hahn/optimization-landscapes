@@ -81,7 +81,6 @@ transformed parameters {
 
   targetPrior += normal_lpdf(sigma_B | 0, 1);
   targetPrior += normal_lpdf(sigma_Sigma | 0, 1);
-  targetPrior += lkj_corr_cholesky_lpdf(Lrescor_Sigma | 1);
 
   for(family in 1:FamiliesNum) {
     int familySizeHere;
