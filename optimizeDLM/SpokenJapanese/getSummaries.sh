@@ -1,0 +1,1 @@
+cp ~/scr/deps/DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl_TuebaJS_Coarse/auto-summary-lstm_2.6_coarse.tsv TuebaJS_auto-summary-lstm_2.6_coarse.tsv

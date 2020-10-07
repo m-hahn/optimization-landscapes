@@ -1,0 +1,75 @@
+iso_code	Language	Name	name	latitude	longitude
+afr	Afrikaans_2.6	Afrikaans	NA	-31.00	22.00
+amh	Amharic_2.6	Amharic	Amharic	10	38
+ams	Arabic_2.6	Arabic (Modern Standard)	Arabic (Modern Standard)	25	42
+arm	Armenian_2.6	NA	Armenian (Eastern)	40	45
+bam	Bambara_2.6	NA	Bambara	12.5	-7.5
+bre	Breton_2.6	NA	Breton	48	-3
+bsq	Basque_2.6	Basque	Basque	43	-3
+bul	Bulgarian_2.6	Bulgarian	Bulgarian	42.5	25
+but	Buryat_2.6	Buriat	Buriat	52	108
+chu	Old_Church_Slavonic_2.6	NA	NA	42.50	25.00
+cnt	Cantonese_2.6	Cantonese	Cantonese	23	113
+cop	Coptic_2.6	Coptic	Coptic	26	32
+ctl	Catalan_2.6	Catalan	Catalan	41.75	2
+cze	Czech_2.6	Czech	Czech	50	15
+dsh	Danish_2.6	Danish	Danish	56	10
+dut	Dutch_2.6	Dutch	Dutch	52.5	6
+eng	English_2.6	English	English	52	0
+est	Estonian_2.6	Estonian	Estonian	59	26
+fin	Finnish_2.6	Finnish	Finnish	62	25
+fre	French_2.6	French	French	48	2
+gae	Scottish_Gaelic_2.6	NA	Gaelic (Scots)	57	-4
+ger	German_2.6	German	German	52	10
+got	Gothic_2.6	NA	NA	46.00	25.00
+grc	Ancient_Greek_2.6	NA	NA	39	22
+grk	Greek_2.6	Greek (Modern)	Greek (Modern)	39	22
+gua	Mbya_Guarani_2.6	NA	Guaraní	-26	-56
+heb	Hebrew_2.6	Hebrew (Modern)	Hebrew (Modern)	31.5	34.8333333333
+hin	Hindi_2.6	Hindi	Hindi	25	77
+hun	Hungarian_2.6	Hungarian	Hungarian	47	20
+ice	Icelandic_2.6	NA	Icelandic	65	-17
+ind	Indonesian_2.6	Indonesian	Indonesian	0	106
+iri	Irish_2.6	Irish	Irish	53	-8
+ita	Italian_2.6	Italian	Italian	43	12
+jpn	Japanese_2.6	Japanese	Japanese	37	140
+kor	Korean_2.6	Korean	Korean	37.5	128
+krd	Kurmanji_2.6	NA	Kurdish (Central)	36	44
+lat	Latvian_2.6	Latvian	Latvian	57	24
+lit	Lithuanian_2.6	Lithuanian	Lithuanian	55	24
+mnd	Chinese_2.6	Mandarin	Mandarin	34	110
+moe	Erzya_2.6	Mordvin (Erzya)	Mordvin (Erzya)	53	45.5
+nor	Norwegian_2.6	Norwegian	Norwegian	61	8
+pol	Polish_2.6	Polish	Polish	52	20
+por	Portuguese_2.6	Portuguese	Portuguese	39	-8
+prs	Persian_2.6	Persian	Persian	32	54
+rom	Romanian_2.6	Romanian	Romanian	46	25
+rus	Russian_2.6	Russian	Russian	56	38
+scr	Croatian_2.6	Serbian-Croatian	Serbian-Croatian	44	19
+scr	Serbian_2.6	NA	Serbian-Croatian	44	19
+slk	Slovak_2.6	Slovak	NA	49.00	20.00
+slo	Slovenian_2.6	Slovene	Slovene	46	15
+sno	North_Sami_2.6	NA	Saami (Northern)	69	24
+spa	Spanish_2.6	Spanish	Spanish	40	-4
+swe	Swedish_2.6	Swedish	Swedish	60	15
+tha	Thai_2.6	NA	Thai	16	101
+tur	Turkish_2.6	Turkish	Turkish	39	35
+ukr	Ukrainian_2.6	Ukrainian	Ukrainian	49	33
+urd	Urdu_2.6	Urdu	Urdu	25	67
+uyg	Uyghur_2.6	NA	Uyghur	40	80
+vie	Vietnamese_2.6	Vietnamese	Vietnamese	10.5	106.5
+wel	Welsh_2.6	NA	Welsh	52	-3
+wlf	Wolof_2.6	NA	Wolof	15.25	-16
+yor	Yoruba_2.6	NA	Yoruba	8	4.33333333333
+pcm	Naija_2.6	NA	NA	6.50	3.33
+NA	Maltese_2.6	NA	NA	35.92	14.42
+NA	Faroese_2.6	NA	NA	62.00	-7.00
+NA	Sindhi_2.6	NA	NA	26.00	69.00
+NA	Sanskrit_2.6	NA	NA	25.00	77.00
+NA	Classical_Chinese_2.6	NA	NA	34.00	110.00
+NA	Kazakh_2.6	NA	NA	50.00	70.00
+NA	Old_Russian_2.6	NA	NA	56.00	38.00
+NA	Old_French_2.6	NA	NA	48.00	2.00
+NA	Latin_2.6	NA	NA	43.00	12.00
+glg	Galician	NA	NA	43.00	-8.00
+bel	Belarusian	NA	NA	54.00	28.00

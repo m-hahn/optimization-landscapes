@@ -47,14 +47,14 @@ transformed parameters {
 // B = drift matrix (here assumed to be positive definite & symmetric for simplicity)
 
   // Now calculate Omega, the stationary covariance
-  matrix[3, 3] factor_Case = [[2*B_Case[1,1], B_Case[1,2], 0], [B_Case[2,1], B_Case[1,1]+B_Case[2,2], B_Case[1,2]], [0, B_Case[2,1], 2*B_Case[2,2]]]; // using Risken (6.126)
+  matrix[3, 3] factor_Case = [[2*B_Case[1,1], 2*B_Case[1,2], 0], [B_Case[2,1], B_Case[1,1]+B_Case[2,2], B_Case[1,2]], [0, 2*B_Case[2,1], 2*B_Case[2,2]]]; // using Risken (6.126)
   vector[3] instant_cov_components_Case = [Sigma_Case[1,1], Sigma_Case[1,2], Sigma_Case[2,2]]';
   vector[3] Omega_Case_components = factor_Case \ instant_cov_components_Case;
   matrix[2,2] Omega_Case = [[Omega_Case_components[1], Omega_Case_components[2]], [Omega_Case_components[2], Omega_Case_components[3]]];
 
 
 
-  matrix[3, 3] factor_NoCase = [[2*B_NoCase[1,1], B_NoCase[1,2], 0], [B_NoCase[2,1], B_NoCase[1,1]+B_NoCase[2,2], B_NoCase[1,2]], [0, B_NoCase[2,1], 2*B_NoCase[2,2]]]; // using Risken (6.126)
+  matrix[3, 3] factor_NoCase = [[2*B_NoCase[1,1], 2*B_NoCase[1,2], 0], [B_NoCase[2,1], B_NoCase[1,1]+B_NoCase[2,2], B_NoCase[1,2]], [0, 2*B_NoCase[2,1], 2*B_NoCase[2,2]]]; // using Risken (6.126)
   vector[3] instant_cov_components_NoCase = [Sigma_NoCase[1,1], Sigma_NoCase[1,2], Sigma_NoCase[2,2]]';
   vector[3] Omega_NoCase_components = factor_NoCase \ instant_cov_components_NoCase;
   matrix[2,2] Omega_NoCase = [[Omega_NoCase_components[1], Omega_NoCase_components[2]], [Omega_NoCase_components[2], Omega_NoCase_components[3]]];

@@ -47,7 +47,7 @@ transformed parameters {
 // B = drift matrix (here assumed to be positive definite & symmetric for simplicity)
 
   // Now calculate Omega, the stationary covariance
-  matrix[3, 3] factor = [[2*B[1,1], B[1,2], 0], [B[2,1], B[1,1]+B[2,2], B[1,2]], [0, B[2,1], 2*B[2,2]]]; // using Risken (6.126)
+  matrix[3, 3] factor = [[2*B[1,1], 2*B[1,2], 0], [B[2,1], B[1,1]+B[2,2], B[1,2]], [0, 2*B[2,1], 2*B[2,2]]]; // using Risken (6.126)
   vector[3] instant_cov_components = [Sigma[1,1], Sigma[1,2], Sigma[2,2]]';
   vector[3] Omega_components = factor \ instant_cov_components;
   matrix[2,2] Omega = [[Omega_components[1], Omega_components[2]], [Omega_components[2], Omega_components[3]]];
