@@ -7,8 +7,8 @@ library(ggplot2)
 
 library(ggrepel)
 spoken2 = rbind(spoken %>% select(Language, OSSameSide_Real_Prob, OSSameSide) %>% mutate(Group="Spoken"), spoken %>% select(Language, OSSameSide_Real_Prob, OSSameSide_Other) %>% rename(OSSameSide=OSSameSide_Other) %>% mutate(Group="Written") %>% filter(Language != "Naija"))
-plot = ggplot(spoken2, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) +geom_text_repel(aes(label=Language, y=OSSameSide, color=Group)) + xlim(0,1) + ylim(0,1) + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry")+ theme_bw() + theme(legend.position="bottom", axis.text=element_text(size=12), axis.title=element_text(size=13)) + theme(panel.grid = element_blank())
-ggsave(plot, file="spoken.pdf", width=4, height=4)
+plot = ggplot(spoken2, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) +geom_text_repel(aes(label=Language, y=OSSameSide, color=Group)) + xlim(0,1) + ylim(0,1) + xlab("Attested Subject-Object Symmetry") + ylab("Optimized Subject-Object Symmetry")+ theme_bw() + theme(legend.position="bottom", axis.text=element_text(size=12), axis.title=element_text(size=13)) + theme(panel.grid = element_blank())
+ggsave(plot, file="spoken.pdf", width=7, height=7)
 
 sink("spoken_results.txt")
 cat("SPOKEN ONLY:\n")
