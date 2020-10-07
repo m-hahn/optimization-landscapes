@@ -149,7 +149,6 @@ la = fit.extract(permuted=True)  # return a dictionary of arrays
 import numpy as np
 with open(f"fits/{__file__}_{timeDepth}.txt", "w") as outFile:
    print(fit, file=outFile)
-print((la["Lrescor_Sigma"] > 0).mean(axis=0))
 print((la["Sigma"] > 0).mean(axis=0))
 # Correlation
 #print(la["Sigma"][1,2] / (la["Sigma"][1,1].sqrt() * la["Sigma"][2,2].sqrt()))
