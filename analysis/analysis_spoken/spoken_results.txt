@@ -1,0 +1,27 @@
+SPOKEN ONLY:
+
+	Pearson's product-moment correlation
+
+data:  spoken$OSSameSide and spoken$OSSameSide_Real_Prob
+t = 6.8748, df = 4, p-value = 0.002345
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.6733195 0.9957841
+sample estimates:
+      cor 
+0.9601929 
+
+
+CORPORA FROM MAIN EXPERIMENT
+
+	Pearson's product-moment correlation
+
+data:  spoken$OSSameSide_Other and spoken$OSSameSide_Real_Prob
+t = 5.6625, df = 4, p-value = 0.004795
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.5594971 0.9939060
+sample estimates:
+      cor 
+0.9429133 
+
