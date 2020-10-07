@@ -143,17 +143,42 @@ print(dat)
 
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
+#stepping = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+stepping = [0.0, 0.01, 0.02, 0.05, 0.08, 0.1, 0.2, 0.3, 0.4, 0.7, 1.0]
+#stepping = [0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.06, 0.075, 0.08, 0.085, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5,0.6,  0.7, 0.8, 1.0]
 
-fit = sm.sampling(data=dat, iter=2000, chains=4)
-la = fit.extract(permuted=True)  # return a dictionary of arrays
-import numpy as np
-with open(f"fits/{__file__}_{timeDepth}.txt", "w") as outFile:
-   print(fit, file=outFile)
-print((la["Lrescor_Sigma"] > 0).mean(axis=0))
-print((la["Sigma"] > 0).mean(axis=0))
-# Correlation
-#print(la["Sigma"][1,2] / (la["Sigma"][1,1].sqrt() * la["Sigma"][2,2].sqrt()))
-with open(f"fits/CORR_Sigma_{__file__}_{timeDepth}.txt", "w") as outFile:
-  for x in la["Sigma"][:,0,1] / np.sqrt(la["Sigma"][:,0,0] * la["Sigma"][:,1,1]):
-      print(float(x), file=outFile)
+def mean(x):
+   return sum(x)/len(x)
 
+perStone = []
+
+import torch
+
+for idx in range(len(stepping)-1):
+  dat["stepping"] = stepping[idx]
+  
+  fit = sm.sampling(data=dat, iter=2000, chains=4)
+  la = fit.extract(permuted=True)  # return a dictionary of arrays
+  
+  #print(fit)
+  print(mean(la["targetLikelihood"]))
+  log_likelihoods =  torch.FloatTensor(la["targetLikelihood"])
+  log_likelihoods = (stepping[idx+1] - stepping[idx]) * log_likelihoods
+  toSubtract = log_likelihoods.max()
+  averaged = float((log_likelihoods - toSubtract).exp().mean().log() + toSubtract)
+  perStone.append(averaged)
+  print("=========================")
+  print(perStone)
+  print(sum(perStone))
+
+with open(f"marginal_likelihood/{__file__}.txt", "a") as outFile:
+   print(timeDepth, "\t", sum(perStone), file=outFile)
+#with open(f"fits/{__file__}.txt", "w") as outFile:
+#   print(fit, file=outFile)
+#   print(la, file=outFile)
+#print("Inferred logits", la["LogitsAll"].mean(axis=0))
+#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
+#print("alpha", la["alpha"].mean(axis=0))
+#print("sigma_B", la["sigma_B"].mean(axis=0))
+#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
+#

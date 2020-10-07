@@ -1,0 +1,4 @@
+Runs of Stepping Stone Sampling for Model 1 and 0: 6 7
+Likelihood Ratio:  370.8536
+Log Lokelihood Ratio:  5.915807
+Lowest and highest samples  8.159842 1.727762
