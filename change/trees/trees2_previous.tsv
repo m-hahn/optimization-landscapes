@@ -31,7 +31,7 @@ Gothic_2.6	Germanic	Indo_European
 Greek_2.6	Koine_Greek	Classical_Greek	Archaic_Greek	Indo_European
 Hebrew_2.6	Central_Semitic	Semitic
 Hindi_2.6	Hindustani	Sanskrit_2.6	Indo_Iranian	Indo_European
-Hungarian_2.6	Uralic
+Hungarian_2.6	Ugric	Uralic
 Icelandic_2.6	Icelandic_Faroese	West_Scandinavian	North_Germanic	Germanic	Indo_European
 Indonesian_2.6	_ROOT_
 Irish_2.6	Goidelic	Insular_Celtic	Indo_European
@@ -41,8 +41,8 @@ Kazakh_2.6	Common_Turkic
 Korean_2.6	_ROOT_
 Kurmanji_2.6	Iranian	Indo_Iranian	Indo_European
 Latin_2.6	Indo_European
-Latvian_2.6	Eastern_Baltic	Balto_Slavic	Indo_European
-Lithuanian_2.6	Eastern_Baltic	Balto_Slavic	Indo_European
+Latvian_2.6	Baltic	Balto_Slavic	Indo_European
+Lithuanian_2.6	Baltic	Balto_Slavic	Indo_European
 Maltese_2.6	Arabic	Central_Semitic	Semitic	Afroasiatic
 Mbya_Guarani_2.6	_ROOT_
 Naija_2.6	_ROOT_
@@ -53,7 +53,7 @@ Old_French_2.6	Western_Romance	Italo_Western_Romance	Latin_2.6	Indo_European
 Old_Russian_2.6	Slavic	Balto_Slavic	Indo_European
 Persian_2.6	Iranian	Indo_Iranian	Indo_European
 Polish_2.6	West_Slavic	Slavic	Balto_Slavic	Indo_European
-Portuguese_2.6	West_Iberian	Iberian_Romance	Western_Romance	Italo_Western_Romance	Latin_2.6	Indo_European
+Portuguese_2.6	Iberian_Romance	Western_Romance	Italo_Western_Romance	Latin_2.6	Indo_European
 Romanian_2.6	Latin_2.6	Indo_European
 Russian_2.6	Old_Russian_2.6	Slavic	Balto_Slavic	Indo_European
 Sanskrit_2.6	Indo_Iranian	Indo_European
@@ -61,12 +61,10 @@ Scottish_Gaelic_2.6	Goidelic	Insular_Celtic
 Serbian_2.6	Serbo_Croatian	Western_South_Slavic	South_Slavic	Slavic	Balto_Slavic	Indo_European
 Slovak_2.6	West_Slavic	Slavic	Balto_Slavic	Indo_European
 Slovenian_2.6	Western_South_Slavic	South_Slavic	Slavic	Balto_Slavic	Indo_European
-Galician_2.6	West_Iberian	Iberian_Romance	Western_Romance	Italo_Western_Romance	Latin_2.6	Indo_European
-Spanish_2.6	West_Iberian	Iberian_Romance	Western_Romance	Italo_Western_Romance	Latin_2.6	Indo_European
+Spanish_2.6	Iberian_Romance	Western_Romance	Italo_Western_Romance	Latin_2.6	Indo_European
 Swedish_2.6	North_Germanic	Germanic	Indo_European
 Thai_2.6	_ROOT_
 Turkish_2.6	Common_Turkic
-Belarusian_2.6	Old_Russian_2.6	Slavic	Balto_Slavic	Indo_European
 Ukrainian_2.6	Old_Russian_2.6	Slavic	Balto_Slavic	Indo_European
 Urdu_2.6	Hindustani	Sanskrit_2.6	Indo_Iranian	Indo_European
 Uyghur_2.6	Common_Turkic
