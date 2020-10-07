@@ -26,7 +26,7 @@ data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
 
 data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
 
-families = read.csv("families.tsv", sep="\t")
+families = read.csv("../families.tsv", sep="\t")
 data = merge(data, families, by=c("Language"))
 
 
@@ -202,7 +202,7 @@ library(ggplot2)
 #  %>% filter(Language %in% c("Chinese_2.6", "Cantonese_2.6", "Classical_Chinese_2.6", "French_2.6", "Old_French_2.6", "Russian_2.6", "Old_Russian_2.6", "Latin_2.6", "Greek_2.6", "Ancient_Greek_2.6", "Sanskrit_2.6", "Urdu_2.6", "Hindi_2.6", "Spanish_2.6", "Italian_2.6"))
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) #+ geom_smooth(method="lm")
 plot = plot + geom_density2d(data=data.frame(Real = (stationary_sample[,2]+1)/2, Model = sigmoid(stationary_sample[,1])), aes(x=Real, y=Model), alpha=0.5)
-plot = plot + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + xlim(0,1) + ylim(0,1)
+plot = plot + xlab("Attested Subject-Object Symmetry") + ylab("Optimized Subject-Object Symmetry") + xlim(0,1) + ylim(0,1)
 for(group in unique(us$Group)) { 
    plot = plot + geom_segment(data= u2s %>% filter(Group == group), aes(x=OSSameSide_Real_Prob_TRUE, xend=OSSameSide_Real_Prob_FALSE, y=OSSameSide_TRUE, yend=OSSameSide_FALSE), arrow=arrow(), size=1, color="blue") + geom_label(data=us %>% filter(Group == group), aes(label=Time), color="black")
 }
@@ -210,7 +210,7 @@ plot = plot + facet_wrap(~Group)
 plot = plot + theme_bw()
 plot = plot + theme(panel.grid = element_blank())
 plot = plot + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16), strip.text.x = element_text(size = 10))
-ggsave("figures/historical_2.6_times_stationary.pdf", width=7, height=7)
+ggsave("../figures/historical_2.6_times_stationary.pdf", width=7, height=7)
 
 
 cor.test(u2s$OSSameSide_FALSE-u2s$OSSameSide_TRUE, u2s$OSSameSide_Real_Prob_FALSE-u2s$OSSameSide_Real_Prob_TRUE)
