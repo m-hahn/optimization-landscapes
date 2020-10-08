@@ -1,13 +1,13 @@
 
 
-corrs = read.csv("CORR_Sigma_46model.py.txt", header=FALSE)
+corrs = read.csv("CORR_Sigma_48model.py.txt", header=FALSE)
 
 library(ggplot2)
 
 plot = ggplot(corrs) + geom_histogram(aes(x=V1)) + xlab("Correlation between Dimensions") + theme_bw() + ylab("Posterior Samples") + xlim(-1,1)
 ggsave(plot, file="corr_sigma.pdf", height=2, width=4)
 
-corrs = read.csv("CORR_Omega_46model.py.txt", header=FALSE)
+corrs = read.csv("CORR_Omega_48model.py.txt", header=FALSE)
 
 
 plot = ggplot(corrs) + geom_histogram(aes(x=V1)) + xlab("Correlation between Dimensions") + theme_bw() + ylab("Posterior Samples") + xlim(-1,1)
