@@ -501,6 +501,13 @@ Model fit was considerably worse in a lesioned model where the correlation betwe
 
 We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}.
 The sample includes multiple languages that started with flexible order and moved towards SVO (English, Romance, East Slavic and Eastern South Slavic, Greek), languages that have remained SVO (Chinese), and languages that have remained predominantly SOV (Indo-Aryan).
+% for English
+% for Romance
+% for East Slavic
+% for Eastern South Slavic
+% for Greek: \citet{taylor1994change}
+% for Chinese
+% for Indo-Aryan
 
 In languages that have remained SVO (Chinese), predicted subject-object symmetry moved towards its true values; that is, these languages appear to have evolved their usage patterns in a way that makes their basic word order more efficient.
 The two Indo-Aryan languages in our sample, which have remained predominantly SOV, show little movement in either dimension, slightly away from the diagonal.
@@ -520,9 +527,9 @@ We observe that our model indicates no evidence that languages tend to drift tow
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
 A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated Bayes Factor 1.1).
 
-A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO (CITE). (Greenberg's universal 41: SOV languages have case).
+A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO (CITE), and, conversely, SOV languages mostly have case marking \citep[Universal 41]{greenberg-universals-1963}.
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
-In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek and East Slavic).
+In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
 This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
 We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section XX).
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
@@ -569,7 +576,7 @@ In a linear mixed-effects models, with by-family intercept and slope, attested s
 Optimized subject-object symmetry was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ CrI $[-0.24,  -0.02]$).
 These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section X).
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
-We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (\citep{wals-82}, see SI Section X).
+We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section X).
 
 %Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
 %There are also a few OVS/SV languages
@@ -675,8 +682,8 @@ However, the availability of case marking alone is not sufficient to explain the
 
 
 Variation between the grammars of different languages, and change of languages over time, pose an interesting question for existing efficiency-based explanations of linguistic structure.
-In existing efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
-Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
+In existing efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{kemp2018semantic, zaslavsky2018efficient, hahn2020universals}.
+Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}. %\cite{xu2016historical}
 %As mentioned above, there is evidence that differences in culture may determine differences in vocabulary \cite{gibson2017color}.
 The theory of coadaptation adds a new interpretation of differences among languages, by highlighting that individual aspects do not evolve towards efficiency in isolation; rather, we argue that language as a whole evolves to maintain efficiency.
 Under this view, cross-linguistic variation in one area, such as basic word order, may be accompanied by variation in another area, such as usage distributions, resulting in an overall efficiency optimization.
@@ -741,10 +748,10 @@ Optimized grammars are created using the gradient descent method described by \c
 
 \paragraph{Data}
 We drew on the Universal Dependencies 2.6 treebanks, including every language for which a training set with at least 500 sentences was available, while excluding code-switched and sign languages.
-In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar (CITE).
-While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English (CITE) they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
+In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar \citep{bech2014iswoc}.
+While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English \citep{kroch2011penn} they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
 
-As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD, \citet{taylor1994change}) for the phylogenetic analysis. 
+As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD) for the phylogenetic analysis. 
 %We excluded medieval Latin data as it does not reflect a living language.
 
 We obtained spoken treebanks from the following sources.
