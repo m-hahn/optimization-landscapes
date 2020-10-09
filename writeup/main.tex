@@ -141,7 +141,7 @@ Our findings highlight that functional optimization in language structure and in
 
 
 
-Human languages show both tremendous variation and striking similarities in their syntactic structure (cite Greenberg, see my comments in pdf). A large body of research suggests that cross-linguistic variation and similarities are driven by functional pressures of efficient communication under limited cognitive resources (Haspelmath, 2008; cite at least two more review papers, see my comments in pdf, Cite more here, including the recent TICS paper by Gibson et al., as well as the ARL review paper by Kemp, Xu, and Regier.). Here we present evidence that the evolution of syntactic structure reflects an additional functional pressure through joint optimization of the grammatical structure of a language and the way that language is used.
+Human languages show both tremendous variation and striking similarities in their syntactic structure \citep{greenberg-universals-1963}. A large body of research suggests that cross-linguistic variation and similarities are driven by functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, kemp2018semantic, gibson2019how}. Here we present evidence that the evolution of syntactic structure reflects an additional functional pressure through joint optimization of the grammatical structure of a language and the way that language is used.
 
 
 %Human languages show both tremendous variation and striking similarities in their grammatical structure. Understanding these is central to the understanding of the nature of human language.
@@ -150,11 +150,11 @@ Human languages show both tremendous variation and striking similarities in thei
 %\comment{Try to insert 1 sentence here that says what we study here that differs from or advances the theory of efficient communication, at the end of the opening paragrah.}
 
 A key dimension that languages vary along is word order.
-Typologists have long classified languages according to their basic word order, or the order in which they typically order verbs, subjects, and objects.
-About 40\% of the world's languages are classified as following subject-verb-object order ({SVO}, as in English, ``a dog bites a human''), and 40 \% are classified as following subject-object-verb order ({SOV}, ``dog-human-bites'') (CITE).
+Typologists have long classified languages according to their basic word order, or the order in which they typically order verbs, subjects, and objects \citep{greenberg-universals-1963}.
+About 40\% of the world's languages are classified as following subject-verb-object order ({SVO}, as in English, ``a dog bites a human''), and 40 \% are classified as following subject-object-verb order ({SOV}, ``dog-human-bites'') \citep{wals-81}.
 Other orders such as verb-subject-object (``bites-dog-human'') are much less common.
 A large proportion of languages has more than one ordering, though typically with one of the orderings being the most common or least marked.
-This ordering is considered the  basic word order of a language in the typological literature (CITE).
+This ordering is considered the  basic word order of a language in the typological literature \citep{greenberg-universals-1963, wals-s6}.
 
 Different theories have been proposed for this word order variation.
 The low frequency of object-initial orderings (e.g., OSV) arguably has satisfactory explanations (see below), but there is no consensus on the frequency distribution of SVO and SOV.
@@ -569,7 +569,11 @@ In a linear mixed-effects models, with by-family intercept and slope, attested s
 Optimized subject-object symmetry was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ CrI $[-0.24,  -0.02]$).
 These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section X).
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
-We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section X).
+We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (\citep{wals-82}, see SI Section X).
+
+%Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
+%There are also a few OVS/SV languages
+
 %We also find evidence for a relation between order and co-expression within individual languages, i.e., languages choose different word orders  (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
 %This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
 %Within languages, we found that individual sentences tend to have the basic word order that optimizes DLM (see SI Section XX).
@@ -1279,6 +1283,8 @@ Here, we show that basic word order reflects optimization for DLM not only on th
 
 \subsection{Coexpression: VS Order in SVO Languages}
 In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
+This kind of ``intransitive inversion'' has been documented in English (CITE), Romance languages (CITE), and Chinese (CITE).
+There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
 
 %- literature
 %- Unaccusative inversion
@@ -1301,6 +1307,8 @@ As predicted, in most languages where there is variation between SV and VS order
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
 %\include{../optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}
+
+
 
 
 \subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
