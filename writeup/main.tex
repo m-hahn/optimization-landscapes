@@ -141,7 +141,7 @@ Our findings highlight that functional optimization in language structure and in
 
 
 
-Human languages show both tremendous variation and striking similarities in their syntactic structure (cite Greenberg, see my comments in pdf). A large body of research suggests that cross-linguistic variation and similarities are driven by functional pressures of efficient communication under limited cognitive resources (Haspelmath, 2008; cite at least two more review papers, see my comments in pdf, Cite more here, including the recent TICS paper by Gibson et al., as well as the ARL review paper by Kemp, Xu, and Regier.). Here we present evidence that the evolution of syntactic structure reflects an additional functional pressure through joint optimization of the grammatical structure of a language and the way that language is used.
+Human languages show both tremendous variation and striking similarities in their syntactic structure \citep{greenberg-universals-1963}. A large body of research suggests that cross-linguistic variation and similarities are driven by functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, kemp2018semantic, gibson2019how}. Here we present evidence that the evolution of syntactic structure reflects an additional functional pressure through joint optimization of the grammatical structure of a language and the way that language is used.
 
 
 %Human languages show both tremendous variation and striking similarities in their grammatical structure. Understanding these is central to the understanding of the nature of human language.
@@ -150,11 +150,11 @@ Human languages show both tremendous variation and striking similarities in thei
 %\comment{Try to insert 1 sentence here that says what we study here that differs from or advances the theory of efficient communication, at the end of the opening paragrah.}
 
 A key dimension that languages vary along is word order.
-Typologists have long classified languages according to their basic word order, or the order in which they typically order verbs, subjects, and objects.
-About 40\% of the world's languages are classified as following subject-verb-object order ({SVO}, as in English, ``a dog bites a human''), and 40 \% are classified as following subject-object-verb order ({SOV}, ``dog-human-bites'') (CITE).
+Typologists have long classified languages according to their basic word order, or the order in which they typically order verbs, subjects, and objects \citep{greenberg-universals-1963}.
+About 40\% of the world's languages are classified as following subject-verb-object order ({SVO}, as in English, ``a dog bites a human''), and 40 \% are classified as following subject-object-verb order ({SOV}, ``dog-human-bites'') \citep{wals-81}.
 Other orders such as verb-subject-object (``bites-dog-human'') are much less common.
 A large proportion of languages has more than one ordering, though typically with one of the orderings being the most common or least marked.
-This ordering is considered the  basic word order of a language in the typological literature (CITE).
+This ordering is considered the  basic word order of a language in the typological literature \citep{greenberg-universals-1963, wals-s6}.
 
 Different theories have been proposed for this word order variation.
 The low frequency of object-initial orderings (e.g., OSV) arguably has satisfactory explanations (see below), but there is no consensus on the frequency distribution of SVO and SOV.
@@ -501,6 +501,13 @@ Model fit was considerably worse in a lesioned model where the correlation betwe
 
 We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}.
 The sample includes multiple languages that started with flexible order and moved towards SVO (English, Romance, East Slavic and Eastern South Slavic, Greek), languages that have remained SVO (Chinese), and languages that have remained predominantly SOV (Indo-Aryan).
+% for English
+% for Romance
+% for East Slavic
+% for Eastern South Slavic
+% for Greek: \citet{taylor1994change}
+% for Chinese
+% for Indo-Aryan
 
 In languages that have remained SVO (Chinese), predicted subject-object symmetry moved towards its true values; that is, these languages appear to have evolved their usage patterns in a way that makes their basic word order more efficient.
 The two Indo-Aryan languages in our sample, which have remained predominantly SOV, show little movement in either dimension, slightly away from the diagonal.
@@ -520,9 +527,9 @@ We observe that our model indicates no evidence that languages tend to drift tow
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
 A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated Bayes Factor 1.1).
 
-A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO (CITE). (Greenberg's universal 41: SOV languages have case).
+A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO (CITE), and, conversely, SOV languages mostly have case marking \citep[Universal 41]{greenberg-universals-1963}.
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
-In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek and East Slavic).
+In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
 This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
 We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section XX).
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
@@ -570,6 +577,10 @@ Optimized subject-object symmetry was also predictive of this fraction ($\beta=-
 These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section X).
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
 We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section X).
+
+%Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
+%There are also a few OVS/SV languages
+
 %We also find evidence for a relation between order and co-expression within individual languages, i.e., languages choose different word orders  (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
 %This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
 %Within languages, we found that individual sentences tend to have the basic word order that optimizes DLM (see SI Section XX).
@@ -671,8 +682,8 @@ However, the availability of case marking alone is not sufficient to explain the
 
 
 Variation between the grammars of different languages, and change of languages over time, pose an interesting question for existing efficiency-based explanations of linguistic structure.
-In existing efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
-Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
+In existing efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{kemp2018semantic, zaslavsky2018efficient, hahn2020universals}.
+Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}. %\cite{xu2016historical}
 %As mentioned above, there is evidence that differences in culture may determine differences in vocabulary \cite{gibson2017color}.
 The theory of coadaptation adds a new interpretation of differences among languages, by highlighting that individual aspects do not evolve towards efficiency in isolation; rather, we argue that language as a whole evolves to maintain efficiency.
 Under this view, cross-linguistic variation in one area, such as basic word order, may be accompanied by variation in another area, such as usage distributions, resulting in an overall efficiency optimization.
@@ -737,10 +748,10 @@ Optimized grammars are created using the gradient descent method described by \c
 
 \paragraph{Data}
 We drew on the Universal Dependencies 2.6 treebanks, including every language for which a training set with at least 500 sentences was available, while excluding code-switched and sign languages.
-In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar (CITE).
-While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English (CITE) they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
+In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar \citep{bech2014iswoc}.
+While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English \citep{kroch2011penn} they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
 
-As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD, \citet{taylor1994change}) for the phylogenetic analysis. 
+As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD) for the phylogenetic analysis. 
 %We excluded medieval Latin data as it does not reflect a living language.
 
 We obtained spoken treebanks from the following sources.
@@ -1279,6 +1290,8 @@ Here, we show that basic word order reflects optimization for DLM not only on th
 
 \subsection{Coexpression: VS Order in SVO Languages}
 In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
+This kind of ``intransitive inversion'' has been documented in English (CITE), Romance languages (CITE), and Chinese (CITE).
+There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
 
 %- literature
 %- Unaccusative inversion
@@ -1301,6 +1314,8 @@ As predicted, in most languages where there is variation between SV and VS order
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
 %\include{../optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}
+
+
 
 
 \subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
