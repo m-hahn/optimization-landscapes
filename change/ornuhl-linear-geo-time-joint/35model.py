@@ -246,24 +246,16 @@ for iteration in range(100000):
     kernel2 = torch.log(1+torch.exp(alpha2))*(torch.exp(-torch.log(1+torch.exp(rho2)) * distanceMatrix) - identityMatrix)
     
     B1 = -kernel1
-#    print("Interaction terms only", B1[:3, :3])
     B1ForDiagonal = -B1.sum(dim=1)
- #   print("ForDiagonal", B1ForDiagonal[:3])
-  #  print("Drift weight", torch.diag(torch.log(1+torch.exp(driftTowardsNeighbors1))))
-   # print("Center drift weight", torch.log(1+torch.exp(Bdiag1)))
     B1 = B1 + torch.diag(B1ForDiagonal)
     B1 = torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1
     B1 = B1 + torch.diag(torch.log(1+torch.exp(Bdiag1)).expand(dat["ObservedN"]))
-    #print("B1", B1[:3, :3])
-#    #print(B1)
- #   S1, U1 = torch.symeig(B1, eigenvectors=True)
-  #  assert float(S1.min()) > 0, S1.min()  
-   # print(S1.min())
-    #quit()
 
-    B2 = -kernel1
+    B2 = -kernel2
     B2ForDiagonal = -B2.sum(dim=1)
-    B2 = B2 + torch.diag(torch.log(1+torch.exp(driftTowardsNeighbors2)) * B2ForDiagonal + torch.log(1+torch.exp(Bdiag2)).expand(dat["ObservedN"]))
+    B2 = B2 + torch.diag(B2ForDiagonal)
+    B2 = torch.log(1+torch.exp(driftTowardsNeighbors2)) * B2
+    B2 = B2 + torch.diag(torch.log(1+torch.exp(Bdiag2)).expand(dat["ObservedN"]))
     
     
     
@@ -304,11 +296,11 @@ for iteration in range(100000):
     #BFullUpper = torch.triu(BFull)
 
     # SANITY CHECK
-    S1, U1 = torch.symeig(B1, eigenvectors=True)
-    S2, U2 = torch.symeig(B2, eigenvectors=True)
-    assert float(S1.min()) > 0, S1.min()
-    assert float(S2.min()) > 0, S2.min()
-    if iteration > 50000000: # warmup for Omega 
+#    S1, U1 = torch.symeig(B1, eigenvectors=True)
+ #   S2, U2 = torch.symeig(B2, eigenvectors=True)
+    #assert float(S1.min()) > 0, S1.min()
+    #assert float(S2.min()) > 0, S2.min()
+    if iteration > 2000: # warmup for Omega 
    #    exponentiated = expm(-0.1 * BFull)
        S1, U1 = torch.symeig(B1, eigenvectors=True)
        S2, U2 = torch.symeig(B2, eigenvectors=True)
@@ -334,6 +326,9 @@ for iteration in range(100000):
        forLikelihoodLower = torch.matmul(dat["TraitObserved"].unsqueeze(0), exponentialPartInverse2).view(-1)
        forLikelihoodCat = torch.cat([forLikelihoodUpper, forLikelihoodLower], dim=0)
        # Conceptually, compute forLikelihoodCat * Omega_cholesky^{-1}
+       print("Log determinant of Omega_triang", torch.logdet(Omega_triang))
+       print("Smallest eigenvalue of Omega_triang", torch.symeig(Omega_triang)[0].min())
+
        forLikelihoodHalf = torch.triangular_solve(input=forLikelihoodCat.unsqueeze(1), A=Omega_triang.t())[0].squeeze(1)
 #       forLikelihoodHalf = torch.matmul(forLikelihoodCat, OmegaInverse)
        print("Solution of upper triangular equation", forLikelihoodHalf.mean(), forLikelihoodCat.mean(), Omega_triang.mean())
@@ -350,3 +345,10 @@ for iteration in range(100000):
     loss.backward()
     optimizer.step() 
 #    Omega_cholesky_diag.data = torch.clamp(Omega_cholesky_diag.data, min=1e-3)
+    if iteration == 1000:
+       optimizer = torch.optim.SGD(lr=0.01, params=parameters)
+    if iteration == 2000:
+       optimizer = torch.optim.SGD(lr=0.02, params=parameters)
+ #   if iteration == 3000:
+#       optimizer = torch.optim.SGD(lr=0.01, params=parameters)
+
