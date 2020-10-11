@@ -116,8 +116,8 @@ A wide range of existing work has argued that the structure of human language re
 In these studies, variation across languages can reflect different optima or points along a Pareto frontier.
 We report evidence for an additional functional pressure in the evolution of word order across languages:
 Coadaptation between usage and grammar.
-We show across 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint efficiency consideration of grammar for Dependency Length Minimization.
-Drawing on phylogenetic modeling and historical text data from nine languages, we show further that historical word order change over time is accompanied by change in the usage distributions.
+We show across 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of grammar for Dependency Length Minimization.
+Drawing on phylogenetic modeling and historical text corpora from nine languages, we show that historical word order change over time is accompanied by change in the usage distributions.
 We identify relevant characteristics that reflect this joint optimization, in particular the frequency with which subjects and objects are expressed together for the same verb.
 Our findings highlight that functional optimization in language structure and in language usage go hand in hand in shaping the evolution of syntactic structure across languages.
 \end{abstract}
@@ -139,55 +139,65 @@ Our findings highlight that functional optimization in language structure and in
 % \cite{greenberg-universals-1963} 
 
 
-Human languages show both tremendous variation and striking similarities in their grammatical structure. Understanding these is central to the understanding of the nature of human language.
-A large body of research argues that similarities across languages are due to convergent evolution favoring efficient communication under cognitive resource limitations \citep{haspelmath2008parametric}.
-Here, we present evidence that evolution favoring efficiency jointly affects the grammatical structure of a language and the way the language is used.
+
+
+Human languages show both tremendous variation and striking similarities in their syntactic structure \citep{greenberg-universals-1963, baker2001atoms, croft2003typology}. A large body of research suggests that cross-linguistic variation and similarities are driven by functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, jaeger2011on, kemp2018semantic, gibson2019how}. Here we present evidence that the evolution of syntactic structure reflects an additional functional pressure through joint optimization of the grammatical structure of a language and the way that language is used.
+
+
+% Hawkins 1994, 2004, 2014, Chomsky 2005, Christiansen & Chater2008, Jaeger & Tily 2011, Fedzechkina et al. 2012, Gibson et al. 2019). The idea is thatlanguages are shaped by a trade-off between information transfer and ease
+
+
+%Human languages show both tremendous variation and striking similarities in their grammatical structure. Understanding these is central to the understanding of the nature of human language.
+%A large body of research argues that similarities across languages are due to convergent evolution favoring efficient communication under cognitive resource limitations \citep{haspelmath2008parametric}.
+%Here, we present evidence that evolution favoring efficiency jointly affects the grammatical structure of a language and the way the language is used.
 %\comment{Try to insert 1 sentence here that says what we study here that differs from or advances the theory of efficient communication, at the end of the opening paragrah.}
 
 A key dimension that languages vary along is word order.
-Typologists have long classified languages according to their basic word order, the order in which they order verbs, subjects, and objects.
-About 40\% of the world's languages are classified as having subject-verb-object order ({SVO}, as in English, a dog bites a human), and 40 \% are classified as having subject-object-verb order ({SOV}, dog-human-bites) (CITE).
-Other orders, such as verb-subject-object (bites-dog-human) are less common.
-A large fraction of languages allows different orderings, though typically with one of the possible orderings being most common or least marked, which is considered its basic word order in the typological literature.
+Typologists have long classified languages according to their basic word order, or the order in which they typically order verbs, subjects, and objects \citep{greenberg-universals-1963}.
+About 40\% of the world's languages are classified as following subject-verb-object order ({SVO}, as in English, ``a dog bites a human''), and 40 \% are classified as following subject-object-verb order ({SOV}, ``dog-human-bites'') \citep{wals-81}.
+Other orders such as verb-subject-object (``bites-dog-human'') are much less common.
+A large proportion of languages has more than one ordering, though typically with one of the orderings being the most common or least marked.
+This ordering is considered the  basic word order of a language in the typological literature \citep{greenberg-universals-1963, wals-s6}.
 
-Different accounts have been proposed for this variation.
-The low frequency of object-initial orderings (e.g., OSV) arguably has satisfactory explanations (see below), but there is no consensus as to the distribution of SVO and SOV.
-Some work has argued that SOV is the more default order in the history of language (CITE), and that SVO has emerged later to reduce ambiguity \citep{gibson-noisy-channel-2013}.
+Different theories have been proposed for this word order variation.
+The low frequency of object-initial orderings (e.g., OSV) arguably has satisfactory explanations (see below), but there is no consensus on the frequency distribution of SVO and SOV.
+Some work has argued that SOV is the default order in the history of language and that SVO has emerged later \citep{givon1979understanding, newmeyer2000evolutionary, gibson-noisy-channel-2013}.
 On the other hand, phylogenetic modeling suggests that languages can cycle between these two orders in their development \citep{maurits2014tracing}.
 Efficiency-based accounts have been argued to either favor SVO or SOV \citep{maurits-why-2010, ferrer-i-cancho-placement-2017}.
 \cite{maurits2010why} propose that the frequency of different basic word order pattern is predicted by a tendency to avoid peaks and troughs in the rate at which information is transmitted.
 Their model predicts object-initial order to be strongly dispreferred.
-However, it also suggests SVO to be more considerably more efficient than SOV, even on usage data from an SOV language (Japanese), in contrast with the empirically observed distribution.
-\citep{ferrer-i-cancho-placement-2017} suggest that SOV and SVO are optimal under different efficiency criteria that trade off; our results (see below) will show that the predictions of such criteria crucially depend on language-specific usage patterns.
+However, it also suggests SVO to be more considerably more efficient than SOV, even on usage data from an SOV language (Japanese), which contradicts the empirically near-equal frequencies of SVO and SOV.
+\citep{ferrer-i-cancho-placement-2017} suggest that SOV and SVO are optimal under different efficiency criteria.
+Here we show that the predictions of these efficiency criteria crucially depend on language-specific usage patterns.
 %Also cite \cite{kemmerer2012cross-linguistic}
 
-In this work, we suggest a new explanation for the distribution of SOV and SVO order:
+We present a new explanation for the frequency distribution of SOV and SVO order:
 {Coadaptation} between grammar and usage.
-We argue that neither SVO nor SOV are more efficient in principle.
+We propose that neither SVO nor SOV is more efficient in principle.
 Rather, languages tend to have the basic word order that is most communicatively efficient given the utterances speakers typically produce.
-As languages change, usage and grammar coevolve; change in usage goes hand-in-hand with change in basic word order.
+As languages change, usage and grammar coevolve such that change in usage goes hand-in-hand with change in basic word order.
 %\comment{is there any existing literature or reference that we can use to ground the theory of coadaptation? or can we say in a sentence or two WHY or what motivates the coadaptation behavior---we don't want to sound like we just made this up, after we've seen what's in the data. rather we want to motivate this theory with a clear rationale, or ground it in existing proposals (if any).}
 
-The idea that the structure of language is related to usage patterns has been proposed for various aspects of language.
-For instance, \cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies because of differences in the usefulness of color in a society.
+The idea that the structure of language is related to usage has been proposed for other aspects of language.
+For instance, \cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society.
 
 %Efficiency-based accounts of language structure often model optimization for usage distributions that are held constant across languages (CITE).
 %Variation between languages is accounted for as reflecting different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, zaslavsky2019evolution}.
 %However, in reality, usage patterns do differ between languages, and this might impact which grammatical patterns are more efficient for a given language.
 
-We therefore hypothesize that grammatical structure and usage patterns may interact in the evolution of language:
+We extend this idea by hypothesizing that grammatical structure and usage patterns may interact in the evolution of language:
 As a language changes, change in grammatical structure should be accompanied by change in the way the language is used, i.e., there is a process of {coadaptation} between grammar and use.
 
 In the domain of word order, prominent efficiency-based proposals are centered around various locality principles, which assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function \citep{behaghel1932deutsche,givon1985iconicity,rijkhoff-word-1986,hawkins-performance-1994}.
-A prominent formalization of this idea is {Dependency Length Minimization} (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,futrell-cross-linguistic-2015, liu-dependency-2017}.
+A prominent formalization of this view is Dependency Length Minimization (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,liu2008dependency,futrell-cross-linguistic-2015, liu-dependency-2017, futrell2020dependency}.
 This is supported by corpus studies on dozens of languages, and explains word order universals \citep{rijkhoff-word-1986, hawkins-performance-1994, hahn2020universals}.
-Dependency Length Minimization and related locality principles can be justified in terms of memory efficiency \citep{gibson-linguistic-1998} and general communicative efficiency \citep{hahn2020universals}.
+Dependency Length Minimization and related locality principles can be justified in terms of parsing efficiency \citep{hawkins-performance-1994}, memory efficiency \citep{gibson-linguistic-1998} and general communicative efficiency \citep{hahn2020universals}.
 %Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
 
-In this paper, we argue that languages have the basic word orders that are most efficient for DLM, given the utterances typically produced in a language.
+Here we argue that languages have the basic word orders that are most efficient for DLM, given the utterances typically produced in a language.
 To understand how DLM might make predictions about basic word order, we begin with a thought experiment.
 We first consider a simple transitive sentence such as `dogs bite people' (Figure~\ref{fig:sent-dep}A). 
-DLM is defined formally in terms of Dependency Grammar (CITE).
+DLM is defined formally in terms of Dependency Grammar~\citep{hays1964dependency,hudson1984word,melcuk1988dependency,corbett1993heads,tesniere2015elements}.
 In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
 For instance, arcs link the verb to its subjects and objects.
 The length of an arc is one plus the number of other words that it crosses.
@@ -206,8 +216,8 @@ Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argue
    \begin{deptext}[column sep=1em]
           dogs \& bite \& people  \\
    \end{deptext}
-   \depedge{2}{1}{subject}
-   \depedge{2}{3}{object}
+   \depedge{2}{1}{subject (1)}
+   \depedge{2}{3}{object (1)}
 \end{dependency}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
@@ -215,18 +225,18 @@ Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argue
    inu-wa \& hito-o \& kamimasu \\
           DOG \& HUMAN \& BITES  \\
    \end{deptext}
-   \depedge{3}{1}{subject}
-   \depedge{3}{2}{object}
+   \depedge{3}{1}{subject (2)} %{\parbox{1cm}{subject \\ \\ 2}}}
+   \depedge{3}{2}{object (1)}
 \end{dependency}
 
 B
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
-       thinks that \& big dogs \& bite \& people  \\
+       think \& big dogs \& bite \& people  \\
    \end{deptext}
-    \depedge{1}{3}{subject}
-   \depedge{3}{2}{subject}
-   \depedge{3}{4}{object}
+    \depedge{1}{3}{complement (3)}
+   \depedge{3}{2}{subject (1)}
+   \depedge{3}{4}{object (1)}
 \end{dependency}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
@@ -234,9 +244,9 @@ B
    ookina inu-ga \& hito-o \& kamuto \& omoimasu \\
          BIG DOG \& HUMAN \& BITES \& THINK \\
    \end{deptext}
-   \depedge{3}{1}{subject}
-   \depedge{3}{2}{object}
-   \depedge{4}{3}{object}
+   \depedge{3}{1}{subject (2)}
+   \depedge{3}{2}{object (1)}
+   \depedge{4}{3}{complement (1)}
 \end{dependency}
 
 C
@@ -246,7 +256,7 @@ C
    hito-o \& kamimasu \\
    HUMAN \& BITE  \\
    \end{deptext}
-   \depedge{2}{1}{object}
+   \depedge{2}{1}{object (1)}
 \end{dependency}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
@@ -254,14 +264,14 @@ C
    inu-wa \& kamimasu \\
           DOG \& BITE  \\
    \end{deptext}
-   \depedge{2}{1}{subject}
+   \depedge{2}{1}{subject (1)}
 \end{dependency}
 
         \caption{A: Word order variation across languages. English (left) follows Subject-Verb-Object (SVO) order. Japanese (right) follows Subject-Object-Verb (SOV) order. Such simple sentences where both subjects and objects are expressed tend to favor SVO order. B: Embedded contexts tend to favor SOV order. C: The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.}
         \label{fig:sent-dep}
 \end{figure}
 
-However, now consider what happens in more complex sentences, where verbs are embedded as dependents of other words.
+Now consider what happens in more complex sentences, where verbs are embedded as dependents of other words.
 In Figure~\ref{fig:sent-dep}B, we consider sentences of the form `I think that big dogs bite people'.
 Here, dependency length is 5 in SVO order, and 4 in SOV order, reversing the advantage  of SVO order seen in basic sentences.
 
@@ -283,16 +293,16 @@ Specifically, we contrast orderings that order S and O on the same or different 
 
 Note that DLM does not make predictions as to the direction in which S and O appear: As the length of dependencies does not depend on their direction, there is no difference between, say, SOV and VOS.
 Independent principles are needed to explain why SOV and SVO are more common than, say, VOS and OVS.
-A key component is a strong preference for subjects to come earlier (CITE).
-Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages (CITE).
+A key component is a strong preference for subjects to come earlier \citep{wals-81}.
+Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages \citep{prince1981toward, mcdonald1993word}.
 This principle favors, say, SVO over OVS, while being equally well satisfied by SVO and SOV order.
 
 
 %Now explain examples from presentations, in particular how frequency of co-expression of S and O can differentially favor SVO or SOV. {\color{blue} this is good -- i wonder if you want to illustrate the throught experiment or the basic idea of coadaptation in an opening diagram.}\\
 
 
-In this paper, we test the coadaptation hypothesis using data from over 70 languages by computing, for each language, which basic word order is most efficient given its usage distribution as recorded in large-scale text data.
-We then use a model of drift on phylogenetic trees to assess whether languages evolve towards states where usage distributions and actual basic word order are aligend.
+We test the coadaptation hypothesis using data from over 70 languages by computing, for each language, which basic word order is most efficient given its usage distribution as recorded in large-scale text corpora.
+We then use a model of drift on phylogenetic trees to assess whether languages evolve towards states where usage distributions and actual basic word order are aligned.
 
 
 %\comment{at the end of the intro, it might benefit to provide a preview or plan for the rest of the paper, i.e. you could say how we plan to test the coadaptation hypothesis in x, y, z, ways, so that the later studies can be pre-empted here so as not to be very surprising.}
@@ -327,7 +337,6 @@ We then use a model of drift on phylogenetic trees to assess whether languages e
 We begin by testing whether, across languages, basic word order reflects coadaptation.
 %We test the  hypotheses: Basic word order reflects coadaptation between grammar and usage (\textsc{Coadaptation}), basic word orders differ in their efficiency for DLM as proposed by \citep{ferrer-i-cancho-placement-2017} (\textsc{DifferentEfficiencies}), or there is no crosslinguistic relation between .
 If there is coadaptation between basic word order and usage, we expect that languages tend to have the basic word order that is most efficient given their usage distributions.
-We refer to this as the Coadaptation Hypothesis.
 Alternatively, we expect that, either, one of the two basic word orders is systematically more efficient for DLM, or there is no systematic relationship between basic word order and dependency length.
 
 
@@ -336,10 +345,11 @@ Alternatively, we expect that, either, one of the two basic word orders is syste
 
 
 We compare two groups of word orders: SVO-like order where S and O are ordered on different sides of the verb, and SOV/VSO-like order where S and O are ordered on the same side of the verb.
-Languages can fall on a spectrum between languages with entirely strict SVO order and languages with entirely strict SOV order.
+Languages can fall on a spectrum between languages with entirely strict SVO order and languages with entirely strict SOV order~\citep{steele1978word}.
 English is close to one end of the spectrum with dominant SVO order, with rare exceptions (e.g., stylistically marked VS order in ``then came a dog'').
 Japanese falls entirely on one end of the spectrum, allowing only SOV and OSV order.
-Many languages occupy intermediate positions; for instance, in Russian, all logically possible orderings of S, V, O can occur, though with different frequencies.
+Many languages occupy intermediate positions. 
+For instance, in Russian, all logically possible orderings of S, V, O can occur, though with different frequencies.
 
 We quantify the position of an individual language on this continuum using a quantitative corpus-based metric which we refer to as Subject-Object Symmetry.
 This metric indicates the chance that two randomly selected instances of S and O from a corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs. This number is 1 in strict SOV languages like Japanese, close to 0.5 in languages with flexible word order, and close to 0 in English.
@@ -352,7 +362,7 @@ This metric indicates the chance that two randomly selected instances of S and O
 We compare these measures between observed word orders and hypothetical orderings obtained by optimizing for Dependency Length Minimization.
 
 We approximate the distribution over different syntactic configurations using large corpora.
-We draw on the Universal Dependencies data, which includes text data annotated with syntactic tree topologies from over 70 languages from XXX language families (see Materials and Methods for details).
+We draw on the Universal Dependencies data, which includes text data annotated with syntactic tree topologies from over 70 languages from 29 language families (CITE, see Materials and Methods for details).
 For each language, we construct orderings that are approximately optimized for DLM.
 
 To parameterize the approximately optimized orderings, we adopt the established model of counterfactural order grammar introduced by \citet{gildea-optimizing-2007}.
@@ -360,7 +370,7 @@ These are simple, parametric models parameterizing how the words in a syntactic 
 For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns (see Materials and Methods for details).
 We use the method in \citet{hahn2020universals} to construct grammars that approximately minimize average dependency length using stochastic gradient descent.
 
-In order to control for variation across different optima, for each of 74 languages, we construct 15 approximately optimized grammars, and compute the average Subject-Object Symmetry across these counterfactual orderings.
+In order to control for variation across different optima, for each of the 74 languages, we construct 15 approximately optimized grammars, and compute the average Subject-Object Symmetry across these counterfactual orderings.
 
 %\comment{** to what extent we can justify that our approach is not somewhat circular? in particular, the optimized grammars were derived from the corpora, which were used to determine the empirical frequency proportions of the basic word order -- i think some statements are needed here to suggest that there's some independence between the optimized grammar predictions by the model, and the empirical distributions.}
 
@@ -370,13 +380,13 @@ Under the Coadaptation Hypothesis, we expect that the subject-object symmetry of
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such correlation should be.
 
 
-While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section X showing that results do not change when estimating optimizes grammars and attested orders using disjoint subsets of corpora).
+While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section X showing that results hold similarly when estimating optimized grammars and attested orders using disjoint subsets of corpora).
 
 
 
-In Figure~\ref{fig:study1}, we plot real subject-object symmetries against the average subject-object symmetry in the 74 languages.
+In Figure~\ref{fig:study1}, we visualize real subject-object symmetries against the average subject-object symmetry in the 74 languages.
 Without controlling for dependencies between related languages, model-predicted and attested subject-object symmetry are correlated ($R=0.32$, $p<TODO$).
-In order to account for the statistical dependencies between related languages, we conducted a regression where we entered language families as random effects with random slopes and intercepts.
+In order to account for the statistical dependencies between related languages more rigorously, we conducted a regression where we entered language families as random effects with random slopes and intercepts.
 Attested subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
 This result provides strong support for the Coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
 It is incompatible with the suggestion that SVO is generally more efficient for DLM \citep{ferrer-i-cancho-placement-2017}.
@@ -392,9 +402,11 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 
 \begin{figure}
     \centering
+    A
     \includegraphics[width=0.4\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+    B
     \includegraphics[width=0.4\textwidth]{../analysis/analysis_spoken/spoken.pdf}
-    \caption{Left: Subject-object symmetry in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families. Small lines connect labels to the position of the language, where needed to avoid overlapping labels. Right: Comparison of subject-object symmetry between written (blue) and spoken (red) corpora in five languages where spoken corpora are available. \mhahn{TODO I'll still think about how to best format these plots.}}
+    \caption{Evaluation of Coadaptation Hypothesis across languages. a) Subject-object symmetry in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families. Small lines connect labels to the position of the language, where needed to avoid overlapping labels. b) Comparison of subject-object symmetry between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. \mhahn{TODO I'll still think about how to best format these plots.}}
     \label{fig:study1}\label{fig:spoken}
 \end{figure}
 
@@ -404,7 +416,7 @@ It is incompatible with the suggestion that SVO is generally more efficient for 
 %\comment{maybe somewhere here or nearby you should acknolwedge that there are only very limited number spoken corpora available, but nevertheless we found these and suggest that these languages span the spectrum of word order variation.}
 
 
-We have approximated the usage distribution over syntactic configurations using corpora.
+We have approximated the usage distribution over syntactic configurations using (written) text corpora.
 However, the vast majority of existing annotated corpus data is in written form (e.g., news and web text), whereas spoken language is thought to be most important for language change, particularly since widespread literacy is very recent.
 We collected all spoken corpora in dependency format that we could obtain access to, resulting in data from six languages (see Materials and Methods), and tested whether the conclusion of Analysis 1 continues to hold when using data from these treebanks.
 Results on these treebanks, and comparison to written data from the same languages, are shown in Figure~\ref{fig:spoken}.
@@ -427,10 +439,11 @@ There is a strong correlation between real and predicted subject-object symmetry
 %The diagonal in Figure~\ref{fig:study1} describes those points where usage and grammar match perfectly in basic word order, i.e., those points where the real order distribution is identical to the order distribution among optimized grammars, given the distribution over tree topologies.
 %Therefore, if the coadaptation hypothesis is true, then languages should stay close to or move towards the diagonal in the plane described by predicted and real subject-object symmetry.
 
-So far, we have provided evidence for the Coadaptation Hypothesis using a cross-sectional synchronic analysis of 74 languages.
+\subsection*{Evolutionary Evidence for Coadaptation}
+We have provided evidence for the Coadaptation Hypothesis using a cross-sectional synchronic analysis of 74 languages.
 If variation in word order reflects coadapation between grammar and usage, we should expect to see coevolution of basic word order and usage as languages evolve over time.
-To test this, we conducted a phylogenetic analysis of the evolution of usage and word order.
-Phylogenetic analyses have previously been applied to studying the evolution of word order patterns \citep{dunn-evolved-2011, maurits2014tracing}.
+To test this proposal, we conducted a phylogenetic analysis on the evolution of usage and word order.
+Phylogenetic analyses have previously been applied to studying the historical evolution of languages~\citep{gray2009language,sagart2019dated,greenhill2009austronesian}, including the evolution of word order patterns \citep{dunn-evolved-2011, maurits2014tracing}.
 
 A phylogenetic analysis allows us to construct an explicit model of language change, drawing on two sources of information:
 First, in several cases, our dataset includes data from different stages of the same language (such as Ancient Greek and Modern Greek).
@@ -439,11 +452,11 @@ Second, using phylogenetic information, the model can also draw strength from pu
 Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change \citep{pagel2004bayesian, dunn-evolved-2011, maurits2014tracing}.
 
 
-We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and usage of a language evolve over time, in order to test the Coadaptation Hypothesis.
+We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and usage of a language evolve over time, in order to test the Coadaptation Hypothesis over history.
 We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by usage (optimal subject-object symmetry) and grammar (real subject-object symmetry).
 Whenever a language splits into daughter languages, the point $\xi_{L,t}$ continues to evolve independently in each daughter language.
-As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{blackwell2003bayesian}, see Materials and Methods for details).
-This process is parameterized by rates of change in the two dimensions and the correlation between the changes in both dimensions \citep{felsenstein1973maximum,freckleton2012fast}.
+As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{felsenstein1988phylogenies,hansen1997stabilizing, blackwell2003bayesian}, see Materials and Methods for details).
+This process is parameterized by rates of change in the two dimensions and the correlation between the changes in both dimensions \citep{felsenstein1973maximum,hansen1997stabilizing, freckleton2012fast}.
 Under the Coadaptation Hypothesis, changes in both dimensions should be positively correlated.
 Under the null hypothesis, no such correlation should be expected.
 Besides rates of change, the model also incorporates the possibility of a bias towards specific regions of parameter space (e.g., low or high subject-object symmetry).
@@ -462,12 +475,13 @@ We fitted the parameters of the model using Hamiltonian Monte Carlo methods (see
 
 
 
-We visualize the results fit in Figure~\ref{fig:drift-model}.
+We visualize the resulting model fit in Figure~\ref{fig:drift-model}.
 The blue distribution indicates the stationary distribution of the process, i.e., after long-term evolution, a language will tend to be lie within this distribution.
-For illustration, we also illustrate predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
+For illustration, we also illustrate the predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
 
 According to the model, changes in grammar and usage are positively correlated:
-This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal: In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%\ CrI\ [0.28, 0.96]$).
+This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
+In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%\ CrI\ [0.28, 0.96]$).
 Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 232).
 
 
@@ -490,8 +504,15 @@ Model fit was considerably worse in a lesioned model where the correlation betwe
 
 We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}.
 The sample includes multiple languages that started with flexible order and moved towards SVO (English, Romance, East Slavic and Eastern South Slavic, Greek), languages that have remained SVO (Chinese), and languages that have remained predominantly SOV (Indo-Aryan).
+% for English
+% for Romance
+% for East Slavic
+% for Eastern South Slavic
+% for Greek: \citet{taylor1994change}
+% for Chinese
+% for Indo-Aryan
 
-In the case of the languages that have remained SVO (Chinese), predicted subject-object symmetry moved towards its true values; that is, these languages appear to have evolved their usage patterns in a way that makes their basic word order more efficient.
+In languages that have remained SVO (Chinese), predicted subject-object symmetry moved towards its true values; that is, these languages appear to have evolved their usage patterns in a way that makes their basic word order more efficient.
 The two Indo-Aryan languages in our sample, which have remained predominantly SOV, show little movement in either dimension, slightly away from the diagonal.
 Finally, among the remaining languages, which started with flexible order and moved towards SVO, all moved along or towards the diagonal.
 
@@ -502,19 +523,19 @@ Finally, among the remaining languages, which started with flexible order and mo
 %- languages changed only in usage or in order
 %- we 
 
-Note that, while our sample includes historical languages that later shifted towards SVO (low subject-object symmetry), it does not include historical languages that later shifted towards SOV (high subject-object symmetry).
-The model (and the coadaptation hypothesis) predicts that a language that changed from SVO towards SOV should have correspondingly moved towards the top-right of the plane. 
+While our sample includes historical languages that later shifted towards SVO (low subject-object symmetry), it does not include historical languages that later shifted towards SOV (high subject-object symmetry).
+The model (and the coadaptation hypothesis) predicts that a language that changed towards SOV should have correspondingly moved towards the top-right of the plane. 
 Currently, no annotated treebanks are available for such a language to directly test this prediction; our prediction can be tested once such a treebank becomes available.
-We note that our model indicates no evidence that languages tend to drift towards either SOV or SVO in the long run.
+We observe that our model indicates no evidence that languages tend to drift towards either SOV or SVO in the long run.
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
 A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated Bayes Factor 1.1).
 
-A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed (CITE) or shifting towards SVO (CITE).
+A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed or shifting towards SVO \citep{vennemann1974explanation}, and, conversely, SOV languages mostly have case marking \citep[Universal 41]{greenberg-universals-1963}.
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
-In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek and East Slavic).
+In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
 This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
-We found that the model continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section XX).
-This shows that languages show coadaptation between word order and usage patterns beyond what is captured by the presence of absence of case marking.
+We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section XX).
+This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 %The model provides no evidence that language evolution favors high or low subject-object %asymmetry.
 %Visually, the stationary distribution in Figure~\ref{fig:drift-model} is essentially centered with equal weight given to low and high real subject-object symmetry.
@@ -541,22 +562,37 @@ This shows that languages show coadaptation between word order and usage pattern
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{../analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf}
-    \caption{Comparing attested subject-object symmetry (x-axis) with the fraction of verbs that simultaneously express a subject and an object (y-axis).}
+    \caption{Comparison of attested subject-object symmetry (x-axis) and the fraction of verbs that simultaneously express a subject and an object (y-axis).}
     \label{fig:study2}
 \end{figure}
 
+\subsection*{Influence of Usage on Word Order}
 So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of language.
-In what aspects of usage patterns do languages differ and change to realize this coadaptation?
+In what aspects of usage patterns do languages vary and change that reflect this coadaptation?
 That is, in what ways do usage patterns influence which basic word order is optimally efficient?
-Based on the discussion in the introduction, we hypothesized that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
+We hypothesize that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
+Indeed, it has been argued, based on evidence from Turkish and Japanese, that SOV languages omit arguments or use intransitive structures more frequently than SVO languages do \citep{hiranuma1999syntactic,ueno2009does,luk2014investigating}, though this might not hold for Basque \citep{pastor2013processing}.
+We tested this idea on a larger scale using the corpora in our sample.
 We quantified the frequency of co-expression of subjects and objects by calculating what fraction of all verbs that realize at least a subject or an object simultaneously realize both.
 We show this ratio together with attested subject-object symmetry in Figure~\ref{fig:study2}.
-In a linear mixed-effects models, with by-family intercept and slope, observed subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
+In a linear mixed-effects models, with by-family intercept and slope, attested subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ CrI $[-0.21, -0.01]$).
 Optimized subject-object symmetry was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ CrI $[-0.24,  -0.02]$).
-These results were not accounted for by differences in the availability of pro-drop (see SI Section X).
-We also find evidence for a relation between order and co-expression within individual languages (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
+These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section X).
+This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
+We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section X).
+
+%Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
+%There are also a few OVS/SV languages
+
+%We also find evidence for a relation between order and co-expression within individual languages, i.e., languages choose different word orders  (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
 %This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
 %Within languages, we found that individual sentences tend to have the basic word order that optimizes DLM (see SI Section XX).
+
+
+
+%VSO favors agreement, SOV favors case marking. But SOV also have verb agreement a lot, might help zero anaphora
+
+
 
 
 
@@ -590,23 +626,86 @@ We also find evidence for a relation between order and co-expression within indi
 
 \section*{Discussion}
 
-We have investigated the question of what explains the distribution of word order patterns across languages.
-We have argued that the observed crosslinguistic distribution of basic word order can be explained as resulting from coadaptation between grammar and usage.
+We have investigated what explains the frequency distribution of word order patterns across languages and argued that the observed cross-linguistic distribution of basic word order can be explained by the coadaptation between grammar and usage.
 
-Our work combines evidence from richly annotated syntactic corpora with phylogenetic modeling. We believe that this modeling approach can be useful more generally for studying the fine-grained evolution of grammar.
+
 
 The theory of coadaptation does not privilege either grammar or usage as being the primary causal driver.
 Instead, any language includes both grammar and usage, and they evolve together.
 While, in a given language, a change might first appear in one domain, the preservation of efficiency can lead to compensating changes in the other domain.
 Consequently, grammar and usage constrain each other in their evolution.
 
+
+The theory of coevolution provides a new explanation for the distribution of basic word order.
+Unlike previous accounts, it makes specific predictions for individual languages, conditional on their usage distributions.
+The model of \cite{maurits2010why} predicts that SVO is the most efficient order, even when given usage data from Japanese.
+In contrast, our account accounts for the language-dependence of basic word order.
+For Japanese, DLM correctly predicts S and O to be on the same side of the verb (Figure TODO), unlike the model of \cite{maurits2010why}.
+\citet{ferrer-i-cancho-placement-2017} argues that DLM favors SVO in general, which our results show is not the case (Figure TODO).
+
+It has been argued sometimes that there is an inherent directionality in the evolution of basic word order, and that SOV is the default or original order in the history of language.
+Many historically documented word order changes have gone from SVO to SOV, and the protolanguages of several extant families are thought to have been SOV \citep{givon1979understanding, newmeyer2000evolutionary, maurits2014tracing}.
+However, only a small fraction of all word order changes are directly documented through written evidence of historical languages.
+\citep{maurits2014tracing}, using phylogenetic modeling, found that languages can cycle between SOV and SVO over long-term development, with little bias towards either order.
+The strongest evidence that SOV might be the `default' order comes from recently emerged sign languages \citep{senghas1997argument, sandler2005emergence, goldin-meadow1998spontaneous} and from gesturing tasks \citep{goldin-meadow2008natural, langus2010cognitive}.
+The theory of coadaptation predicts that new emerging languages tend to have tree structures that favor SOV order.
+Indeed, multiple studies report high frequencies of utterances where only one argument is expressed in recently emerged sign languages and homesign systems (\citet{sandler2005emergence} \citet{goldin-meadow1998spontaneous}\citep[p. 31]{neveu2016sign}\citep[p. 622]{ergin2018development}). % also this dissertation on homesign  also senghas report one-argument uitterances
+Adopting the view that SOV is the historically earlier order, \citet{gibson-noisy-channel-2013} argue that SVO arises as a strategy to reduce ambiguity in the absence of case marking.
+However, the availability of case marking alone is not sufficient to explain the distribution of word order patterns; our results show that coadaptation is present even when controlling for the presence of case marking (see SI Section X).
+
+
+% Sandler et al
+% SV 58
+% OV 55
+%OIV 1
+% VO 13
+
+% SOV 19
+% SIOV 3
+% SOIV 1
+% SVO 6
+% SVIO 2
+% SOVI 1
+
+
+%On the prevalence of word orders:
+%- roughly equal, e.g. Tomlin 1986
+
+%- theory predicts languages to evolve to SVO unless they have case marking
+
+%claim of correlation between case marking and SOV: Greenberg, 1963; Venneman, 1973; Dryer, 2002; Croft, 2002 (but VSO doesn't seem to favor case so much)
+
+%- Gibson.
+
+%- evidence for SOV as `default':
+% (Givon, 1979; Newmeyer, 2000a, 2000b; Gell-Mann \& Ruhlen, 2011). 
+
+%Givón, T, (1979). On Understanding Grammar.  Academic Press, New York
+%Newmeyer, F. (2000a).  Language form and language function.  MIT Press, Cambridge, MA.
+%Newmeyer, F. (2000b).  On the reconstruction of ‘proto-world’ word order.  In Knight, C., Studdert-Kennedy, M. & Hurford, J. The Evolutionary Emergence of Language: Social Function and the Origins of Linguistic Form.  pp. 372-388.  Cambridge University Press.
+
+% Bickel & Nichols (2020), find no word order specific to hunter-garather languages
+
+%- SOV in gesturing tasks 
+
+
+% http://www.acsu.buffalo.edu/~dryer/DryerSVO.pdf
+% http://www.acsu.buffalo.edu/~dryer/DryerGreenbergian.pdf
+
+% http://www.acsu.buffalo.edu/~dryer/DryerLargeLingAreas.PDF
+%Somewhere acknowledge: - Dryer 1989 based on better sampoling: SOV more common: counting genera on continents (e.g., many SVO languages are Niger-Congo or Austronesian, skewing count, )
+%Dryer 1989 (CITE) finds evidence that, when counting at the level of language families, SOV is more frequent than SVO.
+
+
+
 Variation between the grammars of different languages, and change of languages over time, pose an interesting question for existing efficiency-based explanations of linguistic structure.
-In existing effucuency-based models, differences between languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, hahn2020universals}.
-Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}.
+In existing efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{kemp2018semantic, zaslavsky2018efficient}.
+Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}. %\cite{xu2016historical}
 %As mentioned above, there is evidence that differences in culture may determine differences in vocabulary \cite{gibson2017color}.
-The theory of coadaptation adds a new interpretation of differences between languages, by highlighting that individual aspects do not evolve towards efficiency in isolation; rather, we argue that language as a whole evolves to maintain efficiency.
+The theory of coadaptation adds a new interpretation of differences among languages, by highlighting that individual aspects do not evolve towards efficiency in isolation; rather, we argue that language as a whole evolves to maintain efficiency.
 Under this view, cross-linguistic variation in one area, such as basic word order, may be accompanied by variation in another area, such as usage distributions, resulting in an overall efficiency optimization.
 
+Our work combines evidence from richly annotated syntactic corpora with phylogenetic modeling. We believe that this modeling approach can be useful more generally for studying the fine-grained evolution of grammar.
 
 %suggest that color naming systems are efficient given the usefulness of color in a society.
 
@@ -665,17 +764,17 @@ Optimized grammars are created using the gradient descent method described by \c
 
 
 \paragraph{Data}
-We primarily drew on the Universal Dependencies 2.6 treebanks, we included every language for which a training set with at least 500 sentences was available.
-In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar (CITE).
-While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English (CITE) they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
+We drew on the Universal Dependencies 2.6 treebanks, including every language for which a training set with at least 500 sentences was available, while excluding code-switched and sign languages.
+In addition the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar \citep{bech2014iswoc}.
+While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English \citep{kroch2011penn} they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
 
-As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD, \citet{taylor1994change}) for the phylogenetic analysis. 
+As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD) for the phylogenetic analysis. 
 %We excluded medieval Latin data as it does not reflect a living language.
 
 We obtained spoken treebanks from the following sources.
 For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of telephone conversations (CITE). For English, we used an automated conversion (CITE) of the Switchboard section of the Penn Treebank (CITE) to Universal Dependencies.
 
-We obtained the topology of phylogenetic trees from Glottolog (CITE), inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section X for details).
+We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section X for details).
 
 \paragraph{Model of Language Change}
 
@@ -704,7 +803,7 @@ $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the languag
 
 A common choice in phylogenetic modeling of coevolving traits is correlated Brownian motion, also known as the Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast}.
 We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section X for comparison).
-This leads to an Ornstein-Uhlenbeck process \citep{blackwell2003bayesian}, described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
+This leads to an Ornstein-Uhlenbeck process \citep{felsenstein1988phylogenies,hansen1997stabilizing,blackwell2003bayesian}, described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
 \begin{equation*}
     \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t + \Lambda \operatorname{d}B_t
 \end{equation*}
@@ -726,7 +825,7 @@ See SI Section X for additional models that take areal convergence into account.
 We conducted Bayesian inference using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan} and computed Bayes factors using Stepping Stone Sampling \citep{xie2011improving}.
 See SI Section X for implementation details.
 
-
+\paragraph{Data Avilability} All code and results are freely available at \url{https://github.com/m-hahn/optimization-landscapes/}.
 
 
 \bibliography{literature}
@@ -746,7 +845,7 @@ Gothic & 350 AD & Life of bible translator Ulfilas (311--383)\\
 Old Russian & 1200 AD & Approximate mean age of texts used\\
 Old French & 1200 AD  & Approximate mean age of texts used\\
 Old English & 900 AD & Approximate mean age of texts used \\
-Sanskrit & 200BC & Approximate mean age of texts used \\
+Sanskrit & 900BC & Approximate mean age of texts used \\
 Classical Chinese & 300 BC & Life of Mengzi (died around 300 BC), whose work the treebank is based on \\
 Latin & 0 AD & Approximate mean age of texts used \\
 Archaic Greek & 700 BC & Approximate mean age of texts used \\
@@ -786,11 +885,16 @@ Eastern South Slavic & Old Church Slavonic & +800 \\
 & Bulgarian  & +2000\\ \hline
 \end{tabular}
 
+
+\subsection{Corpora and Corpus Sizes}
+
+Version 2.6 languages not included because too small: TODO
+
 \section{Phylogenetic Tree}
 
 \subsection{Tree Topology}
 
-We obtained tree topologies from Glottolog (CITE).
+We obtained tree topologies from Glottolog~\citep{nordhoff2011glottolog}.
 We only retained interior nodes when more than one of their daughter nodes had languages occurring in our dataset.
 The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree obtained with https://icytree.org/.}
 
@@ -1016,10 +1120,10 @@ Since any Ornstein-Uhlenbeck process is Gaussian \citep{schach1971weak}, the joi
 
 \subsection{Implementation}
 
-We implemented the models in Stan and obtained posterior samples using the No-U-Turn sampler as implenented in Stan (CITE).
+We implemented the models in Stan and obtained posterior samples using the No-U-Turn sampler as implenented in Stan~\citep{carpenter2017stan}.
 We ran four chains with 2000 iterations each, of which the first 1000 were discarded as warmup samples.
 
-We computed marginal likelihoods using Stepping Stone Sampling (CITE) with $K=10$ stones.
+We computed marginal likelihoods using Stepping Stone Sampling \citep{xie2011improving} with $K=10$ stones.
 The fact that $Y_L$ is a latent variable complicates computation of the likelihood; we approximated this by fixing $Y_L$ to the log-odds of the observed empirical counts, adding $1$ to each category.
 We verified stability of the estimates by running the procedure ten times for each model, and averaging the obtained marginal likelihoods.
 
@@ -1065,14 +1169,25 @@ Model fit as measured by marginal likelihood is considerably weaker in the Brown
 
 
 \section{Accounting for Areal Convergence}
-We accounted for effects of geographic neighborhoods by modeling linguistic areas.
+The model of random walks on phylogenetic trees assume that languages evolve independently once they have split.
+However, linguistic evolution can inmclude borrowing between geographically neighboring languages (CITE).
+%\cite{kalyan2019problems}
+Here, we show that our conclusions continue to hold when explicitly modeling convergence in linguistic areas (CITE), geographic regions in which languages tend to show convergent evolution due to borrowing.
+
+%We accounted for effects of geographic neighborhoods by modeling linguistic areas as a latent variable, inferred together with the other parameters of the model.
+%We 
 We modeled linguistic areas as latent variables defining time- and location-dependent values $\mu(x,t)$ (where $x$ is a point on the surface of the earth and $t$ is a point in time) that languages at time $t$ and place $x$ drift towards.
+These values are inferred from the data together with the other parameters of the Ornstein-Uhlenbeck process.
+By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, encoding the idea that areal convergence between languages depends on their geographic distance (CITE).
+This approach is related to the model described by \citep{nuismer2015predicting}, who propose to model convergence between species by assuming correlations between the means $\mu$ of different species.
+For other approaches to model interactions between species from the bioinformatics literature, see \citet{manceau2016a,drury2016estimating, bartoszek2017using, drury2018an}.
+
 
 \paragraph{Model}
 We model the grammar and usage components of $\mu$ to depend on the language's geographic position and the time a language was spoken.
 This models the impact of linguistic areas, and allows this impact to change over time.
 
-We assume that the development of a language $L$ observed at time $t+\Delta$ (e.g. English) developed from a prior state at time $t$ (e.g., Old English) during time $[t, t+\Delta]$ according to the Ornstein-Uhlenbeck SDE
+We assume that the development of a language $L$ observed at time $t+\Delta$ (e.g. Modern English) developed from a prior state at time $t$ (e.g., Old English) during time $[t, t+\Delta]$ according to the Ornstein-Uhlenbeck SDE
 \begin{equation*}
     \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu_L) \operatorname{d}t + \Lambda \operatorname{d}B_t
 \end{equation*}
@@ -1084,13 +1199,15 @@ That is, the covariance between $\mu$ at points $x, y$ on the surface of the ear
 \begin{equation}\label{eq:kernel}
     Cov(\mu_x, \mu_y) = \alpha \exp\left(-\frac{1}{\rho^2_1} d(x,y) - \frac{1}{\rho_2^2} |T_1-T_2|\right)
 \end{equation}
-where $d(x,y)$ is the great circle (geodesic) distance between points $x, y$.
-The Laplace kernel is positive-definite with the great-circle distance $d(\cdot, \cdot)$ (CITE), whereas the commonly used RBF kernel is not positive-definite.
+where $d(x,y)$ is the great circle (geodesic) distance between points $x, y$, and $\alpha, \rho>0$ are hyperparameters.
+The Laplace kernel is positive-definite with the great-circle distance $d(\cdot, \cdot)$ \citep{feragen2015geodesic}, whereas the commonly used RBF kernel is not positive-definite.
+This defines a prior that favors values of $\mu_L$ that vary smoothly over space and time, encoding the idea of linguistic areas.
+We placed Gaussian priors with mean $0$ and variance $1$, truncated to positive values, on the hyperparameters $\alpha, \frac{1}{\rho^2}$ of the kernel~(\ref{eq:kernel}).
 
-We extracted locations of languages from WALS.
-For ancestors, we recursivdefined their location as the mean of the locations of their immediate children.
 
-We placed the priors ... on the parameters of the kernel~(\ref{eq:kernel}).
+We extracted locations of languages from the World Atlas of Linguistic Structures (CITE).
+For ancestors, we recursively defined their location as the mean of the locations of their immediate children.
+
 
 As $\mu$ now varies with time, the resulting process is not Gauss-Markov any more \citep{schach1971weak}, and thus the likelihood cannot be represented with a single covariance matrix any more.
 We thus perform inference by explicitly modeling $\xi_L$ for all inner nodes $L$ of the phylogenetic tree.
@@ -1117,14 +1234,21 @@ The posterior probability that the correlation is $\leq 0$ is estimated to be TO
 % https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
 
 
+\section{Subject-Object Symmetry and Categorical Classification of Basic Word Order}
+
+The notion of subject-object symmetry addresses a key limitation of the standard classification of languages into basic word order categories.
+Here, we compare it to basic word order as classified in the typological literature.
+
+TODO
+
 \section{The Role of Case Marking}
 
 Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
 We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
 
 \paragraph{Coding Languages for Case Marking}
-We coded languages from our sample for the presence or absence of case marking on the basis of \citep{iggesen2013number}, supplemented with information from the grammatical literature where no information was provided.
-We amended the annotation from \citep{iggesen2013number} to include only case marking that distinguishes between subjects and objects; this concerns several modern Celtic and Germanic languages, which have some nominal case marking but do not distinguish subjects and objects (e.g., Swedish and English use -\textit{s} to mark possessives, but do not distinguish nominal subjects and objects.).
+We coded languages from our sample for the presence or absence of case marking on the basis of \citep{wals-49}, supplemented with information from the grammatical literature where no information was provided.
+We amended the annotation from \citep{wals-49} to include only case marking that distinguishes between subjects and objects; this concerns several modern Celtic and Germanic languages, which have some nominal case marking but do not distinguish subjects and objects (e.g., Swedish and English use -\textit{s} to mark possessives, but do not distinguish nominal subjects and objects.).
 
 We furthermore coded all interior nodes of the phylogenetic tree for case marking based on the linguistic literature.
 In some cases, this annotation was unambiguous due to available historical documentation even though no treebank data was availavble (e.g., Proto-West-Scandinavian was a late form of Old Norse and had case markers).
@@ -1196,6 +1320,8 @@ Here, we show that basic word order reflects optimization for DLM not only on th
 
 \subsection{Coexpression: VS Order in SVO Languages}
 In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
+This kind of ``intransitive inversion'' has been documented in English (CITE), Romance languages (CITE), and Chinese (CITE).
+There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
 
 %- literature
 %- Unaccusative inversion
@@ -1213,10 +1339,13 @@ A positive effect indicates that presence of an object makes SV order more likel
 Results are shown below.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
+\mhahn{TODO fill this table}
 \begin{longtable}{l|lllllll}
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
 %\include{../optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}
+
+
 
 
 \subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
