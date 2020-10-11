@@ -151,7 +151,16 @@ print(kernel[5][5])
 print(kernel[8][8])
 dat = {}
 import torch
+
+
+
+
 dat["ObservedN"] = len(observedLanguages)
+#dat["ObservedN"] = 3
+
+
+
+
 dat["TrialsSuccess"] = torch.FloatTensor([valueByLanguage[x][0] for x in observedLanguages])
 dat["TrialsTotal"] = torch.FloatTensor([valueByLanguage[x][1] for x in observedLanguages])
 dat["TraitObserved"] = torch.FloatTensor([valueByLanguage[x][2]*2-1 for x in observedLanguages])
@@ -228,24 +237,37 @@ from scipy.linalg import expm
 #     def backward(ctx, grad_output):
 #       return None
 #
-for iteration in range(1000):
+
+BZeros = torch.zeros(dat["ObservedN"], dat["ObservedN"])
+
+
+for iteration in range(100000):
     kernel1 = torch.log(1+torch.exp(alpha1))*(torch.exp(-torch.log(1+torch.exp(rho1)) * distanceMatrix) - identityMatrix)
     kernel2 = torch.log(1+torch.exp(alpha2))*(torch.exp(-torch.log(1+torch.exp(rho2)) * distanceMatrix) - identityMatrix)
     
-    
     B1 = -kernel1
+#    print("Interaction terms only", B1[:3, :3])
     B1ForDiagonal = -B1.sum(dim=1)
-    B1 = B1 + torch.diag(torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1ForDiagonal + torch.log(1+torch.exp(Bdiag1)).expand(dat["ObservedN"]))
-    #print(B1)
-    
+ #   print("ForDiagonal", B1ForDiagonal[:3])
+  #  print("Drift weight", torch.diag(torch.log(1+torch.exp(driftTowardsNeighbors1))))
+   # print("Center drift weight", torch.log(1+torch.exp(Bdiag1)))
+    B1 = B1 + torch.diag(B1ForDiagonal)
+    B1 = torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1
+    B1 = B1 + torch.diag(torch.log(1+torch.exp(Bdiag1)).expand(dat["ObservedN"]))
+    #print("B1", B1[:3, :3])
+#    #print(B1)
+ #   S1, U1 = torch.symeig(B1, eigenvectors=True)
+  #  assert float(S1.min()) > 0, S1.min()  
+   # print(S1.min())
+    #quit()
+
     B2 = -kernel1
     B2ForDiagonal = -B2.sum(dim=1)
     B2 = B2 + torch.diag(torch.log(1+torch.exp(driftTowardsNeighbors2)) * B2ForDiagonal + torch.log(1+torch.exp(Bdiag2)).expand(dat["ObservedN"]))
     
     
-    BZeros = torch.zeros(dat["ObservedN"], dat["ObservedN"])
     
-    
+    # This could be avoided if representing Omega in terms of blocks 
     BFull1 = torch.cat([B1, BZeros], dim=1)
     BFull2 = torch.cat([BZeros, B2], dim=1)
     BFull = torch.cat([BFull1, BFull2], dim=0)
@@ -254,7 +276,7 @@ for iteration in range(1000):
     
     variance1=torch.log(1+torch.exp(Sigma_sigma1))
     variance2=torch.log(1+torch.exp(Sigma_sigma2))
-    correlation=torch.sigmoid(Sigma_corr) * torch.sqrt(variance1*variance2)
+    correlation=torch.tanh(Sigma_corr) * torch.sqrt(variance1*variance2)
     Sigma1 = torch.diag(variance1.expand(dat["ObservedN"]))
    # print(Sigma1)
     Sigma2 = torch.diag(variance2.expand(dat["ObservedN"]))
@@ -278,31 +300,38 @@ for iteration in range(1000):
     loss = ((torch.matmul(BFull.detach(), Omega) + torch.matmul(Omega, BFull.t().detach())) - Sigma_Full.detach()).pow(2).sum()
 #    print("Diagonal loss", (Omega - Omega.t()).pow(2).sum())
 #    print(Omega)
-    print(loss)
-    if iteration > 500: # warmup for Omega 
+#    print(loss)
+    #BFullUpper = torch.triu(BFull)
+
+    # SANITY CHECK
+    S1, U1 = torch.symeig(B1, eigenvectors=True)
+    S2, U2 = torch.symeig(B2, eigenvectors=True)
+    assert float(S1.min()) > 0, S1.min()
+    assert float(S2.min()) > 0, S2.min()
+    if iteration > 50000000: # warmup for Omega 
    #    exponentiated = expm(-0.1 * BFull)
        S1, U1 = torch.symeig(B1, eigenvectors=True)
        S2, U2 = torch.symeig(B2, eigenvectors=True)
    #    print("Recovering matrix")
     #   print((B1-torch.matmul(U1, (S1.unsqueeze(1) * U1.t()))).pow(2).mean())
-       exp1 = torch.matmul(U1, (torch.exp(-0.1*S1).unsqueeze(1) * U1.t()))
-       exp2 = torch.matmul(U2, (torch.exp(-0.1*S2).unsqueeze(1) * U2.t()))
+#       exp1 = torch.matmul(U1, (torch.exp(-0.1*S1).unsqueeze(1) * U1.t()))
+#       exp2 = torch.matmul(U2, (torch.exp(-0.1*S2).unsqueeze(1) * U2.t()))
    
-       expFull1 = torch.cat([exp1, BZeros], dim=1)
-       expFull2 = torch.cat([BZeros, exp2], dim=1)
-       expFull = torch.cat([expFull1, expFull2], dim=0)
-   
-       covarianceMatrix = torch.matmul(expFull, torch.matmul(Omega, expFull))
+#       expFull1 = torch.cat([exp1, BZeros], dim=1)
+#       expFull2 = torch.cat([BZeros, exp2], dim=1)
+#       expFull = torch.cat([expFull1, expFull2], dim=0)
+#   
+#       covarianceMatrix = torch.matmul(expFull, torch.matmul(Omega, expFull))
        log_determinantOfExponentialPart1 = (-0.1*S1).sum()
        log_determinantOfExponentialPart2 = (-0.1*S2).sum()
-       log_determinantOmega = (Omega_cholesky_diag).log().sum()
+       log_determinantOmega = (Omega_cholesky_diag.pow(2)).log().sum()
        #print(log_determinantOmega)
        #print(log_determinantOfExponentialPart1, log_determinantOfExponentialPart2, log_determinantOmega)
 #       OmegaInverse = torch.inverse(Omega_cholesky).t() # only the left part -- taking this times its transpose is the actual inverse
        exponentialPartInverse1 = torch.matmul(U1.t(), torch.exp(0.1*S1).unsqueeze(1) * U1)
        exponentialPartInverse2 = torch.matmul(U2.t(), torch.exp(0.1*S2).unsqueeze(1) * U2)
        forLikelihoodUpper = torch.matmul(dat["TraitObserved"].unsqueeze(0), exponentialPartInverse1).view(-1)
-       forLikelihoodLower = torch.matmul(dat["TraitObserved"].unsqueeze(0), exponentialPartInverse1).view(-1)
+       forLikelihoodLower = torch.matmul(dat["TraitObserved"].unsqueeze(0), exponentialPartInverse2).view(-1)
        forLikelihoodCat = torch.cat([forLikelihoodUpper, forLikelihoodLower], dim=0)
        # Conceptually, compute forLikelihoodCat * Omega_cholesky^{-1}
        forLikelihoodHalf = torch.triangular_solve(input=forLikelihoodCat.unsqueeze(1), A=Omega_triang.t())[0].squeeze(1)
@@ -315,8 +344,9 @@ for iteration in range(1000):
      #  print(overallLogLikelihood)
        loss -= overallLogLikelihood
        print("LIKELIHOOD", overallLogLikelihood)
-    print("LOSS", loss, "Correlation", correlation)
+    if iteration % 100 == 0:
+       print(iteration, "LOSS", loss, "Correlation", correlation)
     optimizer.zero_grad()
     loss.backward()
     optimizer.step() 
-    Omega_cholesky_diag.data = torch.clamp(Omega_cholesky_diag.data, min=1e-3)
+#    Omega_cholesky_diag.data = torch.clamp(Omega_cholesky_diag.data, min=1e-3)
