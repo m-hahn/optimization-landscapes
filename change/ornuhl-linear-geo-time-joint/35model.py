@@ -154,9 +154,8 @@ import torch
 
 
 
-
+#observedLanguages = observedLanguages[:3]
 dat["ObservedN"] = len(observedLanguages)
-#dat["ObservedN"] = 3
 
 
 
@@ -168,7 +167,7 @@ assert min(dat["TraitObserved"]) < 0
 assert max(dat["TraitObserved"]) <= 1
 dat["HiddenN"] = len(hiddenLanguages)+1
 dat["TotalN"] = dat["ObservedN"] + dat["HiddenN"]
-assert dat["TotalN"] == len(totalLanguages)
+#assert dat["TotalN"] == len(totalLanguages)
 dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
 dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hiddenLanguages+observedLanguages]
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
