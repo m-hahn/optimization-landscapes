@@ -154,7 +154,7 @@ import torch
 
 
 
-#observedLanguages = observedLanguages[:30]
+observedLanguages = observedLanguages[:30]
 dat["ObservedN"] = len(observedLanguages)
 
 
@@ -186,9 +186,9 @@ traits = torch.cat([dat["TraitObserved"], dat["Trait2Observed"]], dim=0)
 print(traits)
 
 
-#alpha1 = torch.FloatTensor([0.0])
+alpha1 = torch.FloatTensor([0.0])
 rho1 = torch.FloatTensor([0.0])
-#alpha2 = torch.FloatTensor([0.0])
+alpha2 = torch.FloatTensor([0.0])
 rho2 = torch.FloatTensor([0.0])
 
 
@@ -204,12 +204,12 @@ Sigma_sigma1 = torch.FloatTensor([0.0])
 Sigma_sigma2 = torch.FloatTensor([0.0])
 Sigma_corr = torch.FloatTensor([0.0])
 
-#alpha1, alpha2, 
-#rho1, rho2,  removing these from the training
-parameters = [Bdiag1, Bdiag2, driftTowardsNeighbors1, driftTowardsNeighbors2, Sigma_sigma1, Sigma_sigma2, Sigma_corr]
+
+
+parameters = [alpha1, rho1, alpha2, rho2, Bdiag1, Bdiag2, driftTowardsNeighbors1, driftTowardsNeighbors2, Sigma_sigma1, Sigma_sigma2, Sigma_corr]
 for x in parameters:
    x.requires_grad=True
-optimizer = torch.optim.SGD(lr=0.00000000001, params=parameters)
+optimizer = torch.optim.SGD(lr=0.000000001, params=parameters)
 
 #distanceMatrix = torch.FloatTensor([[kernel[i//2][j//2] if i%2 == j%2 else 100000000000 for j in range(2*dat["ObservedN"])] for i in range(2*dat["ObservedN"])])
 distanceMatrix = torch.FloatTensor([[kernel[i][j] for j in range(dat["ObservedN"])] for i in range(dat["ObservedN"])])
@@ -234,36 +234,25 @@ from scipy.linalg import expm
 
 BZeros = torch.zeros(dat["ObservedN"], dat["ObservedN"])
 
-kernel1 = (torch.exp(-torch.log(1+torch.exp(rho1)) * distanceMatrix) - identityMatrix)
-kernel2 = (torch.exp(-torch.log(1+torch.exp(rho2)) * distanceMatrix) - identityMatrix)
-
-B1 = -kernel1
-B1ForDiagonal = -B1.sum(dim=1)
-B1_base = B1 + torch.diag(B1ForDiagonal)
-
-B2 = -kernel2
-B2ForDiagonal = -B2.sum(dim=1)
-B2_base = B2 + torch.diag(B2ForDiagonal)
-
-
-S1_base, U1 = torch.symeig(B1_base, eigenvectors=True)
-S2_base, U2 = torch.symeig(B2_base, eigenvectors=True)
-
-
-
-#torch.log(1+torch.exp(alpha1))*
-#torch.log(1+torch.exp(alpha2))*
 
 for iteration in range(100000):
-    B1 = torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1_base
+    kernel1 = torch.log(1+torch.exp(alpha1))*(torch.exp(-torch.log(1+torch.exp(rho1)) * distanceMatrix) - identityMatrix)
+    kernel2 = torch.log(1+torch.exp(alpha2))*(torch.exp(-torch.log(1+torch.exp(rho2)) * distanceMatrix) - identityMatrix)
+    
+    B1 = -kernel1
+    B1ForDiagonal = -B1.sum(dim=1)
+    B1 = B1 + torch.diag(B1ForDiagonal)
+    B1 = torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1
     B1 = B1 + torch.diag(torch.log(1+torch.exp(Bdiag1)).expand(dat["ObservedN"]))
 
-    B2 = torch.log(1+torch.exp(driftTowardsNeighbors2)) * B2_base
+    B2 = -kernel2
+    B2ForDiagonal = -B2.sum(dim=1)
+    B2 = B2 + torch.diag(B2ForDiagonal)
+    B2 = torch.log(1+torch.exp(driftTowardsNeighbors2)) * B2
     B2 = B2 + torch.diag(torch.log(1+torch.exp(Bdiag2)).expand(dat["ObservedN"]))
     
-    S1 = S1_base * torch.log(1+torch.exp(driftTowardsNeighbors1)) + torch.log(1+torch.exp(Bdiag1))
-    S2 = S2_base * torch.log(1+torch.exp(driftTowardsNeighbors2)) + torch.log(1+torch.exp(Bdiag2))
-   
+    
+    
     # This could be avoided if representing Omega in terms of blocks 
 #    BFull1 = torch.cat([B1, BZeros], dim=1)
 #    BFull2 = torch.cat([BZeros, B2], dim=1)
@@ -285,6 +274,8 @@ for iteration in range(100000):
 #    Sigma_Full = torch.cat([Sigma_top, Sigma_bot], dim=0)
 
 
+    S1, U1 = torch.symeig(B1, eigenvectors=True)
+    S2, U2 = torch.symeig(B2, eigenvectors=True)
 
 
     # First solve for Omega11, Omega22. NOTE: omega is represented in the space where B is diagonal!
