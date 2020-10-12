@@ -277,44 +277,66 @@ for iteration in range(100000):
     Sigma_top = torch.cat([Sigma1, Sigma12], dim=1)
     Sigma_bot = torch.cat([Sigma12, Sigma2], dim=1)
     Sigma_Full = torch.cat([Sigma_top, Sigma_bot], dim=0)
+ #   print(Sigma_Full)
+#    print(correlation)
+    
+    
+    Omega_triang = Omega_cholesky * cholesky_mask + torch.diag(Omega_cholesky_diag)
+#    print(Omega_cholesky_diag)
+ #   print("Smallest diagonal value", torch.diagonal(Omega_triang).min(), Omega_cholesky_diag.min())
+    Omega = torch.matmul(Omega_triang, Omega_triang.t()) 
+#    print(Omega)
+ #   print(torch.det(Omega))
+  #  quit()
+    loss = ((torch.matmul(BFull.detach(), Omega) + torch.matmul(Omega, BFull.t().detach())) - Sigma_Full.detach()).pow(2).sum()
+#    print("Diagonal loss", (Omega - Omega.t()).pow(2).sum())
+#    print(Omega)
+#    print(loss)
+    #BFullUpper = torch.triu(BFull)
 
-
-    S1, U1 = torch.symeig(B1, eigenvectors=True)
-    S2, U2 = torch.symeig(B2, eigenvectors=True)
-
-
-    # First solve for Omega11, Omega22. NOTE: omega is represented in the space where B is diagonal!
-    Sigma1_trafo = torch.matmul(U1.t(), torch.matmul(Sigma1, U1))
-    Omega11 = Sigma1_trafo/(S1.unsqueeze(0) + S1.unsqueeze(1))
-    print(Omega11)
-    Sigma2_trafo = torch.matmul(U2.t(), torch.matmul(Sigma2, U2))
-    Omega22 = Sigma2_trafo/(S2.unsqueeze(0) + S2.unsqueeze(1))
-    print(Omega22)
-    print(torch.logdet(Omega22))
-    Sigma21_trafo = torch.matmul(U1.t(), torch.matmul(Sigma2, U2)) # or the other way around?
-    Omega21 = Sigma21_trafo/(S1.unsqueeze(0) + S2.unsqueeze(1)) # or the other way around?
-    print(Omega21)
-
-    Omega_top = torch.cat([Omega11, Omega21.t()], dim=1)
-    Omega_bot = torch.cat([Omega21, Omega22], dim=1)
-    Omega_Full = torch.cat([Omega_top, Omega_bot], dim=0)
-
-
-    if True or iteration > 2000: # warmup for Omega 
+    # SANITY CHECK
+#    S1, U1 = torch.symeig(B1, eigenvectors=True)
+ #   S2, U2 = torch.symeig(B2, eigenvectors=True)
+    #assert float(S1.min()) > 0, S1.min()
+    #assert float(S2.min()) > 0, S2.min()
+    if iteration > 2000: # warmup for Omega 
+   #    exponentiated = expm(-0.1 * BFull)
+       S1, U1 = torch.symeig(B1, eigenvectors=True)
+       S2, U2 = torch.symeig(B2, eigenvectors=True)
+   #    print("Recovering matrix")
+    #   print((B1-torch.matmul(U1, (S1.unsqueeze(1) * U1.t()))).pow(2).mean())
+#       exp1 = torch.matmul(U1, (torch.exp(-0.1*S1).unsqueeze(1) * U1.t()))
+#       exp2 = torch.matmul(U2, (torch.exp(-0.1*S2).unsqueeze(1) * U2.t()))
+   
+#       expFull1 = torch.cat([exp1, BZeros], dim=1)
+#       expFull2 = torch.cat([BZeros, exp2], dim=1)
+#       expFull = torch.cat([expFull1, expFull2], dim=0)
+#   
+#       covarianceMatrix = torch.matmul(expFull, torch.matmul(Omega, expFull))
        log_determinantOfExponentialPart1 = (-0.1*S1).sum()
        log_determinantOfExponentialPart2 = (-0.1*S2).sum()
-       log_determinantOmega = torch.logdet(Omega_Full)
-
-
-
-       forLikelihoodUpper = torch.matmul(dat["TraitObserved"].unsqueeze(0), U1.t()).view(-1) * torch.exp(0.1*S1).unsqueeze(0)
-       forLikelihoodLower = torch.matmul(dat["TraitObserved"].unsqueeze(0), U2.t()).view(-1) * torch.exp(0.1*S2).unsqueeze(0)
+       log_determinantOmega = (Omega_cholesky_diag.pow(2)).log().sum()
+       #print(log_determinantOmega)
+       #print(log_determinantOfExponentialPart1, log_determinantOfExponentialPart2, log_determinantOmega)
+#       OmegaInverse = torch.inverse(Omega_cholesky).t() # only the left part -- taking this times its transpose is the actual inverse
+       exponentialPartInverse1 = torch.matmul(U1.t(), torch.exp(0.1*S1).unsqueeze(1) * U1)
+       exponentialPartInverse2 = torch.matmul(U2.t(), torch.exp(0.1*S2).unsqueeze(1) * U2)
+       forLikelihoodUpper = torch.matmul(dat["TraitObserved"].unsqueeze(0), exponentialPartInverse1).view(-1)
+       forLikelihoodLower = torch.matmul(dat["TraitObserved"].unsqueeze(0), exponentialPartInverse2).view(-1)
        forLikelihoodCat = torch.cat([forLikelihoodUpper, forLikelihoodLower], dim=0)
+       # Conceptually, compute forLikelihoodCat * Omega_cholesky^{-1}
+       print("Log determinant of Omega_triang", torch.logdet(Omega_triang))
+       print("Smallest eigenvalue of Omega_triang", torch.symeig(Omega_triang)[0].min())
 
-       forLikelihoodHalf = torch.solve(input=forLikelihoodCat, A=Omega_Full.t())[0].squeeze(1)
-       forLikelihoodExponent = -0.5 *(forLikelihoodHalf * forLikelihoodCat.view(-1)).sum()
+       forLikelihoodHalf = torch.triangular_solve(input=forLikelihoodCat.unsqueeze(1), A=Omega_triang.t())[0].squeeze(1)
+#       forLikelihoodHalf = torch.matmul(forLikelihoodCat, OmegaInverse)
+       print("Solution of upper triangular equation", forLikelihoodHalf.mean(), forLikelihoodCat.mean(), Omega_triang.mean())
+       forLikelihoodExponent = -0.5 * forLikelihoodHalf.pow(2).sum()
+      # print(forLikelihoodExponent)
+       print("LogDetermines", log_determinantOmega, log_determinantOfExponentialPart1, log_determinantOfExponentialPart2, "Exponent", forLikelihoodExponent)
        overallLogLikelihood = (-0.5 * (log_determinantOmega + log_determinantOfExponentialPart1 + log_determinantOfExponentialPart2)) + forLikelihoodExponent
-       loss = overallLogLikelihood
+     #  print(overallLogLikelihood)
+       loss -= overallLogLikelihood
        print("LIKELIHOOD", overallLogLikelihood)
     if iteration % 100 == 0:
        print(iteration, "LOSS", loss, "Correlation", correlation)
