@@ -117,7 +117,11 @@ About 40\% of the world's languages have subject-verb-object order, and about 40
 A wide range of existing work has argued that the structure of human language supports efficient communication. In these studies, variation across languages can reflect different optima or points along a Pareto frontier.
 
 However, these theories are not able to explain the fine-grained distribution and evolution of word order.
-{\color{red} (add one sentence maybe begin with ``However,'' that explicates the significance of our work and its impact on how efficient communication theory or related work is limited/unsettled in their ability to explain the fine-grained distribution and evolution of word order, as one of the most exemplary domains of cross-linguistic variation in syntactic structure.)} We report evidence for an additional functional pressure in the evolution of word order across languages: Coadaptation between usage and grammar.
+%{\color{red} (add one sentence maybe begin with ``However,'' that explicates the significance of our work and its impact on how efficient communication theory or related work is limited/unsettled in their ability to explain the fine-grained distribution and evolution of word order, as one of the most exemplary domains of cross-linguistic variation in syntactic structure.)}
+%
+We propose an account that explains the fine-grained distribution of word order patterns across languages in terms of coadaptation between usage and grammar:
+%
+%We report evidence for an additional functional pressure in the evolution of word order across languages: C.
 We show across 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of grammar for Dependency Length Minimization.
 Drawing on phylogenetic modelling and historical text corpora from seven language families, we show that historical word order change over time is accompanied by change in the usage distributions.
 We identify relevant characteristics that reflect this joint optimization, in particular the frequency with which subjects and objects are expressed together for the same verb.
@@ -169,8 +173,8 @@ Efficiency-based accounts have been argued to either favor SVO or SOV \citep{mau
 \cite{maurits2010why} propose that the frequency of different basic word order pattern is predicted by a tendency to avoid peaks and troughs in the rate at which information is transmitted.
 Their model predicts object-initial order to be strongly dispreferred.
 However, it also suggests SVO to be considerably more efficient than SOV, even on usage data from an SOV language (Japanese), which contradicts the empirically near-equal frequencies of SVO and SOV.
-\cite{ferrer-i-cancho-placement-2017} suggest that SOV and SVO are optimal under different efficiency criteria {\color{red} without ...? or, but ...?}.
-{\color{blue}Here we show that the efficiency considerations can make fine-grained predictions about word order in individual languages, which crucially depend on language-specific usage patterns.}
+\cite{ferrer-i-cancho-placement-2017} suggest that SOV and SVO are optimal under different efficiency criteria, but does not provide an account predicting word order on the level of individual languages. 
+Here we show that the efficiency considerations can make fine-grained predictions about word order in individual languages, which crucially depend on language-specific usage patterns.
 %Also cite \cite{kemmerer2012cross-linguistic}
 
 \section*{Theoretical proposal of coadaptation}
@@ -366,7 +370,7 @@ This metric indicates the chance that two randomly selected instances of S and O
 
 
 We compare these measures between observed word orders and hypothetical orderings obtained by optimizing for Dependency Length Minimization. We approximate the distribution over different syntactic configurations using large corpora.
-We draw on the Universal Dependencies data, which includes text data annotated with syntactic tree topologies from over 70 languages from 29 language families (CITE, see Methods for details).
+We draw on the Universal Dependencies data, which includes text data annotated with syntactic tree topologies from over 70 languages from 29 language families (\citep{zeman2020universal}, see Methods for details).
 For each language, we construct orderings that are approximately optimized for DLM.
 
 To parameterize the approximately optimized orderings, we adopt the established model of counterfactural order grammar introduced by \citet{gildea-optimizing-2007}.
@@ -394,6 +398,8 @@ In order to account for the statistical dependencies between related languages m
 Attested subject-object symmetry was strongly predictive of subject-object symmetry in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
 This result provides strong support for the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
 It is incompatible with the suggestion that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
+
+
 
 %It is incompatible with the \textsc{MultipleOptima} or \textsc{NoOptimization} hypotheses.
 
@@ -641,10 +647,10 @@ Consequently, grammar and usage constrain each other in the process of evolution
 
 The theory of coadaptation provides a fine-grained account for the distribution of basic word order.
 Going beyond existing accounts of word order, it makes specific predictions for individual languages conditioned on their usage distributions.
-The model of \cite{maurits2010why} predicts that SVO is the most efficient order, even when given usage data from Japanese.
+The model of \cite{maurits2010why} accounts for the low frequency of O-initial orders, but it underpredicts SOV, predicting SVO as the most efficient order even when given usage data from Japanese.
 In contrast, our account explains the language-dependence of basic word order.
 For Japanese, DLM correctly predicts S and O to be on the same side of the verb (Figure~\ref{fig:sent-dep}), in contrast with the model of \cite{maurits2010why} that predicts SVO across languages. % {\color{red} that predicts differently how, say more?}.
-\citet{ferrer-i-cancho-placement-2017} argues that DLM favors SVO in general, and our results show this is not the case (Figure~\ref{fig:study1}) {\color{red} say a bit more -- so what?}.
+%\citet{ferrer-i-cancho-placement-2017} argues that SVO and SOV are favored by DLM and predictability maximization, respectively; our work shows how in fact the distribution of basic word orders across languages can be derived from DLM, given the usage distributions. {\color{red} say a bit more -- so what?}.
 
 It has been argued that there is an inherent directionality in the evolution of basic word order, and that SOV is the default or original order in the history of language.
 Many historically documented word order changes have gone from SVO to SOV, and the protolanguages of several extant families are thought to have been SOV \citep{givon1979understanding, newmeyer2000evolutionary, maurits2014tracing}.
@@ -653,9 +659,22 @@ However, only a small fraction of all word order changes are directly documented
 The strongest evidence that SOV might be the `default' order comes from recently emerged sign languages \citep{senghas1997argument, sandler2005emergence, goldin-meadow1998spontaneous} and from gesturing tasks \citep{goldin-meadow2008natural, langus2010cognitive}.
 The theory of coadaptation predicts that new emerging languages tend to have tree structures that favor SOV order.
 Indeed, multiple studies report high frequencies of utterances where only one argument is expressed in recently emerged sign languages and homesign systems (\citet{sandler2005emergence} \citet{goldin-meadow1998spontaneous}\citep[p. 31]{neveu2016sign}\citep[p. 622]{ergin2018development}). % also this dissertation on homesign  also senghas report one-argument uitterances
-Adopting the view that SOV is the historically earlier order, \citet{gibson-noisy-channel-2013} argue that SVO arises as a strategy to reduce ambiguity in the absence of case marking.
-However, the availability of case marking alone is not sufficient to explain the distribution of word order patterns; our results show that coadaptation is present even when controlling for the presence of case marking (see SI Section X) {\color{red} so how did our work advance or impact Gibson et al's work? say a bit more}.
+%Adopting the view that SOV is the historically earlier order, \citet{gibson-noisy-channel-2013} argue that SVO arises as a strategy to reduce ambiguity in the absence of case marking.
+%However, the availability of case marking alone is not sufficient to explain the distribution of word order patterns; our results show that coadaptation is present even when controlling for the presence of case marking (see SI Section X) {\color{red} so how did our work advance or impact Gibson et al's work? say a bit more}.
 
+
+Adopting the view that SOV is the historically earlier order, some studies have further argued that SVO order later arises to avoid ambiguity in communicating reversible events \citep{gibson-noisy-channel-2013, hall2013cognitive}, to communicate more complex structures \citep{langus2010cognitive, schouwstra2011semantic, marno2015a}, or to reduce dependency lengths~\citep{ferrer-i-cancho-placement-2017}.
+Under this view, the distribution of SOV and SVO arises from a tension between distinct cognitive and communicative pressures favoring SOV and SVO, respectively~\citep{langus2010cognitive}.
+However, this view does not explain the fine-grained per-language distribution of word order patterns, as it does not explain why specific languages have SVO or SOV order.
+%There is no reason to believe that SOV and SVO languages are not equally efficient \citep{newmeyer2000evolutionary}
+In contrast, the theory of coadaptation explicitly accounts for the language-dependence of word order.
+
+
+%gesture:
+%\citep{marno2015a}: availability of lexicon and more elaborate syntactic structures favors SVO
+%\citep{langus2010cognitive} SOV emerges in improvised communication, but the compitational system of grammar prefers SVO
+%reversible events in gesture \citep{hall2013cognitive}
+%\citep{schouwstra2011semantic}: intensional events favor SVO
 % TODO cite this? hhttps://www.frontiersin.org/articles/10.3389/fpsyg.2015.01183/full
 
 
@@ -704,7 +723,7 @@ However, the availability of case marking alone is not sufficient to explain the
 
 
 
-Variation in the grammars of different languages, and change of languages over time, pose an interesting question for existing efficiency-based theories of linguistic structure.
+Beyond word order, variation in the grammars of different languages, and change of languages over time, pose an interesting question for existing efficiency-based theories of linguistic structure.
 In the efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{kemp2018semantic, zaslavsky2018efficient}.
 Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}. %\cite{xu2016historical}
 %As mentioned above, there is evidence that differences in culture may determine differences in vocabulary \cite{gibson2017color}.
@@ -783,7 +802,7 @@ As the Ancient Greek data available in Universal Dependencies spans multiple sta
 %We excluded medieval Latin data as it does not reflect a living language.
 
 We obtained spoken treebanks from the following sources.
-For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of telephone conversations (CITE). For English, we used an automated conversion (CITE) of the Switchboard section of the Penn Treebank (CITE) to Universal Dependencies.
+For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of spontaneous dialogues \citep{hall2006conll}. For English, we used an automated conversion \citep{schuster2018sentences} of the Switchboard section of the Penn Treebank~\citep{marcus-building-1993} to Universal Dependencies.
 
 We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section X for details).
 
