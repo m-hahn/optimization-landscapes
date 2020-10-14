@@ -2,6 +2,12 @@ import pystan
 from math import sqrt, log
 import math
 
+import sys
+
+# Transformed inverse length scale for the kernel
+rho1 = float(sys.argv[1])
+
+
 with open("../geolocations.tsv", "r") as inFile:
   geolocations = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(geolocations)
@@ -136,6 +142,13 @@ for i in range(len(kernelTime)):
      kernelTime[j][i] = abs(d1-d2)/1000
 
 
+
+def computeKernel(l1, l2):
+     lat1, long1 = latitudes[l1], longitudes[l1]
+     lat2, long2 = latitudes[l2], longitudes[l2]
+     distance = geopy.distance.geodesic((lat1, long1), (lat2, long2)).km/10000
+     return distance
+
 kernel = [[0 for _ in range(len(totalLanguages))] for _ in range(len(totalLanguages))]
 for i in range(len(kernel)):
    for j in range(i):
@@ -187,9 +200,9 @@ print(traits)
 
 
 #alpha1 = torch.FloatTensor([0.0])
-rho1 = torch.FloatTensor([0.0])
+rho1 = torch.FloatTensor([rho1])
 #alpha2 = torch.FloatTensor([0.0])
-rho2 = torch.FloatTensor([0.0])
+#rho2 = torch.FloatTensor([0.0])
 
 
 Bdiag1 = torch.FloatTensor([0.0])
@@ -209,10 +222,10 @@ Sigma_corr = torch.FloatTensor([0.0])
 parameters = [Bdiag1, Bdiag2, driftTowardsNeighbors1, driftTowardsNeighbors2, Sigma_sigma1, Sigma_sigma2, Sigma_corr]
 for x in parameters:
    x.requires_grad=True
-optimizer = torch.optim.SGD(lr=0.00000000001, params=parameters)
+optimizer = torch.optim.SGD(lr=0.01, params=parameters)
 
 #distanceMatrix = torch.FloatTensor([[kernel[i//2][j//2] if i%2 == j%2 else 100000000000 for j in range(2*dat["ObservedN"])] for i in range(2*dat["ObservedN"])])
-distanceMatrix = torch.FloatTensor([[kernel[i][j] for j in range(dat["ObservedN"])] for i in range(dat["ObservedN"])])
+distanceMatrix = torch.FloatTensor([[computeKernel(observedLanguages[i], observedLanguages[j]) for j in range(dat["ObservedN"])] for i in range(dat["ObservedN"])])
 
 print(distanceMatrix)
 
@@ -235,32 +248,46 @@ from scipy.linalg import expm
 BZeros = torch.zeros(dat["ObservedN"], dat["ObservedN"])
 
 kernel1 = (torch.exp(-torch.log(1+torch.exp(rho1)) * distanceMatrix) - identityMatrix)
-kernel2 = (torch.exp(-torch.log(1+torch.exp(rho2)) * distanceMatrix) - identityMatrix)
+#kernel2 = (torch.exp(-torch.log(1+torch.exp(rho2)) * distanceMatrix) - identityMatrix)
 
 B1 = -kernel1
 B1ForDiagonal = -B1.sum(dim=1)
 B1_base = B1 + torch.diag(B1ForDiagonal)
 
-B2 = -kernel2
-B2ForDiagonal = -B2.sum(dim=1)
-B2_base = B2 + torch.diag(B2ForDiagonal)
+B1_base = B1_base.detach()
 
+#B2 = -kernel2
+#B2ForDiagonal = -B2.sum(dim=1)
+#B2_base = B2 + torch.diag(B2ForDiagonal)
+
+print("LAPLACIAN, FIRST ROW")
+print(B1_base[0])
+#quit()
 
 S1_base, U1 = torch.symeig(B1_base, eigenvectors=True)
-S2_base, U2 = torch.symeig(B2_base, eigenvectors=True)
+
+U1 = U1.detach()
+S1_base = S1_base.detach()
 
 
+#S2_base, U2 = torch.symeig(B2_base, eigenvectors=True)
+S2_base, U2 = S1_base, U1
+
+
+transformedIntoSpace1 = torch.matmul(dat["TraitObserved"].unsqueeze(0), U1.t()).view(-1).detach()
+transformedIntoSpace2 = torch.matmul(dat["Trait2Observed"].unsqueeze(0), U2.t()).view(-1).detach()
 
 #torch.log(1+torch.exp(alpha1))*
 #torch.log(1+torch.exp(alpha2))*
 
 for iteration in range(100000):
-    B1 = torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1_base
-    B1 = B1 + torch.diag(torch.log(1+torch.exp(Bdiag1)).expand(dat["ObservedN"]))
-
-    B2 = torch.log(1+torch.exp(driftTowardsNeighbors2)) * B2_base
-    B2 = B2 + torch.diag(torch.log(1+torch.exp(Bdiag2)).expand(dat["ObservedN"]))
-    
+#    B1 = torch.log(1+torch.exp(driftTowardsNeighbors1)) * B1_base
+#    B1 = B1 + torch.diag(torch.log(1+torch.exp(Bdiag1)).expand(dat["ObservedN"]))
+#
+#    B2 = torch.log(1+torch.exp(driftTowardsNeighbors2)) * B1_base
+#    B2 = B2 + torch.diag(torch.log(1+torch.exp(Bdiag2)).expand(dat["ObservedN"]))
+   
+    # Eigenvalues of drift matrix 
     S1 = S1_base * torch.log(1+torch.exp(driftTowardsNeighbors1)) + torch.log(1+torch.exp(Bdiag1))
     S2 = S2_base * torch.log(1+torch.exp(driftTowardsNeighbors2)) + torch.log(1+torch.exp(Bdiag2))
    
@@ -270,7 +297,7 @@ for iteration in range(100000):
 #    BFull = torch.cat([BFull1, BFull2], dim=0)
 #    #print(BFull)
     
-    
+    # Fluctuation matrix    
     variance1=torch.log(1+torch.exp(Sigma_sigma1))
     variance2=torch.log(1+torch.exp(Sigma_sigma2))
     correlation=torch.tanh(Sigma_corr) * torch.sqrt(variance1*variance2)
@@ -286,52 +313,57 @@ for iteration in range(100000):
 
 
 
-
-    # First solve for Omega11, Omega22. NOTE: omega is represented in the space where B is diagonal!
+    # Transform fluctuation matrix into Laplace eigendecomposition
     Sigma1_trafo = torch.matmul(U1.t(), torch.matmul(Sigma1, U1))
-    Omega11 = Sigma1_trafo/(S1.unsqueeze(0) + S1.unsqueeze(1))
-#    print("Omega11", Omega11)
     Sigma2_trafo = torch.matmul(U2.t(), torch.matmul(Sigma2, U2))
-    Omega22 = Sigma2_trafo/(S2.unsqueeze(0) + S2.unsqueeze(1))
- #   print("Omega22", Omega22)
-  #  print(torch.logdet(Omega22))
     Sigma21_trafo = torch.matmul(U1.t(), torch.matmul(Sigma12, U2)) # or the other way around?
-    Omega21 = Sigma21_trafo/(S1.unsqueeze(0) + S2.unsqueeze(1)) # or the other way around?
-   # print("Omega21", Omega21)
 
+    # Solve for Omega
+    Omega11 = Sigma1_trafo/(S1.unsqueeze(0) + S1.unsqueeze(1))
+    Omega22 = Sigma2_trafo/(S2.unsqueeze(0) + S2.unsqueeze(1))
+    Omega21 = Sigma21_trafo/(S1.unsqueeze(1) + S2.unsqueeze(0))
+    # Put Omega together
     Omega_top = torch.cat([Omega11, Omega21.t()], dim=1)
     Omega_bot = torch.cat([Omega21, Omega22], dim=1)
     Omega_Full = torch.cat([Omega_top, Omega_bot], dim=0)
 
 
     if True or iteration > 2000: # warmup for Omega 
-       log_determinantOfExponentialPart1 = (-0.1*S1).sum()
-       log_determinantOfExponentialPart2 = (-0.1*S2).sum()
+       # Log Determinant of covariance
+       log_determinantOfExponentialPart1 = -0.1*2*(S1.sum())
+       log_determinantOfExponentialPart2 = -0.1*2*(S2.sum())
        log_determinantOmega = torch.logdet(Omega_Full) # TODO this can also be done more directly?????
 
 
 
-       forLikelihoodUpper = torch.matmul(dat["TraitObserved"].unsqueeze(0), U1.t()).view(-1) * torch.exp(0.1*S1).unsqueeze(0)
-       forLikelihoodLower = torch.matmul(dat["TraitObserved"].unsqueeze(0), U2.t()).view(-1) * torch.exp(0.1*S2).unsqueeze(0)
-       forLikelihoodCat = torch.cat([forLikelihoodUpper, forLikelihoodLower], dim=1).squeeze(0).unsqueeze(1)
+       forLikelihoodUpper = transformedIntoSpace1 * torch.exp(0.1*S1)
+       forLikelihoodLower = transformedIntoSpace2 * torch.exp(0.1*S2)
+       forLikelihoodCat = torch.cat([forLikelihoodUpper, forLikelihoodLower], dim=0).unsqueeze(1)
        forLikelihoodHalf = torch.solve(input=forLikelihoodCat, A=Omega_Full.t())[0].squeeze(1)
+ #      print(torch.matmul(forLikelihoodHalf.unsqueeze(0), Omega_Full))
+#       print(forLikelihoodCat.unsqueeze(0))
 #       quit()
+#       print(forLikelihoodHalf.size(), forLikelihoodCat.view(-1).size())
        forLikelihoodExponent = -0.5 *(forLikelihoodHalf * forLikelihoodCat.view(-1)).sum()
        overallLogLikelihood = (-0.5 * (log_determinantOmega + log_determinantOfExponentialPart1 + log_determinantOfExponentialPart2)) + forLikelihoodExponent
        loss = -overallLogLikelihood
  #      print("LIKELIHOOD", overallLogLikelihood)
+       regularization = 0.0001 * torch.stack([x.pow(2) for x in parameters], dim=0).sum()
+       loss += regularization
     if iteration % 100 == 0:
-       print(iteration, "LOSS", loss, "Correlation", correlation)
+       print(iteration, "LOSS", loss, "Correlation", correlation, "Bdiag", round(float(Bdiag1),3), round(float(Bdiag2), 3), "borrow", round(float(driftTowardsNeighbors1), 3), round(float(driftTowardsNeighbors2), 3), "Sigma", round(float(Sigma_sigma1), 3), round(float(Sigma_sigma2), 3), "Rho", round(float(rho1), 3))
+       print("Omega", Omega11[0,0], Omega22[0,0], Omega21[0,0])
+
     optimizer.zero_grad()
     loss.backward()
     optimizer.step() 
  #   for i in range(len(parameters)):
 #      print(i, parameters[i].grad.abs().mean())
 #    Omega_cholesky_diag.data = torch.clamp(Omega_cholesky_diag.data, min=1e-3)
-    if iteration == 1000:
-       optimizer = torch.optim.SGD(lr=0.01, params=parameters)
-    if iteration == 2000:
-       optimizer = torch.optim.SGD(lr=0.02, params=parameters)
- #   if iteration == 3000:
+#    if iteration == 1000:
+#       optimizer = torch.optim.SGD(lr=0.01, params=parameters)
+#    if iteration == 2000:
+#       optimizer = torch.optim.SGD(lr=0.02, params=parameters)
+# #   if iteration == 3000:
 #       optimizer = torch.optim.SGD(lr=0.01, params=parameters)
 
