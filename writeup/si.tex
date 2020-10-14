@@ -175,14 +175,14 @@ The included UD languages have the following overall sizes:
 
 \begin{longtable}{lllll}
 Language & Sentences & Words \\ \hline
-\input{fitGrammars/corpora}
+\input{../fitGrammars/corpora}
 \end{longtable}
 
 The following UD languages did not meet the inclusion criterion:
 
 \begin{longtable}{lllll}
 Language & Sentences & Words \\ \hline
-\input{fitGrammars/excluded}
+\input{../fitGrammars/excluded}
 \end{longtable}
 
 
@@ -205,9 +205,9 @@ The spoken corpora have the following overall sizes (for Naija, see above):
 
 \begin{longtable}{lllll}
 Language & Sentences & Words \\ \hline
-\input{optimizeDLM/SpokenJapanese/corpora}
-\input{optimizeDLM/UD_Spoken/corpora}
-\input{optimizeDLM/Switchboard/corpora}
+\input{../optimizeDLM/SpokenJapanese/corpora}
+\input{../optimizeDLM/UD_Spoken/corpora}
+\input{../optimizeDLM/Switchboard/corpora}
 \end{longtable}
 
 \section{Phylogenetic Tree}
@@ -592,8 +592,9 @@ This shows that the coadaptation theory makes predictions about word order beyon
 
 
 
-\section{The Role of Case Marking}
+\section{The Role of Case Marking and Pro Drop}
 
+\subsection{Case Marking}
 Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
 We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
 
@@ -665,6 +666,10 @@ We found that, while case marking has a robust impact on subject-object symmetry
 %- Old English -- English what distinguishes the tree structures?
 %In this respect, Old English patterned more like contemporary Japanese.
 
+
+\subsection{Pro Drop}
+TODO
+
 \section{Within-Language Correlates of Basic Word Order}
 
 Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
@@ -713,6 +718,8 @@ However, it is not generally true that VS order is more common in embedded claus
 %- English
 %- French?
 %- Ancient Greek?
+
+\section{Estimating Usage and Grammar on Disjoint Corpora}
 
 
 \bibliography{literature}
