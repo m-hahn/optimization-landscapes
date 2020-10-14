@@ -175,12 +175,14 @@ The included UD languages have the following overall sizes:
 
 \begin{longtable}{lllll}
 Language & Sentences & Words \\ \hline
+\include{fitGrammars/corpora}
 \end{longtable}
 
 The following UD languages did not meet the inclusion criterion:
 
 \begin{longtable}{lllll}
 Language & Sentences & Words \\ \hline
+\include{fitGrammars/excluded}
 \end{longtable}
 
 
@@ -203,6 +205,9 @@ The spoken corpora have the following overall sizes:
 
 \begin{longtable}{lllll}
 Language & Sentences & Words \\ \hline
+\include{optimizeDLM/SpokenJapanese/corpora}
+\include{optimizeDLM/UD_Spoken/corpora}
+\include{optimizeDLM/Switchboard/corpora}
 \end{longtable}
 
 \section{Phylogenetic Tree}
@@ -564,19 +569,26 @@ The posterior probability that the correlation is $\leq 0$ is estimated to be TO
 
 \section{Subject-Object Symmetry and Categorical Classification of Basic Word Order}
 
-The notion of subject-object symmetry addresses a key limitation of the standard classification of languages into basic word order categories.
-Here, we compare it to basic word order as classified in the typological literature.
 
-TODO
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{../analysis/categorical_order/figures/by_categorical_order.pdf}
+    \caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}. Colors indicate basic word order categories, `NA' indicates languages with no data in \citep{wals-81}.}
+    \label{fig:categorical-basic-order}
+\end{figure}
 
 
-In Figure (REF), we show attested and optimized subject-object symmetry, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}.
 
+The notion of subject-object symmetry addresses a key limitation of the standard classification of languages into basic word order categories by accounting for the well-documented differences in degrees of word order flexibilities in languages that are conventionally assigned the same basic word order \citep{steele1978word}.
+Here, we compare subject-object symmetry to basic word order as classified in the typological literature.
+
+
+In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object symmetry, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}.
 First, we see that attested subject-object symmetry largely determines whether a language is labeled SVO or SOV/VSO.
 A few language with medium subject-object symmetry are labeled as `No dominant order'.
 
 Optimized subject-object symmetry remains predictive of attested subject-object order even within the categories SVO ($R = 0.76, p < 10^{-8}$) and SOV ($R=0.55, p = 0.062$).
-
+This shows that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
 
 
 
@@ -678,10 +690,10 @@ A positive effect indicates that presence of an object makes SV order more likel
 Results are shown below.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
-\mhahn{TODO fill this table}
+TODO fill in
 \begin{longtable}{l|lllllll}
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
-%\include{../optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R.tex}
+%\include{../collectPerVerbProperties/SV_withinLang/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}
 
 
