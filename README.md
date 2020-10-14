@@ -2,14 +2,16 @@
 
 ## Links to all Results from Main Paper
 
+### Synchronic Analysis
 [Attested and optimized S-O- symmetries](analysis/figures/fracion-optimized_DLM_2.6_format.pdf)
 
-[Correlation on all corpora]
+[Correlation on all corpora](analysis/output/correlation.txt)
 
 [For spoken corpora](analysis/analysis_spoken/spoken.pdf)
 
 [Correlation on spoken corpora](analysis/analysis_spoken/spoken_results.txt)
 
+### Phylogenetic Analysis
 [Phylogenetic analysis visualization](change/visualize/stationary.pdf)
 
 [Results of analysis](change/ornuhl-binom/noLatents/fits/correlation_omega.txt)
@@ -22,6 +24,7 @@
 
 [Lesioned model without bias]
 
+### Order and Usage (Coexpression)
 [Coexpression](analysis/coexpression/coexpression_results.txt)
 
 [Coexpression](analysis/coexpression/coexpression_optim_results.txt)
@@ -32,6 +35,9 @@
 
 ## Results from Appendix
 
+## Corpus Sizes and Excluded Languages
+
+## Phylogenetic Tree
 [Visualizing phylogenetic tree](trees/tree.png)
 
 ### Brownian Model
@@ -41,6 +47,14 @@
 
 ### Areal Convergence
 [Areal convergence: posterior of correlation component](change/ornuhl-binom-geo-time/fits/corr_sigma.pdf)
+
+### Categorical Classification of Basic Word Order
+
+[Categorical order](analysis/categorical_order/figures/by_categorical_order.pdf)
+
+[Correlation between attested and optimized symmetry (SOV)](analysis/categorical_order/output/corr_SOV.txt)
+
+[Correlation between attested and optimized symmetry (SVO)](analysis/categorical_order/output/corr_SVO.txt)
 
 ### Case Marking
 [Case: posterior of correlation component (joint Sigma)](change/visualize/figures/corr_ornuhl-binom_42.pdf)
