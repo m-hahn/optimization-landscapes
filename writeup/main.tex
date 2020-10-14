@@ -388,7 +388,7 @@ Under our coadaptation hypothesis, we expect that the subject-object symmetry of
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such correlation should be seen.
 
 
-While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section X showing that results hold similarly when estimating optimized grammars and attested orders using disjoint subsets of corpora).
+While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section 9 showing that results hold similarly when estimating optimized grammars and attested orders using disjoint subsets of corpora).
 
 
 
@@ -543,7 +543,7 @@ A well-known variable covarying with word order is case marking: Languages with 
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
 In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
 This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
-We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section XX).
+We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section 7).
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 %The model provides no evidence that language evolution favors high or low subject-object %asymmetry.
@@ -586,9 +586,9 @@ We quantified the frequency of co-expression of subjects and objects by calculat
 We show this ratio together with attested subject-object symmetry in Figure~\ref{fig:study2}.
 In a linear mixed-effects models, with by-family intercept and slope, attested subject-object symmetry was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ credible interval $[-0.21, -0.01]$).
 Optimized subject-object symmetry was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ credible interval $[-0.24,  -0.02]$).
-These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section X).
+These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section 7.2).
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
-We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section X).
+We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section 8).
 
 %Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
 %There are also a few OVS/SV languages
@@ -666,8 +666,8 @@ Indeed, multiple studies report high frequencies of utterances where only one ar
 Adopting the view that SOV is the historically earlier order, some studies have further argued that SVO order later arises to avoid ambiguity in communicating reversible events \citep{gibson-noisy-channel-2013, hall2013cognitive}, to communicate more complex structures \citep{langus2010cognitive, schouwstra2011semantic, marno2015a}, or to reduce dependency lengths~\citep{ferrer-i-cancho-placement-2017}.
 Under this view, the distribution of SOV and SVO arises from a tension between distinct cognitive and communicative pressures favoring SOV and SVO, respectively~\citep{langus2010cognitive}.
 However, this view does not explain the fine-grained per-language distribution of word order patterns, as it does not explain why specific languages have SVO or SOV order.
-%There is no reason to believe that SOV and SVO languages are not equally efficient \citep{newmeyer2000evolutionary}
-In contrast, the theory of coadaptation explicitly accounts for the language-dependence of word order.
+The theory of coadaptation provides a more precise account of the fine-grained distribution in two ways: First, it explicitly accounts for the language-dependence of word order, providing per-language predictions of optimal word orders.
+Second, unlike accounts in terms of a categorical SVO/SOV distinction, it predicts differences in the frequency of different orderings within individual languages (see SI Section 6).
 
 
 %gesture:
@@ -804,7 +804,7 @@ As the Ancient Greek data available in Universal Dependencies spans multiple sta
 We obtained spoken treebanks from the following sources.
 For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of spontaneous dialogues \citep{hall2006conll}. For English, we used an automated conversion \citep{schuster2018sentences} of the Switchboard section of the Penn Treebank~\citep{marcus-building-1993} to Universal Dependencies.
 
-We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section X for details).
+We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section 2 for details).
 
 
 
@@ -835,7 +835,7 @@ $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the languag
 
 
 A common choice in phylogenetic modelling of coevolving traits is correlated Brownian motion, also known as the Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast}.
-We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section X for comparison).
+We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section 4 for comparison).
 This leads to an Ornstein-Uhlenbeck process \citep{felsenstein1988phylogenies,hansen1997stabilizing,blackwell2003bayesian}, described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
 \begin{equation*}
     \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t + \Lambda \operatorname{d}B_t
@@ -849,14 +849,14 @@ The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; 
 
 The other term, $\Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t$, encodes deterministic drift, and describes which region $\mu \in \mathbb{R}^2$ of parameter space languages tend to concentrate around in the long run.
 The term encodes the fact that the possible range of $\xi_{L,t}$ is bounded and allows the model to encode the possibility of a bias towards some region of the plane.
-Without this first term (i.e., with $\Gamma =0$), the simpler Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast} would result. See SI Section XX for results from that simpler model and model comparison.
+Without this first term (i.e., with $\Gamma =0$), the simpler Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast} would result. See SI Section 4 for results from that simpler model and model comparison.
 
 Lesioned models referenced in the text are obtained by setting the off-diagonals of $\Lambda$ to zero (no correlations between change in two dimensions), and $\mu_1=0.5$ (no bias towards high or low real subject-object symmetry).
-See SI Section X for additional models that take areal convergence into account.
+See SI Section 5 for additional models that take areal convergence into account.
 %In each language family, we modeled the state $\xi_{L,t}$ of the root (e.g., Proto-Indo-European) as a draw from the stationary distribution.
 
 We conducted Bayesian inference using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan} and computed Bayes factors using Stepping Stone Sampling \citep{xie2011improving}.
-See SI Section X for implementation details.
+See SI Section 3 for implementation details.
 
 
 \begin{sloppypar}\paragraph{Data Availability} Code and data are publicly available at \url{https://github.com/m-hahn/optimization-landscapes/}.\end{sloppypar}
