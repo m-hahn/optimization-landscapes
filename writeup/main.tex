@@ -114,15 +114,10 @@
 \begin{abstract}
 Languages vary considerably in syntactic structure.
 About 40\% of the world's languages have subject-verb-object order, and about 40\% have subject-object-verb order.
-A wide range of existing work has argued that the structure of human language supports efficient communication. In these studies, variation across languages can reflect different optima or points along a Pareto frontier.
-
-However, these theories are not able to explain the fine-grained distribution and evolution of word order.
+A wide range of existing work has argued that the structure of human language supports efficient communication. In these studies, variation across languages reflects different optima or points along a Pareto frontier. However, the existing theories are not able to explain the fine-grained distribution and evolution of word order in different languages.
 %{\color{red} (add one sentence maybe begin with ``However,'' that explicates the significance of our work and its impact on how efficient communication theory or related work is limited/unsettled in their ability to explain the fine-grained distribution and evolution of word order, as one of the most exemplary domains of cross-linguistic variation in syntactic structure.)}
 %
-We propose an account that explains the fine-grained distribution of word order patterns across languages in terms of coadaptation between usage and grammar:
-%
-%We report evidence for an additional functional pressure in the evolution of word order across languages: C.
-We show across 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of grammar for Dependency Length Minimization.
+We propose a theory of coadaptation between usage and grammar and report evidence for this functional pressure in the distribution and evolution of word order. We show across 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of grammar for Dependency Length Minimization.
 Drawing on phylogenetic modelling and historical text corpora from seven language families, we show that historical word order change over time is accompanied by change in the usage distributions.
 We identify relevant characteristics that reflect this joint optimization, in particular the frequency with which subjects and objects are expressed together for the same verb.
 Our findings highlight that functional optimization in language structure and in language usage go hand in hand in shaping the evolution of syntactic structure across languages.
@@ -173,7 +168,7 @@ Efficiency-based accounts have been argued to either favor SVO or SOV \citep{mau
 \cite{maurits2010why} propose that the frequency of different basic word order pattern is predicted by a tendency to avoid peaks and troughs in the rate at which information is transmitted.
 Their model predicts object-initial order to be strongly dispreferred.
 However, it also suggests SVO to be considerably more efficient than SOV, even on usage data from an SOV language (Japanese), which contradicts the empirically near-equal frequencies of SVO and SOV.
-\cite{ferrer-i-cancho-placement-2017} suggest that SOV and SVO are optimal under different efficiency criteria, but does not provide an account predicting word order on the level of individual languages. 
+\cite{ferrer-i-cancho-placement-2017} suggest that SOV and SVO are optimal under different efficiency criteria, but this account does not predict word order on the level of individual languages. 
 Here we show that the efficiency considerations can make fine-grained predictions about word order in individual languages, which crucially depend on language-specific usage patterns.
 %Also cite \cite{kemmerer2012cross-linguistic}
 
@@ -187,7 +182,7 @@ As languages change, usage and grammar coevolve such that change in usage goes h
 %\comment{is there any existing literature or reference that we can use to ground the theory of coadaptation? or can we say in a sentence or two WHY or what motivates the coadaptation behavior---we don't want to sound like we just made this up, after we've seen what's in the data. rather we want to motivate this theory with a clear rationale, or ground it in existing proposals (if any).}
 
 The idea that the structure of language is shaped by language use has been proposed for other aspects of language.
-For instance, \cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society. We extend this idea by hypothesizing that grammatical structure and usage patterns should interact in the evolution of syntax: As a language changes, change in grammatical structure should be accompanied by change in the way the language is used, i.e., there is a process of coadaptation between grammar and use.
+For instance, \cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society. We extend this idea by hypothesizing that grammatical structure and usage patterns should interact in the evolution of syntax: As a language changes, change in grammatical structure should be accompanied by change in the way the language is used, i.e., there is a process of coadaptation between grammar and usage.
 
 
 %Efficiency-based accounts of language structure often model optimization for usage distributions that are held constant across languages (CITE).
@@ -539,6 +534,14 @@ We observe that our model indicates no evidence that languages tend to drift tow
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object symmetries.
 A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated Bayes Factor 1.1).
 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{../analysis/figures/historical_2.6_times_stationary.pdf}
+    \caption{The evolutionary trajectories of seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined according to the phylogenetic analysis. }
+    \label{fig:historical}
+\end{figure}
+
 A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed or shifting towards SVO \citep{vennemann1974explanation}, and, conversely, SOV languages mostly have case marking \citep[Universal 41]{greenberg-universals-1963}.
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
 In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
@@ -551,12 +554,6 @@ This indicates that languages exhibit coadaptation between word order and usage 
 %a lesioned model explicitly enforcing absence of such a bias provided essentially identical model fit (Bayes Factor TODO).
 %While this conclusion is based on our sample of 74 languages for which dependency treebanks are available, it agrees with the results of \citep{maurits2014tracing} based on a larger sample of languages (albeit from a smaller number of families).
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.95\textwidth]{../analysis/figures/historical_2.6_times_stationary.pdf}
-    \caption{The evolutionary trajectories of seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined according to the phylogenetic analysis. }
-    \label{fig:historical}
-\end{figure}
 
 
 
@@ -566,14 +563,6 @@ This indicates that languages exhibit coadaptation between word order and usage 
 %\mhahn{TODO I'll still expand this section}
 %\comment{description here seems a bit brief; elaborate more? or say in what way is this result interesting, or surprising, or novel (to the literature)?}
 
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\textwidth]{../analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf}
-    \caption{Comparison of attested subject-object symmetry (x-axis) and the fraction of verbs that simultaneously express a subject and an object (y-axis).}
-    \label{fig:study2}
-\end{figure}
 
 \subsection*{Influence of Usage on Word Order}
 So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of language.
@@ -589,6 +578,16 @@ Optimized subject-object symmetry was also predictive of this fraction ($\beta=-
 These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section 7.2).
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
 We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section 8).
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{../analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf}
+    \caption{Comparison of attested subject-object symmetry (x-axis) and the fraction of verbs that simultaneously express a subject and an object (y-axis).}
+    \label{fig:study2}
+\end{figure}
+
 
 %Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
 %There are also a few OVS/SV languages
