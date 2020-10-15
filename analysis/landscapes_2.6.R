@@ -5,7 +5,7 @@ SCR = "~/scr/"
 #SCR = "~/CS_SCR/"
 DEPS = paste(SCR,"/deps/", sep="")
 #DEPS = "/u/scr/mhahn/deps/"
-data = read.csv(paste(DEPS, "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl", "/", "auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
+data = read.csv("manual_output_funchead_fine_depl_auto-summary-lstm_2.6.tsv", sep="\t")
 dataBackup = data
 data = data %>% filter(HeadPOS == "VERB", DependentPOS == "NOUN") %>% select(-HeadPOS, -DependentPOS)
 
@@ -35,7 +35,7 @@ sigmoid = function(x) {
 	return(1/(1+exp(-x)))
 }
 
-real = read.csv(paste(SCR,"/deps/LANDSCAPE/mle-fine_selected/auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
+real = read.csv("mle-fine_selected_auto-summary-lstm_2.6.tsv", sep="\t")
 realO = real %>% filter(Dependency == "obj")
 realS = real %>% filter(Dependency == "nsubj")
 
