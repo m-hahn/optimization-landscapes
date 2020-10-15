@@ -13,7 +13,9 @@ u = rbind(u, uOldEnglish)
 u = u %>% mutate(LogOSSameSide = log(OSSameSide+1e-10))
 u = u %>% mutate(LogOSSameSide_Real_Prob = log(OSSameSide_Real_Prob+1e-10))
 
-
+sink("output/correlation.txt")
+print(cor.test(u$OSSameSide_Real_Prob, u$OSSameSide))
+sink()
 
 
 u$Language2 = as.character(u$Language)
