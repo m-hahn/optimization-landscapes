@@ -1,0 +1,19 @@
+Language	description	rationale
+Afrikaans_2.6	SVO	GM&R
+Old_Church_Slavonic_2.6	SVO	GM&R
+Gothic_2.6	SOV	GM&R
+Ancient_Greek_2.6	No dominant order	GM&R entry for `Classical Greek'
+Archaic_Greek	No dominant order	GM&R entry for `Classical Greek'
+Classical_Greek	No dominant order	GM&R entry for `Classical Greek'
+Koine_Greek	No dominant order	GM&R entry for `Classical Greek'
+Slovak_2.6	SVO	GM&R
+Classical_Chinese_2.6	SVO	Based on UD data
+Naija_2.6	SVO	Based on UD data
+Maltese_2.6	SVO	GM&R
+Faroese_2.6	SVO	GM&R
+Old_French_2.6	SVO	Marchello-Nizia: OV order in finite clauses lost by 13th century (Laurie Zaring, Changing from OV to VO, Ianua 10 (2010))
+Kazakh_2.6	SOV	GM&R
+Galician_2.6	SVO	GM&R
+Sanskrit_2.6	SOV	GM&R
+Latin_2.6	SOV	GM&R
+Old_Russian_2.6	SVO	Like OCS and Russian. Alternative would be `No dominant order'
