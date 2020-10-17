@@ -9,7 +9,7 @@ from ud_languages import languages
 import random
 import subprocess
 
-group = sys.argv[1]
+group = "5"
 
 script = 'coexpression'+str(group)+'.py'
 
