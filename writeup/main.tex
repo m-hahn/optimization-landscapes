@@ -542,11 +542,21 @@ A lesioned version of our model that explicitly prohibits a bias in development 
     \label{fig:historical}
 \end{figure}
 
+Unlike the conventional classification of languages into discrete basic word order categories such as SVO and SOV, the notion of subject-object symmetry accounts for the well-known fact that languages differ in their degrees of word order flexibility \citep{steele1978word}.
+To evaluate whether this notion provides a more fine-grained account of word order evolution than the standard classification, we evaluated whether optimized subject-object symmetry predicts attested subject-object symmetry beyond the level of discrete word order categories.
+We labeled the languages in our dataset for discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order'') based on \citet{wals-81}, supplemented with data from \citet{gell-mann-origin-2011} (see SI Section 6 for details).
+First, we found that attested and optimized subject-object symmetry were correlated even within categories ($R = 0.52, p = 0.0002$ within SVO, $R=0.45, p=0.07$ within SOV). 
+Second, we conducted a version of the phylogenetic analysis that evaluates whether coadaptation happens beyond the level of these discrete basic word order categories.
+We did this by allowing the term that encodes bias to specific regions of parameter space to vary with the basic word order category  (see Methods for details).
+The model continued to predict a positive correlation between changes in the two dimensions ($R=0.53$, $95\%$ credible interval $[0.22, 0.78]$, $Pr(R < 0) = 0.00075$).
+This shows that the coadaptation hypothesis predicts basic word order at a more fine-grained level than the standard categorical classification, by predicting the frequency of different orders within individual languages.
+
+
 A well-known variable covarying with word order is case marking: Languages with case marking are more likely to have free word order, and loss of case marking has been argued to correlate with word order becoming more fixed or shifting towards SVO \citep{vennemann1974explanation}, and, conversely, SOV languages mostly have case marking \citep[Universal 41]{greenberg-universals-1963}.
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
 In our sample of historical trajectories, movement towards low subject-object symmetry coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
 This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
-We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section 7).
+We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section 7.1).
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 %The model provides no evidence that language evolution favors high or low subject-object %asymmetry.
@@ -589,8 +599,7 @@ We also found such an association between order and coexpression within individu
 \end{figure}
 
 
-%Ergative languages that are SVO and VS, e.g. in Mesoamerica %(https://wals.info/chapter/82)\
-%There are also a few OVS/SV languages
+
 
 %We also find evidence for a relation between order and co-expression within individual languages, i.e., languages choose different word orders  (see SI Section X). %In many languages, subjects of intransitive verbs -- verbs which do not take an object -- can sometimes appear after the verb (e.g., ``along came a dog'', see SI Section X).
 %This provides evidence that, when languages show variation between different word order patterns, the choice of word order for a sentence helps optimize for DLM.
@@ -666,7 +675,7 @@ Adopting the view that SOV is the historically earlier order, some studies have 
 Under this view, the distribution of SOV and SVO arises from a tension between distinct cognitive and communicative pressures favoring SOV and SVO, respectively~\citep{langus2010cognitive}.
 However, this view does not explain the fine-grained per-language distribution of word order patterns, as it does not explain why specific languages have SVO or SOV order.
 The theory of coadaptation provides a more precise account of the fine-grained distribution in two ways: First, it explicitly accounts for the language-dependence of word order, providing per-language predictions of optimal word orders.
-Second, unlike accounts in terms of a categorical SVO/SOV distinction, it predicts differences in the frequency of different orderings within individual languages (see SI Section 6).
+Second, unlike accounts in terms of a categorical SVO/SOV distinction, it predicts language-specific frequencies of SVO- and SOV-like orderings within individual languages.
 
 
 %gesture:
@@ -849,10 +858,11 @@ The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; 
 The other term, $\Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t$, encodes deterministic drift, and describes which region $\mu \in \mathbb{R}^2$ of parameter space languages tend to concentrate around in the long run.
 The term encodes the fact that the possible range of $\xi_{L,t}$ is bounded and allows the model to encode the possibility of a bias towards some region of the plane.
 Without this first term (i.e., with $\Gamma =0$), the simpler Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast} would result. See SI Section 4 for results from that simpler model and model comparison.
+In the version controlling for discrete basic word order categories, the parameter $\mu$ is allowed to depend on the basic word order category.
 
 Lesioned models referenced in the text are obtained by setting the off-diagonals of $\Lambda$ to zero (no correlations between change in two dimensions), and $\mu_1=0.5$ (no bias towards high or low real subject-object symmetry).
 See SI Section 5 for additional models that take areal convergence into account.
-%In each language family, we modeled the state $\xi_{L,t}$ of the root (e.g., Proto-Indo-European) as a draw from the stationary distribution.
+
 
 We conducted Bayesian inference using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan} and computed Bayes factors using Stepping Stone Sampling \citep{xie2011improving}.
 See SI Section 3 for implementation details.

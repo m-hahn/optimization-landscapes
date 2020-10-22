@@ -545,6 +545,59 @@ For ancestors, we recursively defined their location as the mean of the location
 
 %As $\mu$ now varies with time, the resulting process is not Gauss-Markov any more \citep{schach1971weak}, and thus the likelihood cannot be represented with a single covariance matrix any more. We thus perform inference by explicitly modelling $\xi_L$ for all inner nodes $L$ of the phylogenetic tree.
 
+\paragraph{Computing the Likelihood}
+
+
+\begin{equation}
+\xi_{L,t'} | \xi_{L,t} \sim N\left(\mu' + e^{-\Delta \Gamma} (\xi_{L,t}-\mu'),\ \Omega - e^{-\Delta \Gamma} \Omega e^{-\Delta \Gamma^T}\right)
+\end{equation}
+
+Assume evolves according to $''$ parameters from $t'$ to $t''$ over time $\Delta''$.
+
+\begin{align*}
+\mathbb{E}[\xi_{L,t''} | \xi_{L,t}] &= \mathbb{E}\left[ \mathbb{E}[\xi_{L,t''} | \xi_{L,t'}] | \xi_{L,t}\right ] \\
+&=  \mathbb{E}\left[  \mu'' + e^{-\Delta'' \Gamma''} (\xi_{L,t'}-\mu'')      | \xi_{L,t}\right ] \\
+&= \mathbb{E}\left[  \mu'' | \xi_{L,t}\right ]  + \mathbb{E}\left[e^{-\Delta'' \Gamma''} (\xi_{L,t'}-\mu'')      | \xi_{L,t}\right ] \\
+&= \mathbb{E}\left[  \mu'' | \xi_{L,t}\right ]  + e^{-\Delta'' \Gamma''} (\mathbb{E}\left[\xi_{L,t'}|\xi_{L,t}\right ]-\mu'')        \\
+&= \mu'' + e^{-\Delta'' \Gamma''} ( \mu' + e^{-\Delta' \Gamma'} (\xi_{L,t}-\mu')    -\mu'') \\
+&= \mu'' + e^{-\Delta'' \Gamma''} \mu' + e^{-\Delta'' \Gamma''} e^{-\Delta' \Gamma'} (\xi_{L,t}-\mu')    - e^{-\Delta'' \Gamma''} \mu'' \\
+&= \mu'' + e^{-\Delta'' \Gamma''} \mu' + e^{-\Delta'' \Gamma''} e^{-\Delta' \Gamma'} \xi_{L,t}- e^{-\Delta'' \Gamma''} e^{-\Delta' \Gamma'}  \mu'    - e^{-\Delta'' \Gamma''} \mu'' \\
+&= (1-e^{-\Delta'' \Gamma''}) \mu'' + e^{-\Delta'' \Gamma''} (1-e^{-\Delta' \Gamma'} ) \mu' + e^{-\Delta'' \Gamma''} e^{-\Delta' \Gamma'} \xi_{L,t}
+\end{align*}
+
+More generally:
+\begin{align*}
+    \mathbb{E}[\xi_{L,t_{K}} | \xi_{L,t_{0}}] = e^{-\Delta_K\Gamma_K} \dots e^{-\Delta_1\Gamma_1} \xi_{L,t_{0}} + \sum_{i=1}^K e^{-\Delta_K\Gamma_K} \dots e^{-\Delta_{i+1}\Gamma_{i+1}} (1-e^{-\Delta_{i}\Gamma_{i}}) \mu_i
+\end{align*}
+
+
+The cross-variance: Let $\xi_A$ be the last common ancestor.
+\begin{align*}
+    Cov(\xi_{1}, \xi_2) &= \mathbb{E}[ \mathbb{E}[\xi_1 \xi_2^T | \xi_A]] - \mathbb{E}[\xi_1] \mathbb{E}[\xi_1]^T \\
+    &= \mathbb{E}[ \mathbb{E}[\xi_1| \xi_A] \mathbb{E}[\xi_2^T | \xi_A]] - \mathbb{E}[\xi_1] \mathbb{E}[\xi_1]^T  \\
+    &= ... Var(\xi_A) ...
+\end{align*}
+
+The covariance, assuming this has developed from a draw $\xi_0$ from one of the stationary parts:
+\begin{align*}
+    \mathbb{E}[\xi_K \xi_K^T | \xi_0] &= \mathbb{E}\left[ \mathbb{E}[\xi_K \xi_K^T| \xi_{K-1}] | \xi_0\right] \\
+    &=\mathbb{E}\left[  \Omega_K - e^{-\Delta_K \Gamma_K} \Omega_K e^{-\Delta_K \Gamma_K^T}  +  \mathbb{E}[\xi_K| \xi_{K-1}] \mathbb{E}[\xi_K^T| \xi_{K-1}]      | \xi_0\right] \\
+    &=  \Omega_K - e^{-\Delta_K \Gamma_K} \Omega_K e^{-\Delta_K \Gamma_K^T}  +  \mathbb{E}\left[\mathbb{E}[\xi_K| \xi_{K-1}] \mathbb{E}[\xi_K^T| \xi_{K-1}]      | \xi_0\right] \\
+    &=  \Omega_K - e^{-\Delta_K \Gamma_K} \Omega_K e^{-\Delta_K \Gamma_K^T}  +  \mathbb{E}\left[\mathbb{E}[\xi_K| \xi_{K-1}] \mathbb{E}[\xi_K^T| \xi_{K-1}]      | \xi_0\right] \\
+    &=  \Omega_K - e^{-\Delta_K \Gamma_K} \Omega_K e^{-\Delta_K \Gamma_K^T}  + (1-e^{-\Delta_K \Gamma_K})\mu_K \mu_K^T (1-e^{-\Delta_K \Gamma_K})^T + e^{-\Delta_K\Gamma_K} \mathbb{E}\left[\xi_{K-1} \xi_{K-1}^T| \xi_0\right] e^{-\Delta_K\Gamma_K} \\
+\end{align*}
+
+So we have the recursive equation
+\begin{equation}
+V_K = \Omega_K - e^{-\Delta_K \Gamma_K} \Omega_K e^{-\Delta_K \Gamma_K^T}  + (1-e^{-\Delta_K \Gamma_K})\mu_K \mu_K^T (1-e^{-\Delta_K \Gamma_K})^T + e^{-\Delta_K\Gamma_K} V_{K-1} e^{-\Delta_K\Gamma_K}
+\end{equation}
+and 
+\begin{align*}
+\mathbb{E}[\xi_K \xi_K^T | \xi_0] & =  \sum_{i=1}^K e^{-\Delta_K\Gamma_K}\dots e^{-\Delta_{i+1}\Gamma_{i+1}} \Omega_K e^{-\Delta_{i+1}\Gamma_{i+1}}\dots e^{-\Delta_K\Gamma_K} \\
+& - \sum_{i=1}^K e^{-\Delta_K\Gamma_K}\dots e^{-\Delta_{i}\Gamma_{i}} \Omega_K e^{-\Delta_{i}\Gamma_{i}}\dots e^{-\Delta_K\Gamma_K} \\
+&+ \sum_{i=1}^K e^{-\Delta_K\Gamma_K}\dots e^{-\Delta_{i+1}\Gamma_{i+1}} (1-e^{-\Delta_i \Gamma_Ki})\mu_i \mu_i^T (1-e^{-\Delta_i \Gamma_i})^T e^{-\Delta_{i+1}\Gamma_{i+1}}\dots e^{-\Delta_K\Gamma_K} \\
+\end{align*}
+
 
 
 \paragraph{Results}
@@ -590,6 +643,28 @@ A few language with medium subject-object symmetry are labeled as `No dominant o
 Optimized subject-object symmetry remains predictive of attested subject-object order even within the categories SVO ($R = 0.76, p < 10^{-8}$) and SOV ($R=0.55, p = 0.062$).
 This shows that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
 
+
+\subsection{Phylogenetic Analysis}
+
+\paragraph{Labeling Categorical Basic Word Order}
+
+We primarily drew on \citep{gell-mann-origin-2011}.
+
+Additional labels for languages in the corpus, without label in \citep{wals-81}:
+
+\begin{longtable}{llllll}
+Language & Label & Rationale \\
+TODO
+\end{longtable}
+
+Labels for unobserved interior nodes:
+
+\begin{longtable}{llllll}
+Group & Label & Rationale \\
+TODO
+\end{longtable}
+
+\paragraph{Model}
 
 
 \section{The Role of Case Marking and Pro Drop}
@@ -670,14 +745,19 @@ We found that, while case marking has a robust impact on subject-object symmetry
 \subsection{Pro Drop}
 TODO
 
+\subsection{Subject-Verb Agreement}
+
 \section{Within-Language Correlates of Basic Word Order}
 
 Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
 
 %\subsection{Coexpression: VS Order in SVO Languages}
 In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
-This kind of ``intransitive inversion'' has been documented in many languages, including English (CITE), Romance languages (CITE), and Chinese (CITE).
+This kind of ``intransitive inversion'' has been documented in many languages, including English (CITE), Romance languages (CITE), and Chinese (Li and Thompson, Chapter 17.2: Presentative sentences, laile yi ge keren).
 There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
+This observation has been formalized as the following language universal: \textit{If VS is dominant with transitives, it is also dominant with intransitives} (CITE Also Konstanz Universals Archive No 344 citing Kozinsky 1981).
+%Kozinsky, Isaak (1981). Nekotorye grammaticeskie universalii v podsistemax vyrazenija subjektno-objektnyx otnnosenij. [Some grammatical universals in subsystems of expression of subject-object relations.] Doctoral dissertation, Moskovskij gosudarstvennyj universitet. 
+DLM provides an explanation for this universal.
 
 %- literature
 %- Unaccusative inversion
@@ -707,9 +787,13 @@ Language & SV Frequency & $\beta$ & $p$ \\ \hline
 %\subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
 In some predominant VSO languages, SVO is an alternative word order in unembedded clauses, whereas embedded clauses tend to only allow VSO.
 This is in accordance with the predictions of DLM, which favors high subject-object symmetry in embedded clauses (see Figure 1B in the main paper).
-Examples include relative clauses in Standard Arabic~\citep{alqurashi:2012}, Breton \citep[][p. 80]{timm1988relative}, Ancient Egyptian \citep{gardiner1957egyptian}, Tuareg \citep[Chapter 12.1.2]{heath2005a}.
-Conversely, in some SVO languages, embedded clauses show VSO order (Bantu, \citet{demuth1999verb}).
-However, it is not generally true that VS order is more common in embedded clauses across all languages that have variation basic word order. For instance, German and Dutch can have VS in main clauses, but are almost always SV in subordinate clauses.
+Examples include relative clauses in Afroasiatic and Celtic (Standard Arabic~\citep{alqurashi:2012}, Breton \citep[][p. 80]{timm1988relative}, Ancient Egyptian \citep{gardiner1957egyptian}, Tuareg \citep[Chapter 12.1.2]{heath2005a}).
+Conversely, in some SVO languages, embedded clauses show VSO order (Bantu, \citet{demuth1999verb}); Miza (Chadic) has SVO/VOS in main clauses and VOS in embedded clauses~\citep{wals-81}.
+However, it is not generally true that VS order is more common in embedded clauses across all languages that have variation in basic word order.
+For instance, German and Dutch can have VS in main clauses, but are almost always SV in subordinate clauses; the same holds for Quileute (Chimakuan)~\citep{wals-81}.
+
+
+
 
 %\section{Detailed Diachronic Trajectories}
 %-- coexpression
