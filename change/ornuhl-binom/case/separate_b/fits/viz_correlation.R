@@ -1,6 +1,6 @@
 
 
-corrs = read.csv("CORR_Sigma_42model.py.txt", header=FALSE)
+corrs = read.csv("CORR_Sigma_44model.py.txt", header=FALSE)
 
 library(ggplot2)
 
@@ -22,7 +22,7 @@ sink()
 sigmoid = function(x) {
         return(1/(1+exp(-x)))
 }
-stationary = read.csv("stationary_fit_42model.py.txt", sep=" ")
+stationary = read.csv("stationary_fit_44model.py.txt", sep=" ")
 
 library(MASS)
 
@@ -67,4 +67,4 @@ plot = plot + ylab("Optimal Subject-Object-Position Congruence")
 plot = plot + facet_wrap(~Group)
 ggsave(plot, file="stationary_case_facet.pdf", height=4, width=6)
 
->>>>>>> 5d37fb73fdf2979298ea094e908ff92c6dca48ef
+
