@@ -4,8 +4,8 @@ Indo_European	SOV	GM&R
 Semitic	VSO	GM&R
 Insular_Celtic	VSO	GM&R
 Common_Turkic	SOV	GM&R
-Slavic	SVO	Based on its descendants
-Indo_Iranian	SOV	Old Persian, Avestan, Vedic all show SOV
+Slavic	SVO	Based on its descendants. https://wals.info/chapter/81, Figure 1 describes as No dominant order.
+Indo_Iranian	SOV	Old Persian and Vedic show SOV. On the other hand, https://wals.info/chapter/81, Figure 1 describes Avestan as No dominant order.
 Atlantic_Congo	SOV	GM&R
 Uralic	SOV	Gell-Mann&Ruhlen
 West_Semitic	VSO	Based on its descendants
@@ -20,7 +20,7 @@ Hindustani	SOV	Based on its descendants
 Afroasiatic	SOV	Gell-Mann&Ruhlen
 Serbo_Croatian	SVO	Based on its descendants
 Creole_Naija	SVO	Based on its descendants
-ISWOC_Old_English	SVO	VO was dominant, compared to OV, by the 9th century (West, Some Notes on Word Order in Old and Middle English)
+ISWOC_Old_English	SVO	VO was dominant, compared to OV, by the 9th century (West, Some Notes on Word Order in Old and Middle English). Also https://wals.info/chapter/81 Figure 1 judges as SVO.
 West_Germanic	SOV	Proto-Germanic was SOV, and OV was dominant in early Old English  (West, Some Notes on Word Order in Old and Middle English)
 North_Germanic	SOV	GM&R entry for `Runic'. Braunmueller, Syntaxtopologische Studien zum Germanischen, 1982 (p. 139). Later North Germanic (Old Norse) was SVO.
 West_Scandinavian	SVO	Old Norse was SVO (Nygaard, Norron Syntax, 1905; cited in Haugan, Old Norse Word Order and Information Structure (2000, Dissertation, Trondheim).
