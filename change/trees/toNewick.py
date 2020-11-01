@@ -30,7 +30,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../landscapes_2.6_new.R.tsv", "r") as inFile:
+with open("../../analysis/landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header

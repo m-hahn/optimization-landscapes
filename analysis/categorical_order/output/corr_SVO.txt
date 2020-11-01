@@ -2,11 +2,11 @@
 	Pearson's product-moment correlation
 
 data:  v$OSSameSide_Real_Prob and v$OSSameSide
-t = 6.7553, df = 34, p-value = 9.158e-08
+t = 4.0479, df = 43, p-value = 0.0002115
 alternative hypothesis: true correlation is not equal to 0
 95 percent confidence interval:
- 0.5702946 0.8693302
+ 0.2739903 0.7094278
 sample estimates:
       cor 
-0.7569976 
+0.5252785 
 
