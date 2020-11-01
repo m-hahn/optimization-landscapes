@@ -17,6 +17,9 @@ entries = []
 
 collectedFilesNumber = 0
 
+
+from ud_languages import languages
+
 for filename in files:
    if "model" in filename:
 #      print("READING "+filename )
@@ -49,6 +52,9 @@ for filename in files:
                 entry["FileName"] = filename[filename.rfind("_")+1:-4]
              if entry["CoarseDependency"] not in ["obj", "nsubj"] or entry["HeadPOS"] != "VERB" or entry["DependentPOS"] != "NOUN":
                   continue
+             if entry["Language"] not in languages:
+               print("MISSING", entry["Language"])
+               continue
              entries.append(entry)
 outHeader = sorted(list(outHeader))
 print(outHeader)

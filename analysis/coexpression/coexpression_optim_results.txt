@@ -2,16 +2,16 @@
 	Pearson's product-moment correlation
 
 data:  v$Coexpression and v$OSSameSide
-t = -3.5442, df = 71, p-value = 0.0007011
+t = -3.3674, df = 71, p-value = 0.001228
 alternative hypothesis: true correlation is not equal to 0
 95 percent confidence interval:
- -0.5671941 -0.1730948
+ -0.5538764 -0.1541951
 sample estimates:
        cor 
--0.3877217 
+-0.3710976 
 
 
-Beta  -0.1287501 
-SD  0.05621671 
-95% CrI [ -0.2384654   -0.01981215 ]
-P(beta) > 0  0.00975 
+Beta  -0.1164252 
+SD  0.05442078 
+95% CrI [ -0.22364   -0.01033106 ]
+P(beta) > 0  0.0165 
