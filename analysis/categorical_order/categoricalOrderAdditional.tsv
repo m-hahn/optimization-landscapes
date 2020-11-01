@@ -4,16 +4,17 @@ Old_Church_Slavonic_2.6	SVO	GM&R
 Gothic_2.6	SOV	GM&R
 Ancient_Greek_2.6	No dominant order	GM&R entry for `Classical Greek'
 Archaic_Greek	No dominant order	GM&R entry for `Classical Greek'
-Classical_Greek	No dominant order	GM&R entry for `Classical Greek'. Also labeled like this in https://wals.info/chapter/81, Figure 1
+Classical_Greek	No dominant order	GM&R entry for `Classical Greek'. Also labeled like this in \citet{wals-81}, Figure 1
 Koine_Greek	No dominant order	GM&R entry for `Classical Greek'
 Slovak_2.6	SVO	GM&R
-Classical_Chinese_2.6	SVO	Based on UD data
+Classical_Chinese_2.6	SVO	 \citet{pulleyblank1995outline}, unambiguously confirmed by UD data.
 Naija_2.6	SVO	Based on UD data
 Maltese_2.6	SVO	GM&R
 Faroese_2.6	SVO	GM&R
-Old_French_2.6	SVO	Marchello-Nizia: OV order in finite clauses lost by 13th century (Laurie Zaring, Changing from OV to VO, Ianua 10 (2010))
+Old_French_2.6	SVO	OV order in finite clauses lost by 13th century (\citet{zaring2010changing}, citing \citet{marchello-nizia1995l})
 Kazakh_2.6	SOV	GM&R
 Galician_2.6	SVO	GM&R
 Sanskrit_2.6	SOV	GM&R
 Latin_2.6	SOV	GM&R
-Old_Russian_2.6	SVO	Like OCS and Russian. Alternative would be `No dominant order'
+Old_Russian_2.6	SVO	Old Russian has word order freedom similar to Old Church Slavonic, which is labeled SVO. The alternative label would be `No dominant order'.
+ISWOC_Old_English	SVO	VO was dominant, compared to OV, by the 9th century \citep{west1973some}, the time of the earliest texts in the corpus. \citet{wals-81}, Figure 1, also judges as SVO.
