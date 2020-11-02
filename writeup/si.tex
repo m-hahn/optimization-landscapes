@@ -510,13 +510,12 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 
 \section{Accounting for Areal Convergence}
 The model of random walks on phylogenetic trees assume that languages evolve independently once they have split.
-However, linguistic evolution can include borrowing between geographically neighboring languages (CITE).
-%\cite{kalyan2019problems}
-Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas (CITE), geographic regions in which languages tend to show convergent evolution due to borrowing.
+However, linguistic evolution can include borrowing between geographically neighboring languages \citep[e.g.][]{dryer1989large, bisang1996areal, heine2003on, aikhenvald2007grammars,  kalyan2019problems}.
+Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}, geographic regions in which languages tend to show convergent evolution due to borrowing.
 
 We modeled linguistic areas as latent variables defining time- and location-dependent values $\mu(x,t)$ (where $x$ is a point on the surface of the earth and $t$ is a point in time) that languages at time $t$ and place $x$ drift towards.
 These values are inferred from the data together with the other parameters of the Ornstein-Uhlenbeck process.
-By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, encoding the idea that areal convergence between languages depends on their geographic distance (CITE).
+By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, encoding the idea that areal convergence between languages depends on their geographic distance.
 This approach is related to the model described by \citep{nuismer2015predicting}, who propose to model convergence between species by assuming correlations between the means $\mu$ of different species.
 For other approaches to model interactions between species from the bioinformatics literature, see \citet{manceau2016a,drury2016estimating, bartoszek2017using, drury2018an}.
 
@@ -668,7 +667,7 @@ Furthermore, in many protolanguages, case markers are commonly reconstructed bas
 Case is not unambiguously reconstructed for Proto-Niger-Congo and Proto-Atlantic-Congo; we verified that all four possible parameter settings lead to equivalent results (we report results under the assumption that neither of them had case, with essentially indistinguishable results for the other cases).
 
 \paragraph{Model of Change conditioned on Case Marking}
-Based on the prior literature, we expect that languages without case marking will be biased towards low subject-object position congruence (CITE).
+Based on the prior literature, we expect that languages without case marking will be biased towards low subject-object position congruence~\citep{vennemann1974explanation}.
 To take this into account, we modified the model by conditioning the mean vector $\mu$ on the presence or absence of case in the language $L$.
 \begin{equation*}
     \operatorname{d}\xi_{L,t} = \Gamma_{C(L)} \cdot (\xi_{L,t}-\mu_{C(L)}) \operatorname{d}t + \Lambda \operatorname{d}B_t
@@ -718,21 +717,19 @@ We found that, while case marking has a robust impact on subject-object position
 %In this respect, Old English patterned more like contemporary Japanese.
 
 
-\subsection{Pro Drop}
-TODO
+%\subsection{Pro Drop}
 
-\subsection{Subject-Verb Agreement}
+%\subsection{Subject-Verb Agreement}
 
 \section{Within-Language Correlates of Basic Word Order}
 
 Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
 
 %\subsection{Coexpression: VS Order in SVO Languages}
-In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
-This kind of ``intransitive inversion'' has been documented in many languages, including English (CITE), Romance languages (CITE), and Chinese (Li and Thompson, Chapter 17.2: Presentative sentences, laile yi ge keren).
+In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'').
+This kind of ``intransitive inversion'' has been documented in many languages, including English, Romance languages, and Chinese \citep[Chapter 17.2]{li1981mandarin}.
 There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
-This observation has been formalized as the following language universal: \textit{If VS is dominant with transitives, it is also dominant with intransitives} (CITE Also Konstanz Universals Archive No 344 citing Kozinsky 1981).
-%Kozinsky, Isaak (1981). Nekotorye grammaticeskie universalii v podsistemax vyrazenija subjektno-objektnyx otnnosenij. [Some grammatical universals in subsystems of expression of subject-object relations.] Doctoral dissertation, Moskovskij gosudarstvennyj universitet. 
+This observation has been formalized as the following language universal: \textit{If VS is dominant with transitives, it is also dominant with intransitives} (\citet[No 344]{plank2000the}, citing \citet{kozinsky1981Nekotorye}).
 DLM provides an explanation for this universal.
 
 %- literature
@@ -751,7 +748,6 @@ A positive effect indicates that presence of an object makes SV order more likel
 Results are shown below.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
-TODO fill in
 \begin{longtable}{l|lllllll}
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
 \input{../collectPerVerbProperties/SV_withinLang/results_analyze_VSOrderWhenNoObject.R.tex}
@@ -780,6 +776,8 @@ For instance, German and Dutch can have VS in main clauses, but are almost alway
 %- Ancient Greek?
 
 \section{Estimating Usage and Grammar on Disjoint Corpora}
+
+\mhahn{TODO. Here, my plan is to illustrate that estimating quantities on disjoint corpora makes no difference, using just two or three languages as examples.}
 
 
 \bibliography{literature}
