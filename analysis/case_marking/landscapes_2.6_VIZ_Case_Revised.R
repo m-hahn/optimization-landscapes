@@ -23,15 +23,18 @@ library(ggplot2)
 
 u = u %>% mutate(Group = ifelse(value, "Case", "NoCase"))
 
-plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Group)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + theme_bw() + theme(axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Group)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Position Congruence") + ylab("Optimal Subject-Object Position Congruence") + theme_bw() + theme(axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 ggsave(plot, file="../figures/by_patient_marking.pdf", width=6, height=6)
 
-v = u %>% filter(Group)
-cor.test(v$OSSameSide_Real_Prob, v$OSSameSide)
-plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Group)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
-v = u %>% filter(!Group)
-cor.test(v$OSSameSide_Real_Prob, v$OSSameSide)
-plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Group)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Symmetry") + ylab("Optimal Subject-Object Symmetry") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+sink("correlations.txt")
+v = u %>% filter(value)
+cat("WITH CASE\n")
+print(cor.test(v$OSSameSide_Real_Prob, v$OSSameSide))
+plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Group)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Position Congruence") + ylab("Optimal Subject-Object Position Congruence") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+v = u %>% filter(!value)
+cat("\n\nNO CASE\n")
+print(cor.test(v$OSSameSide_Real_Prob, v$OSSameSide))
+plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=Group)) + geom_text_repel(aes(label=Language2)) + xlab("Real Subject-Object Position Congruence") + ylab("Optimal Subject-Object Position Congruence") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 
 
 

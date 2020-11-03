@@ -71,7 +71,7 @@ for(i in (1:nrow(u))) {
 
 library(ggrepel)
 library(ggplot2)
-plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Attested Subject-Object Symmetry") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Attested Subject-Object Position Congruence") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 ggsave("../figures/objects-order-pureud-byVerb_FORMAT.pdf", width=7, height=7)
 
 
@@ -84,7 +84,7 @@ v = read.csv("../landscapes_2.6_new.R.tsv", sep=" ")
 v = merge(u, v, by=c("Language", "Family"))
 
 
-plot = ggplot(v, aes(x=OSSameSide, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Optimized Subject-Object Symmetry") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+plot = ggplot(v, aes(x=OSSameSide, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Optimized Subject-Object Position Congruence") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 ggsave("../figures/objects-order-pureud-byVerb_optimized_FORMAT.pdf", width=7, height=7)
 
 

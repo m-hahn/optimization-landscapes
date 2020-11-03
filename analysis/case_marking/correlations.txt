@@ -1,0 +1,28 @@
+WITH CASE
+
+	Pearson's product-moment correlation
+
+data:  v$OSSameSide_Real_Prob and v$OSSameSide
+t = 1.6009, df = 41, p-value = 0.1171
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.06233678  0.50602892
+sample estimates:
+      cor 
+0.2425482 
+
+
+
+NO CASE
+
+	Pearson's product-moment correlation
+
+data:  v$OSSameSide_Real_Prob and v$OSSameSide
+t = 2.5164, df = 28, p-value = 0.01786
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.08186161 0.68391656
+sample estimates:
+     cor 
+0.429465 
+

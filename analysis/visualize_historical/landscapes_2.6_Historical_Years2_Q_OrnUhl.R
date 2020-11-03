@@ -1,62 +1,10 @@
 library(tidyr)
 library(dplyr)
+library(ggrepel)
+library(ggplot2)
+library(stringr)
 
-SCR = "~/CS_SCR/"
-DEPS = paste(SCR,"/deps/", sep="")
-#DEPS = "/u/scr/mhahn/deps/"
-data = read.csv(paste(DEPS, "DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl", "/", "auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
-dataBackup = data
-data = data %>% filter(HeadPOS == "VERB", DependentPOS == "NOUN") %>% select(-HeadPOS, -DependentPOS)
-
-
-# OldEnglish: OSSameSide 0.769, OSSameSide_Real_Prob 0.49
-
-#DLM_MEMORY_OPTIMIZED/locality_optimized_dlm/manual_output_funchead_fine_depl
-#(base) mhahn@sc:~/scr/CODE/optimization-landscapes/optimizeDLM/OldEnglish$ ls output/
-#ISWOC_Old_English_inferWeights_PerText.py_model_9104261.tsv
-
-
-dataO = data %>% filter(CoarseDependency == "obj")
-dataS = data %>% filter(CoarseDependency == "nsubj")
-
-data = merge(dataO, dataS, by=c("Language", "FileName"))
-
-data = data %>% mutate(OFartherThanS = (DistanceWeight.x > DistanceWeight.y))
-data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
-
-data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
-
-families = read.csv("../families.tsv", sep="\t")
-data = merge(data, families, by=c("Language"))
-
-
-u = data %>% group_by(Language, Family) %>% summarise(OSSameSide = mean(OSSameSide))
-print(u[order(u$OSSameSide),], n=60)
-
-sigmoid = function(x) {
-	return(1/(1+exp(-x)))
-}
-
-real = read.csv(paste(SCR,"/deps/LANDSCAPE/mle-fine_selected/auto-summary-lstm_2.6.tsv", sep=""), sep="\t")
-realO = real %>% filter(Dependency == "obj")
-realS = real %>% filter(Dependency == "nsubj")
-
-real = merge(realO, realS, by=c("Language", "FileName", "ModelName"))
-
-real = real %>% mutate(OFartherThanS_Real = (Distance_Mean_NoPunct.x > Distance_Mean_NoPunct.y))
-real = real %>% mutate(OSSameSide_Real = (sign(DH_Mean_NoPunct.x) == sign(DH_Mean_NoPunct.y)))
-real = real %>% mutate(OSSameSide_Real_Prob = (sigmoid(DH_Mean_NoPunct.x) * sigmoid(DH_Mean_NoPunct.y)) + ((1-sigmoid(DH_Mean_NoPunct.x)) * (1-sigmoid(DH_Mean_NoPunct.y))))
-
-real = real %>% mutate(Order_Real = ifelse(OSSameSide_Real & OFartherThanS_Real, "VSO", ifelse(OSSameSide_Real, "SOV", "SVO")))
-
-u = merge(u, real %>% select(Language, OSSameSide_Real, OSSameSide_Real_Prob), by=c("Language"))
-
-
-
-data = merge(data, real, by=c("Language"))
-
-data$OSSameSide_Real_Prob_Log = log(data$OSSameSide_Real_Prob)
-
+u = read.csv("../landscapes_2.6_new.R.tsv", sep=" ") %>% select(Language, Family, OSSameSide, OSSameSide_Real, OSSameSide_Real_Prob)
 
 #########################
 #########################
@@ -202,7 +150,7 @@ library(ggplot2)
 #  %>% filter(Language %in% c("Chinese_2.6", "Cantonese_2.6", "Classical_Chinese_2.6", "French_2.6", "Old_French_2.6", "Russian_2.6", "Old_Russian_2.6", "Latin_2.6", "Greek_2.6", "Ancient_Greek_2.6", "Sanskrit_2.6", "Urdu_2.6", "Hindi_2.6", "Spanish_2.6", "Italian_2.6"))
 plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) #+ geom_smooth(method="lm")
 plot = plot + geom_density2d(data=data.frame(Real = (stationary_sample[,2]+1)/2, Model = sigmoid(stationary_sample[,1])), aes(x=Real, y=Model), alpha=0.5)
-plot = plot + xlab("Attested Subject-Object Symmetry") + ylab("Optimized Subject-Object Symmetry") + xlim(0,1) + ylim(0,1)
+plot = plot + xlab("Attested Subject-Object Position Congruence") + ylab("Optimized Subject-Object Position Congruence") + xlim(-0.1,1.0) + ylim(0.0,1.0)
 for(group in unique(us$Group)) { 
    plot = plot + geom_segment(data= u2s %>% filter(Group == group), aes(x=OSSameSide_Real_Prob_TRUE, xend=OSSameSide_Real_Prob_FALSE, y=OSSameSide_TRUE, yend=OSSameSide_FALSE), arrow=arrow(), size=1, color="blue") + geom_label(data=us %>% filter(Group == group), aes(label=Time), color="black")
 }
