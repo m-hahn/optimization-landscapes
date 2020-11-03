@@ -1,0 +1,168 @@
+%% Creator: Inkscape inkscape 0.92.3, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'tree.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1386bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.52435065)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{tree.pdf}}%
+    \put(0.94734933,0.01357263){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Croatian\end{tabular}}}}%
+    \put(0.94734933,0.02106725){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Serbian\end{tabular}}}}%
+    \put(0.94734933,0.02856183){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Slovenian\end{tabular}}}}%
+    \put(0.94734933,0.03605645){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Bulgarian\end{tabular}}}}%
+    \put(0.94734933,0.04355106){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Czech\end{tabular}}}}%
+    \put(0.94734933,0.05104564){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Slovak\end{tabular}}}}%
+    \put(0.94734933,0.05854026){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Polish\end{tabular}}}}%
+    \put(0.94734933,0.06603484){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Upper_Sorbian\end{tabular}}}}%
+    \put(0.94734933,0.07352945){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Ukrainian\end{tabular}}}}%
+    \put(0.94734933,0.08102412){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Russian\end{tabular}}}}%
+    \put(0.94734933,0.08851871){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Belarusian\end{tabular}}}}%
+    \put(0.94734933,0.09601332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Latvian\end{tabular}}}}%
+    \put(0.94734933,0.10350794){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Lithuanian\end{tabular}}}}%
+    \put(0.94734933,0.11100252){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Faroese\end{tabular}}}}%
+    \put(0.94734933,0.11849713){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Icelandic\end{tabular}}}}%
+    \put(0.94734933,0.12599171){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Norwegian\end{tabular}}}}%
+    \put(0.94734933,0.13348633){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Swedish\end{tabular}}}}%
+    \put(0.94734933,0.140981){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Danish\end{tabular}}}}%
+    \put(0.94734933,0.14847558){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Afrikaans\end{tabular}}}}%
+    \put(0.94734933,0.1559702){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Dutch\end{tabular}}}}%
+    \put(0.94734933,0.16346481){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}English\end{tabular}}}}%
+    \put(0.94734933,0.17095939){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}German\end{tabular}}}}%
+    \put(0.94734933,0.17845401){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Gothic\end{tabular}}}}%
+    \put(0.94734933,0.18594862){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Galician\end{tabular}}}}%
+    \put(0.94734933,0.1934432){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Portuguese\end{tabular}}}}%
+    \put(0.94734933,0.20093782){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Spanish\end{tabular}}}}%
+    \put(0.94734933,0.20843246){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Catalan\end{tabular}}}}%
+    \put(0.94734933,0.21592707){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}French\end{tabular}}}}%
+    \put(0.94734933,0.22342169){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Italian\end{tabular}}}}%
+    \put(0.94734933,0.23091627){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Romanian\end{tabular}}}}%
+    \put(0.94734933,0.23841088){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hindi\end{tabular}}}}%
+    \put(0.94734933,0.24590548){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Urdu\end{tabular}}}}%
+    \put(0.94734933,0.25340008){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Persian\end{tabular}}}}%
+    \put(0.94734933,0.26089469){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Kurmanji\end{tabular}}}}%
+    \put(0.94734933,0.26838929){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Welsh\end{tabular}}}}%
+    \put(0.94734933,0.27588394){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Breton\end{tabular}}}}%
+    \put(0.94734933,0.28337854){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Irish\end{tabular}}}}%
+    \put(0.94734933,0.29087316){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Scottish_Gaelic\end{tabular}}}}%
+    \put(0.94734933,0.29836776){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Greek\end{tabular}}}}%
+    \put(0.94734933,0.30586236){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Armenian\end{tabular}}}}%
+    \put(0.94734933,0.31335695){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Maltese\end{tabular}}}}%
+    \put(0.94734933,0.32085157){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Arabic\end{tabular}}}}%
+    \put(0.94734933,0.32834617){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hebrew\end{tabular}}}}%
+    \put(0.94734933,0.33584077){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Amharic\end{tabular}}}}%
+    \put(0.94734933,0.34333543){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Coptic\end{tabular}}}}%
+    \put(0.94734933,0.35083003){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Estonian\end{tabular}}}}%
+    \put(0.94734933,0.35832463){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Finnish\end{tabular}}}}%
+    \put(0.94734933,0.36581923){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hungarian\end{tabular}}}}%
+    \put(0.94734933,0.37331384){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Erzya\end{tabular}}}}%
+    \put(0.94734933,0.38080844){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}North_Sami\end{tabular}}}}%
+    \put(0.94734933,0.38830304){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Uyghur\end{tabular}}}}%
+    \put(0.94734933,0.39579765){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Turkish\end{tabular}}}}%
+    \put(0.94734933,0.4032923){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Kazakh\end{tabular}}}}%
+    \put(0.94734933,0.41078691){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Wolof\end{tabular}}}}%
+    \put(0.94734933,0.41828151){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Bambara\end{tabular}}}}%
+    \put(0.94734933,0.42577611){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Chinese\end{tabular}}}}%
+    \put(0.94734933,0.43327071){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Cantonese\end{tabular}}}}%
+    \put(0.94734933,0.44076532){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Indonesian\end{tabular}}}}%
+    \put(0.94734933,0.44825993){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Buryat\end{tabular}}}}%
+    \put(0.94734933,0.45575454){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Naija\end{tabular}}}}%
+    \put(0.94734933,0.46324915){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Thai\end{tabular}}}}%
+    \put(0.94734933,0.47074376){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Japanese\end{tabular}}}}%
+    \put(0.94734933,0.47823837){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Vietnamese\end{tabular}}}}%
+    \put(0.94734933,0.48573298){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Basque\end{tabular}}}}%
+    \put(0.94734933,0.49322758){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Mbya_Guarani\end{tabular}}}}%
+    \put(0.94734933,0.50072219){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Korean\end{tabular}}}}%
+    \put(0.81749405,0.01731991){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Serbo_Croatian\end{tabular}}}}%
+    \put(0.68493305,0.02294092){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Western_South_Slavic\end{tabular}}}}%
+    \put(0.81478844,0.03876205){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Old_Church_Slavonic\end{tabular}}}}%
+    \put(0.55237193,0.02949866){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}South_Slavic\end{tabular}}}}%
+    \put(0.81749405,0.05479298){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}West_Slavic\end{tabular}}}}%
+    \put(0.81749405,0.08102412){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Old_Russian\end{tabular}}}}%
+    \put(0.41981093,0.05510524){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Slavic\end{tabular}}}}%
+    \put(0.81749405,0.0997606){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Eastern_Baltic\end{tabular}}}}%
+    \put(0.28724993,0.07743293){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Balto_Slavic\end{tabular}}}}%
+    \put(0.81749405,0.11474985){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Icelandic_Faroese\end{tabular}}}}%
+    \put(0.68493305,0.1203708){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}West_Scandinavian\end{tabular}}}}%
+    \put(0.55237193,0.13161272){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}North_Germanic\end{tabular}}}}%
+    \put(0.81749405,0.15222286){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Global_Dutch\end{tabular}}}}%
+    \put(0.68493305,0.16221572){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}West_Germanic\end{tabular}}}}%
+    \put(0.41981093,0.15742747){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Germanic\end{tabular}}}}%
+    \put(0.81749405,0.1934432){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}West_Iberian\end{tabular}}}}%
+    \put(0.68493305,0.20093782){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Iberian_Romance\end{tabular}}}}%
+    \put(0.81478844,0.21863268){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Old_French\end{tabular}}}}%
+    \put(0.55237193,0.20843246){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Western_Romance\end{tabular}}}}%
+    \put(0.41981093,0.21592707){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Italo_Western_Romance\end{tabular}}}}%
+    \put(0.28724993,0.22342169){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Latin\end{tabular}}}}%
+    \put(0.81749405,0.24215822){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Hindustani\end{tabular}}}}%
+    \put(0.68222739,0.2448638){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Sanskrit\end{tabular}}}}%
+    \put(0.81749405,0.25714741){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Iranian\end{tabular}}}}%
+    \put(0.55237193,0.24965281){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Indo_Iranian\end{tabular}}}}%
+    \put(0.81749405,0.27213663){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Brythonic\end{tabular}}}}%
+    \put(0.81749405,0.28712582){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Goidelic\end{tabular}}}}%
+    \put(0.68493305,0.27963123){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Insular_Celtic\end{tabular}}}}%
+    \put(0.81478844,0.30107336){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Koine_Greek\end{tabular}}}}%
+    \put(0.68222739,0.30107336){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Classical_Greek\end{tabular}}}}%
+    \put(0.54966632,0.30107336){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Archaic_Greek\end{tabular}}}}%
+    \put(0.15468884,0.22739945){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Indo_European\end{tabular}}}}%
+    \put(0.81749405,0.31710429){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Arabic\end{tabular}}}}%
+    \put(0.68493305,0.32272524){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Central_Semitic\end{tabular}}}}%
+    \put(0.81478844,0.33854642){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}West_Semitic\end{tabular}}}}%
+    \put(0.55237193,0.329283){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semitic\end{tabular}}}}%
+    \put(0.41981093,0.33630918){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Afroasiatic\end{tabular}}}}%
+    \put(0.81749405,0.3545773){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Finnic\end{tabular}}}}%
+    \put(0.68493305,0.36862973){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Uralic\end{tabular}}}}%
+    \put(0.81749405,0.39579765){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Common_Turkic\end{tabular}}}}%
+    \put(0.81478844,0.41349251){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Atlantic_Congo\end{tabular}}}}%
+    \put(0.68493305,0.41453418){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Niger_Congo\end{tabular}}}}%
+    \put(0.81749405,0.42952338){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Classical_Chinese\end{tabular}}}}%
+    \put(0.02212783,0.42725917){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}_ROOT_\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
