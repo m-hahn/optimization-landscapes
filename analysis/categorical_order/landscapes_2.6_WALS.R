@@ -16,6 +16,21 @@ wals = read.csv("../../81A.tab", sep="\t") %>% rename(iso_code=wals.code)
 
 u = merge(u, wals, by=c("iso_code"), all.x=TRUE)
 
+
+
+write.csv(u %>% select(Language, description), file="categorical_order.tsv")
+
+
+
+additional = read.csv("categoricalOrderAdditional.tsv", sep="\t") %>% mutate(rationale=NULL)
+
+uWALS = u %>% filter(!is.na(description))
+uNoWALS = u %>% filter(is.na(description)) %>% mutate(description=NULL)
+uNoWALS = merge(additional, uNoWALS, by=c("Language"), all=TRUE)
+
+
+u = rbind(uWALS, uNoWALS)
+
 library(stringr)
 u$Language2 = as.character(u$Language)
 for(i in (1:nrow(u))) {

@@ -116,8 +116,7 @@
 
 These are the historical languages in our dataset, with approximate dating assigned:
 
-
-\begin{tabular}{llp{10cm}llll}
+\begin{longtable}{llp{10cm}llll}
 Language & Time & Rationale \\ \hline
 Coptic & 400 AD & Dating of the Apophthegmata Patrum texts used in the UD treebank\\
 Gothic & 350 AD & Life of bible translator Ulfilas (311--383)\\
@@ -131,13 +130,12 @@ Archaic Greek & 700 BC & Approximate mean age of texts used \\
 Classical Greek & 400 BC & Approximate mean age of texts used \\
 Koine Greek & 0 AD  & Approximate mean age of texts used\\
 Old Church Slavonic & 850 AD &  Bible translation after invention of Glagolitic alphabet around 850 AD. \\
-\end{tabular}
+\end{longtable}
+
+We included the following languages in Figure 4 of the main paper:
 
 
-
-We included the following languages in Figure (TODO):
-
-\begin{tabular}{llll} \hline
+\begin{longtable}{l|lll} \hline
 Family & Languages & Dates \\ \hline\hline
 Chinese & Classical Chinese & -400  \\
 & Cantonese & +2000\\ 
@@ -164,8 +162,7 @@ Indo-Aryan & Sanskrit & -200 \\
 & Urdu  & +2000\\ \hline
 Eastern South Slavic & Old Church Slavonic & +800 \\
 & Bulgarian  & +2000\\ \hline
-\end{tabular}
-
+\end{longtable}
 
 \subsection{Corpora and Corpus Sizes}
 
@@ -188,7 +185,7 @@ Language & Sentences & Words \\ \hline
 
 Furthermore, we excluded the following treebanks from languages otherwise included:
 
-\begin{tabular}{lllll}
+\begin{longtable}{lllll}
 Treebank & Rationale \\ \hline
 Chinese-CFL & Text written by non-native speakers\\
 English-ESL & Text written by non-native speakers \\
@@ -197,14 +194,14 @@ Hindi English-HIENCS &  Consists of codeswitched text \\
 Latin-ITTB & Consists of Medieval Latin text \\
 Latin-LLCT & Consists of Medieval Latin text  \\
 English-Pronouns & Specifically targets pronouns \\
-\end{tabular}
+\end{longtable}
 
 
 
 The spoken corpora have the following overall sizes (for Naija, see above):
 
 \begin{longtable}{lllll}
-Language & Sentences & Words \\ \hline
+Language & Sentences  \\ \hline
 \input{../optimizeDLM/SpokenJapanese/corpora}
 \input{../optimizeDLM/UD_Spoken/corpora}
 \input{../optimizeDLM/Switchboard/corpora}
@@ -257,8 +254,9 @@ Icelandic-Faroese & 1,400 AD & Sound shifts specific to Faroese\\
 Indo-European & 5,300 BC & \citep{gray2003language} (excluding Hittite and Tocharian, for which we not do not have data). \\
 Indo-Iranian & 2,500 BC & \citep[p. 138]{parpola2013formation} \\ % Parpola 1999 suggests 2000 BC. The formation of the Aryan branch of Indo-European.
 Insular Celtic & 900BC & \citep{gray2003language} estimate 900BC. Sound shift k$^w$ $>$ p in the Brythonic branch antedates attestation of name `Britain' in 325BC. \\ % Gray and Atkinson: 900BC. Language-tree divergence times support.. Rexova et al, Cladistic analysis
-Iranian & 500 BC & \citep{gray2003language}. (Parpola 1999:200) suggests 1900BC based on archaeological evidence. \\ % Kurmanji, Persian. Parpola 1999 suggests 1900 BC.
+Iranian & 500 BC & \citep{gray2003language}. \\ % (Parpola 1999:200) suggests 1900BC based on archaeological evidence. \\ % Kurmanji, Persian. Parpola 1999 suggests 1900 BC.
 Italo-Western-Romance & 500 AD & End of the Western Roman empire \citep{holman2011automated}.  \\
+	Macro-English & 1900AD & In our dataset, this is the common ancestor of contemporary English and Naija (Nigerian Pidgin). \\
 Niger-Congo & 5000BC & \citet{holman2011automated} estimate an age of 6227 years, but the family has to be older than Atlantic-Congo. We place Niger-Congo at 5000BC.\\
 North-Germanic & 650 AD & Split of Old Norse into regional variants, such as assimilation of nasals to following stops in Western Norse in the 7th century \citep[p. 1856, 1859]{sandoy2017202}. Similarly \citep{holman2011automated} calibrates this to 900 AD. \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
 Semitic & 3,750 BC & \citep{kitchen2009bayesian} \\
@@ -266,7 +264,7 @@ Serbo-Croatian & 1,900 AD & Standardization of Serbian and Croatian\\
 Slavic       & 700AD & \citep{gray2003language}. \citet[p. 209]{novotna2011glottochronology} date the split of East Slavic to the 6th century, \citep{holman2011automated} calibrates it to 550AD. \\
 South-Slavic & 750 BC & Expansion of Slavic into Balkan. Postdates Slavic and antedates Old Church Slavonic (attested after 800AD) \\
 Uralic & 3,000 BC & \citep[Section 4.7]{maurits2020best}, cf \citep[p. 144]{parpola2013formation} for references \\
-West Iberian & 1,100 & Independence of Portugal \\
+West Iberian & 1,100AD & Independence of Portugal \\
 West-Germanic & 500 AD & Migrations into Britain and southern central Europe\\
 West-Scandinavian & 1,100 AD & Sound shifts specific to Norwegian\\
 West-Semitic & 3,400 BC & \citep{kitchen2009bayesian}  \\
@@ -288,8 +286,8 @@ Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatia
 %According to the model of random walks on phylogenetic trees, whenever a (historical) language branches off into multiple successor languages, they independently develop according to this process.
 
 
-%As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
-%We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+%As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object position congruence of 1 (as opposed to 0).
+%We model the state of the grammar as $Y_L$, the observed subject-object position congruence.
 %$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
 
 %\subsection{Simple Brownian Motion Model}
@@ -315,8 +313,8 @@ Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatia
 %According to the model of random walks on phylogenetic trees, whenever a (historical) language branches off into multiple successor languages, they independently develop according to this process.
 
 
-%As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
-%We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+%As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object position congruence of 1 (as opposed to 0).
+%We model the state of the grammar as $Y_L$, the observed subject-object position congruence.
 %$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
 
 %\subsection{Simple Brownian Motion Model}
@@ -371,8 +369,8 @@ Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatia
 
 %, for comparison with a simple Brownian motion model, and for comparison with non-diagonal $\Gamma$.
 %We adopt the model of Brownian motion on phylogenetic trees.
-%As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object symmetry of 1 (as opposed to 0).
-%We model the state of the grammar as $Y_L$, the observed subject-object symmetry.
+%As the data for optimized grammars comes in the form of counts, we model the usage of a language $L$ as a latent variable $X_L$ that defines the log-odds that an optimized grammar has a subject-object position congruence of 1 (as opposed to 0).
+%We model the state of the grammar as $Y_L$, the observed subject-object position congruence.
 %$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R} \times [0,1]$  of the language.
 %We model the instantaneous change of the state $\xi_t$ a language at a given time $t$ as Brownian motion:
 %\begin{equation*}
@@ -390,7 +388,7 @@ Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatia
 %A positive value indicates that changes in both directions are positively correlated.
 
 \subsection{Calculating the Likelihood}
-For completeness, we describe how to calculate the likelihood of a multidimensional Ornstein-Uhlenbeck model on phylogenetic trees.
+For completeness, we describe how to calculate the likelihood of a multidimensional Ornstein-Uhlenbeck model on phylogenetic trees \citep{felsenstein1988phylogenies,hansen1997stabilizing, blackwell2003bayesian}.
 
 As described in the Methods section, it is described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
 \begin{equation*}
@@ -482,37 +480,42 @@ This is known as the Independent Contrasts model \citep{felsenstein1973maximum, 
 
 Brownian motion differs from the Ornstein-Uhlenbeck process in that it does not have a long-term stationary solution.
 Instead, trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$.
-This is clearly unrealistic in our setting, as subject-object symmetry is bounded between 0 and 1.
+This is clearly unrealistic in our setting, as subject-object position congruence is bounded between 0 and 1.
 
 As there is no stationary solution, there is no straightforward way to jointly apply the model to data from languages that do not share a common ancestor.
 For modelling purposes, we assumed that all families had a common ancestor at some large time $T_0$ in the past.
 This modelling assumption corresponds to the assumption of macro-families of very large time-depth.
-We varied $T_0$ from 10,000 BC to 100,000 BC, and measured the instantaneous correlation of changes $R$ for each fit.
+We considered $T_0$ to be 20,000 BC, 50,000 BC, and 100,000 BC, and measured the instantaneous correlation of changes $R$ for each fit.
 To evaluate model fit, we compared marginal likelihood of the Brownian model with the Ornstein-Uhlenbeck model.
 
 \paragraph{Results}
-Across different choices of $T_0$, the Brownian model strongly supports a positive correlation $R$, very similar to the Ornstein-Uhlenbeck analysis.
+Across different choices of $T_0$, the Brownian model strongly supports a positive correlation $R$, very similar to the Ornstein-Uhlenbeck analysis; the posterior probability of $R\leq 0$ is $0.00025$ at $T_0=-100,000$, $0.00025$ at $T_0 = -50,000$, and $0$ at $T_0 = -20,000$. % change/brownian-binom/fits
+However, model fit as measured by marginal likelihood is much weaker than in the Ornstein-Uhlenbeck model, across choices of $T_0$ (Table~\ref{tab:marg-brown}), corresponding to a Bayes factor of about $10^{55}$ in favor of the Ornstein-Uhlenbeck model.
 
-TODO results
-
-Model fit as measured by marginal likelihood is considerably weaker in the Brownian model, across choices of $T_0$ (Bayes Factor TODO).
-
-TODO results
-
-%This limitation can be addressed by adding a drift term, whereby languages tend to stay within a bounded area, while subjected to random walk dynamics within this area.
-
+\begin{table}
+	\begin{center}
+	\begin{tabular}{llllllll}
+	% change/brownian-binom/logodds-approx/marginal_likelihood$ more results.txt
+	Model & Log-Likelihood \\ \hline
+	Ornstein-Uhlenbeck & -34 \\
+	Ornstein-Uhlenbeck (diaognal $\Sigma$) & -40 \\
+	Brownian ($T_0 = -100,000$) & -190 \\
+	Brownian ($T_0 = -50,000$) & -188 \\
+	Brownian ($T_0 = -20,000$) & -170
+\end{tabular}
+	\end{center}
+	\caption{Marginal log-likelihoods for Ornstein-Uhlenbeck and simple Brownian models. Values closer to $0$ indicate better model fit.}
+	\label{tab:marg-brown}
+\end{table}
 
 \section{Accounting for Areal Convergence}
 The model of random walks on phylogenetic trees assume that languages evolve independently once they have split.
-However, linguistic evolution can include borrowing between geographically neighboring languages (CITE).
-%\cite{kalyan2019problems}
-Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas (CITE), geographic regions in which languages tend to show convergent evolution due to borrowing.
+However, linguistic evolution can include borrowing between geographically neighboring languages \citep[e.g.][]{dryer1989large, bisang1996areal, heine2003on, aikhenvald2007grammars,  kalyan2019problems}.
+Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}, geographic regions in which languages tend to show convergent evolution due to borrowing.
 
-%We accounted for effects of geographic neighborhoods by modeling linguistic areas as a latent variable, inferred together with the other parameters of the model.
-%We 
 We modeled linguistic areas as latent variables defining time- and location-dependent values $\mu(x,t)$ (where $x$ is a point on the surface of the earth and $t$ is a point in time) that languages at time $t$ and place $x$ drift towards.
 These values are inferred from the data together with the other parameters of the Ornstein-Uhlenbeck process.
-By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, encoding the idea that areal convergence between languages depends on their geographic distance (CITE).
+By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, encoding the idea that areal convergence between languages depends on their geographic distance.
 This approach is related to the model described by \citep{nuismer2015predicting}, who propose to model convergence between species by assuming correlations between the means $\mu$ of different species.
 For other approaches to model interactions between species from the bioinformatics literature, see \citet{manceau2016a,drury2016estimating, bartoszek2017using, drury2018an}.
 
@@ -534,8 +537,8 @@ That is, the covariance between $\mu$ at points $x, y$ on the surface of the ear
     Cov(\mu_x, \mu_y) = \alpha \exp\left(-\frac{1}{\rho^2_1} d(x,y) - \frac{1}{\rho_2^2} |T_1-T_2|\right)
 \end{equation}
 where $d(x,y)$ is the great circle (geodesic) distance between points $x, y$, and $\alpha, \rho>0$ are hyperparameters.
-The Laplace kernel is positive-definite with the great-circle distance $d(\cdot, \cdot)$ \citep{feragen2015geodesic} and thus provides a valid covariance for this distance, unlike some other kernels like the RBF kernel.
-This defines a prior that favors values of $\mu_L$ that vary smoothly over space and time, encoding the idea of linguistic areas.
+The Laplace kernel is positive-definite with the great-circle distance $d(\cdot, \cdot)$ \citep{feragen2015geodesic} and thus provides a valid covariance for this distance; many other popular kernels like the RBF kernel are not valid for this distance \citep{feragen2015geodesic}.
+This prior favors values of $\mu_L$ that vary smoothly over space and time, encoding the idea of linguistic areas.
 We placed Gaussian priors with mean $0$ and variance $1$, truncated to positive values, on the hyperparameters $\alpha, \frac{1}{\rho^2}$ of the kernel~(\ref{eq:kernel}).
 
 
@@ -545,7 +548,248 @@ For ancestors, we recursively defined their location as the mean of the location
 
 %As $\mu$ now varies with time, the resulting process is not Gauss-Markov any more \citep{schach1971weak}, and thus the likelihood cannot be represented with a single covariance matrix any more. We thus perform inference by explicitly modelling $\xi_L$ for all inner nodes $L$ of the phylogenetic tree.
 
-\paragraph{Computing the Likelihood}
+
+
+\paragraph{Results}
+We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-area-time}.
+The posterior probability that the correlation is $\leq 0$ is estimated to be TODO.
+
+%In Table, we show all models together with the logarithm of the estimated marginal likelihood of the data.
+%Higher marginal likelihood indicates better model fit.
+
+
+%Conditions:
+%- $\Gamma$ has positive eigenvalues
+%- $\Gamma\Omega+\Omega\Gamma^T$ is a covariance matrix
+%- $\Omega$ is a covariance matrix
+%Things to visualize
+%- stationary distribution
+%- instantaneous distribution over change directions
+
+
+% https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
+
+
+\section{Subject-Object Symmetry and Categorical Classification of Basic Word Order}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{../analysis/categorical_order/figures/by_categorical_order.pdf}
+	\caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}, supplemented with data from other sources (see Section~\ref{sec:categorical}). Colors indicate basic word order categories.}
+    \label{fig:categorical-basic-order}
+\end{figure}
+
+
+
+The notion of subject-object position congruence addresses a key limitation of the standard classification of languages into basic word order categories by accounting for the well-documented differences in degrees of word order flexibilities in languages that are conventionally assigned the same basic word order \citep{steele1978word}.
+Here, we compare subject-object position congruence to basic word order as classified in the typological literature.
+
+
+In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (see Section~\ref{sec:categorical}).
+First, we see that attested subject-object position congruence largely determines whether a language is labeled SVO or SOV/VSO.
+A few language with medium subject-object position congruence are labeled as `No dominant order'.
+
+Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.76, p < 10^{-8}$) and SOV ($R=0.55, p = 0.062$).
+This shows that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
+
+Next, we describe a version of the phylogenetic analysis controlling for catgeorical order.
+
+\subsection{Phylogenetic Analysis}\label{sec:categorical}
+
+
+\paragraph{Model}
+
+We constructed a version of the phylogenetic analysis where the drift parameters $\mu, \Gamma$ depend on the categorical order of the language $L$:
+\begin{equation*}
+    \operatorname{d}\xi_{L,t} = \Gamma_{C(L)} \cdot (\xi_{L,t}-\mu_{C(L)}) \operatorname{d}t + \Lambda \operatorname{d}B_t
+\end{equation*}
+where $C(L)$ is the categorical order assigned to the language.
+
+\paragraph{Labeling Categorical Basic Word Order}
+This model requires labeling all nodes on the phylogenetic tree for categorical word orders.
+We based the annotation on \citet{wals-81}.
+In those languages where no annotation was available, we drew on \citep{gell-mann-origin-2011}, supplemented with language-specific literature.
+We obtained the following labels:
+\begin{longtable}{llp{0.5\textwidth}lll}
+\hline
+	Language & Label & Rationale \\ \hline
+\input{../analysis/categorical_order/output/additionalOrders.tex}
+\hline
+\end{longtable}
+
+For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
+\begin{longtable}{llp{0.5\textwidth}lll}
+\hline
+Group & Label & Rationale \\ \hline
+\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
+\hline
+\end{longtable}
+
+
+\begin{figure}
+    \centering
+	\begin{tabular}{cc}
+		\textbf{(A)} \\
+    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/corr_sigma.pdf}
+		\\
+		\textbf{(B)} & \textbf{(C)} \\
+		\includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_facet.pdf} &
+    \includegraphics[width=0.4\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_svo_sov.pdf}
+	\end{tabular}
+    \caption{Results of the phylogenetic analysis, controlling for conventional categorical word order labels.}
+    \label{fig:langs-categorical}
+\end{figure}
+
+
+\paragraph{Results}
+We show results in Figure~\ref{fig:langs-categorical}.
+The posterior of $\Sigma$ (Figure~\ref{fig:langs-categorical} (A)) is very similar to the posterior in the main analysis; almost all of the posterior mass is on positive correlations between grammar and usage components.
+%Note that even a null result would have been fully consistent with the coadaptation hypothesis, if coadaptation happens
+This shows that languages display coadaptation of grammar and usage even \emph{beyond} what is captured by conventional categorical word order labels.
+In Figure~\ref{fig:langs-categorical} (B-C), we show the resulting stationary distributions for all four categorical word order types (B), and for the two frequent ones (SOV/SVO, (C)).
+In the case of the frequent categories (SOV, SVO), the stationary distributions show a correlation in the two axes, illustrating that coadaptation happens even within these categorical classes.
+
+\section{The Role of Case Marking and Pro Drop}
+
+\subsection{Case Marking}
+Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
+We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
+
+\paragraph{Coding Languages for Case Marking}
+We coded languages from our sample for the presence or absence of case marking on the basis of \citep{wals-49}, supplemented with information from the grammatical literature where no information was provided.
+We amended the annotation from \citep{wals-49} to include only case marking that distinguishes between subjects and objects; this concerns several modern Celtic and Germanic languages, which have some nominal case marking but do not distinguish subjects and objects (e.g., Swedish and English use -\textit{s} to mark possessives, but do not distinguish nominal subjects and objects.).
+
+We furthermore coded all interior nodes of the phylogenetic tree for case marking based on the linguistic literature.
+In some cases, this annotation was unambiguous due to available historical documentation even though no treebank data was available (e.g., Proto-West-Scandinavian was a late form of Old Norse and had case markers).
+In many other cases, cognate case markers are unambiguously attested both within and without a group, showing that they were present in the protolanguage (e.g., Proto-Germanic, Proto-Indo-Iranian).
+Furthermore, in many protolanguages, case markers are commonly reconstructed based on their presence in different descendant branches (e.g., Proto-Indo-European, Proto-Afroasiatic, Proto-Common-Turkic, Proto-Uralic and Proto-Ugric). % Uraloc: Abondolo Uralic; Hajdu uralischen Sprachen; Marcantonio Uralic
+Case is not unambiguously reconstructed for Proto-Niger-Congo and Proto-Atlantic-Congo; we verified that all four possible parameter settings lead to equivalent results (we report results under the assumption that neither of them had case, with essentially indistinguishable results for the other cases).
+
+\paragraph{Model of Change conditioned on Case Marking}
+Based on the prior literature, we expect that languages without case marking will be biased towards low subject-object position congruence~\citep{vennemann1974explanation}.
+To take this into account, we modified the model by conditioning the mean vector $\mu$ on the presence or absence of case in the language $L$.
+\begin{equation*}
+    \operatorname{d}\xi_{L,t} = \Gamma_{C(L)} \cdot (\xi_{L,t}-\mu_{C(L)}) \operatorname{d}t + \Lambda \operatorname{d}B_t
+\end{equation*}
+where $C(L)$ is $1$ if $L$ has case and $0$ else.
+We set priors $\mu_{C(L)} \sim N(0,1)$ for both $C(L) = 0$, and $1$.
+
+
+\paragraph{Results}
+We plot the distribution of languages and the fitted stationary distributions, conditioned on $C(L)$, in Figure~\ref{fig:langs-case}.
+In accordance with the prior literature, the model indicated that languages without case marking favor regions with low observed and optimized subject-object position congruence (TODO).
+For languages with case marking, there was evidence for a bias towards higher subject-object position congruence (TODO).
+We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-case} (top).
+The posterior probability that the correlation is $\leq 0$ is estimated to be $0.023$.
+
+
+\paragraph{Conclusion}
+We found that, while case marking has a robust impact on subject-object position congruence, coadaptation continues to hold when controlling for this.
+
+\begin{figure}
+    \centering
+	\begin{tabular}{cccc}
+		\textbf{(A)} \\
+    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/case/separate_b/fits/corr_sigma.pdf} \\
+		\textbf{(B)} & \textbf{(C)} \\
+		\includegraphics[width=0.5\textwidth]{../analysis/figures/by_patient_marking.pdf} &
+    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/case/separate_b/fits/stationary_case.pdf}
+	\end{tabular}
+    \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking. Left: Languages by availability of morphological distinction between subject and object nouns. Right: Fitted stationary distribution, conditioned on case marking. \mhahn{TODO fix colors}}
+    \label{fig:langs-case}
+\end{figure}
+
+%#Oliver A. Iggesen. 2013. Number of Cases.
+%#In: Dryer, Matthew S. & Haspelmath, Martin (eds.)
+%#The World Atlas of Language Structures Online.
+%#Leipzig: Max Planck Institute for Evolutionary Anthropology.
+%#(Available online at http://wals.info/chapter/49, Accessed on 2020-09-20.)
+
+
+%\section{Pro-Drop}
+%This correlation was not accounted for by differences in the availability of pro-drop (see SI Section X).
+
+
+%Say something specific:
+%Furthermore, we specifically considered what distinguishes the tree topologies of Old English from those of Modern English.
+%- Old English -- English what distinguishes the tree structures?
+%In this respect, Old English patterned more like contemporary Japanese.
+
+
+%\subsection{Pro Drop}
+
+%\subsection{Subject-Verb Agreement}
+
+\section{Within-Language Correlates of Basic Word Order}
+
+Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
+
+%\subsection{Coexpression: VS Order in SVO Languages}
+In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'').
+This kind of ``intransitive inversion'' has been documented in many languages, including English, Romance languages, and Chinese \citep[Chapter 17.2]{li1981mandarin}.
+There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
+This observation has been formalized as the following language universal: \textit{If VS is dominant with transitives, it is also dominant with intransitives} (\citet[No 344]{plank2000the}, citing \citet{kozinsky1981Nekotorye}).
+DLM provides an explanation for this universal.
+
+%- literature
+%- Unaccusative inversion
+%-- Leonetti, Two Types of postervbal subject (Spanish): Unaccusative inversion (p. 17)
+%-- English there inversion
+
+We conjectured that, more generally, the rate of VS order is higher when no object is present than when an object is present.
+For each language in our dataset, we collected statistics for all verbs with a subject and conducted the following logistic analysis:
+
+\begin{equation}
+\text{SV Order} \sim \text{Object is present}
+\end{equation}
+
+A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
+Results are shown below.
+As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
+
+\begin{longtable}{l|lllllll}
+Language & SV Frequency & $\beta$ & $p$ \\ \hline
+\input{../collectPerVerbProperties/SV_withinLang/results_analyze_VSOrderWhenNoObject.R.tex}
+\end{longtable}
+
+
+
+
+%\subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
+In some predominant VSO languages, SVO is an alternative word order in unembedded clauses, whereas embedded clauses tend to only allow VSO.
+This is in accordance with the predictions of DLM, which favors high subject-object position congruence in embedded clauses (see Figure 1B in the main paper).
+Examples include relative clauses in Afroasiatic and Celtic (Standard Arabic~\citep{alqurashi:2012}, Breton \citep[][p. 80]{timm1988relative}, Ancient Egyptian \citep{gardiner1957egyptian}, Tuareg \citep[Chapter 12.1.2]{heath2005a}).
+Conversely, in some SVO languages, embedded clauses show VSO order (Bantu, \citet{demuth1999verb}); Miza (Chadic) has SVO/VOS in main clauses and VOS in embedded clauses~\citep{wals-81}.
+However, it is not generally true that VS order is more common in embedded clauses across all languages that have variation in basic word order.
+For instance, German and Dutch can have VS in main clauses, but are almost always SV in subordinate clauses; the same holds for Quileute (Chimakuan)~\citep{wals-81}.
+
+
+
+
+%\section{Detailed Diachronic Trajectories}
+%-- coexpression
+%-- position congruence
+%-- case
+%- English
+%- French?
+%- Ancient Greek?
+
+\section{Estimating Usage and Grammar on Disjoint Corpora}
+
+\mhahn{TODO. Here, my plan is to illustrate that estimating quantities on disjoint corpora makes no difference, using just two or three languages as examples.}
+
+
+\bibliography{literature}
+\bibliographystyle{natbib}
+
+
+
+\end{document}
+
+
+
+\paragraph{Computing the Likelihood for Model with Changing Parameters}
 
 
 \begin{equation}
@@ -597,221 +841,6 @@ and
 & - \sum_{i=1}^K e^{-\Delta_K\Gamma_K}\dots e^{-\Delta_{i}\Gamma_{i}} \Omega_K e^{-\Delta_{i}\Gamma_{i}}\dots e^{-\Delta_K\Gamma_K} \\
 &+ \sum_{i=1}^K e^{-\Delta_K\Gamma_K}\dots e^{-\Delta_{i+1}\Gamma_{i+1}} (1-e^{-\Delta_i \Gamma_Ki})\mu_i \mu_i^T (1-e^{-\Delta_i \Gamma_i})^T e^{-\Delta_{i+1}\Gamma_{i+1}}\dots e^{-\Delta_K\Gamma_K} \\
 \end{align*}
-
-
-
-\paragraph{Results}
-We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-area-time}.
-The posterior probability that the correlation is $\leq 0$ is estimated to be TODO.
-
-%In Table, we show all models together with the logarithm of the estimated marginal likelihood of the data.
-%Higher marginal likelihood indicates better model fit.
-
-
-%Conditions:
-%- $\Gamma$ has positive eigenvalues
-%- $\Gamma\Omega+\Omega\Gamma^T$ is a covariance matrix
-%- $\Omega$ is a covariance matrix
-%Things to visualize
-%- stationary distribution
-%- instantaneous distribution over change directions
-
-
-% https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
-
-
-\section{Subject-Object Symmetry and Categorical Classification of Basic Word Order}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{../analysis/categorical_order/figures/by_categorical_order.pdf}
-    \caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}. Colors indicate basic word order categories, `NA' indicates languages with no data in \citep{wals-81}.}
-    \label{fig:categorical-basic-order}
-\end{figure}
-
-
-
-The notion of subject-object symmetry addresses a key limitation of the standard classification of languages into basic word order categories by accounting for the well-documented differences in degrees of word order flexibilities in languages that are conventionally assigned the same basic word order \citep{steele1978word}.
-Here, we compare subject-object symmetry to basic word order as classified in the typological literature.
-
-
-In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object symmetry, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}.
-First, we see that attested subject-object symmetry largely determines whether a language is labeled SVO or SOV/VSO.
-A few language with medium subject-object symmetry are labeled as `No dominant order'.
-
-Optimized subject-object symmetry remains predictive of attested subject-object order even within the categories SVO ($R = 0.76, p < 10^{-8}$) and SOV ($R=0.55, p = 0.062$).
-This shows that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
-
-
-\subsection{Phylogenetic Analysis}
-
-\paragraph{Labeling Categorical Basic Word Order}
-
-We primarily drew on \citep{gell-mann-origin-2011}.
-
-Additional labels for languages in the corpus, without label in \citep{wals-81}:
-
-\begin{longtable}{llllll}
-Language & Label & Rationale \\
-TODO
-\end{longtable}
-
-Labels for unobserved interior nodes:
-
-\begin{longtable}{llllll}
-Group & Label & Rationale \\
-TODO
-\end{longtable}
-
-\paragraph{Model}
-
-
-\section{The Role of Case Marking and Pro Drop}
-
-\subsection{Case Marking}
-Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
-We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
-
-\paragraph{Coding Languages for Case Marking}
-We coded languages from our sample for the presence or absence of case marking on the basis of \citep{wals-49}, supplemented with information from the grammatical literature where no information was provided.
-We amended the annotation from \citep{wals-49} to include only case marking that distinguishes between subjects and objects; this concerns several modern Celtic and Germanic languages, which have some nominal case marking but do not distinguish subjects and objects (e.g., Swedish and English use -\textit{s} to mark possessives, but do not distinguish nominal subjects and objects.).
-
-We furthermore coded all interior nodes of the phylogenetic tree for case marking based on the linguistic literature.
-In some cases, this annotation was unambiguous due to available historical documentation even though no treebank data was available (e.g., Proto-West-Scandinavian was a late form of Old Norse and had case markers).
-In many other cases, cognate case markers are unambiguously attested both within and without a group, showing that they were present in the protolanguage (e.g., Proto-Germanic, Proto-Indo-Iranian).
-Furthermore, in many protolanguages, case markers are commonly reconstructed based on their presence in different descendant branches (e.g., Proto-Indo-European, Proto-Afroasiatic, Proto-Common-Turkic, Proto-Uralic and Proto-Ugric). % Uraloc: Abondolo Uralic; Hajdu uralischen Sprachen; Marcantonio Uralic
-Case is not unambiguously reconstructed for Proto-Niger-Congo and Proto-Atlantic-Congo; we verified that all four possible parameter settings lead to equivalent results (we report results under the assumption that neither of them had case, with essentially indistinguishable results for the other cases).
-
-\paragraph{Model of Change conditioned on Case Marking}
-Based on the prior literature, we expect that languages without case marking will be biased towards low subject-object symmetry (CITE).
-To take this into account, we modified the model by conditioning the mean vector $\mu$ on the presence or absence of case in the language $L$.
-\begin{equation*}
-    \operatorname{d}\xi_{L,t} = \Gamma_{C(L)} \cdot (\xi_{L,t}-\mu_{C(L)}) \operatorname{d}t + \Lambda \operatorname{d}B_t
-\end{equation*}
-where $C(L)$ is $1$ if $L$ has case and $0$ else.
-We set priors $\mu_{C(L)} \sim N(0,1)$ for both $C(L) = 0$, and $1$.
-
-
-\paragraph{Results}
-We plot the distribution of languages and the fitted stationary distributions, conditioned on $C(L)$, in Figure~\ref{fig:langs-case}.
-In accordance with the prior literature, the model indicated that languages without case marking favor regions with low observed and optimized subject-object symmetry (TODO).
-For languages with case marking, there was evidence for a bias towards higher subject-object symmetry (TODO).
-We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-case} (top).
-The posterior probability that the correlation is $\leq 0$ is estimated to be $0.0055$.
-
-To separately estimate the evidence coming from languages with or without case marking, we also fitted a model where $\Lambda$ was also dependent on $C(L)$.
-The resulting correlation component posteriors are shown in Figure~\ref{fig:posterior-case} (bottom).
-We found a positive correlation in both settings individually (posterior of non-positive correlation $0.04175$ with case, $0.0385$ without case).
-
-\paragraph{Conclusion}
-We found that, while case marking has a robust impact on subject-object symmetry, coadaptation continues to hold when controlling for this.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.3\textwidth]{../change/visualize/figures/corr_ornuhl-binom_42.pdf}
-    
-    \includegraphics[width=0.3\textwidth]{../change/visualize/figures/corr_ornuhl-binom_45_Case.pdf}
-    \includegraphics[width=0.3\textwidth]{../change/visualize/figures/corr_ornuhl-binom_45_NoCase.pdf}
-    \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking. Top: Assuming a joint $\Sigma$. Bottom: Assuming separate values for $\Sigma$.}
-    \label{fig:posterior-case}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.4\textwidth]{../analysis/figures/by_patient_marking.pdf}
-    \includegraphics[width=0.4\textwidth]{../change/visualize/stationary_case.pdf}
-    \caption{Left: Languages by availability of morphological distinction between subject and object nouns. Right: Fitted stationary distribution, conditioned on case marking. \mhahn{TODO fix colors}}
-    \label{fig:langs-case}
-\end{figure}
-
-%#Oliver A. Iggesen. 2013. Number of Cases.
-%#In: Dryer, Matthew S. & Haspelmath, Martin (eds.)
-%#The World Atlas of Language Structures Online.
-%#Leipzig: Max Planck Institute for Evolutionary Anthropology.
-%#(Available online at http://wals.info/chapter/49, Accessed on 2020-09-20.)
-
-
-%\section{Pro-Drop}
-%This correlation was not accounted for by differences in the availability of pro-drop (see SI Section X).
-
-
-%Say something specific:
-%Furthermore, we specifically considered what distinguishes the tree topologies of Old English from those of Modern English.
-%- Old English -- English what distinguishes the tree structures?
-%In this respect, Old English patterned more like contemporary Japanese.
-
-
-\subsection{Pro Drop}
-TODO
-
-\subsection{Subject-Verb Agreement}
-
-\section{Within-Language Correlates of Basic Word Order}
-
-Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
-
-%\subsection{Coexpression: VS Order in SVO Languages}
-In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'' CITE).
-This kind of ``intransitive inversion'' has been documented in many languages, including English (CITE), Romance languages (CITE), and Chinese (Li and Thompson, Chapter 17.2: Presentative sentences, laile yi ge keren).
-There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
-This observation has been formalized as the following language universal: \textit{If VS is dominant with transitives, it is also dominant with intransitives} (CITE Also Konstanz Universals Archive No 344 citing Kozinsky 1981).
-%Kozinsky, Isaak (1981). Nekotorye grammaticeskie universalii v podsistemax vyrazenija subjektno-objektnyx otnnosenij. [Some grammatical universals in subsystems of expression of subject-object relations.] Doctoral dissertation, Moskovskij gosudarstvennyj universitet. 
-DLM provides an explanation for this universal.
-
-%- literature
-%- Unaccusative inversion
-%-- Leonetti, Two Types of postervbal subject (Spanish): Unaccusative inversion (p. 17)
-%-- English there inversion
-
-We conjectured that, more generally, the rate of VS order is higher when no object is present than when an object is present.
-For each language in our dataset, we collected statistics for all verbs with a subject and conducted the following logistic analysis:
-
-\begin{equation}
-\text{SV Order} \sim \text{Object is present}
-\end{equation}
-
-A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
-Results are shown below.
-As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
-
-TODO fill in
-\begin{longtable}{l|lllllll}
-Language & SV Frequency & $\beta$ & $p$ \\ \hline
-\input{../collectPerVerbProperties/SV_withinLang/results_analyze_VSOrderWhenNoObject.R.tex}
-\end{longtable}
-
-
-
-
-%\subsection{Embedding: VSO in Embedded Clauses, SVO in Main Clauses}
-In some predominant VSO languages, SVO is an alternative word order in unembedded clauses, whereas embedded clauses tend to only allow VSO.
-This is in accordance with the predictions of DLM, which favors high subject-object symmetry in embedded clauses (see Figure 1B in the main paper).
-Examples include relative clauses in Afroasiatic and Celtic (Standard Arabic~\citep{alqurashi:2012}, Breton \citep[][p. 80]{timm1988relative}, Ancient Egyptian \citep{gardiner1957egyptian}, Tuareg \citep[Chapter 12.1.2]{heath2005a}).
-Conversely, in some SVO languages, embedded clauses show VSO order (Bantu, \citet{demuth1999verb}); Miza (Chadic) has SVO/VOS in main clauses and VOS in embedded clauses~\citep{wals-81}.
-However, it is not generally true that VS order is more common in embedded clauses across all languages that have variation in basic word order.
-For instance, German and Dutch can have VS in main clauses, but are almost always SV in subordinate clauses; the same holds for Quileute (Chimakuan)~\citep{wals-81}.
-
-
-
-
-%\section{Detailed Diachronic Trajectories}
-%-- coexpression
-%-- symmetry
-%-- case
-%- English
-%- French?
-%- Ancient Greek?
-
-\section{Estimating Usage and Grammar on Disjoint Corpora}
-
-
-\bibliography{literature}
-\bibliographystyle{natbib}
-
-
-
-\end{document}
 
 
 
