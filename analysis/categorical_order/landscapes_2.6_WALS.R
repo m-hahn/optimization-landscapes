@@ -42,7 +42,7 @@ for(i in (1:nrow(u))) {
 
 library(ggrepel)
 library(ggplot2)
-plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=description)) + geom_text_repel(aes(label=Language2)) + xlab("Attested Subject-Object Symmetry") + ylab("Optimized Subject-Object Symmetry") + theme_bw() + theme(axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=description)) + geom_text_repel(aes(label=Language2)) + xlab("Attested Subject-Object Position Congruence") + ylab("Optimized Subject-Object Position Congruence") + theme_bw() + theme(axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 ggsave(plot, file="figures/by_categorical_order.pdf")
 
 v = u %>% filter(description == "SVO")

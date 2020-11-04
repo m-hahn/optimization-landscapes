@@ -40,14 +40,24 @@ u = merge(u, coexpression, by=c("Language"), all=TRUE)
 
 u$Coexpression = (u$Yes/(u$Yes+u$No))
 
+
+
+pro_drop = read.csv("../pro_drop/pro_drop.tsv")
+
+u = merge(u, pro_drop, by=c("Language"), all=TRUE) %>% rename(ProDrop = value)
+
+u = u %>% mutate(Coexpression.Centered = Coexpression+0.0 - mean(Coexpression, na.rm=TRUE))
+u = u %>% mutate(ProDrop.Centered = ProDrop+0.0 - mean(ProDrop, na.rm=TRUE))
+u = u %>% mutate(OSSameSide_Real_Prob.Centered = OSSameSide_Real_Prob+0.0 - mean(OSSameSide_Real_Prob, na.rm=TRUE))
+
 library(lme4)
-print(summary(lmer(Coexpression ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u)))
+print(summary(lmer(Coexpression ~ OSSameSide_Real_Prob + ProDrop.Centered + (1+ProDrop.Centered+OSSameSide_Real_Prob|Family), data=u)))
 library(brms)
-model = ((brm(Coexpression ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Family), data=u)))
+model = ((brm(Coexpression.Centered ~ OSSameSide_Real_Prob.Centered + ProDrop.Centered+(1+OSSameSide_Real_Prob.Centered+ProDrop.Centered|Family), data=u)))
 
 samples = posterior_samples(model)
 
-sink("coexpression_results.txt")
+sink("coexpression_prodrop_results.txt")
 print(cor.test(u$Coexpression, u$OSSameSide_Real_Prob))
 cat("\n")
 cat("Beta ", mean(samples$b_OSSameSide_Real_Prob), "\n")
@@ -71,7 +81,7 @@ for(i in (1:nrow(u))) {
 
 library(ggrepel)
 library(ggplot2)
-plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Attested Subject-Object Position Congruence") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Attested Subject-Object Symmetry") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 ggsave("../figures/objects-order-pureud-byVerb_FORMAT.pdf", width=7, height=7)
 
 
@@ -84,16 +94,16 @@ v = read.csv("../landscapes_2.6_new.R.tsv", sep=" ")
 v = merge(u, v, by=c("Language", "Family"))
 
 
-plot = ggplot(v, aes(x=OSSameSide, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Optimized Subject-Object Position Congruence") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
+plot = ggplot(v, aes(x=OSSameSide, y=Coexpression, color=Family)) + geom_text_repel(aes(label=Language2)) + xlab("Optimized Subject-Object Symmetry") + ylab("Coexpressed Subjects and Objects") + theme_bw() + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16)) + theme(panel.grid = element_blank())
 ggsave("../figures/objects-order-pureud-byVerb_optimized_FORMAT.pdf", width=7, height=7)
 
 
-model = ((brm(Coexpression ~ OSSameSide + (1+OSSameSide|Family), data=v)))
+model = ((brm(Coexpression.Centered ~ OSSameSide.Centered + ProDrop.Centered.Centered + (1+OSSameSide.Centered+ProDrop.Centered|Family), data=v)))
 
 
 samples = posterior_samples(model)
 
-sink("coexpression_optim_results.txt")
+sink("coexpression_prodrop_optim_results.txt")
 print(cor.test(v$Coexpression, v$OSSameSide))
 cat("\n")
 cat("Beta ", mean(samples$b_OSSameSide), "\n")

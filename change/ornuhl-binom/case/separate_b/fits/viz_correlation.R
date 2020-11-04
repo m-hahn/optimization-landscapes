@@ -29,7 +29,7 @@ library(MASS)
 # Stationary Variance
 data = data.frame(Group=c(), X=c(), Y=c())
 
-for(i in 1:4) {
+for(i in 1:2) {
    omega=c(stationary$Cov11[[i]], stationary$Cov12[[i]], stationary$Cov12[[i]], stationary$Cov22[[i]])
    dim(omega)=c(2,2)
    
@@ -52,19 +52,11 @@ logit = function(x) {
 
 library(tidyr)
 library(dplyr)
-plot = ggplot(data %>% filter(Group %in% c("SOV", "SVO")), aes(x=Y, y=X, group=Group, color=Group)) + geom_density2d() + xlim(0,1) + ylim(0,1)
-plot = plot + theme_bw()
-plot = plot + theme(axis.text=element_text(size=7))
-plot = plot + xlab("Real Subject-Object Position Congruence")
-plot = plot + ylab("Optimal Subject-Object-Position Congruence")
-ggsave(plot, file="stationary_case_svo_sov.pdf", height=4, width=4)
-
 plot = ggplot(data, aes(x=Y, y=X, group=Group, color=Group)) + geom_density2d() + xlim(0,1) + ylim(0,1)
 plot = plot + theme_bw()
 plot = plot + theme(axis.text=element_text(size=7))
 plot = plot + xlab("Real Subject-Object Position Congruence")
 plot = plot + ylab("Optimal Subject-Object-Position Congruence")
-plot = plot + facet_wrap(~Group)
-ggsave(plot, file="stationary_case_facet.pdf", height=4, width=6)
+ggsave(plot, file="stationary_case.pdf", height=4, width=4)
 
 

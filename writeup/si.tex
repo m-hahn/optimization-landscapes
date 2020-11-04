@@ -36,6 +36,7 @@
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{tikz}
+\usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{url}
 %\usepackage[colorinlistoftodos]{todonotes}
@@ -100,7 +101,8 @@
 \newcommand{\thetap}[0]{{\theta_{P}}}
 
 
-\title{Supplementary Information: A Coadaptation Theory of the Evolution of Word Order}
+\title{Supplementary Information: Coadaptation between Usage and Grammar in the Evolution of
+Word Order across Languages}
 % Maybe?: Grammar and Usage Interact in the Evolution of Language
 
 \author{Michael Hahn\\Department of Linguistics, Stanford University\\\\Yang Xu\\ Department of Computer Science, Cognitive Science Program, University of Toronto\\\\ \texttt{mhahn2@stanford.edu}}
@@ -456,11 +458,14 @@ The fact that $Y_L$ is a latent variable complicates computation of the likeliho
 We verified stability of the estimates by running the procedure ten times for each model, and averaging the obtained marginal likelihoods.
 
 
-\subsection{Quantifying Instantaneous Correlation}
+\subsection{Correlation Component of $\Sigma$}\label{sec:instant-corr}
+In the main paper, we reported the correlation between the two dimensions in the stationary distribution $\Omega$.
+In some of the analyses in the SI, there are multiple stationary distributions (depending on geography, case marking, or categorical order classes, see Sections 5--7).
+In these cases, we therefore report correlation for the instantaneous changes at any point in time:
 The matrix $\Sigma := \Lambda\Lambda^T$ indicates the variance-covariance structure of the instantaneous changes at any time $t$ \citep{felsenstein1973maximum, freckleton2012fast}.
 The main quantity of interest is the correlation between changes in the two dimensions, which is given by
 \begin{equation}
-R := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
+R_\Sigma := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
 \end{equation}
 A positive value indicates that changes in both directions are positively correlated.
 
@@ -524,7 +529,7 @@ For other approaches to model interactions between species from the bioinformati
 We model the grammar and usage components of $\mu$ to depend on the language's geographic position and the time a language was spoken.
 This models the impact of linguistic areas, and allows this impact to change over time.
 
-We assume that the development of a language $L$ observed at time $t+\Delta$ (e.g. Modern English) developed from a prior state at time $t$ (e.g., Old English) during time $[t, t+\Delta]$ according to the Ornstein-Uhlenbeck SDE
+We assume that a language $L$ observed at time $t+\Delta$ (e.g. Modern English) developed from a prior state at time $t$ (e.g., Old English) during time $[t, t+\Delta]$ according to the Ornstein-Uhlenbeck SDE
 \begin{equation}
     \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu_L) \operatorname{d}t + \Lambda \operatorname{d}B_t
 \end{equation}
@@ -551,8 +556,17 @@ For ancestors, we recursively defined their location as the mean of the location
 
 
 \paragraph{Results}
-We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-area-time}.
-The posterior probability that the correlation is $\leq 0$ is estimated to be TODO.
+We plot the posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) in Figure~\ref{fig:posterior-area-time}.
+The posterior probability that the correlation is $\leq 0$ is estimated to be 0.00125.
+In the stationary distribution, the two components are correlated at $R = 0.59$ (95\% CrI $[0.25, 0.89]$).
+This confirms that coadaptation is found even when explicitly modeling convergence between neibhboring languages.
+
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom-geo-time/fits/corr_sigma.pdf}
+	\caption{Posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) when accounting for areal convergemce.}\label{fig:posterior-area-time}
+\end{figure}
+
 
 %In Table, we show all models together with the logarithm of the estimated marginal likelihood of the data.
 %Higher marginal likelihood indicates better model fit.
@@ -570,7 +584,7 @@ The posterior probability that the correlation is $\leq 0$ is estimated to be TO
 % https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
 
 
-\section{Subject-Object Symmetry and Categorical Classification of Basic Word Order}
+\section{Subject-Object Position Congruence and Categorical Classification of Basic Word Order}
 
 
 \begin{figure}
@@ -610,6 +624,7 @@ where $C(L)$ is the categorical order assigned to the language.
 This model requires labeling all nodes on the phylogenetic tree for categorical word orders.
 We based the annotation on \citet{wals-81}.
 In those languages where no annotation was available, we drew on \citep{gell-mann-origin-2011}, supplemented with language-specific literature.
+In some cases, both `No dominant order' and one of SVO/SOV are plausible labels. In these cases, we opted for SOV/SVO, as we expect this to \emph{increase} the amount of variance that categorical order classes can explain, introducing at most a \emph{conservative} bias in estimating coadaptation.
 We obtained the following labels:
 \begin{longtable}{llp{0.5\textwidth}lll}
 \hline
@@ -637,7 +652,7 @@ Group & Label & Rationale \\ \hline
 		\includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_facet.pdf} &
     \includegraphics[width=0.4\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_svo_sov.pdf}
 	\end{tabular}
-    \caption{Results of the phylogenetic analysis, controlling for conventional categorical word order labels.}
+	\caption{Results of the phylogenetic analysis, controlling for conventional categorical word order labels. (A) Posterior over the correlation component $R_\Sigma$. Positive values indicate that grammar and usage evolve together. (B) Estimated stationary distributions for the four word order categories. (C) Estimated stationary distributions for the frequent classes, SOV and SVO.}
     \label{fig:langs-categorical}
 \end{figure}
 
@@ -650,9 +665,8 @@ This shows that languages display coadaptation of grammar and usage even \emph{b
 In Figure~\ref{fig:langs-categorical} (B-C), we show the resulting stationary distributions for all four categorical word order types (B), and for the two frequent ones (SOV/SVO, (C)).
 In the case of the frequent categories (SOV, SVO), the stationary distributions show a correlation in the two axes, illustrating that coadaptation happens even within these categorical classes.
 
-\section{The Role of Case Marking and Pro Drop}
+\section{The Role of Case Marking}
 
-\subsection{Case Marking}
 Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
 We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
 
@@ -675,14 +689,13 @@ To take this into account, we modified the model by conditioning the mean vector
 where $C(L)$ is $1$ if $L$ has case and $0$ else.
 We set priors $\mu_{C(L)} \sim N(0,1)$ for both $C(L) = 0$, and $1$.
 
-
 \paragraph{Results}
-We plot the distribution of languages and the fitted stationary distributions, conditioned on $C(L)$, in Figure~\ref{fig:langs-case}.
-In accordance with the prior literature, the model indicated that languages without case marking favor regions with low observed and optimized subject-object position congruence (TODO).
-For languages with case marking, there was evidence for a bias towards higher subject-object position congruence (TODO).
-We plot the posterior of the correlation component of $\Sigma$ in Figure~\ref{fig:posterior-case} (top).
+We plot the distribution of languages and the fitted stationary distributions, conditioned on $C(L)$, in Figure~\ref{fig:langs-case} (B-C).
+In accordance with the prior literature, the model indicated that languages without case marking favor regions with low observed and optimized subject-object position congruence.
+For languages with case marking, there was evidence for a bias towards higher subject-object position congruence.
+We plot the posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) in Figure~\ref{fig:langs-case} (A).
 The posterior probability that the correlation is $\leq 0$ is estimated to be $0.023$.
-
+This shows that languages show coadaptation beyond usage and grammar in basic word order, even beyond an association with case marking.
 
 \paragraph{Conclusion}
 We found that, while case marking has a robust impact on subject-object position congruence, coadaptation continues to hold when controlling for this.
@@ -696,7 +709,7 @@ We found that, while case marking has a robust impact on subject-object position
 		\includegraphics[width=0.5\textwidth]{../analysis/figures/by_patient_marking.pdf} &
     \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/case/separate_b/fits/stationary_case.pdf}
 	\end{tabular}
-    \caption{Posterior of the Usage-Grammar correlation coefficient $R$ when accounting for case marking. Left: Languages by availability of morphological distinction between subject and object nouns. Right: Fitted stationary distribution, conditioned on case marking. \mhahn{TODO fix colors}}
+    \caption{Posterior of the correlation component $R_\Sigma$ (see Section~\ref{sec:instant-corr}) when accounting for case marking. Left: Languages by availability of morphological distinction between subject and object nouns. Right: Fitted stationary distribution, conditioned on case marking.}
     \label{fig:langs-case}
 \end{figure}
 
@@ -727,7 +740,7 @@ Here, we show that basic word order reflects optimization for DLM not only on th
 
 %\subsection{Coexpression: VS Order in SVO Languages}
 In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'').
-This kind of ``intransitive inversion'' has been documented in many languages, including English, Romance languages, and Chinese \citep[Chapter 17.2]{li1981mandarin}.
+This kind of ``intransitive inversion'' has been documented in many SVO languages, including English, Romance languages, and Chinese \citep[Chapter 17.2]{li1981mandarin}.
 There are also languages whose basic word order is different in transitive and in intransitive clauses \citep{wals-82}; the World Atlas of Language Structures lists 13 languages with transitive SVO and intransitive VS basic word order \citep{wals-81,wals-82}, while it lists no languages with transitive VSO and intransitive SV order.
 This observation has been formalized as the following language universal: \textit{If VS is dominant with transitives, it is also dominant with intransitives} (\citet[No 344]{plank2000the}, citing \citet{kozinsky1981Nekotorye}).
 DLM provides an explanation for this universal.
@@ -777,7 +790,9 @@ For instance, German and Dutch can have VS in main clauses, but are almost alway
 
 \section{Estimating Usage and Grammar on Disjoint Corpora}
 
-\mhahn{TODO. Here, my plan is to illustrate that estimating quantities on disjoint corpora makes no difference, using just two or three languages as examples.}
+\mhahn{TODO}
+
+%\mhahn{TODO. Here, my plan is to illustrate that estimating quantities on disjoint corpora makes no difference, using just two or three languages as examples.}
 
 
 \bibliography{literature}
