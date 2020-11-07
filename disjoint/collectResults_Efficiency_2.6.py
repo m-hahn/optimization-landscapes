@@ -25,7 +25,7 @@ for filename in files:
 #      print("READING "+filename )
       part1 = filename.split("_model_")[0]
       if "_" in part1:
-        language = part1.split("_")[0]
+        language = part1.split("_optim")[0]
       else:
         assert False
       with open(PATH+filename, "r") as inFile:
@@ -42,7 +42,7 @@ for filename in files:
              if len(line) < 2:
                 continue
              entry = dict(list(zip(header, line)))
-             if "Language" not in entry:
+             if "Language" not in entry or True:
                 entry["Language"] = language
 #             if not ("_2.6_" in filename):
  #              collectedFilesNumber-=1
