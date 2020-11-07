@@ -90,6 +90,12 @@
 \newcommand{\Ff}[0]{\mathcal{F}}
 %\newcommand{}[1]{\textbf{#1}}
 
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+
+\setcounter{figure}{1}
+\setcounter{table}{1}
 
 \newcommand{\soft}[1]{}
 \newcommand{\nopreview}[1]{}
@@ -116,27 +122,29 @@ Word Order across Languages}
 
 \section{Historical Languages}
 
-These are the historical languages in our dataset, with approximate dating assigned:
+Table~\ref{tab:historical} shows the historical languages in our dataset, with approximate dating assigned.
+Table~\ref{tab:traj} lists the languages shown in Figure 4 of the main paper.
 
+\begin{table}
 \begin{longtable}{llp{10cm}llll}
 Language & Time & Rationale \\ \hline
+Archaic Greek & 700 BC & Approximate mean age of texts used \\
+Classical Chinese & 300 BC & Life of Mengzi (died around 300 BC); the treebank contains his teachings as collected by his followers. \\
+Classical Greek & 400 BC & Approximate mean age of texts used \\
 Coptic & 400 AD & Dating of the Apophthegmata Patrum texts used in the UD treebank\\
 Gothic & 350 AD & Life of bible translator Ulfilas (311--383)\\
-Old Russian & 1200 AD & Approximate mean age of texts used\\
-Old French & 1200 AD  & Approximate mean age of texts used\\
-Old English & 900 AD & Approximate mean age of texts used \\
-Sanskrit & 900BC & Approximate mean age of texts used \\
-Classical Chinese & 300 BC & Life of Mengzi (died around 300 BC); the treebank contains his teachings as collected by his followers. \\
-Latin & 0 AD & Approximate mean age of texts used \\
-Archaic Greek & 700 BC & Approximate mean age of texts used \\
-Classical Greek & 400 BC & Approximate mean age of texts used \\
 Koine Greek & 0 AD  & Approximate mean age of texts used\\
+Latin & 0 AD & Approximate mean age of texts used \\
 Old Church Slavonic & 850 AD &  Bible translation after invention of Glagolitic alphabet around 850 AD. \\
+Old English & 900 AD & Approximate mean age of texts used \\
+Old French & 1200 AD  & Approximate mean age of texts used\\
+Old Russian & 1200 AD & Approximate mean age of texts used\\
+Sanskrit & 900 BC & Approximate mean age of texts used \\
 \end{longtable}
+	\caption{Historical languages in our dataset.}\label{tab:historical}
+\end{table}
 
-We included the following languages in Figure 4 of the main paper:
-
-
+\begin{table}
 \begin{longtable}{l|lll} \hline
 Groups & Languages & Dates \\ \hline\hline
 Chinese & Classical Chinese & -400  \\
@@ -144,8 +152,17 @@ Chinese & Classical Chinese & -400  \\
 & Mandarin & +2000 \\ \hline
 East Slavic & Old Russian & +1200 \\
 & Russian & +2000 \\ \hline
+Eastern South Slavic & Old Church Slavonic & +800 \\
+& Bulgarian  & +2000\\ \hline
 English & Old English & +900 \\
 & English  & +2000\\ \hline
+Greek & Archaic Greek & -700 \\
+      & Classical Greek & -400 \\
+      & Koine Greek & +0\\
+& Greek  & +2000\\ \hline
+Indo-Aryan & Sanskrit & -900 \\
+& Hindi  & +2000\\
+& Urdu  & +2000\\ \hline
 Romance & Latin &+0  \\
 & Old French &+1200\\
 & French  & +2000\\
@@ -155,59 +172,72 @@ Romance & Latin &+0  \\
 & Galician & +2000\\
 & Portuguese & +2000\\
 & Romanian & +2000\\ \hline
-Greek & Archaic Greek & -700 \\
-      & Classical Greek & -400 \\
-      & Koine Greek & +0\\
-& Greek  & +2000\\ \hline
-Indo-Aryan & Sanskrit & -900 \\
-& Hindi  & +2000\\
-& Urdu  & +2000\\ \hline
-Eastern South Slavic & Old Church Slavonic & +800 \\
-& Bulgarian  & +2000\\ \hline
 \end{longtable}
+	\caption{Languages in Figure 4 of the main paper.}
+\label{tab:traj}
+\end{table}
 
 \subsection{Corpora and Corpus Sizes}
 
 As described in Methods, we included all UD 2.6 languages with at least 10,000 available words, and the ISWOC Old English treebank.
+Table~\ref{tab:sizes} shows the corpus sizes for the included UD languages.
+Table~\ref{tab:excluded} shows the UD languages that did not meet the inclusion criterion.
+Table~\ref{tab:excluded-corpora} shows excluded treebanks from languages otherwise included.
+Table~\ref{tab:spoken-sizes} shows corpus sizes for the spoken corpora (for Naija, see above).
 
-The included UD languages have the following overall sizes:
 
-\begin{longtable}{lrrr}
-Language & Number of Sentences & Number of Words \\ \hline
-\input{../fitGrammars/corpora}
-\end{longtable}
 
-The following UD languages did not meet the inclusion criterion:
+\begin{table}
+\begin{tabular}{lrrr}
+Language & Number of  & Nunber of \\ 
+	& Sentences & Words \\\hline
+\input{../fitGrammars/corpora1}
+\end{tabular}
+\begin{tabular}{lrrr}
+Language & Number of  & Nunber of \\ 
+	& Sentences & Words \\\hline
+\input{../fitGrammars/corpora2}
+       &            & \\
+\end{tabular}
+	\caption{Corpus sizes of the included UD languages.}\label{tab:sizes}
+\end{table}
 
+
+\begin{table}
 \begin{longtable}{lrrrr}
-Language & Number of Sentences & Nunber of Words \\ \hline
+Language & Number of  & Nunber of \\ 
+	& Sentences & Words \\\hline
 \input{../fitGrammars/excluded}
 \end{longtable}
+	\caption{UD Languages that did not meet the inclusion criterion.}\label{tab:excluded}
+\end{table}
 
 
-Furthermore, we excluded the following treebanks from languages otherwise included:
-
+\begin{table}
 \begin{longtable}{lllll}
 Treebank & Rationale \\ \hline
 Chinese-CFL & Text written by non-native speakers\\
 English-ESL & Text written by non-native speakers \\
+English-Pronouns & Specifically targets pronouns \\
 French-FQB & Consists entirely of questions \\
 Hindi English-HIENCS &  Consists of codeswitched text \\
 Latin-ITTB & Consists of Medieval Latin text \\
-Latin-LLCT & Consists of Medieval Latin text  \\
-English-Pronouns & Specifically targets pronouns \\
+Latin-LLCT & Consists of Medieval Latin text  \\ 
 \end{longtable}
+	\caption{UD corpora excluded, from languages otherwise excluded.}\label{tab:excluded-corpora}
+\end{table}
 
 
 
-The spoken corpora have the following overall sizes (for Naija, see above):
-
+\begin{table}
 \begin{longtable}{lrrrr}
 Language & Number of Sentences  \\ \hline
-\input{../optimizeDLM/SpokenJapanese/corpora}
-\input{../optimizeDLM/UD_Spoken/corpora}
 \input{../optimizeDLM/Switchboard/corpora}
+\input{../optimizeDLM/UD_Spoken/corpora}
+\input{../optimizeDLM/SpokenJapanese/corpora}
 \end{longtable}
+	\caption{Corpus sizes for spoken corpora.}\label{tab:spoken-sizes}
+\end{table}
 
 \section{Phylogenetic Tree}
 
@@ -220,7 +250,7 @@ The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree
 
 \begin{figure}
     \centering
-	\rotatebox{90}{\includegraphics[width=1.3\textwidth]{../trees/tree.png}}
+	\rotatebox{270}{\includegraphics[width=1.3\textwidth]{../trees/tree.png}}
        \caption{Phylogenetic tree topology of the languages in our sample. Compare Figure~\ref{fig:tree-times} for a version indicating the time depth of different families.}
     \label{fig:tree}
 \end{figure}
@@ -228,7 +258,7 @@ The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree
 
 \begin{figure}
     \centering
-	\rotatebox{90}{\includegraphics[width=1.3\textwidth]{../trees/tree-times.png}}
+	\rotatebox{270}{\includegraphics[width=1.3\textwidth]{../trees/tree-times.png}}
 	\caption{Phylogenetic tree of the languages in our sample. The length of branches reflects distance in time. Compare Figure~\ref{fig:tree} for a version indicating the raw topology without time depths.}
     \label{fig:tree-times}
 \end{figure}
@@ -610,7 +640,7 @@ The notion of subject-object position congruence addresses a key limitation of t
 Here, we compare subject-object position congruence to basic word order as classified in the typological literature.
 
 
-In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (see Section~\ref{sec:categorical}).
+In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (primarily \citep{gell-mann-origin-2011}, see Section~\ref{sec:categorical}).
 First, we see that attested subject-object position congruence largely determines whether a language is labeled SVO or SOV/VSO.
 A few language with medium subject-object position congruence are labeled as `No dominant order'.
 
@@ -635,22 +665,25 @@ This model requires labeling all nodes on the phylogenetic tree for categorical 
 We based the annotation on \citet{wals-81}.
 In those languages where no annotation was available, we drew on \citep{gell-mann-origin-2011}, supplemented with language-specific literature.
 In some cases, both `No dominant order' and one of SVO/SOV are plausible labels. In these cases, we opted for SOV/SVO, as we expect this to \emph{increase} the amount of variance that categorical order classes can explain, introducing at most a \emph{conservative} bias in estimating coadaptation.
-We obtained the following labels:
-\begin{longtable}{llp{0.5\textwidth}lll}
+We obtained the labels listed in Table~\ref{tab:categorical}.
+
+\begin{table}
+\begin{tabular}{llp{0.5\textwidth}lll}
 \hline
 	Language & Label & Rationale \\ \hline
 \input{../analysis/categorical_order/output/additionalOrders.tex}
 \hline
-\end{longtable}
-
-For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
-\begin{longtable}{llp{0.5\textwidth}lll}
-\hline
-Group & Label & Rationale \\ \hline
-\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
-\hline
-\end{longtable}
-
+\end{tabular}
+	\caption{Categorical labels for basic word order for languages with no annotation in \citet{wals-81}.}\label{tab:categorical}
+\end{table}
+%For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
+%\begin{longtable}{llp{0.5\textwidth}lll}
+%\hline
+%Group & Label & Rationale \\ \hline
+%\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
+%\hline
+%\end{longtable}
+%
 
 \begin{figure}
     \centering
@@ -768,10 +801,13 @@ For each language in our dataset, we collected statistics for all verbs with a s
 \end{equation}
 
 A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
-Results are shown below.
+Results are shown in Table S16.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
 \begin{longtable}{l|lllllll}
+	\multicolumn{4}{p{0.8\textwidth}}{Table S16: Coefficients in logistic analysis regressing SV/VS Order based on the presence of an object. `SV Frequency' indicates the overall rate of SV order (as opposed to VS) in the language. A positive coefficient ($\beta > 0$) indicates that SV is more common in the presence of an object than when there is no object.}
+	\\
+		\multicolumn{4}{p{0.8\textwidth}}{}\\
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
 \input{../collectPerVerbProperties/SV_withinLang/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}

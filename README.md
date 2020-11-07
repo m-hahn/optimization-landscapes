@@ -22,8 +22,6 @@
 
 [Evolutionary trajectories](analysis/figures/historical_2.6_times_stationary.pdf)
 
-[Lesioned model without bias]
-
 ### Order and Usage (Coexpression)
 [Coexpression](analysis/coexpression/coexpression_results.txt)
 
@@ -43,7 +41,7 @@
 ### Brownian Model
 [Brownian model](change/brownian-binom/fits/corr_sigma.pdf)
 
-[Likelihood comparison with Brownian model]
+[Likelihood comparison with Brownian model](change/brownian-binom/logodds-approx/marginal_likelihood/results.txt)
 
 ### Areal Convergence
 [Areal convergence: posterior of correlation component](change/ornuhl-binom-geo-time/fits/corr_sigma.pdf)
@@ -56,16 +54,21 @@
 
 [Correlation between attested and optimized symmetry (SVO)](analysis/categorical_order/output/corr_SVO.txt)
 
+[Posterior over Correlation Component](change/ornuhl-binom/categorical_order_gamma/fits/corr_sigma.pdf)
+
+[Estimated stationary distribution](change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_facet.pdf)
+
+[Estimated stationary distribution (SVO and SOV)](change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_svo_sov.pdf)
+
 ### Case Marking
-[Case: posterior of correlation component (joint Sigma)](change/visualize/figures/corr_ornuhl-binom_42.pdf)
-
-[Case: posterior of correlation component (separate Sigmas)](change/visualize/figures/corr_ornuhl-binom_45_Case.pdf)
-
-[Case: posterior of correlation component (separate Sigmas)](change/visualize/figures/corr_ornuhl-binom_45_NoCase.pdf)
+[Case: posterior of correlation component](change/ornuhl-binom/case/separate_b/fits/corr_sigma.pdf)
 
 [Languages by Case Marking](analysis/figures/by_patient_marking.pdf)
 
-[Stationary distributions](change/visualize/stationary_case.pdf)
+[Stationary distributions](change/ornuhl-binom/case/separate_b/fits/stationary_case.pdf)
 
 ### Within-Language Correlates
 [Coexpression and VS Order](optimizeDLM/perSentence/collectPerVerbProperties/results_analyze_VSOrderWhenNoObject.R.tex)
+
+### Disjoint Datasets
+[Disjoint datasets](disjoint/plane-disjoint.pdf)
