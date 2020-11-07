@@ -23,7 +23,7 @@ with open("groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
-dates["_ROOT_"] = -50000
+dates["_ROOT_"] = -11000
 print(dates)
 for x in allLangs:
   if x not in observedLangs:
@@ -173,8 +173,9 @@ def printTree(y):
           printTree(descendants[i])
           sys.stdout.write(":")
           distance = -(int(dates.get(y, 2000))-int(dates.get(descendants[i], 2000)))/1000
-          if y == "_ROOT_":
-              distance = 1
+#          if y == "_ROOT_":
+ #             distance = 1
+          assert distance > 0
           sys.stdout.write(str(distance))
 
       sys.stdout.write(")")

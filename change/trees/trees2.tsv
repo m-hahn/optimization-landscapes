@@ -5,7 +5,7 @@ Archaic_Greek	Indo_European
 Classical_Greek	Archaic_Greek	Indo_European
 Classical_Chinese_2.6	_ROOT_
 Koine_Greek	Classical_Greek	Archaic_Greek	Indo_European
-Arabic_2.6	Arabic	Central_Semitic	Semitic
+Arabic_2.6	Arabic	Central_Semitic	West_Semitic	Semitic
 Armenian_2.6	Indo_European
 Bambara_2.6	Niger_Congo
 Basque_2.6	_ROOT_
@@ -29,7 +29,7 @@ French_2.6	Old_French_2.6
 German_2.6	West_Germanic	Germanic	Indo_European
 Gothic_2.6	Germanic	Indo_European
 Greek_2.6	Koine_Greek	Classical_Greek	Archaic_Greek	Indo_European
-Hebrew_2.6	Central_Semitic	Semitic
+Hebrew_2.6	Central_Semitic	West_Semitic	Semitic
 Hindi_2.6	Hindustani	Sanskrit_2.6	Indo_Iranian	Indo_European
 Hungarian_2.6	Uralic
 Icelandic_2.6	Icelandic_Faroese	West_Scandinavian	North_Germanic	Germanic	Indo_European
@@ -43,7 +43,7 @@ Kurmanji_2.6	Iranian	Indo_Iranian	Indo_European
 Latin_2.6	Indo_European
 Latvian_2.6	Eastern_Baltic	Balto_Slavic	Indo_European
 Lithuanian_2.6	Eastern_Baltic	Balto_Slavic	Indo_European
-Maltese_2.6	Arabic	Central_Semitic	Semitic	Afroasiatic
+Maltese_2.6	Arabic	Central_Semitic	West_Semitic	Semitic	Afroasiatic
 Mbya_Guarani_2.6	_ROOT_
 Naija_2.6	Macro_English
 North_Sami_2.6	Uralic
@@ -72,6 +72,5 @@ Urdu_2.6	Hindustani	Sanskrit_2.6	Indo_Iranian	Indo_European
 Uyghur_2.6	Common_Turkic
 Vietnamese_2.6	_ROOT_
 Welsh_2.6	Brythonic	Insular_Celtic	Indo_European
-Wolof_2.6	Atlantic_Congo	Niger_Congo
-Yoruba_2.6	Atlantic_Congo	Niger_Congo
+Wolof_2.6	Niger_Congo
 Upper_Sorbian_2.6	West_Slavic
