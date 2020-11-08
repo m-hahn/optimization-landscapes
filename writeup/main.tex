@@ -428,7 +428,7 @@ Under our coadaptation hypothesis, we expect that the subject-object position co
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such correlation should be seen.
 
 
-While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section 9 showing that results hold similarly when estimating optimized grammars and attested orders using disjoint subsets of corpora).
+While the optimized grammars and the attested orders are computed on the basis of the same corpus data, the optimized grammars are derived entirely and independently from the tree topologies, and the original word orders are not involved in their calculation (See SI Section S9 showing that results hold similarly when estimating optimized grammars and attested orders using disjoint subsets of corpora).
 
 
 
@@ -590,7 +590,7 @@ A lesioned version of our model that explicitly prohibits a bias in development 
 
 Unlike the conventional classification of languages into discrete basic word order categories such as SVO and SOV, the notion of subject-object position congruence accounts for the well-known fact that languages differ in their degrees of word order flexibility \citep{steele1978word}.
 To evaluate whether this notion provides a more fine-grained account of word order evolution than the standard classification, we evaluated whether optimized subject-object position congruence predicts attested subject-object position congruence beyond the level of discrete word order categories.
-We labeled the languages in our dataset for discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order'') based on \citet{wals-81}, supplemented with data from \citet{gell-mann-origin-2011} (see SI Section 6 for details).
+We labeled the languages in our dataset for discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order'') based on \citet{wals-81}, supplemented with data from \citet{gell-mann-origin-2011} (see SI Section S6 for details).
 First, we found that attested and optimized subject-object position congruence were correlated even within categories ($R = 0.52, p = 0.0002$ within SVO, $R=0.45, p=0.07$ within SOV). 
 Second, we conducted a version of the phylogenetic analysis that evaluates whether coadaptation happens beyond the level of these discrete basic word order categories.
 We did this by allowing the term that encodes bias to specific regions of parameter space to vary with the basic word order category  (see Methods for details).
@@ -602,7 +602,7 @@ A well-known variable covarying with word order is case marking: Languages with 
 This has a clear functional motivation, because case marking can distinguish subjects and objects when order does not.
 In our sample of historical trajectories, movement towards low subject-object position congruence coincides with the loss of case marking in some cases (English, most of Romance, East South Slavic), whereas other languages changed while preserving their case marking systems (Greek \citep{taylor1994change} and East Slavic \citep[p. 242--4]{matthews1960russian}).
 This raises the question whether our results can be explained away by assuming that both grammar and usage change in response to changes in case marking.
-We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section 7.1).
+We found that the phylogenetic analysis continued to predict co-evolution between usage and word order even when controlling for the presence or absence of case, with essentially no change in the predicted strength of correlation (see SI Section S7).
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 %The model provides no evidence that language evolution favors high or low subject-object %aPosition Congruence.
@@ -633,7 +633,7 @@ In a linear mixed-effects models, with by-family intercept and slope, attested s
 Optimized subject-object position congruence was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ credible interval $[-0.24,  -0.02]$).
 %These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section 7.2).
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
-We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section 8).
+We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section S8).
 
 
 
@@ -860,7 +860,7 @@ As the Ancient Greek data available in Universal Dependencies spans multiple sta
 We obtained spoken treebanks from the following sources.
 For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of spontaneous dialogues \citep{hall2006conll}. For English, we used an automated conversion \citep{schuster2018sentences} of the Switchboard section of the Penn Treebank~\citep{marcus-building-1993} to Universal Dependencies.
 
-We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section 2 for details).
+We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Section S2 for details).
 
 
 
@@ -891,7 +891,7 @@ $X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the languag
 
 
 A common choice in phylogenetic modelling of coevolving traits is correlated Brownian motion, also known as the Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast}.
-We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section 4 for comparison).
+We found that substantially better model fit was achieved by adding a drift term that prevents unbounded values  in long-term evolution (see SI Section S4 for comparison).
 This leads to an Ornstein-Uhlenbeck process \citep{felsenstein1988phylogenies,hansen1997stabilizing,blackwell2003bayesian}, described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
 
 \begin{equation*}
@@ -906,15 +906,15 @@ The diagonal entries of $\Lambda$ encode rates of change in the two dimensions; 
 
 The other term, $\Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t$, encodes deterministic drift, and describes which region $\mu \in \mathbb{R}^2$ of parameter space languages tend to concentrate around in the long run.
 The term encodes the fact that the possible range of $\xi_{L,t}$ is bounded and allows the model to encode the possibility of a bias towards some region of the plane.
-Without this first term (i.e., with $\Gamma =0$), the simpler Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast} would result. See SI Section 4 for results from that simpler model and model comparison.
+Without this first term (i.e., with $\Gamma =0$), the simpler Independent Contrasts model \citep{felsenstein1973maximum,freckleton2012fast} would result. See SI Section S4 for results from that simpler model and model comparison.
 In the version controlling for discrete basic word order categories, the parameters $\mu, \Gamma$ are allowed to depend on the basic word order category.
 
 Lesioned models referenced in the text are obtained by setting the off-diagonals of $\Lambda$ to zero (no correlations between change in two dimensions), and $\mu_1=0.5$ (no bias towards high or low real subject-object position congruence).
-See SI Section 5 for additional models that take areal convergence into account.
+See SI Section S5 for additional models that take areal convergence into account.
 
 
 We conducted Bayesian inference using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan} and computed Bayes factors using Stepping Stone Sampling \citep{xie2011improving}.
-See SI Section 3 for implementation details.
+See SI Section S3 for implementation details.
 
 
 \begin{sloppypar}\paragraph{Data Availability} Code and data are publicly available at:\\

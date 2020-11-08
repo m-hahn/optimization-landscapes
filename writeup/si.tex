@@ -92,10 +92,12 @@
 
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
 
 
 \setcounter{figure}{1}
 \setcounter{table}{1}
+\setcounter{section}{0}
 
 \newcommand{\soft}[1]{}
 \newcommand{\nopreview}[1]{}
@@ -624,13 +626,13 @@ This confirms that coadaptation is found even when explicitly modeling convergen
 % https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
 
 
-\section{Subject-Object Position Congruence and Categorical Classification of Basic Word Order}
+\section{Subject-Object Position Congruence and Categorical Classification of Basic Word Order}\label{sec:categorical}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{../analysis/categorical_order/figures/by_categorical_order.pdf}
-	\caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}, supplemented with data from other sources (see Section~\ref{sec:categorical}). Colors indicate basic word order categories.}
+	\caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}, supplemented with data from other sources (see Section~\ref{sec:categorical}).}
     \label{fig:categorical-basic-order}
 \end{figure}
 
@@ -674,7 +676,7 @@ We obtained the labels listed in Table~\ref{tab:categorical}.
 \input{../analysis/categorical_order/output/additionalOrders.tex}
 \hline
 \end{tabular}
-	\caption{Categorical labels for basic word order for languages with no annotation in \citet{wals-81}.}\label{tab:categorical}
+	\caption{Categorical labels for basic word order for languages with no annotation in \citet{wals-81}. This annotation is used for the control study in Section~\ref{sec:categorical}; it does not enter the main study.}\label{tab:categorical}
 \end{table}
 %For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
 %\begin{longtable}{llp{0.5\textwidth}lll}
