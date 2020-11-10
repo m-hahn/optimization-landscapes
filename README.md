@@ -11,6 +11,8 @@
 
 [Correlation on spoken corpora](analysis/analysis_spoken/spoken_results.txt)
 
+[Mixed-Effects Model](analysis/output/landscapes_2.6.R_brms.txt)
+
 ### Phylogenetic Analysis
 [Phylogenetic analysis visualization](change/visualize/stationary.pdf)
 

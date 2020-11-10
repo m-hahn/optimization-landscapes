@@ -422,6 +422,8 @@ To parameterize the approximately optimized orderings, we adopt the established 
 These are simple, parametric models parameterizing how the words in a syntactic structure are linearized depending on their syntactic relations.
 For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns (see Methods for details).
 We use the method in \citet{hahn2020universals} to construct grammars that approximately minimize average dependency length using stochastic gradient descent.
+Optimized grammars are computed based entirely on the distribution of unordered tree topologies occurring in the corpora, e.g. how often verbs express one or two arguments (Figure~\ref{fig:sent-dep}), without any reference to the orderings observed in the corpora.
+These grammars reflect what orderings would be most efficient given the usage distribution of tree topologies as reflected in the corpus, independently of the actual orderings that the grammar of the language specifies.
 
 In order to control for variation across different optima, for each of the 74 languages, we construct 15 approximately optimized grammars, and compute the average subject-object position congruence across these counterfactual orderings.
 
@@ -429,7 +431,8 @@ In order to control for variation across different optima, for each of the 74 la
 
 %\comment{** Do you plan to say a bit more details about 1) the conterfactual order grammar, and 2) the data, 72 languages, where they came from, and why they are a reasonable sample, either in Methods, and/or in Appendix? I think these details would be needed for reproducibility but also for careful description of the materials and methods. also, you should say how many language families are covered in the 72. languages.}
 
-Under our coadaptation hypothesis, we expect that the subject-object position congruence of optimized orderings should correlate with a language's actual subject-object position congruence.
+Our coadaptation hypothesis states that the basic word order of languages tends to be the one that is most efficient given the tree structures used in the given language.
+Therefore, we expect that the subject-object position congruence of optimized orderings should correlate with a language's actual subject-object position congruence.
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such correlation should be seen.
 
 
@@ -438,9 +441,9 @@ While the optimized grammars and the attested orders are computed on the basis o
 
 
 In Figure~\ref{fig:study1}A, we visualize real subject-object symmetries against the average subject-object position congruence in the 74 languages.
-Without controlling for dependencies between related languages, model-predicted and attested subject-object position congruence are correlated ($R=0.49$, $p<10^{-5}$).
+Without controlling for dependencies between related languages, model-predicted and attested subject-object position congruence are correlated ($R=0.47$, $95\%$ CI $[0.28, 0.64]$, $p<10^{-4}$). % analysis/output/correlation.txt
 In order to account for the statistical dependencies between related languages more rigorously, we conducted a regression where we entered language families as random effects with random slopes and intercepts.
-Attested subject-object position congruence was strongly predictive of subject-object position congruence in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 10^{-4}$).
+Attested subject-object position congruence was strongly predictive of subject-object position congruence in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $P(\beta<0) < 0.000125$). % analysis/output/landscapes_2.6.R_brms.txt
 This result provides strong support for the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their tree structure distributions.
 It is incompatible with the suggestion that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
 
@@ -475,7 +478,10 @@ We have approximated the usage distribution over syntactic configurations using 
 Although the vast majority of existing annotated corpus data is in written form (e.g., news and web text), spoken language is thought to be most important for language change, particularly since widespread literacy is very recent.
 We therefore collected all spoken corpora in dependency format that we could obtain access to, resulting in data from six languages (see Methods), and verified whether the conclusion of our cross-linguistic analysis holds on data from these spoken-language treebanks. Figure~\ref{fig:spoken}B
 shows results on these treebanks and the comparison to written data from the same languages.
-There is a strong agreement between written and spoken data from the languages we analyzed. Specifically, there are strong and significant correlations between real and predicted subject-object position congruence in both written ($R=0.96$, $p=0.0023$) and spoken ($R=0.94$, $p=0.0048$) data, in agreement with the coadaptation hypothesis.
+There is a strong agreement between written and spoken data from the languages we analyzed. Specifically, there are strong and significant correlations between real and predicted subject-object position congruence in both written ($R=0.96$, $p=0.0023$) and spoken ($R=0.94$, $p=0.0048$) data, in agreement with the coadaptation hypothesis. % analysis/analysis_spoken/spoken_results.txt
+
+
+
 %In a linear regression with subject-object position congruence among optimized grammars as the dependent variable,  ($\beta=1.11$, $SE=0.29$, $95\%$ CrI $[0.58, 1.69]$).\footnote{The small number of datapoints does not support a mixed-effects analysis. Even with strong priors and more iterations, we encountered small values of Tail Effective Sample Size. However, we found qualitatively similar results when excluding either English or Norwegian, in which case all languages come from different families, and the simple linear model is fully appropriate.}.
 %This result is in agreement with that from the full set of corpora.
 %\mhahn{TODO the other measure}
@@ -536,8 +542,8 @@ For illustration, we also illustrate the predicted direction of future changes i
 
 According to the model, changes in grammar and usage are positively correlated:
 This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
-In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%$ credible interval $[0.28, 0.96]$).
-Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 232).
+In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%$ credible interval $[0.28, 0.96]$, $P(R<0) = 0.0025$). % change/ornuhl-binom/noLatents/fits/correlation_omega.txt
+Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 232). % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt
 
 
 \begin{figure}
@@ -596,10 +602,10 @@ A lesioned version of our model that explicitly prohibits a bias in development 
 Unlike the conventional classification of languages into discrete basic word order categories such as SVO and SOV, the notion of subject-object position congruence accounts for the well-known fact that languages differ in their degrees of word order flexibility \citep{steele1978word}.
 To evaluate whether this notion provides a more fine-grained account of word order evolution than the standard classification, we evaluated whether optimized subject-object position congruence predicts attested subject-object position congruence beyond the level of discrete word order categories.
 We labeled the languages in our dataset for discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order'') based on \citet{wals-81}, supplemented with data from \citet{gell-mann-origin-2011} (see SI Section S6 for details).
-First, we found that attested and optimized subject-object position congruence were correlated even within categories ($R = 0.52, p = 0.0002$ within SVO, $R=0.45, p=0.07$ within SOV). 
+First, we found that attested and optimized subject-object position congruence were correlated even within categories ($R = 0.52, p = 0.0002$ within SVO, $R=0.45, p=0.07$ within SOV).  % analysis/categorical_order/output/corr_SVO.txt analysis/categorical_order/output/corr_SOV.txt
 Second, we conducted a version of the phylogenetic analysis that evaluates whether coadaptation happens beyond the level of these discrete basic word order categories.
 We did this by allowing the term that encodes bias to specific regions of parameter space to vary with the basic word order category  (see Methods for details).
-The model continued to predict a positive correlation between changes in the two dimensions ($R=0.53$, $95\%$ credible interval $[0.22, 0.78]$, $Pr(R < 0) = 0.00075$).
+The model continued to predict a positive correlation between changes in the two dimensions ($R=0.53$, $95\%$ credible interval $[0.22, 0.78]$, $Pr(R < 0) = 0.00075$). % 
 This shows that the coadaptation hypothesis predicts basic word order at a more fine-grained level than the standard categorical classification, by predicting the frequency of different orders within individual languages.
 
 
@@ -634,12 +640,12 @@ Indeed, it has been argued, based on evidence from Turkish and Japanese, that SO
 We tested this idea on a larger scale using the corpora in our sample.
 We quantified the frequency of co-expression of subjects and objects by calculating what fraction of all verbs that realize at least a subject or an object simultaneously realize both.
 We show this ratio together with attested subject-object position congruence in Figure~\ref{fig:study2}.
-In a linear mixed-effects models, with by-family intercept and slope, attested subject-object position congruence was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ credible interval $[-0.21, -0.01]$).
-Optimized subject-object position congruence was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ credible interval $[-0.24,  -0.02]$).
-%These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section 7.2).
+In a linear mixed-effects models, with by-family intercept and slope, attested subject-object position congruence was predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ credible interval $[-0.21, -0.01]$). % analysis/coexpression/coexpression_results.txt 
+Optimized subject-object position congruence was also predictive of this fraction ($\beta=-0.13$, $SE=0.06$, $95\%$ credible interval $[-0.24,  -0.02]$). % analysis/coexpression/coexpression_optim_results.txt
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which usage statistics can influence word order.
 We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section S8).
 
+%These results were not accounted for by differences in the grammatical availability of unexpressed pronominal subjects (\textit{pro drop}, see SI Section 7.2).
 
 
 \begin{figure}
