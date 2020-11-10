@@ -90,7 +90,15 @@
 \newcommand{\Ff}[0]{\mathcal{F}}
 %\newcommand{}[1]{\textbf{#1}}
 
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
 
+
+%\setcounter{figure}{1}
+%\setcounter{table}{0}
+%\setcounter{section}{0}
+%
 \newcommand{\soft}[1]{}
 \newcommand{\nopreview}[1]{}
 \newcommand\comment[1]{{\color{red}#1}}
@@ -116,36 +124,47 @@ Word Order across Languages}
 
 \section{Historical Languages}
 
-These are the historical languages in our dataset, with approximate dating assigned:
+Table~\ref{tab:historical} shows the historical languages in our dataset, with approximate dating assigned.
+Table~\ref{tab:traj} lists the languages shown in Figure 4 of the main paper.
 
+\begin{table}
 \begin{longtable}{llp{10cm}llll}
 Language & Time & Rationale \\ \hline
+Archaic Greek & 700 BC & Approximate mean age of texts used \\
+Classical Chinese & 300 BC & Life of Mengzi (died around 300 BC); the treebank contains his teachings as collected by his followers. \\
+Classical Greek & 400 BC & Approximate mean age of texts used \\
 Coptic & 400 AD & Dating of the Apophthegmata Patrum texts used in the UD treebank\\
 Gothic & 350 AD & Life of bible translator Ulfilas (311--383)\\
-Old Russian & 1200 AD & Approximate mean age of texts used\\
-Old French & 1200 AD  & Approximate mean age of texts used\\
-Old English & 900 AD & Approximate mean age of texts used \\
-Sanskrit & 900BC & Approximate mean age of texts used \\
-Classical Chinese & 300 BC & Life of Mengzi (died around 300 BC); the treebank contains his teachings as collected by his followers. \\
-Latin & 0 AD & Approximate mean age of texts used \\
-Archaic Greek & 700 BC & Approximate mean age of texts used \\
-Classical Greek & 400 BC & Approximate mean age of texts used \\
 Koine Greek & 0 AD  & Approximate mean age of texts used\\
+Latin & 0 AD & Approximate mean age of texts used \\
 Old Church Slavonic & 850 AD &  Bible translation after invention of Glagolitic alphabet around 850 AD. \\
+Old English & 900 AD & Approximate mean age of texts used \\
+Old French & 1200 AD  & Approximate mean age of texts used\\
+Old Russian & 1200 AD & Approximate mean age of texts used\\
+Sanskrit & 900 BC & Approximate mean age of texts used \\
 \end{longtable}
+	\caption{Historical languages in our dataset.}\label{tab:historical}
+\end{table}
 
-We included the following languages in Figure 4 of the main paper:
-
-
+\begin{table}
 \begin{longtable}{l|lll} \hline
-Family & Languages & Dates \\ \hline\hline
+Groups & Languages & Dates \\ \hline\hline
 Chinese & Classical Chinese & -400  \\
 & Cantonese & +2000\\ 
 & Mandarin & +2000 \\ \hline
 East Slavic & Old Russian & +1200 \\
 & Russian & +2000 \\ \hline
+Eastern South Slavic & Old Church Slavonic & +800 \\
+& Bulgarian  & +2000\\ \hline
 English & Old English & +900 \\
 & English  & +2000\\ \hline
+Greek & Archaic Greek & -700 \\
+      & Classical Greek & -400 \\
+      & Koine Greek & +0\\
+& Greek  & +2000\\ \hline
+Indo-Aryan & Sanskrit & -900 \\
+& Hindi  & +2000\\
+& Urdu  & +2000\\ \hline
 Romance & Latin &+0  \\
 & Old French &+1200\\
 & French  & +2000\\
@@ -155,74 +174,95 @@ Romance & Latin &+0  \\
 & Galician & +2000\\
 & Portuguese & +2000\\
 & Romanian & +2000\\ \hline
-Greek & Archaic Greek & -700 \\
-      & Classical Greek & -400 \\
-      & Koine Greek & +0\\
-& Greek  & +2000\\ \hline
-Indo-Aryan & Sanskrit & -200 \\
-& Hindi  & +2000\\
-& Urdu  & +2000\\ \hline
-Eastern South Slavic & Old Church Slavonic & +800 \\
-& Bulgarian  & +2000\\ \hline
 \end{longtable}
+	\caption{Languages in Figure 4 of the main paper.}
+\label{tab:traj}
+\end{table}
 
 \subsection{Corpora and Corpus Sizes}
 
 As described in Methods, we included all UD 2.6 languages with at least 10,000 available words, and the ISWOC Old English treebank.
+Table~\ref{tab:sizes} shows the corpus sizes for the included UD languages.
+Table~\ref{tab:excluded} shows the UD languages that did not meet the inclusion criterion.
+Table~\ref{tab:excluded-corpora} shows excluded treebanks from languages otherwise included.
+Table~\ref{tab:spoken-sizes} shows corpus sizes for the spoken corpora (for Naija, see above).
 
-The included UD languages have the following overall sizes:
 
-\begin{longtable}{lllll}
-Language & Sentences & Words \\ \hline
-\input{../fitGrammars/corpora}
-\end{longtable}
 
-The following UD languages did not meet the inclusion criterion:
+\begin{table}
+\begin{tabular}{lrrr}
+Language & Number of  & Nunber of \\ 
+	& Sentences & Words \\\hline
+\input{../fitGrammars/corpora1}
+\end{tabular}
+\begin{tabular}{lrrr}
+Language & Number of  & Nunber of \\ 
+	& Sentences & Words \\\hline
+\input{../fitGrammars/corpora2}
+       &            & \\
+\end{tabular}
+	\caption{Corpus sizes of the included UD languages.}\label{tab:sizes}
+\end{table}
 
-\begin{longtable}{lllll}
-Language & Sentences & Words \\ \hline
+
+\begin{table}
+\begin{longtable}{lrrrr}
+Language & Number of  & Nunber of \\ 
+	& Sentences & Words \\\hline
 \input{../fitGrammars/excluded}
 \end{longtable}
+	\caption{UD Languages that did not meet the inclusion criterion.}\label{tab:excluded}
+\end{table}
 
 
-Furthermore, we excluded the following treebanks from languages otherwise included:
-
+\begin{table}
 \begin{longtable}{lllll}
 Treebank & Rationale \\ \hline
 Chinese-CFL & Text written by non-native speakers\\
 English-ESL & Text written by non-native speakers \\
+English-Pronouns & Specifically targets pronouns \\
 French-FQB & Consists entirely of questions \\
 Hindi English-HIENCS &  Consists of codeswitched text \\
 Latin-ITTB & Consists of Medieval Latin text \\
-Latin-LLCT & Consists of Medieval Latin text  \\
-English-Pronouns & Specifically targets pronouns \\
+Latin-LLCT & Consists of Medieval Latin text  \\ 
 \end{longtable}
+	\caption{UD corpora excluded, from languages otherwise excluded.}\label{tab:excluded-corpora}
+\end{table}
 
 
 
-The spoken corpora have the following overall sizes (for Naija, see above):
-
-\begin{longtable}{lllll}
-Language & Sentences  \\ \hline
-\input{../optimizeDLM/SpokenJapanese/corpora}
-\input{../optimizeDLM/UD_Spoken/corpora}
+\begin{table}
+\begin{longtable}{lrrrr}
+Language & Number of Sentences  \\ \hline
 \input{../optimizeDLM/Switchboard/corpora}
+\input{../optimizeDLM/UD_Spoken/corpora}
+\input{../optimizeDLM/SpokenJapanese/corpora}
 \end{longtable}
+	\caption{Corpus sizes for spoken corpora.}\label{tab:spoken-sizes}
+\end{table}
 
 \section{Phylogenetic Tree}
 
 \subsection{Tree Topology}
 
 We obtained tree topologies from Glottolog~\citep{nordhoff2011glottolog}.
-We only retained interior nodes when more than one of their daughter nodes had languages occurring in our dataset.
+We only retained interior nodes when more than one of their daughter nodes had languages in our dataset.
 The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree obtained with https://icytree.org/.}
 
 
 \begin{figure}
     \centering
-	\includegraphics[width=0.9\textwidth]{../trees/tree.png}
-       \caption{Phylogenetic tree of the languages in our sample.}
+	\rotatebox{270}{\includegraphics[width=1.3\textwidth]{../trees/tree.png}}
+       \caption{Phylogenetic tree topology of the languages in our sample. Compare Figure~\ref{fig:tree-times} for a version indicating the time depth of different families.}
     \label{fig:tree}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+	\rotatebox{270}{\includegraphics[width=1.3\textwidth]{../trees/tree-times.png}}
+	\caption{Phylogenetic tree of the languages in our sample. The length of branches reflects distance in time. Compare Figure~\ref{fig:tree} for a version indicating the raw topology without time depths.}
+    \label{fig:tree-times}
 \end{figure}
 
 
@@ -239,10 +279,10 @@ We labeled interior nodes for the time at which they split into descendants, usi
 \begin{longtable}{llp{10cm}lll}
 Group & Split & Source or Rationale \\ \hline
 Afroasiatic & 10,000 BC & \cite{diakonoff1998the} \\
-Arabic & 1100 AD & Calibration from \citep{holman2011automated} based on end of Arabic domination of Malta. \\
+Arabic & 1,100 AD & Calibration from \citep{holman2011automated} based on end of Arabic domination of Malta. \\
 Atlantic-Congo & 4,500 BC & \citet{holman2011automated} estimate an age of 6525 years.\\
 Balto-Slavic & 1,400 BC & \citep{gray2003language} \\
-Brythonic & 500 AD & Migrations from Britain to Brittany (Humphreys 1993:609. Breton language its present position and historical background, cited by holman2011automated)\\
+	Brythonic & 500 AD & Migrations from Britain to Brittany \citep{holman2011automated}\\ % (Humphreys 1993:609. Breton language its present position and historical background, cited by 
 Central-Semitic & 2,450 BC & \citep{kitchen2009bayesian}   \\
 Common Turkic & 700AD & \cite[p. 49]{savelyev2020bayesian} estimate Common Turkic to have split around 474 AD. However, in their model, Old Turkic split off around 650 AD, earlier than the languages in our dataset, with uncertainty about the time of split of the remaining Common Turkic languages. It should predate the earliest documentation of Karluk Middle Turkic after 900AD. We thus put the divergence of the other Common Turkic languages at 700AD. \\
 Eastern Baltic & 600 AD & Split between Katvian and Lithuanian \citep[p. 209]{novotna2011glottochronology}\\
@@ -417,7 +457,7 @@ where the matrix $\Omega \in \mathbb{R}^{2\times 2}$ is obtained as the solution
 \begin{equation}
     \Gamma\Omega+\Omega\Gamma^T = \Lambda \Lambda^T
 \end{equation}
-Based on this, one can compute the stationary distribution that solves the differential equation.
+One can compute the stationary distribution that solves the differential equation as follows.
 The stationary distribution of an individual observation is
 \begin{equation}\label{eq:ornuhl-var}
 \xi_{t} \sim N\left(\mu, \Omega \right)
@@ -426,7 +466,7 @@ The stationary cross-covariance between the states of two languages $L_1, L_2$, 
 \begin{equation}\label{eq:ornuhl-covar}
 Cov(\xi_{L_1}, \xi_{L_2}) = e^{-\Delta_1 \Gamma} \Omega e^{-\Delta_2 \Gamma^T}
 \end{equation}
-if $\Delta_1, \Delta_2$ are the times of evolution from their last common ancestor to $L_1$ and $L_2$, respectively.
+where $\Delta_1, \Delta_2$ are the times of evolution from their last common ancestor to $L_1$ and $L_2$, respectively.
 \footnote{This can be shown as follows:
 If $\xi_A$ is the last common ancestor, then (we set $\mu=0$ without loss of generality, as it does not affect the covariance):
 \begin{align*}
@@ -459,11 +499,11 @@ We verified stability of the estimates by running the procedure ten times for ea
 
 
 \subsection{Correlation Component of $\Sigma$}\label{sec:instant-corr}
-In the main paper, we reported the correlation between the two dimensions in the stationary distribution $\Omega$.
+In the main analysis, we reported the correlation between the two dimensions in the stationary distribution $\Omega$.
 In some of the analyses in the SI, there are multiple stationary distributions (depending on geography, case marking, or categorical order classes, see Sections 5--7).
 In these cases, we therefore report correlation for the instantaneous changes at any point in time:
 The matrix $\Sigma := \Lambda\Lambda^T$ indicates the variance-covariance structure of the instantaneous changes at any time $t$ \citep{felsenstein1973maximum, freckleton2012fast}.
-The main quantity of interest is the correlation between changes in the two dimensions, which is given by
+The main quantity of interest is the correlation between changes in the two dimensions \citep[cf.][]{felsenstein1973maximum,freckleton2012fast}, which is given by
 \begin{equation}
 R_\Sigma := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
 \end{equation}
@@ -516,11 +556,12 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 \section{Accounting for Areal Convergence}
 The model of random walks on phylogenetic trees assume that languages evolve independently once they have split.
 However, linguistic evolution can include borrowing between geographically neighboring languages \citep[e.g.][]{dryer1989large, bisang1996areal, heine2003on, aikhenvald2007grammars,  kalyan2019problems}.
-Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}, geographic regions in which languages tend to show convergent evolution due to borrowing.
+
+Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas, geographic regions in which languages tend to show convergent evolution due to borrowing  \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}.
 
 We modeled linguistic areas as latent variables defining time- and location-dependent values $\mu(x,t)$ (where $x$ is a point on the surface of the earth and $t$ is a point in time) that languages at time $t$ and place $x$ drift towards.
 These values are inferred from the data together with the other parameters of the Ornstein-Uhlenbeck process.
-By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, encoding the idea that areal convergence between languages depends on their geographic distance.
+By placing a suitable Gaussian process prior on $\mu(x,t)$, we encourage parameters that smoothly vary over space and time, reflecting the idea that areal convergence between languages depends on their geographic distance.
 This approach is related to the model described by \citep{nuismer2015predicting}, who propose to model convergence between species by assuming correlations between the means $\mu$ of different species.
 For other approaches to model interactions between species from the bioinformatics literature, see \citet{manceau2016a,drury2016estimating, bartoszek2017using, drury2018an}.
 
@@ -537,9 +578,9 @@ where $\mu_L$ is defined by the temporal and geographical location of the langua
 
 
 We placed a Gaussian process prior with a Laplace kernel on $\mu$.
-That is, the covariance between $\mu$ at points $x, y$ on the surface of the earth at times $T_1, T_2$ was taken to be
+That is, the covariance between $\mu$ at points $x, y$ on the surface of the earth at times $T_1, T_2$ is taken to be
 \begin{equation}\label{eq:kernel}
-    Cov(\mu_x, \mu_y) = \alpha \exp\left(-\frac{1}{\rho^2_1} d(x,y) - \frac{1}{\rho_2^2} |T_1-T_2|\right)
+    Cov(\mu_x, \mu_y) = \alpha \cdot \exp\left(-\frac{1}{\rho^2_1} d(x,y) - \frac{1}{\rho_2^2} |T_1-T_2|\right)
 \end{equation}
 where $d(x,y)$ is the great circle (geodesic) distance between points $x, y$, and $\alpha, \rho>0$ are hyperparameters.
 The Laplace kernel is positive-definite with the great-circle distance $d(\cdot, \cdot)$ \citep{feragen2015geodesic} and thus provides a valid covariance for this distance; many other popular kernels like the RBF kernel are not valid for this distance \citep{feragen2015geodesic}.
@@ -559,12 +600,14 @@ For ancestors, we recursively defined their location as the mean of the location
 We plot the posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) in Figure~\ref{fig:posterior-area-time}.
 The posterior probability that the correlation is $\leq 0$ is estimated to be 0.00125.
 In the stationary distribution, the two components are correlated at $R = 0.59$ (95\% CrI $[0.25, 0.89]$).
-This confirms that coadaptation is found even when explicitly modeling convergence between neibhboring languages.
+This confirms that coadaptation is found even when explicitly modeling convergence between neighboring languages.
 
 
 \begin{figure}
+	\begin{center}
     \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom-geo-time/fits/corr_sigma.pdf}
-	\caption{Posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) when accounting for areal convergemce.}\label{fig:posterior-area-time}
+	\end{center}
+	\caption{Posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) when accounting for areal convergence.}\label{fig:posterior-area-time}
 \end{figure}
 
 
@@ -584,13 +627,13 @@ This confirms that coadaptation is found even when explicitly modeling convergen
 % https://courses.helsinki.fi/sites/default/files/course-material/4523939/Freckleton02.pdf
 
 
-\section{Subject-Object Position Congruence and Categorical Classification of Basic Word Order}
+\section{Subject-Object Position Congruence and Categorical Classification of Basic Word Order}\label{sec:categorical}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{../analysis/categorical_order/figures/by_categorical_order.pdf}
-	\caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}, supplemented with data from other sources (see Section~\ref{sec:categorical}). Colors indicate basic word order categories.}
+	\caption{Basic word orders as labeled in the World Atlas of Language Structures \citep{wals-81}, supplemented with data from other sources (see Section~\ref{sec:categorical}).}
     \label{fig:categorical-basic-order}
 \end{figure}
 
@@ -600,12 +643,12 @@ The notion of subject-object position congruence addresses a key limitation of t
 Here, we compare subject-object position congruence to basic word order as classified in the typological literature.
 
 
-In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (see Section~\ref{sec:categorical}).
+In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (primarily \citep{gell-mann-origin-2011}, see Table~\ref{tab:categorical}).
 First, we see that attested subject-object position congruence largely determines whether a language is labeled SVO or SOV/VSO.
 A few language with medium subject-object position congruence are labeled as `No dominant order'.
 
-Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.76, p < 10^{-8}$) and SOV ($R=0.55, p = 0.062$).
-This shows that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
+Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.52, p < 0.00021$) and SOV ($R=0.45, p = 0.07$).
+This suggests that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
 
 Next, we describe a version of the phylogenetic analysis controlling for catgeorical order.
 
@@ -625,22 +668,25 @@ This model requires labeling all nodes on the phylogenetic tree for categorical 
 We based the annotation on \citet{wals-81}.
 In those languages where no annotation was available, we drew on \citep{gell-mann-origin-2011}, supplemented with language-specific literature.
 In some cases, both `No dominant order' and one of SVO/SOV are plausible labels. In these cases, we opted for SOV/SVO, as we expect this to \emph{increase} the amount of variance that categorical order classes can explain, introducing at most a \emph{conservative} bias in estimating coadaptation.
-We obtained the following labels:
-\begin{longtable}{llp{0.5\textwidth}lll}
+We obtained the labels listed in Table~\ref{tab:categorical}.
+
+\begin{table}
+\begin{tabular}{llp{0.5\textwidth}lll}
 \hline
 	Language & Label & Rationale \\ \hline
 \input{../analysis/categorical_order/output/additionalOrders.tex}
 \hline
-\end{longtable}
-
-For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
-\begin{longtable}{llp{0.5\textwidth}lll}
-\hline
-Group & Label & Rationale \\ \hline
-\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
-\hline
-\end{longtable}
-
+\end{tabular}
+	\caption{Categorical labels for basic word order for languages with no annotation in \citet{wals-81}. This annotation is used for the control study in Section~\ref{sec:categorical}; it does not enter the main study.}\label{tab:categorical}
+\end{table}
+%For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
+%\begin{longtable}{llp{0.5\textwidth}lll}
+%\hline
+%Group & Label & Rationale \\ \hline
+%\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
+%\hline
+%\end{longtable}
+%
 
 \begin{figure}
     \centering
@@ -758,10 +804,13 @@ For each language in our dataset, we collected statistics for all verbs with a s
 \end{equation}
 
 A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
-Results are shown below.
+Results are shown in Table S15.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
 \begin{longtable}{l|lllllll}
+	\multicolumn{4}{p{0.8\textwidth}}{Table S15: Coefficients in logistic analysis regressing SV/VS Order based on the presence of an object. `SV Frequency' indicates the overall rate of SV order (as opposed to VS) in the language. A positive coefficient ($\beta > 0$) indicates that SV is more common in the presence of an object than when there is no object.}
+	\\
+		\multicolumn{4}{p{0.8\textwidth}}{}\\
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
 \input{../collectPerVerbProperties/SV_withinLang/results_analyze_VSOrderWhenNoObject.R.tex}
 \end{longtable}
@@ -790,7 +839,20 @@ For instance, German and Dutch can have VS in main clauses, but are almost alway
 
 \section{Estimating Usage and Grammar on Disjoint Corpora}
 
-\mhahn{TODO}
+
+\begin{figure}
+	\begin{center}
+\includegraphics[width=0.6\textwidth]{../disjoint/plane-disjoint.pdf}
+	\end{center}
+	\caption{Estimating attested and optimized subject-object position congruence on disjoint datasets in English and Japanese. The blue datapoints are the results from the main experiments. For the other datapoints, we randomly split each of the corpora in half, and estimated attested and optimized position congruence separately on the two disjoint subsets.}\label{fig:disjoint}
+\end{figure}
+
+In the main experiment, we used the same corpora to estimate attested and optimized position congruence.
+This is not circular, as optimized position congruence is estimated only on the basis of the tree topologies, without any influence from the actually observed orderings.
+Here, we illustrate that equivalent results are obtained even when estimating both quantities on \emph{entirely disjoint} corpora.
+Fot this, we randomly split the English and Japanese data into two equal-sized parts A and B.
+In Figure~\ref{fig:disjoint}, we report the results obtained by (1) estimating optimized congruence on A and attested congruence on B (red), (2) the same with A and B reversed (blue), (3) and for comparison the result from the main experiment, where both quantities are estimated on the full dataset, i.e., the union of A and B.
+The results show that qualitatively equivalent results are obtained in all three cases.
 
 %\mhahn{TODO. Here, my plan is to illustrate that estimating quantities on disjoint corpora makes no difference, using just two or three languages as examples.}
 

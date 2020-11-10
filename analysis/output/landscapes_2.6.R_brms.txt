@@ -1,0 +1,34 @@
+ Family: bernoulli 
+  Links: mu = logit 
+Formula: OSSameSide ~ OSSameSide_Real_Prob_Log + (1 | Language) + (1 + OSSameSide_Real_Prob_Log | Family) 
+   Data: data (Number of observations: 1099) 
+Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup samples = 4000
+
+Group-Level Effects: 
+~Family (Number of levels: 28) 
+                                        Estimate Est.Error l-95% CI u-95% CI
+sd(Intercept)                               0.46      0.22     0.06     0.94
+sd(OSSameSide_Real_Prob_Log)                0.25      0.18     0.01     0.68
+cor(Intercept,OSSameSide_Real_Prob_Log)     0.36      0.53    -0.86     0.98
+                                        Rhat Bulk_ESS Tail_ESS
+sd(Intercept)                           1.01      564      866
+sd(OSSameSide_Real_Prob_Log)            1.00      584      975
+cor(Intercept,OSSameSide_Real_Prob_Log) 1.00     1110     1378
+
+~Language (Number of levels: 73) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.47      0.13     0.20     0.71 1.01      714      633
+
+Population-Level Effects: 
+                         Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+Intercept                    0.61      0.20     0.22     1.00 1.00     1532
+OSSameSide_Real_Prob_Log     0.61      0.16     0.31     0.93 1.00     1347
+                         Tail_ESS
+Intercept                    1927
+OSSameSide_Real_Prob_Log     1144
+
+Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).
+[1] 1
