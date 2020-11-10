@@ -165,6 +165,8 @@ for idx in range(len(stepping)-1):
   print(perStone)
   print(sum(perStone))
 
+with open(f"marginal_likelihood/{__file__}.txt", "a") as outFile:
+   print(sum(perStone), file=outFile)
 #with open(f"fits/{__file__}.txt", "w") as outFile:
 #   print(fit, file=outFile)
 #   print(la, file=outFile)

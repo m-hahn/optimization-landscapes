@@ -2,7 +2,7 @@ import pystan
 from math import sqrt, log
 import math
 
-with open("../../trees2.tsv", "r") as inFile:
+with open("../trees2.tsv", "r") as inFile:
   trees = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(trees)
 
@@ -20,7 +20,7 @@ for line in trees:
        parents[child] = parent
        allLangs.add(parent)
 
-with open("../../groups2.tsv", "r") as inFile:
+with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
@@ -31,7 +31,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../../../analysis/landscapes_2.6_new.R.tsv", "r") as inFile:
+with open("../../analysis/landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -64,39 +64,32 @@ print(hiddenLangs)
 
 #observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
 
+with open("../../analysis/categorical_order/categorical_order.tsv", "r") as inFile:
+   categorical = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
+categorical = {x[1] : x[2] for x in categorical[1:]}
 
-with open("../../../../analysis/case_marking/case_marking_revised.tsv", "r") as inFile:
-   case_marking = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
-case_marking = {x[2] : True if x[3] == "TRUE" else False for x in case_marking[1:]}
-
-with open("../../../../analysis/case_marking/case_marking_groups.tsv", "r") as inFile:
+with open("../../analysis/categorical_order/categoricalOrderAdditional.tsv", "r") as inFile:
+  next(inFile)
+  for line in inFile:
+     line = line.strip().split("\t")
+     categorical[line[0]] = line[1]
+with open("../../analysis/categorical_order/categoricalOrder_groups.tsv", "r") as inFile:
+   next(inFile)
    for line in inFile:
-      x, y = line.strip().split("\t")
-      assert x not in case_marking
-      case_marking[x] = True if y == "TRUE" else False
-
-def caseMarking(lang):
-    if lang in case_marking:
-      return case_marking[lang]
-    if "_Greek" in lang:
-      return True
-    assert False, lang
+     line = line.strip().split("\t")
+     categorical[line[0]] = line[1]
 
 
-itos_categorical = ["Case", "No Case"]
+itos_categorical = sorted(list(set([y for _, y in categorical.items()])))
 print(itos_categorical)
 stoi_categorical = dict(list(zip(itos_categorical, range(len(itos_categorical)))))
+
 
 observedLanguages = [x for x in list(observedLangs) if x in valueByLanguage]
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
 lang2Observed = dict(list(zip(observedLanguages, range(len(observedLanguages)))))
-
-
-assert 'Latin_2.6' in valueByLanguage
-assert 'Latin_2.6' in totalLanguages
-assert 'Latin_2.6' in lang2Code
 
 distanceToParent = {}
 for language in allLangs:
@@ -123,7 +116,7 @@ dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
 dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hiddenLanguages+observedLanguages]
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
 dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in observedLanguages]
-dat["OrderCategory"] = [0] + [1 if caseMarking(x) else 2 for x in hiddenLanguages+observedLanguages]
+dat["OrderCategory"] = [0] + [1+stoi_categorical[categorical[x]] for x in hiddenLanguages+observedLanguages]
 dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+observedLanguages]
 dat["prior_only"] = 0
 dat["Components"] = 2

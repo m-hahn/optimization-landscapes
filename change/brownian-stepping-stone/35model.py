@@ -2,7 +2,13 @@ import pystan
 from math import sqrt, log
 import math
 
-with open("../../trees2.tsv", "r") as inFile:
+
+import sys
+
+timeDepth = int(sys.argv[1])
+assert timeDepth < 0
+
+with open("../trees2.tsv", "r") as inFile:
   trees = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(trees)
 
@@ -20,18 +26,18 @@ for line in trees:
        parents[child] = parent
        allLangs.add(parent)
 
-with open("../../groups2.tsv", "r") as inFile:
+with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
-dates["_ROOT_"] = -50000
+dates["_ROOT_"] = timeDepth
 print(dates)
 for x in allLangs:
   if x not in observedLangs:
     if x not in dates:
        print(x)
 
-with open("../../../../analysis/landscapes_2.6_new.R.tsv", "r") as inFile:
+with open("../../landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -63,40 +69,12 @@ hiddenLangs = [x for x in allLangs if x not in observedLangs and x != "_ROOT_"]
 print(hiddenLangs)
 
 #observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
-
-
-with open("../../../../analysis/case_marking/case_marking_revised.tsv", "r") as inFile:
-   case_marking = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
-case_marking = {x[2] : True if x[3] == "TRUE" else False for x in case_marking[1:]}
-
-with open("../../../../analysis/case_marking/case_marking_groups.tsv", "r") as inFile:
-   for line in inFile:
-      x, y = line.strip().split("\t")
-      assert x not in case_marking
-      case_marking[x] = True if y == "TRUE" else False
-
-def caseMarking(lang):
-    if lang in case_marking:
-      return case_marking[lang]
-    if "_Greek" in lang:
-      return True
-    assert False, lang
-
-
-itos_categorical = ["Case", "No Case"]
-print(itos_categorical)
-stoi_categorical = dict(list(zip(itos_categorical, range(len(itos_categorical)))))
-
 observedLanguages = [x for x in list(observedLangs) if x in valueByLanguage]
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
 lang2Observed = dict(list(zip(observedLanguages, range(len(observedLanguages)))))
 
-
-assert 'Latin_2.6' in valueByLanguage
-assert 'Latin_2.6' in totalLanguages
-assert 'Latin_2.6' in lang2Code
 
 distanceToParent = {}
 for language in allLangs:
@@ -111,6 +89,39 @@ print(parents.get("Classical_Chinese_2.6"))
 assert "Classical_Chinese_2.6" in observedLangs
 #quit()
 
+from collections import defaultdict
+
+
+listOfAllAncestors = defaultdict(list)
+
+def processDescendants(l, desc):
+   listOfAllAncestors[desc].append(l)
+   if l != "_ROOT_":
+      parent = parents.get(l, "_ROOT_")
+      processDescendants(parent, desc)
+   
+for language in totalLanguages:
+   processDescendants(language, language)
+print(listOfAllAncestors)
+
+
+
+
+covarianceMatrix = [[None for _ in range(len(observedLanguages))] for _ in range(len(observedLanguages))]
+for i in range(len(observedLanguages)):
+   for j in range(i+1):
+      l1 = observedLanguages[i]
+      l2 = observedLanguages[j]
+      print("----------")
+      print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      commonAncestors = max([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      print((commonAncestors - (timeDepth))/1000)
+
+      covarianceMatrix[i][j] = (commonAncestors - (timeDepth))/1000
+      covarianceMatrix[j][i] = (commonAncestors - (timeDepth))/1000
+
+
 dat = {}
 
 dat["ObservedN"] = len(observedLanguages)
@@ -123,32 +134,51 @@ dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
 dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hiddenLanguages+observedLanguages]
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
 dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in observedLanguages]
-dat["OrderCategory"] = [0] + [1 if caseMarking(x) else 2 for x in hiddenLanguages+observedLanguages]
 dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+observedLanguages]
+dat["CovarianceMatrix"] = covarianceMatrix
 dat["prior_only"] = 0
 dat["Components"] = 2
-dat["NumberOfCategories"] = len(stoi_categorical)
 
 print(dat)
 
 sm = pystan.StanModel(file=f'{__file__[:-3]}.stan')
 
+#stepping = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+stepping = [0.0, 0.01, 0.02, 0.05, 0.08, 0.1, 0.2, 0.3, 0.4, 0.7, 1.0]
+#stepping = [0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.06, 0.075, 0.08, 0.085, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5,0.6,  0.7, 0.8, 1.0]
 
-fit = sm.sampling(data=dat, iter=2000, chains=4)
-la = fit.extract(permuted=True)  # return a dictionary of arrays
-import numpy as np
-with open(f"fits/{__file__}.txt", "w") as outFile:
-   print(fit, file=outFile)
-print((la["Lrescor_Sigma"] > 0).mean(axis=0))
-print((la["Sigma"] > 0).mean(axis=0))
-print((la["Omega"] > 0).mean(axis=0))
-# Correlation
-#print(la["Sigma"][1,2] / (la["Sigma"][1,1].sqrt() * la["Sigma"][2,2].sqrt()))
-with open(f"fits/CORR_Sigma_{__file__}.txt", "w") as outFile:
-  for x in la["Sigma"][:,0,1] / np.sqrt(la["Sigma"][:,0,0] * la["Sigma"][:,1,1]):
-      print(round(float(x), 4), file=outFile)
-print(la["Omega"].shape)
-with open(f"fits/stationary_fit_{__file__}.txt", "w") as outFile:
- print("Group", "Mean1", "Mean2", "Cov11", "Cov12", "Cov22", file=outFile)
- for i, cat in enumerate(stoi_categorical):
-   print(cat, la["alpha"][:,i,0].mean(), la["alpha"][:,i,1].mean(), la["Omega"][:,i,0,0].mean(), la["Omega"][:,i,0,1].mean(), la["Omega"][:,i,1,1].mean(), file=outFile)
+def mean(x):
+   return sum(x)/len(x)
+
+perStone = []
+
+import torch
+
+for idx in range(len(stepping)-1):
+  dat["stepping"] = stepping[idx]
+  
+  fit = sm.sampling(data=dat, iter=2000, chains=4)
+  la = fit.extract(permuted=True)  # return a dictionary of arrays
+  
+  #print(fit)
+  print(mean(la["targetLikelihood"]))
+  log_likelihoods =  torch.FloatTensor(la["targetLikelihood"])
+  log_likelihoods = (stepping[idx+1] - stepping[idx]) * log_likelihoods
+  toSubtract = log_likelihoods.max()
+  averaged = float((log_likelihoods - toSubtract).exp().mean().log() + toSubtract)
+  perStone.append(averaged)
+  print("=========================")
+  print(perStone)
+  print(sum(perStone))
+
+with open(f"marginal_likelihood/{__file__}.txt", "a") as outFile:
+   print(timeDepth, sum(perStone), file=outFile)
+#with open(f"fits/{__file__}.txt", "w") as outFile:
+#   print(fit, file=outFile)
+#   print(la, file=outFile)
+#print("Inferred logits", la["LogitsAll"].mean(axis=0))
+#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
+#print("alpha", la["alpha"].mean(axis=0))
+#print("sigma_B", la["sigma_B"].mean(axis=0))
+#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
+#

@@ -1,0 +1,7 @@
+`summarise()` ungrouping output (override with `.groups` argument)
+# A tibble: 3 x 2
+    Years LogLikelihood
+    <int>         <dbl>
+1 -100000         -190.
+2  -50000         -188.
+3  -20000         -170.
