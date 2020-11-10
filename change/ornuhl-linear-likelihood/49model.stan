@@ -3,8 +3,8 @@ functions {
 data {
   int<lower=1> ObservedN;  // number of observations
   vector<lower=-1, upper=1>[ObservedN] TraitObserved;  // population-level design matrix
-  int<lower=0> TrialsSuccess[ObservedN];
-  int<lower=0> TrialsTotal[ObservedN];
+  vector<lower=0>[ObservedN] TrialsSuccess;
+  vector<lower=0>[ObservedN] TrialsTotal;
   int<lower=1> HiddenN;
   int<lower=1> TotalN;
   int IsHidden[TotalN];
@@ -18,20 +18,26 @@ data {
   int FamiliesNum;
   int FamiliesSize;
   int FamiliesLists[FamiliesNum, FamiliesSize];
+  real stepping;
+}
+transformed data {
+   vector[ObservedN] LogitsAll;
+   {
+     for(i in 1:ObservedN) {
+        real pi = (TrialsSuccess[i])/(TrialsTotal[i]);
+        LogitsAll[i] = pi*2-1;
+     }
+   }
 }
 parameters {
-  vector<lower=-2, upper=2>[ObservedN] LogitsAll;
   vector[2] alpha; // the mean of the process
   vector[2] sigma_B;
 
-  cholesky_factor_corr[2] Lrescor_Sigma; 
 
   vector[2] sigma_Sigma;
-  real<lower=0> observationVarianceUsage;
-  real<lower=0> observationVarianceReal;
 }
 transformed parameters {
-  real stepping = 1.0;
+  cholesky_factor_corr[2] Lrescor_Sigma = [[1, 0], [0,1 ]]; 
 
   real targetPrior = 0;
   real targetLikelihood = 0;
@@ -70,14 +76,11 @@ transformed parameters {
 
 
 
- { ////////////////////
+ { //////////////////// likelihood block
   targetPrior += normal_lpdf(alpha | 0, 1);
-  targetPrior += normal_lpdf(observationVarianceReal | 0, 1);
-  targetPrior += normal_lpdf(observationVarianceUsage | 0, 1);
 
   targetPrior += normal_lpdf(sigma_B | 0, 1);
   targetPrior += normal_lpdf(sigma_Sigma | 0, 1);
-  targetPrior += lkj_corr_cholesky_lpdf(Lrescor_Sigma | 1);
 
   for(family in 1:FamiliesNum) {
     int familySizeHere;
@@ -113,8 +116,7 @@ transformed parameters {
            } // loop over v
           } // loop over u
         } // loop over j
-        fullCovMat[2*(i-1)+1, 2*(i-1)+1] += observationVarianceUsage;
-        fullCovMat[2*(i-1)+2, 2*(i-1)+2] += observationVarianceReal;
+   
         for(j in 1:familySizeHere) {
            own_overall[2*(j-1)+1] = LogitsAll[FamiliesLists[family, j]];
            own_overall[2*(j-1)+2] = TraitObserved[FamiliesLists[family, j]];
@@ -124,11 +126,6 @@ transformed parameters {
     } // end block
    } // loop over 'family'
 
-   for (n in 1:ObservedN) {
-        int success = TrialsSuccess[n];
-        int total = TrialsTotal[n];
-        targetLikelihood += binomial_logit_lpmf(success | total, LogitsAll[n]);
-   } // loop over n
  } // likelihood block
 }
 model {

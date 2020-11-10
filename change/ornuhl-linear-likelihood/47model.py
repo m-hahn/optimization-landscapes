@@ -106,14 +106,38 @@ for i in range(len(observedLanguages)):
    for j in range(i+1):
       l1 = observedLanguages[i]
       l2 = observedLanguages[j]
-      print("----------")
-      print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      commonAncestors = max([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
-      print((commonAncestors - (-50000))/1000)
+#      print("----------")
+ #     print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+  #    print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      commonAncestorsDates = [int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2] and l != "_ROOT_"]
+      if len(commonAncestorsDates) > 0:
+         commonTime = max(commonAncestorsDates)
+      else:
+         commonTime = -50000
+      separateTime1 = (int(dates.get(l1, 2000)) - commonTime)
+      separateTime2 = (int(dates.get(l2, 2000)) - commonTime)
+      if commonTime > -50000:
+         print(l1, l2, separateTime1, separateTime2)
+      else:
+         separateTime1 = 1000000
+         separateTime2 = 1000000
+      covarianceMatrix[i][j] = (separateTime1)/1000
+      covarianceMatrix[j][i] = (separateTime2)/1000
 
-      covarianceMatrix[i][j] = (commonAncestors - (-50000))/1000
-      covarianceMatrix[j][i] = (commonAncestors - (-50000))/1000
+families = defaultdict(list)
+for language in observedLanguages:
+  ancestors = listOfAllAncestors[language]
+  print(ancestors)
+  assert ancestors[-1] == "_ROOT_"
+  families[([language] + ancestors)[-2]].append(language)
+print(families)
+familiesLists = [[observedLanguages.index(x)+1 for x in z] for _, z in families.items()]
+print(familiesLists)
+familiesListsMaxLen = max([len(x) for x in familiesLists])
+familiesLists = [x+[0 for _ in range(familiesListsMaxLen-len(x))] for x in familiesLists]
+print(familiesLists)
+
+
 
 
 dat = {}
@@ -132,6 +156,10 @@ dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+obse
 dat["CovarianceMatrix"] = covarianceMatrix
 dat["prior_only"] = 0
 dat["Components"] = 2
+dat["FamiliesLists"] = familiesLists
+dat["FamiliesNum"] = len(familiesLists)
+dat["FamiliesSize"] = len(familiesLists[0])
+
 
 print(dat)
 

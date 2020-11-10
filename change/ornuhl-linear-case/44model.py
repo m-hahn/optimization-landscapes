@@ -2,7 +2,7 @@ import pystan
 from math import sqrt, log
 import math
 
-with open("../../trees2.tsv", "r") as inFile:
+with open("../trees2.tsv", "r") as inFile:
   trees = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print(trees)
 
@@ -20,7 +20,7 @@ for line in trees:
        parents[child] = parent
        allLangs.add(parent)
 
-with open("../../groups2.tsv", "r") as inFile:
+with open("../groups2.tsv", "r") as inFile:
   dates = [x.split("\t") for x in inFile.read().strip().split("\n")][1:]
 print([len(x) for x in dates])
 dates = dict(dates)
@@ -31,7 +31,7 @@ for x in allLangs:
     if x not in dates:
        print(x)
 
-with open("../../../../analysis/landscapes_2.6_new.R.tsv", "r") as inFile:
+with open("../../analysis/landscapes_2.6_new.R.tsv", "r") as inFile:
    data = [x.replace('"', '').split(" ") for x in inFile.read().strip().split("\n")]
 header = data[0]
 header = ["ROWNUM"] + header
@@ -64,12 +64,11 @@ print(hiddenLangs)
 
 #observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
 
-
-with open("../../../../analysis/case_marking/case_marking_revised.tsv", "r") as inFile:
+with open("../../analysis/case_marking/case_marking_revised.tsv", "r") as inFile:
    case_marking = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
 case_marking = {x[2] : True if x[3] == "TRUE" else False for x in case_marking[1:]}
 
-with open("../../../../analysis/case_marking/case_marking_groups.tsv", "r") as inFile:
+with open("../../analysis/case_marking/case_marking_groups.tsv", "r") as inFile:
    for line in inFile:
       x, y = line.strip().split("\t")
       assert x not in case_marking

@@ -3,8 +3,8 @@ functions {
 data {
   int<lower=1> ObservedN;  // number of observations
   vector<lower=-1, upper=1>[ObservedN] TraitObserved;  // population-level design matrix
-  int<lower=0> TrialsSuccess[ObservedN];
-  int<lower=0> TrialsTotal[ObservedN];
+  vector<lower=0>[ObservedN] TrialsSuccess;
+  vector<lower=0>[ObservedN] TrialsTotal;
   int<lower=1> HiddenN;
   int<lower=1> TotalN;
   int IsHidden[TotalN];
@@ -17,9 +17,18 @@ data {
   int NumberOfCategories;
   int<lower=0, upper=NumberOfCategories> OrderCategory[TotalN];
 }
+transformed data {
+   vector[ObservedN] LogitsObserved;
+   {
+     for(i in 1:ObservedN) {
+        real pi = (TrialsSuccess[i])/(TrialsTotal[i]);
+        LogitsObserved[i] = pi*2-1;
+     }
+   }
+}
 parameters {
   vector<lower=-1, upper=1>[HiddenN] TraitHidden;
-  vector<lower=-2, upper=2>[TotalN] LogitsAll;
+  vector<lower=-1, upper=1>[HiddenN] LogitsHidden;
   matrix<lower=-2, upper=2>[NumberOfCategories, 2] alpha; // the mean of the process
   matrix<lower=0.1, upper=2>[NumberOfCategories, 2] sigma_B;
 
@@ -87,16 +96,18 @@ model {
 
      if (IsHidden[ParentIndex[n]]) {
          reference_trait = TraitHidden[Total2Hidden[ParentIndex[n]]];
+         reference_logit = LogitsHidden[Total2Hidden[ParentIndex[n]]];
      } else {
          reference_trait = TraitObserved[Total2Observed[ParentIndex[n]]];
+         reference_logit = LogitsObserved[Total2Observed[ParentIndex[n]]];
      }
-     reference_logit = LogitsAll[ParentIndex[n]];
      if (IsHidden[n]) {
         own_trait = TraitHidden[Total2Hidden[n]];
+        own_logit = LogitsHidden[Total2Hidden[n]];
      } else {
         own_trait = TraitObserved[Total2Observed[n]];
+        own_logit = LogitsObserved[Total2Observed[n]];
      }
-     own_logit = LogitsAll[n];
      own_overall = [own_logit, own_trait]';
      reference_overall = [reference_logit, reference_trait]';
      alphaHere = alpha[OrderCategory[n]]';
@@ -104,12 +115,8 @@ model {
         target += multi_normal_lpdf(own_overall | alphaHere, Omega[OrderCategory[n]]);
      } else {
         matrix[2, 2] exp1 = matrix_exp(-B[OrderCategory[n]] * ParentDistance[n]);
-        target += multi_normal_lpdf(own_overall | alphaHere + exp1 * (reference_overall - alphaHere), Omega[OrderCategory[n]] - exp1 * Omega[OrderCategory[n]] * exp1');
-     }
-     if(!IsHidden[n]) {
-        int success = TrialsSuccess[Total2Observed[n]];
-        int total = TrialsTotal[Total2Observed[n]];
-        target += binomial_logit_lpmf(success | total, own_logit);
+        matrix[2,2] covariance_diagnostic = Omega[OrderCategory[n]] - exp1 * Omega[OrderCategory[n]] * exp1';
+        target += multi_normal_lpdf(own_overall | alphaHere + exp1 * (reference_overall - alphaHere), covariance_diagnostic);
      }
   }
 }

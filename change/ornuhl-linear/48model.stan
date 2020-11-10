@@ -76,7 +76,7 @@ transformed parameters {
 
 
 
-  { ////////////////////
+ { //////////////////// likelihood block
   targetPrior += normal_lpdf(alpha | 0, 1);
 
   targetPrior += normal_lpdf(sigma_B | 0, 1);
@@ -90,44 +90,44 @@ transformed parameters {
           familySizeHere = 1;
           break;
        }
-    }
-  {
-  vector[2*familySizeHere] own_overall;
-  matrix[2*familySizeHere, 2*familySizeHere] fullCovMat;
-  vector[2*familySizeHere] fullMeanVector;
+    } // loop over 'language'
+    { // block
+     vector[2*familySizeHere] own_overall;
+     matrix[2*familySizeHere, 2*familySizeHere] fullCovMat;
+     vector[2*familySizeHere] fullMeanVector;
+   
+     for(i in 1:familySizeHere) {
+        fullMeanVector[2*(i-1)+1] = alpha[1];
+        fullMeanVector[2*(i-1)+2] = alpha[2];
+        for(j in 1:i) {
+          matrix[2, 2] covarianceHere;
+          if(CovarianceMatrix[i,j] > 30) { // essentially no statistical dependency
+            covarianceHere = [[0, 0], [0, 0]];
+          } else if(i == j) { // here, the distance is zero
+            covarianceHere = Omega;
+          } else {
+            matrix[2,2] exponentiated1 = exp(-CovarianceMatrix[FamiliesLists[family, i],FamiliesLists[family, j]] * B);
+            matrix[2,2] exponentiated2 = exp(-CovarianceMatrix[FamiliesLists[family, j],FamiliesLists[family, i]] * B);
+            covarianceHere = exponentiated1 * Omega * exponentiated2';
+          }
+          for(u in 1:2) {
+           for(v in 1:2) {
+              fullCovMat[2*(i-1)+u, 2*(j-1)+v] = covarianceHere[u,v];
+              fullCovMat[2*(j-1)+u, 2*(i-1)+v] = covarianceHere[v,u];
+           } // loop over v
+          } // loop over u
+        } // loop over j
+   
+        for(j in 1:familySizeHere) {
+           own_overall[2*(j-1)+1] = LogitsAll[FamiliesLists[family, j]];
+           own_overall[2*(j-1)+2] = TraitObserved[FamiliesLists[family, j]];
+        } // loop over j
+        targetLikelihood += multi_normal_lpdf(own_overall | rep_vector(0, 2*familySizeHere), fullCovMat);
+     } // loop over i
+    } // end block
+   } // loop over 'family'
 
-  for(i in 1:familySizeHere) {
-     fullMeanVector[2*(i-1)+1] = alpha[1];
-     fullMeanVector[2*(i-1)+2] = alpha[2];
-     for(j in 1:i) {
-       matrix[2, 2] covarianceHere;
-       if(CovarianceMatrix[i,j] > 30) { // essentially no statistical dependency
-         covarianceHere = [[0, 0], [0, 0]];
-       } else if(i == j) { // here, the distance is zero
-         covarianceHere = Omega;
-       } else {
-         matrix[2,2] exponentiated1 = exp(-CovarianceMatrix[FamiliesLists[family, i],FamiliesLists[family, j]] * B);
-         matrix[2,2] exponentiated2 = exp(-CovarianceMatrix[FamiliesLists[family, j],FamiliesLists[family, i]] * B);
-         covarianceHere = exponentiated1 * Omega * exponentiated2';
-       }
-       for(u in 1:2) {
-        for(v in 1:2) {
-           fullCovMat[2*(i-1)+u, 2*(j-1)+v] = covarianceHere[u,v];
-           fullCovMat[2*(j-1)+u, 2*(i-1)+v] = covarianceHere[v,u];
-        }
-       }
-     }
-  for(j in 1:familySizeHere) {
-     own_overall[2*(j-1)+1] = LogitsAll[FamiliesLists[family, j]];
-     own_overall[2*(j-1)+2] = TraitObserved[FamiliesLists[family, j]];
-  }
-  targetLikelihood += multi_normal_lpdf(own_overall | rep_vector(0, 2*familySizeHere), fullCovMat);
-  }
-}
-}
-
-
-  }
+ } // likelihood block
 }
 model {
   target += stepping * targetLikelihood + targetPrior;

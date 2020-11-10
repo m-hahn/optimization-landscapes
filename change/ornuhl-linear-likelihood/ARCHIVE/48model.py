@@ -63,33 +63,12 @@ hiddenLangs = [x for x in allLangs if x not in observedLangs and x != "_ROOT_"]
 print(hiddenLangs)
 
 #observedLanguages = [x for x in list(observedLangs) if parents[x] not in observedLangs] # This is for understanding what the model does on only synchronic data
-
-with open("../../../analysis/categorical_order/categorical_order.tsv", "r") as inFile:
-   categorical = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
-categorical = {x[1] : x[2] for x in categorical[1:]}
-
-with open("../../../analysis/categorical_order/categoricalOrderAdditional.tsv", "r") as inFile:
-  next(inFile)
-  for line in inFile:
-     line = line.strip().split("\t")
-     categorical[line[0]] = line[1]
-with open("../../../analysis/categorical_order/categoricalOrder_groups.tsv", "r") as inFile:
-   next(inFile)
-   for line in inFile:
-     line = line.strip().split("\t")
-     categorical[line[0]] = line[1]
-
-
-itos_categorical = sorted(list(set([y for _, y in categorical.items()])))
-print(itos_categorical)
-stoi_categorical = dict(list(zip(itos_categorical, range(len(itos_categorical)))))
-
-
 observedLanguages = [x for x in list(observedLangs) if x in valueByLanguage]
 hiddenLanguages = hiddenLangs
 totalLanguages = ["_ROOT_"] + hiddenLanguages + observedLanguages
 lang2Code = dict(list(zip(totalLanguages, range(len(totalLanguages)))))
 lang2Observed = dict(list(zip(observedLanguages, range(len(observedLanguages)))))
+
 
 distanceToParent = {}
 for language in allLangs:
@@ -104,6 +83,63 @@ print(parents.get("Classical_Chinese_2.6"))
 assert "Classical_Chinese_2.6" in observedLangs
 #quit()
 
+from collections import defaultdict
+
+
+listOfAllAncestors = defaultdict(list)
+
+def processDescendants(l, desc):
+   listOfAllAncestors[desc].append(l)
+   if l != "_ROOT_":
+      parent = parents.get(l, "_ROOT_")
+      processDescendants(parent, desc)
+   
+for language in totalLanguages:
+   processDescendants(language, language)
+print(listOfAllAncestors)
+
+
+
+
+covarianceMatrix = [[None for _ in range(len(observedLanguages))] for _ in range(len(observedLanguages))]
+for i in range(len(observedLanguages)):
+   for j in range(i+1):
+      l1 = observedLanguages[i]
+      l2 = observedLanguages[j]
+#      print("----------")
+ #     print([l for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+  #    print([int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2]])
+      commonAncestorsDates = [int(dates.get(l, 2000)) for l in listOfAllAncestors[l1] if l in listOfAllAncestors[l2] and l != "_ROOT_"]
+      if len(commonAncestorsDates) > 0:
+         commonTime = max(commonAncestorsDates)
+      else:
+         commonTime = -50000
+      separateTime1 = (int(dates.get(l1, 2000)) - commonTime)
+      separateTime2 = (int(dates.get(l2, 2000)) - commonTime)
+      if commonTime > -50000:
+         print(l1, l2, separateTime1, separateTime2)
+      else:
+         separateTime1 = 1000000
+         separateTime2 = 1000000
+      covarianceMatrix[i][j] = (separateTime1)/1000
+      covarianceMatrix[j][i] = (separateTime2)/1000
+
+families = defaultdict(list)
+for language in observedLanguages:
+  ancestors = listOfAllAncestors[language]
+  print(ancestors)
+  assert ancestors[-1] == "_ROOT_"
+  families[([language] + ancestors)[-2]].append(language)
+print(families)
+familiesLists = [[observedLanguages.index(x)+1 for x in z] for _, z in families.items()]
+print(familiesLists)
+familiesListsMaxLen = max([len(x) for x in familiesLists])
+familiesLists = [x+[0 for _ in range(familiesListsMaxLen-len(x))] for x in familiesLists]
+print(familiesLists)
+
+
+
+
 dat = {}
 
 dat["ObservedN"] = len(observedLanguages)
@@ -116,11 +152,14 @@ dat["IsHidden"] = [1]*dat["HiddenN"] + [0]*dat["ObservedN"]
 dat["ParentIndex"] = [0] + [1+lang2Code[parents.get(x, "_ROOT_")] for x in hiddenLanguages+observedLanguages]
 dat["Total2Observed"] = [0]*dat["HiddenN"] + list(range(1,1+len(observedLanguages)))
 dat["Total2Hidden"] = [1] + list(range(2,2+len(hiddenLanguages))) + [0 for _ in observedLanguages]
-dat["OrderCategory"] = [0] + [1+stoi_categorical[categorical[x]] for x in hiddenLanguages+observedLanguages]
 dat["ParentDistance"] = [0] + [distanceToParent[x] for x in hiddenLanguages+observedLanguages]
+dat["CovarianceMatrix"] = covarianceMatrix
 dat["prior_only"] = 0
 dat["Components"] = 2
-dat["NumberOfCategories"] = len(stoi_categorical)
+dat["FamiliesLists"] = familiesLists
+dat["FamiliesNum"] = len(familiesLists)
+dat["FamiliesSize"] = len(familiesLists[0])
+
 
 print(dat)
 
@@ -140,13 +179,4 @@ print((la["Omega"] > 0).mean(axis=0))
 with open(f"fits/CORR_Sigma_{__file__}.txt", "w") as outFile:
   for x in la["Sigma"][:,0,1] / np.sqrt(la["Sigma"][:,0,0] * la["Sigma"][:,1,1]):
       print(float(x), file=outFile)
-with open(f"fits/CORR_Omega_{__file__}.txt", "w") as outFile:
-  for x in la["Omega"][:,0,1] / np.sqrt(la["Omega"][:,0,0] * la["Omega"][:,1,1]):
-      print(float(x), file=outFile)
-#   print(la, file=outFile)
-#print("Inferred logits", la["LogitsAll"].mean(axis=0))
-#print("Inferred hidden traits", la["TraitHidden"].mean(axis=0))
-#print("alpha", la["alpha"].mean(axis=0))
-#print("sigma_B", la["sigma_B"].mean(axis=0))
-#print("Lrescor_B", la["Lrescor_B"].mean(axis=0))
-#
+
