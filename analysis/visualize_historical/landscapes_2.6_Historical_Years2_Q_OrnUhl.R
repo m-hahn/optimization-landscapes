@@ -40,8 +40,8 @@ us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Galician_2.6")) %>% mu
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Catalan_2.6")) %>% mutate(Trajectory="Catalan", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Romanian_2.6")) %>% mutate(Trajectory="Romanian", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Portuguese_2.6")) %>% mutate(Trajectory="Portuguese", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
-us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Hindi_2.6")) %>% mutate(Trajectory="Hindi", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
-us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Urdu_2.6")) %>% mutate(Trajectory="Urdu", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-200", ifelse(Age==0, "+1200", "+2000"))))
+us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Hindi_2.6")) %>% mutate(Trajectory="Hindi", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-900", ifelse(Age==0, "+1200", "+2000"))))
+us = rbind(us, u %>% filter(Language %in% c("Sanskrit_2.6", "Urdu_2.6")) %>% mutate(Trajectory="Urdu", Group="Indo-Aryan") %>% mutate(Time = ifelse(Age == -1, "-900", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Church_Slavonic_2.6", "Bulgarian_2.6")) %>% mutate(Trajectory="Bulgarian", Group="Eastern South Slavic") %>% mutate(Time = ifelse(Age == -1, "+800", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Russian_2.6")) %>% mutate(Trajectory="Russian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Old_Russian_2.6", "Belarusian_2.6")) %>% mutate(Trajectory="Belarusian", Group="East Slavic") %>% mutate(Time = ifelse(Age == -1, "+1200", ifelse(Age==0, "+1200", "+2000"))))
@@ -152,7 +152,7 @@ plot = ggplot(u, aes(x=OSSameSide_Real_Prob, y=OSSameSide)) #+ geom_smooth(metho
 plot = plot + geom_density2d(data=data.frame(Real = (stationary_sample[,2]+1)/2, Model = sigmoid(stationary_sample[,1])), aes(x=Real, y=Model), alpha=0.5)
 plot = plot + xlab("Attested Subject-Object Position Congruence") + ylab("Optimized Subject-Object Position Congruence") + xlim(-0.1,1.0) + ylim(0.0,1.0)
 for(group in unique(us$Group)) { 
-   plot = plot + geom_segment(data= u2s %>% filter(Group == group), aes(x=OSSameSide_Real_Prob_TRUE, xend=OSSameSide_Real_Prob_FALSE, y=OSSameSide_TRUE, yend=OSSameSide_FALSE), arrow=arrow(), size=1, color="blue") + geom_label(data=us %>% filter(Group == group), aes(label=Time), color="black")
+   plot = plot + geom_segment(data= u2s %>% filter(Group == group), aes(x=OSSameSide_Real_Prob_TRUE, xend=OSSameSide_Real_Prob_FALSE, y=OSSameSide_TRUE, yend=OSSameSide_FALSE), arrow=arrow(), size=1, color="blue") + geom_label(data=us %>% filter(Group == group), aes(label=Time), color="black", size=3)
 }
 plot = plot + facet_wrap(~Group)
 plot = plot + theme_bw()

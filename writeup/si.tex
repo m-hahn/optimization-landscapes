@@ -95,10 +95,10 @@
 \renewcommand{\thesection}{S\arabic{section}}
 
 
-\setcounter{figure}{1}
-\setcounter{table}{1}
-\setcounter{section}{0}
-
+%\setcounter{figure}{1}
+%\setcounter{table}{0}
+%\setcounter{section}{0}
+%
 \newcommand{\soft}[1]{}
 \newcommand{\nopreview}[1]{}
 \newcommand\comment[1]{{\color{red}#1}}
@@ -282,7 +282,7 @@ Afroasiatic & 10,000 BC & \cite{diakonoff1998the} \\
 Arabic & 1,100 AD & Calibration from \citep{holman2011automated} based on end of Arabic domination of Malta. \\
 Atlantic-Congo & 4,500 BC & \citet{holman2011automated} estimate an age of 6525 years.\\
 Balto-Slavic & 1,400 BC & \citep{gray2003language} \\
-	Brythonic & 500 AD & Migrations from Britain to Brittany (Humphreys 1993:609. Breton language its present position and historical background, cited by \citet{holman2011automated})\\
+	Brythonic & 500 AD & Migrations from Britain to Brittany \citep{holman2011automated}\\ % (Humphreys 1993:609. Breton language its present position and historical background, cited by 
 Central-Semitic & 2,450 BC & \citep{kitchen2009bayesian}   \\
 Common Turkic & 700AD & \cite[p. 49]{savelyev2020bayesian} estimate Common Turkic to have split around 474 AD. However, in their model, Old Turkic split off around 650 AD, earlier than the languages in our dataset, with uncertainty about the time of split of the remaining Common Turkic languages. It should predate the earliest documentation of Karluk Middle Turkic after 900AD. We thus put the divergence of the other Common Turkic languages at 700AD. \\
 Eastern Baltic & 600 AD & Split between Katvian and Lithuanian \citep[p. 209]{novotna2011glottochronology}\\
@@ -556,7 +556,8 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 \section{Accounting for Areal Convergence}
 The model of random walks on phylogenetic trees assume that languages evolve independently once they have split.
 However, linguistic evolution can include borrowing between geographically neighboring languages \citep[e.g.][]{dryer1989large, bisang1996areal, heine2003on, aikhenvald2007grammars,  kalyan2019problems}.
-Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}, geographic regions in which languages tend to show convergent evolution due to borrowing.
+
+Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas, geographic regions in which languages tend to show convergent evolution due to borrowing  \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}.
 
 We modeled linguistic areas as latent variables defining time- and location-dependent values $\mu(x,t)$ (where $x$ is a point on the surface of the earth and $t$ is a point in time) that languages at time $t$ and place $x$ drift towards.
 These values are inferred from the data together with the other parameters of the Ornstein-Uhlenbeck process.
@@ -642,12 +643,12 @@ The notion of subject-object position congruence addresses a key limitation of t
 Here, we compare subject-object position congruence to basic word order as classified in the typological literature.
 
 
-In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (primarily \citep{gell-mann-origin-2011}, see Section~\ref{sec:categorical}).
+In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subject-object position congruence, together with categorical basic word order labels from the World Atlas of Linguistic Structure \citep{wals-81}, supplemented with data from other sources where it had no data (primarily \citep{gell-mann-origin-2011}, see Table~\ref{tab:categorical}).
 First, we see that attested subject-object position congruence largely determines whether a language is labeled SVO or SOV/VSO.
 A few language with medium subject-object position congruence are labeled as `No dominant order'.
 
-Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.76, p < 10^{-8}$) and SOV ($R=0.55, p = 0.062$).
-This shows that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
+Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.52, p < 0.00021$) and SOV ($R=0.45, p = 0.07$).
+This suggests that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
 
 Next, we describe a version of the phylogenetic analysis controlling for catgeorical order.
 
@@ -803,11 +804,11 @@ For each language in our dataset, we collected statistics for all verbs with a s
 \end{equation}
 
 A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
-Results are shown in Table S16.
+Results are shown in Table S15.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
 \begin{longtable}{l|lllllll}
-	\multicolumn{4}{p{0.8\textwidth}}{Table S16: Coefficients in logistic analysis regressing SV/VS Order based on the presence of an object. `SV Frequency' indicates the overall rate of SV order (as opposed to VS) in the language. A positive coefficient ($\beta > 0$) indicates that SV is more common in the presence of an object than when there is no object.}
+	\multicolumn{4}{p{0.8\textwidth}}{Table S15: Coefficients in logistic analysis regressing SV/VS Order based on the presence of an object. `SV Frequency' indicates the overall rate of SV order (as opposed to VS) in the language. A positive coefficient ($\beta > 0$) indicates that SV is more common in the presence of an object than when there is no object.}
 	\\
 		\multicolumn{4}{p{0.8\textwidth}}{}\\
 Language & SV Frequency & $\beta$ & $p$ \\ \hline
