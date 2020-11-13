@@ -35,8 +35,6 @@
 
 ## Results from Appendix
 
-## Corpus Sizes and Excluded Languages
-
 ## Phylogenetic Tree
 [Visualizing phylogenetic tree](trees/tree.png)
 
