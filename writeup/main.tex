@@ -74,7 +74,7 @@
 %\end{abstract}
 
 \begin{abstract}
-	NO MORE THAN 250 WORDS.
+%	NO MORE THAN 250 WORDS.
 Languages vary considerably in syntactic structure.
 About 40\% of the world's languages have subject-verb-object order, and about 40\% have subject-object-verb order.
 A wide range of existing work has argued that the structure of human language supports efficient information transmission given our communicative needs.
@@ -218,83 +218,15 @@ This is supported by corpus studies on dozens of languages, and explains word or
 Dependency Length Minimization and related locality principles can be justified in terms of parsing efficiency \citep{hawkins-performance-1994}, memory efficiency \citep{gibson-linguistic-1998} and general communicative efficiency \citep{hahn2020universals}.
 %Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
 
-
-%\begin{figure}
-%%\begin{center}
-%\textbf{A}
-%\begin{dependency}[theme = simple]
-%   \begin{deptext}[column sep=1em]
-%          dogs \& bite \& people  \\
-%   \end{deptext}
-%	\depedge{2}{1}{\footnotesize{subject (1)}}
-%	\depedge{2}{3}{\footnotesize{object (1)}}
-%\end{dependency}
-%\begin{dependency}[theme = simple]
-%   \begin{deptext}[column sep=1em]
-%%   \japanese{犬は} \& \japanese{人を} \& \japanese{噛みます}\\ 
-%   inu-wa \& hito-o \& kamimasu \\
-%          DOG \& PEOPLE \& BITE  \\
-%   \end{deptext}
-%   \depedge{3}{1}{\footnotesize{subject (2)}} %{\parbox{1cm}{subject \\ \\ 2}}}
-%   \depedge{3}{2}{\footnotesize{object (1)}}
-%\end{dependency}
-%
-%
-%B
-%\begin{dependency}[theme = simple]
-%   \begin{deptext}[column sep=1em]
-%       think \& big dogs \& bite \& people  \\
-%   \end{deptext}
-%    \depedge{1}{3}{\footnotesize{complement (3)}}
-%   \depedge{3}{2}{\footnotesize{subject (1)}}
-%   \depedge{3}{4}{\footnotesize{object (1)}}
-%\end{dependency}
-%
-%\begin{dependency}[theme = simple]
-%   \begin{deptext}[column sep=1em]
-%   %\japanese{大きな犬が} \& \japanese{人を} \& \japanese{噛むと} \& \japanese{思います}\\ 
-%   ookina inu-ga \& hito-o \& kamuto \& omoimasu \\
-%         BIG DOG \& PEOPLE \& BITE \& THINK \\
-%   \end{deptext}
-%   \depedge{3}{1}{\footnotesize{subject (2)}}
-%   \depedge{3}{2}{\footnotesize{object (1)}}
-%   \depedge{4}{3}{\footnotesize{complement (1)}}
-%\end{dependency}
-%
-%
-%C
-%\begin{dependency}[theme = simple]
-%   \begin{deptext}[column sep=1em]
-% %  \japanese{人を} \& \japanese{噛みます}\\ 
-%   hito-o \& kamimasu \\
-%   PEOPLE \& BITE  \\
-%   \end{deptext}
-%   \depedge{2}{1}{\footnotesize{object (1)}}
-%\end{dependency}
-%\begin{dependency}[theme = simple]
-%   \begin{deptext}[column sep=1em]
-%  % \japanese{犬は} \& \japanese{噛みます}\\ 
-%   inu-wa \& kamimasu \\
-%          DOG \& BITE  \\
-%   \end{deptext}
-%   \depedge{2}{1}{\footnotesize{subject (1)}}
-%\end{dependency}
-%
-%
-%\caption{A: Word order variation across languages. English (left) follows Subject-Verb-Object (SVO) order. Japanese (right) follows Subject-Object-Verb (SOV) order. Numbers in brackets indicate the length of each dependency arc. Such simple sentences where both subjects and objects are expressed tend to favor SVO order, as it minimizes length of the dependency between subject and object, which is 1 in the English example but 2 in the Japanese one. B: In embedded contexts, DLM tends to favor SOV order. C: The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.}
-%        \label{fig:sent-dep}
-%\end{figure}
-%
-%
-
 \begin{figure}
     \centering
-	\includegraphics[width=0.45\textwidth]{introductory-figure.pdf}
+	\includegraphics[width=0.45\textwidth]{introductory-figure.png}
 \caption{
 Word order variation across languages.
 We show how English (SVO, center) and Japanese (SOV, right) linearize different syntactic structures into strings of words.
 Numbers below arcs indicate dependency length.
 Syntactic structures in A contain both a subject and an object; those in B only express one of the two.
+	We also show usage frequencies computed from large-scale English and Japanese texts (see SI Section TODO).
 In A, English achieves shorter dependency length (2, compared to 3 in Japanese).
 In B, both languages achieve the same dependency length.
 Therefore, structures as those in B are more favorable for DLM in SOV languages than those in A.
@@ -327,8 +259,9 @@ Languages differ not only in the ways they linearize these syntactic structures,
 Syntactic structures such as those in Figure~\ref{fig:sent-dep}A are used at significantly higher frequencies by speakers of English than speakers of Japanese.
 
 Given a distribution over syntactic structures, we can identify which grammar orders them in such a way to achieve minimal average dependency length.
-TODO introduce the optimization idea here and also in visualization.
-
+%In the simplified setting of Figure~\ref{fig:sent-dep}, SVO order achives an average dependency length of 
+%TODO introduce the optimization idea here and also in visualization.
+%
 We propose that languages evolve so that communicative preferences (which syntactic structures are chosen by speakers) and word order (how they are linearized) maintain optimality for DLM.
 This means that the actual word orders used by languages should be close to the most efficient possible grammar, given the distribution over syntactic structures.
 
@@ -855,7 +788,7 @@ Optimized grammars are created using the gradient descent method described by \c
 
 
 \subsection*{Data}
-We drew on the Universal Dependencies 2.6 treebanks, including every language for which data with at least 500 sentences was available, while excluding code-switched text, text produced entirely by nonnative speakers, and sign languages.
+We drew on the Universal Dependencies 2.6 treebanks, including every language for which data with at least 500 sentences was available, while excluding code-switched text, text produced specifically by nonnative speakers, and sign languages.
 In addition to the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar \citep{bech2014iswoc}.
 While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English \citep{kroch2011penn} they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
 
