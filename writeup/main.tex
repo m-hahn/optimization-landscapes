@@ -164,22 +164,27 @@ Our findings highlight that functional optimization in language structure and in
 \dropcap{T}he world's languages show considerable variation in grammatical structure \citep{greenberg-universals-1963, baker2001atoms, croft2003typology}.
 A large body of research has suggested that this variation is constrained by the functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, jaeger2011on, kemp2018semantic, gibson2019how}.
 Under this view, the structure of language in part reflects the way that language is used \citep{hopper1984the, bybee1994the, croft2000explaining, bybee2006from} and adapts to optimize  production and comprehension for human communication \citep{hawkins-performance-1994, haspelmath2006against, bybee2010language}.
-This line of work often takes communicative need as a constant that constrains what language structures are efficient for those communicative needs (CITE e.g. some of the efficiency work in semantic typology).
-However, there is also evidence that communicative need differs between languages, and that this is responsible for some of the differences observed between the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color} (perhaps also Sapir, Piraha, ...).
-If this is true, then changes in the communicative needs of its speakers should go hand in hand with the evolution of language structure.
+%<<<<<<< HEAD
+%This line of work often takes communicative need as a constant that constrains what language structures are efficient for those communicative needs (CITE e.g. some of the efficiency work in semantic typology).
+%However, there is also evidence that communicative need differs between languages, and that this is responsible for some of the differences observed between the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color} (perhaps also Sapir, Piraha, ...).
+%If this is true, then changes in the communicative needs of its speakers should go hand in hand with the evolution of language structure.
+%=======
+This line of work often takes communicative need as a constant that constrains what language structures are efficient for those communicative needs. % (CITE e.g. some of the efficiency work in semantic typology).
+However, there is also evidence that communicative need differs between languages, and that this is responsible for some of the differences observed between the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color}. % (perhaps also Sapir, Piraha, ...).
+We thus expect that the evolution of language structure should go hand in hand with changes in the ways its speakers communicate and structure information.
+%>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
 Here, we draw on large-scale data and phylogenetic modelling to argue that usage and grammar are optimized jointly to maintain efficiency in language change:
-Languages tend to be structured efficiently for the utterances that speakers produce, and, conversely, speakers produce utterances that are efficient given the grammar of their language.
+Languages tend to be structured efficiently for the utterances that speakers produce, and, conversely, speakers structure information in ways that are efficient given the grammar of their language.
 
 A key dimension that languages vary along in syntactic structure is word order.
 Typologists have long classified languages according to their basic word order, or the order in which they typically order verbs, subjects, and objects \citep{greenberg-universals-1963}.
 About 40\% of the world's languages are classified as following subject-verb-object order ({SVO}, as in English, ``a dog bites a human''), and 40 \% are classified as following subject-object-verb order ({SOV}, ``dog--human--bites'') \citep{wals-81}.
-Other orders such as verb-subject-object (``bites--dog--human'') are much less common.
-A large proportion of languages has more than one ordering, though typically with one of the orderings being the most common or least marked.
+Other orders such as verb-subject-object (VSO, ``bites--dog--human'') are much less common.
+Many languages have more than one ordering, though typically with one of the orderings being the most common or least marked.
 This ordering is considered the  basic word order of a language in the typological literature \citep{greenberg-universals-1963, wals-s6}.
 
 
-% make the next shorter so the reader doesn't get lost
 Different theories have been proposed for this word order variation.
 The low frequency of object-initial orderings (e.g., OSV, ``human--dog--bites'') arguably has satisfactory explanations (CITE), but there is no consensus on the frequency distribution of SVO and SOV.
 Some work has argued that SOV is the default order in the history of language and that SVO has emerged later \citep{givon1979understanding,senghas1997argument, newmeyer2000evolutionary, goldin-meadow2008natural, gibson-noisy-channel-2013}, though phylogenetic modelling suggests that languages can cycle between these two orders in their development \citep{maurits2014tracing}.
@@ -198,20 +203,9 @@ It has also been argued that discourse function shapes grammatical catgeories, f
 \cite{perkins1992deixis} provides evidence that differences in social structure account for differences in the complexity of deictic inflection across languages; \cite{lupyan2010language} show that languages in small-scale societies tend to have higher inflectional complexity.
 \cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society, and it has also been argued that the sound systems of languages adapt to climate and diet of the speech community \citep{everett2015climate,blasi2019human}.
 
-%Our study tests this idea using large-scale text data and phylogenetic modeling.
 
 
-%We extend this idea by hypothesizing that grammatical structure and usage patterns should interact in the evolution of syntax: As a language changes, change in grammatical structure should be accompanied by change in the way the language is used, i.e., there is a process of coadaptation between grammar and usage.
-
-% also Blasi on fricatives, ...
-%Efficiency-based accounts of language structure often model optimization for usage distributions that are held constant across languages (CITE).
-%Variation between languages is accounted for as reflecting different optima or points along a Pareto frontier \citep{zaslavsky2018efficient, zaslavsky2019evolution}.
-%However, in reality, usage patterns do differ between languages, and this might impact which grammatical patterns are more efficient for a given language.
-
-%\section*{Theoretical proposal of coadaptation}
-
-
-Our contribution is to provide large-scale evidence for coadaptation between grammar and usage, in the domain of word order.
+In this work, we provide large-scale evidence for coadaptation between grammar and usage, in the domain of word order.
 Our coadapation hypothesis is grounded in prominent efficiency-based accounts of word order that are centered around various locality principles. These accounts assert that elements are ordered closer together when they are more strongly related in terms of their meaning and function \citep{behaghel1932deutsche,givon1985iconicity,rijkhoff-word-1986,hawkins-performance-1994}.
 A classic formalization of this view is Dependency Length Minimization (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,liu2008dependency,futrell-cross-linguistic-2015, liu-dependency-2017, futrell2020dependency}.
 This is supported by corpus studies on dozens of languages, and explains word order universals \citep{rijkhoff-word-1986, hawkins-performance-1994, hahn2020universals}.
@@ -238,7 +232,8 @@ Structures such as those in B are considerably more frequently expressed in Japa
 
 
 
-Our proposal of coadaptation suggests that languages evolve to have the basic word orders that are most efficient for DLM, given the utterances speakers of a language typically communicate.
+%=======
+Our proposal of coadaptation suggests that languages have the basic word orders that are most efficient for DLM, given the ways speakers of a language typically structure information.
 We first consider a simple transitive sentence such as `dogs bite people' (Figure~\ref{fig:sent-dep}A). 
 DLM is defined formally in terms of Dependency Grammar~\citep{hays1964dependency,hudson1984word,melcuk1988dependency,corbett1993heads,tesniere2015elements}.
 In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
@@ -246,8 +241,29 @@ For instance, arcs link the verb ``bites'' to its subjects ``dogs'' and objects 
 The length of an arc is one plus the number of other words that it crosses.
 The dependency length of an entire sentence is the sum of the lengths of all dependency arcs.
 
+The grammars of languages specify how such syntactic structures are linearized into strings of words.
+For instance, the grammar of English specifies subject--verb--object order for (X), the grammar of Japanese specifies subject--object--verb for (X).
+[TODO show the abstract syntactic structure also]
+
 %Indeed, based on this consideration, \cite{ferrer-i-cancho-placement-2017} argued that DLM is generally optimized by SVO order, but we will see that the picture is more complex.
 
+%<<<<<<< HEAD
+%=======
+%In a simple sentence as in Figure~\ref{fig:sent-dep}, SVO order results in overall lower dependency length:
+%In SVO order, both dependencies have length $1$, resulting in a total length of $2$.
+%In SOV order, the arc between the verb and its subject is longer because it crosses the object, resulting in a total length of $3$.
+%However, there are other syntactic structure configurations where the picture is reversed:
+%In Figure~\ref{fig:sent-dep}B, we consider sentences of the form `I think (that) big dogs bite people'.
+%Here, dependency length is 5 in SVO order, and 4 in SOV order, reversing the advantage  of SVO order seen in basic sentences.
+%Which order is favored by DLM overall?
+%This depends on the frequency distribution with which speakers of a language use different syntactic structures:
+%For example, the advantage of SVO in simple sentences is neutralized in sentences where only a subject or only an object is expressed (Figure~\ref{fig:sent-dep}C).
+%Such sentences, while not always possible in English, are very frequent in languages like Japanese.
+%Whereas 32 \%  of verbs expressing at least one argument (S or O) in an English corpus express both, only 12 \% do in Japanese (see SI Appendix, Section TODO).
+%
+%That is, speakers of English and Japanese differ in the frequency with which they structure information such that both subject and object are expressed for a verb \citep{hiranuma1999syntactic,ueno2009does,luk2014investigating}. %, though this might not hold for Basque \citep{pastor2013processing}.
+%
+%>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
 Figure~\ref{fig:sent-dep} shows how the same syntactic structures are linearized in English (SVO) and Japanese (SOV).
 In a simple sentence as in Figure~\ref{fig:sent-dep}A, SVO order results in overall lower dependency length (2 instead of 3).
@@ -258,6 +274,7 @@ The average dependency length achieved for a language depends on both the linear
 Languages differ not only in the ways they linearize these syntactic structures, but also in the frequencies at which speakers utilize them.
 Syntactic structures such as those in Figure~\ref{fig:sent-dep}A are used at significantly higher frequencies by speakers of English than speakers of Japanese.
 
+%<<<<<<< HEAD
 Given a distribution over syntactic structures, we can identify which grammar orders them in such a way to achieve minimal average dependency length.
 %In the simplified setting of Figure~\ref{fig:sent-dep}, SVO order achives an average dependency length of 
 %TODO introduce the optimization idea here and also in visualization.
@@ -279,25 +296,47 @@ This means that the actual word orders used by languages should be close to the 
 %This means that the frequency with which different configurations appear in language usage influences the degree to which SVO or SOV order are more efficient for DLM.
 %This is a key idea in the proposed coadaptation hypothesis: We propose that languages evolve so that basic word order is aligned with the distribution with which speakers choose different syntactic configurations, e.g., how often they produce verbs with only one or with two arguments. 
 %
+%=======
 
-The reasoning above focused on SVO and SOV, but this approach can be extended to the less common other possible orderings.
-The crucial difference between the two orderings was whether S and O are ordered on the same or on different sides of the verb.
-Other orderings can also be classified along this dimension, for instance, VSO as the third-most ordering patterns with SOV with respect to Figures \ref{fig:sent-dep} A--C.
+%>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
+%(TODO here explain the idea of an optimized grammar for DLM and what the optimal basic word order would be)
+
+
+
+%The reasoning above focused on SVO and SOV, but this approach can be extended to the less common other possible orderings.
+%The crucial difference between the two orderings was whether S and O are ordered on the same or on different sides of the verb.
+%Other orderings can also be classified along this dimension, for instance, VSO as the third-most ordering patterns with SOV with respect to Figures \ref{fig:sent-dep} A--C.
+
+%<<<<<<< HEAD
 %$Note that DLM does not make predictions as to the direction in which subject and object should appear. Since the length of dependencies does not depend on their direction, there is no difference between, say, SOV and VOS.
 %$Independent principles are needed to explain why SOV and SVO are more common than, say, VOS and OVS.
 %$A key component is a strong preference for subjects to come earlier \citep{wals-81}.
 %$Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages \citep{prince1981toward, mcdonald1993word}.
 %$This principle favors, say, SVO over OVS, while being equally well satisfied by SVO and SOV order.
+%=======
+%Note that DLM does not make predictions as to the direction in which subject and object should appear. Since the length of dependencies does not depend on their direction, there is no difference between, say, SOV and VOS.
+%Independent principles are needed to explain why SOV and SVO are more common than, say, VOS and OVS.
+%A key component is a strong preference for subjects to come earlier \citep{wals-81}.
+%Subjects often are animate and given in prior discourse, and phrases with these properties generally tend to go earlier in sentences across languages \citep{prince1981toward, mcdonald1993word}.
+%This principle favors, say, SVO over OVS, while being equally well satisfied by SVO and SOV order.
+%>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
 
 
 %(TODO this has to be folded into the introduction)
 
 
+%<<<<<<< HEAD
 %Here we provide evidence that languages show coadaptation between their basic word order and the frequencies with which different syntactic configurations are used.
+%%Specifically, we contrast orderings that order S and O on the same or different sides of the verb.
+%We test the coadaptation hypothesis using data from 74 languages by computing, for each language, which basic word order is most efficient given its usage distribution as recorded in large-scale text corpora. We then use a model of drift on phylogenetic trees to assess whether languages have evolved historically toward states where usage distributions and actual basic word order are aligned.
+%=======
+Here we provide evidence that languages show coadaptation between their basic word order and the frequencies with which different syntactic configurations are used.
 %Specifically, we contrast orderings that order S and O on the same or different sides of the verb.
-We test the coadaptation hypothesis using data from 74 languages by computing, for each language, which basic word order is most efficient given its usage distribution as recorded in large-scale text corpora. We then use a model of drift on phylogenetic trees to assess whether languages have evolved historically toward states where usage distributions and actual basic word order are aligned.
+We test the coadaptation hypothesis using data from 74 languages by computing, for each language, which basic word order is most efficient given its usage distribution as recorded in large-scale text corpora.
+We then use a model of drift on phylogenetic trees to assess whether languages have evolved historically toward states where communicative need and basic word order are aligned.
+%>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
 
 
@@ -339,15 +378,11 @@ We test the coadaptation hypothesis using data from 74 languages by computing, f
 \subsection*{Cross-linguistic Evidence for Coadaptation}
 
 We begin by testing whether basic word order reflects coadaptation across different languages.
-If there is coadaptation between basic word order and communicative need, we expect that languages should have the basic word order that is most efficient given their tree structure distributions.
+If there is coadaptation between basic word order and communicative need, we expect that languages should have the basic word order that is most efficient given the distributions of syntactic structures communicated by their speakers.
 Alternatively, we expect that, either, one of the two basic word orders is systematically more efficient for DLM, or there is no systematic relationship between basic word order and dependency length.
 
 
-%First, we first use the label from WALS, which we partitioned into different-side, same-side, and free.
-%Second, as a rough measure (CITE), corpus-based, whether O and S have the most-frequent direction in the treebank.
-
-
-We compare two groups of word orders: SVO-like order where S and O are ordered on different sides of the verb, and SOV/VSO-like order where S and O are ordered on the same side of the verb.
+We compare two groups of word orders: SVO-like order where S and O are ordered on different sides of the verb, and SOV-like order where S and O are ordered on the same side of the verb.
 Languages can fall on a spectrum between languages with entirely strict SVO order and languages with entirely strict SOV order~\citep{steele1978word}.
 English is close to one end of the spectrum with dominant SVO order, with rare exceptions (e.g., stylistically marked VS order in ``then came a dog'').
 Japanese falls entirely on one end of the spectrum, allowing only SOV and OSV order.
@@ -355,10 +390,11 @@ Many languages occupy intermediate positions.
 For instance, in Russian, all logically possible orderings of S, V, O can occur, though with different frequencies.
 
 
-We quantify the position of an individual language on the continuum between SVO and SOV/VSO using a quantitative corpus-based metric which we refer to as subject-object position congruence.
+We quantify the position of an individual language on the continuum between SVO and SOV using a quantitative corpus-based metric called subject-object position congruence.
 This metric indicates the chance that two randomly selected instances of S and O from a corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs. This number is 1 in strict SOV languages like Japanese, close to 0.5 in languages with flexible word order, and close to 0 in English.
 
 
+%<<<<<<< HEAD
 We estimate both communicative need and the observed subject-object position congruence using datasets of tree structures from 74 languages from 29 language families (\citep{zeman2020universal}, see Methods for details).
 These datasets contain written text for 73 languages, and transcribed spoken text for six languages (see Methods).
 
@@ -366,6 +402,15 @@ We represent optimized orderings using the  established model of counterfactural
 These are simple, parametric models parameterizing how the words in a syntactic structure are linearized depending on their syntactic relations.
 For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns (see Methods for details).
 We use the optimization algorithm in \cite{hahn2020universals} to efficiently construct grammars that approximately minimize average dependency length using stochastic gradient descent.
+%=======
+%We compare the orderings actually found in a language with the distribution that would be optimal for DLM, given the tree structure distributions for the language.
+%We represent such optimal orderings using the  established model of counterfactural order grammar introduced by \cite{gildea-optimizing-2007} (see Materials and Methods).
+%%Optimized grammars are computed based entirely on the distribution of unordered tree topologies occurring in the corpora, e.g. how often verbs express one or two arguments (Figure~\ref{fig:sent-dep}), without any reference to the orderings observed in the corpora.
+%%These optimized grammars reflect what orderings would be most efficient given the usage distribution of tree topologies as reflected in the corpus, independently of the actual orderings that the grammar of the language specifies.
+%
+%We approximate communicative need using datasets of tree structures from 74 languages from 29 language families (\citep{zeman2020universal}, see Methods for details).
+%These datasets contain written text for 73 languages, and transcribed spoken text for six languages (see Methods).
+%>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 In order to control for variation across different optima, for each of the 74 languages, we construct 15 approximately optimized grammars, and compute the average subject-object position congruence across these counterfactual orderings.
 
 
@@ -767,6 +812,11 @@ Our work combines evidence from richly annotated syntactic corpora with phylogen
 
 \subsection*{Ordering Grammars}
 
+%These are simple, parametric models parameterizing how the words in a syntactic structure are linearized depending on their syntactic relations.
+%For instance, such a grammar may specify that subjects follow or precede verbs, and that adjectival modifiers follow or precede nouns (see Methods for details).
+%We use the optimization algorithm in \cite{hahn2020universals} to efficiently construct grammars that approximately minimize average dependency length using stochastic gradient descent.
+
+
 The counterfactual order grammars have a weight in $[-1, 1]$ for every syntactic relation annotated in the corpora (e.g., subject, object).
 Dependents of a head are ordered around it in order of these weights; dependents with negative weights are placed to the left of the head, others to its right.
 Optimized grammars are created using the gradient descent method described by \citep{hahn2020universals}.
@@ -788,12 +838,11 @@ Optimized grammars are created using the gradient descent method described by \c
 
 
 \subsection*{Data}
-We drew on the Universal Dependencies 2.6 treebanks, including every language for which data with at least 500 sentences was available, while excluding code-switched text, text produced specifically by nonnative speakers, and sign languages.
+We drew on the Universal Dependencies 2.6 treebanks, including every language for which data with at least 500 sentences was available, while excluding code-switched text, text produced entirely by nonnative speakers, and text only reflecting specific types of sentences (e.g. questions).
 In addition to the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar \citep{bech2014iswoc}.
 While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English \citep{kroch2011penn} they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
 
 As the Ancient Greek data available in Universal Dependencies spans multiple stages of the language, we split it in three conventional stages (Archaic 700--500 BC, Classical 500--300BC, and Koine 300BC--300AD) for the phylogenetic analysis. 
-%We excluded medieval Latin data as it does not reflect a living language.
 
 
 We obtained spoken treebanks from the following sources.
