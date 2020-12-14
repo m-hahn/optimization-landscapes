@@ -40,8 +40,8 @@
 
 
 
-\title{Grammar and Communicative Need Interact in the Evolution of Word Order across Languages {\color{blue}Change?}}
-
+%\title{Grammar and Communicative Need Interact in the Evolution of Word Order across Languages {\color{blue}Change?}}
+\title{Grammar and Frequency Co-adapt in the Evolution of Word Order across Languages}
 
 \date{}
 
@@ -75,16 +75,17 @@
 
 \begin{abstract}
 %	NO MORE THAN 250 WORDS.
+
+
 Languages vary considerably in syntactic structure.
 About 40\% of the world's languages have subject-verb-object order, and about 40\% have subject-object-verb order.
-A wide range of existing work has argued that the structure of human language supports efficient information transmission given our communicative needs.
-In these studies, variation across languages reflects different optima or points along a Pareto frontier.
-However, the existing theories are not able to explain the  frequency distribution and evolution of word order in individual languages.
-We propose a theory of coadaptation between grammar and communicative need and report evidence for this functional pressure in the evolution of word order across languages.
-We show in 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of communicative need and grammar for Dependency Length Minimization.
-Drawing on phylogenetic modelling and historical text corpora from seven language families, we show that historical word order change is accompanied by change in the distribution of propositions that speakers communicate.
-We identify relevant characteristics that reflect this joint optimization, in particular the frequency with which subjects and objects are expressed together for the same verb.
-Our findings highlight that functional optimization in language structure and in language usage go hand in hand in shaping the evolution of syntactic structure across languages.{\color{blue}Change?}
+Extensive work has sought to explain word order variation across languages.
+However, the existing theories are not able to explain the frequency distribution and evolution of word order in individual languages.
+We propose a theory of coadaptation between grammar and frequency that extends Zipf's law of abbreviation to syntax: frequent syntactic usages tend to have low dependency lengths, both within and across languages.
+We show in 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of usage frequency and grammar for Dependency Length Minimization.
+	Drawing on phylogenetic modelling and historical text corpora from seven language families, we show that historical word order change is accompanied by change in the frequency distribution of propositions that speakers communicate \textcolor{blue}{TODO let's change 'propositions' to something else}.
+We identify relevant characteristics that reflect this joint optimization, particularly the frequency with which subjects and objects are expressed together for the same verb.
+Our findings suggest that syntactic structure and usage evolve across languages to support efficient communication with least effort.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -164,13 +165,8 @@ Our findings highlight that functional optimization in language structure and in
 \dropcap{T}he world's languages show considerable variation in grammatical structure \citep{greenberg-universals-1963, baker2001atoms, croft2003typology}.
 A large body of research has suggested that this variation is constrained by the functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, jaeger2011on, kemp2018semantic, gibson2019how}.
 Under this view, the structure of language in part reflects the way that language is used \citep{hopper1984the, bybee1994the, croft2000explaining, bybee2006from} and adapts to optimize  production and comprehension for human communication \citep{hawkins-performance-1994, haspelmath2006against, bybee2010language}.
-%<<<<<<< HEAD
-%This line of work often takes communicative need as a constant that constrains what language structures are efficient for those communicative needs (CITE e.g. some of the efficiency work in semantic typology).
-%However, there is also evidence that communicative need differs between languages, and that this is responsible for some of the differences observed between the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color} (perhaps also Sapir, Piraha, ...).
-%If this is true, then changes in the communicative needs of its speakers should go hand in hand with the evolution of language structure.
-%=======
-This line of work often takes communicative need as a constant that constrains what language structures are efficient for those communicative needs. % (CITE e.g. some of the efficiency work in semantic typology).
-However, there is also evidence that communicative need differs between languages, and that this is responsible for some of the differences observed between the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color}. % (perhaps also Sapir, Piraha, ...).
+This line of work often takes usage frequency as a constant that constrains what language structures are efficient for those communicative needs. % (CITE e.g. some of the efficiency work in semantic typology).
+However, there is also evidence that usage frequency differs between languages, and that this is responsible for some of the differences observed between the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color}. % (perhaps also Sapir, Piraha, ...).
 We thus expect that the evolution of language structure should go hand in hand with changes in the ways its speakers communicate and structure information.
 %>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
@@ -191,10 +187,10 @@ Some work has argued that SOV is the default order in the history of language an
 Other work suggests there is a tension between different cognitive pressures that favor SVO and SOV, respectively \citep{langus2010cognitive, ferrer-i-cancho-placement-2017}, but these accounts do not predict word order on the level of individual languages. 
 
 We present a new account for the frequency distribution of SOV and SVO order and the evolution of word order across languages:
-Coadaptation between grammar and communicative preferences. We refer to this idea as the coadaptation hypothesis.
+Coadaptation between grammar and usage frequencies. We refer to this idea as the coadaptation hypothesis.
 We propose that neither SVO nor SOV is more efficient in principle.
 Rather, languages tend to have the basic word order that is most communicatively efficient given the way its speakers typically structure information.
-As languages change, communicative need and grammar evolve together, such that change in communicative need goes hand-in-hand with change in basic word order.
+As languages change, usage frequency and grammar evolve together, such that change in usage frequency goes hand-in-hand with change in basic word order.
 
 
 The idea that the structure of language is shaped by the way it is used has been discussed in several aspects of language.
@@ -279,7 +275,7 @@ Given a distribution over syntactic structures, we can identify which grammar or
 %In the simplified setting of Figure~\ref{fig:sent-dep}, SVO order achives an average dependency length of 
 %TODO introduce the optimization idea here and also in visualization.
 %
-We propose that languages evolve so that communicative preferences (which syntactic structures are chosen by speakers) and word order (how they are linearized) maintain optimality for DLM.
+We propose that languages evolve so that usage frequencies (which syntactic structures are chosen by speakers) and word order (how they are linearized) maintain optimality for DLM.
 This means that the actual word orders used by languages should be close to the most efficient possible grammar, given the distribution over syntactic structures.
 
 %In SVO order, both dependencies have length $1$, resulting in a total length of $2$.
@@ -335,7 +331,7 @@ This means that the actual word orders used by languages should be close to the 
 Here we provide evidence that languages show coadaptation between their basic word order and the frequencies with which different syntactic configurations are used.
 %Specifically, we contrast orderings that order S and O on the same or different sides of the verb.
 We test the coadaptation hypothesis using data from 74 languages by computing, for each language, which basic word order is most efficient given its usage distribution as recorded in large-scale text corpora.
-We then use a model of drift on phylogenetic trees to assess whether languages have evolved historically toward states where communicative need and basic word order are aligned.
+We then use a model of drift on phylogenetic trees to assess whether languages have evolved historically toward states where usage frequencies and basic word order are aligned.
 %>>>>>>> c30b2c8b483242e9c8cf900bce79422dc6718eec
 
 
@@ -378,7 +374,7 @@ We then use a model of drift on phylogenetic trees to assess whether languages h
 \subsection*{Cross-linguistic Evidence for Coadaptation}
 
 We begin by testing whether basic word order reflects coadaptation across different languages.
-If there is coadaptation between basic word order and communicative need, we expect that languages should have the basic word order that is most efficient given the distributions of syntactic structures communicated by their speakers.
+If there is coadaptation between basic word order and usage frequencies, we expect that languages should have the basic word order that is most efficient given the distributions of syntactic structures communicated by their speakers.
 Alternatively, we expect that, either, one of the two basic word orders is systematically more efficient for DLM, or there is no systematic relationship between basic word order and dependency length.
 
 
@@ -395,7 +391,7 @@ This metric indicates the chance that two randomly selected instances of S and O
 
 
 %<<<<<<< HEAD
-We estimate both communicative need and the observed subject-object position congruence using datasets of tree structures from 74 languages from 29 language families (\citep{zeman2020universal}, see Methods for details).
+We estimate both usage frequencies of syntactic structures and the observed subject-object position congruence using datasets of tree structures from 74 languages from 29 language families (\citep{zeman2020universal}, see Methods for details).
 These datasets contain written text for 73 languages, and transcribed spoken text for six languages (see Methods).
 
 We represent optimized orderings using the  established model of counterfactural order grammar introduced by \cite{gildea-optimizing-2007}.
@@ -441,7 +437,7 @@ Otherwise, if one order is more efficient in principle, or there is no systemati
 
 
 
-In Figure~\ref{fig:study1}A, we visualize actually observed subject-object position congruence against the average subject-object position congruence of the grammars  approximately optimized  for communicative need, in the 74 languages.
+In Figure~\ref{fig:study1}A, we visualize actually observed subject-object position congruence against the average subject-object position congruence of the grammars  approximately optimized  for usage distributions over syntactic structures, in the 74 languages.
 Without controlling for dependencies between related languages, optimized and attested subject-object position congruence are correlated ($R=0.47$, $95\%$ CI $[0.28, 0.64]$, $p<10^{-4}$). % analysis/output/correlation.txt
 On spoken data from six languages, we also found a strong and significant correlation ($R=0.94$, 95\% CI $[0.56, 1.0]$, $p=0.0048$).
 In order to account for the statistical dependencies between related languages more rigorously, we conducted a regression where we entered language families as random effects with random slopes and intercepts.
@@ -457,8 +453,8 @@ It is incompatible with previous suggestions that SVO is generally more efficien
 
 \subsection*{Evolutionary Evidence for Coadaptation}
 We have provided evidence for the coadaptation hypothesis using a cross-sectional analysis of 74 languages. % these aren't all contemporary
-If variation in word order reflects coadapation between grammar and communicative need, we should expect to see coevolution of basic word order and communicative need as languages evolve over time.
-To test this proposal, we conducted a phylogenetic analysis on the evolution of communicative need and word order.
+If variation in word order reflects coadapation between grammar and usage frequencies, we should expect to see coevolution of basic word order and usage frequency as languages evolve over time.
+To test this proposal, we conducted a phylogenetic analysis on the evolution of usage frequency and word order.
 Phylogenetic analyses have previously been applied to studying the historical evolution of languages~\citep[e.g., ][]{gray2009language,greenhill2009austronesian,chang2015ancestry,sagart2019dated}, including the evolution of word order patterns \citep{dunn-evolved-2011, maurits2014tracing}.
 
 
@@ -469,8 +465,8 @@ Second, using phylogenetic information, the model can also draw strength from co
 Data from related languages may permit inferences about their (undocumented) common ancestor, and thus about possible trajectories of historical change \citep{pagel2004bayesian, dunn-evolved-2011, maurits2014tracing}.
 
 
-We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and communicative need of a language evolve over time, in order to test the coadaptation hypothesis over history.
-We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by communicative need (optimal subject-object position congruence) and grammar (real subject-object position congruence).
+We used a model of random walks on phylogenetic trees \citep{felsenstein1973maximum,pagel1997inferring, pagel2004bayesian} to model how grammar and usage frequencies evolve over time, in order to test the coadaptation hypothesis over history.
+We describe the state of a language $L$ at time $t$ as a vector $\xi_{L,t} = (X_{L,t}, Y_{L,t})$ in the plane spanned by usage (optimal subject-object position congruence) and grammar (real subject-object position congruence).
 Whenever a language splits into daughter languages, the point $\xi_{L,t}$ continues to evolve independently in each daughter language.
 As the components of $\xi_{L,t}$ are continuous, we model their change over time using a random walk given by an Ornstein-Uhlenbeck process (\citep{felsenstein1988phylogenies,hansen1997stabilizing, blackwell2003bayesian}, see Methods for details).
 This process is parameterized by rates of change in the two dimensions and the correlation between the changes in both dimensions \citep{felsenstein1973maximum,hansen1997stabilizing, freckleton2012fast}.
@@ -496,7 +492,7 @@ We visualize the resulting model fit in Figure~\ref{fig:drift-model}.
 The blue distribution indicates the stationary distribution of the process, i.e., after long-term evolution, a language will tend to be lie within this distribution.
 For illustration, we also illustrate the predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
 
-According to the model, changes in grammar and communicative need are positively correlated:
+According to the model, changes in grammar and usage are positively correlated:
 This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
 In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%$ credible interval $[0.28, 0.96]$, $\operatorname{P}(R<0) = 0.0025$). % change/ornuhl-binom/noLatents/fits/correlation_omega.txt
 Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 232). % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt
@@ -553,7 +549,7 @@ A lesioned version of our model that explicitly prohibits a bias in development 
     \includegraphics[width=0.65\textwidth]{../analysis/figures/historical_2.6_times_stationary_layout.pdf}
     \caption{Result of the phylogenetic drift analysis.
 	Left: Estimated long-term stationary distribution of languages (indicated in blue), describing where languages tend to lie after long-term evolution.
-    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and communicative need (y-axis).	    
+    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage (y-axis).	    
 Right: The evolutionary trajectories of seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined according to the phylogenetic analysis. }
     \label{fig:historical}\label{fig:drift-model}
 \end{figure*}
@@ -577,15 +573,15 @@ This indicates that languages exhibit coadaptation between word order and usage 
 
 
 \subsection*{Influence of Communicative Need on Word Order}
-So far, our results provide evidence for coadaptation between communicative need and basic word order in the evolution of language.
-In what aspects of communicative need do languages vary and change that reflect this coadaptation?
+So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of language.
+In what aspects of usage frequencies do languages vary and change that reflect this coadaptation?
 We hypothesize that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
 Indeed, it has been argued, based on evidence from Turkish and Japanese, that SOV languages omit arguments or use intransitive structures more frequently than SVO languages do \citep{hiranuma1999syntactic,ueno2009does,luk2014investigating}, though this might not hold for Basque \citep{pastor2013processing}.
 We tested this idea on a larger scale using the corpora in our sample.
 We quantified the frequency of co-expression of subjects and objects by calculating what fraction of all verbs that realize at least a subject or an object simultaneously realize both.
 In a linear mixed-effects models, with by-family intercept and slope, attested subject-object position congruence was predictive of this fraction ($\beta=-0.09$, $SE=0.05$, $95\%$ credible interval $[-0.19, 0.0]$, $\operatorname{P}(\beta<0) = 0.029$). % analysis/coexpression/coexpression_results.txt 
 Optimized subject-object position congruence was also predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ credible interval $[-0.22,  -0.01]$, $\operatorname{P}(\beta<0) = 0.015$). % analysis/coexpression/coexpression_optim_results.txt
-This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which communicative need statistics can influence word order.
+This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which frequency statistics can influence word order.
 We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Section S8).
 %Not mediated by this, suggests there are other aspects.
 
@@ -662,7 +658,7 @@ We also found such an association between order and coexpression within individu
 
 \section*{Discussion}
 
-We have investigated the frequency distribution and historical change of word order  across languages and found that communicative need and basic word order interact intimately in their evolution,  reflecting a process of coadaptation  between communicative need and grammar.
+We have investigated the frequency distribution and historical change of word order  across languages and found that usage frequency and basic word order interact intimately in their evolution,  reflecting a process of coadaptation  between usage and grammar.
 
 
 
