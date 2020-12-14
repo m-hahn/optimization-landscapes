@@ -40,7 +40,7 @@
 
 
 
-\title{Grammar and Communicative Need Interact in the Evolution of Word Order across Languages}
+\title{Grammar and Communicative Need Interact in the Evolution of Word Order across Languages {\color{blue}Change?}}
 
 
 \date{}
@@ -48,8 +48,8 @@
 
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
-\author[a,c,1]{Michael Hahn}
-\author[b,1,2]{Yang Xu} 
+\author[a,1]{Michael Hahn}
+\author[b]{Yang Xu} 
 
 \affil[a]{Department of Linguistics, Stanford University}
 \affil[b]{Department of Computer Science, Cognitive Science Program, University of Toronto}
@@ -58,16 +58,16 @@
 \leadauthor{Hahn} 
 
 % Please add here a significance statement to explain the relevance of your work
-\significancestatement{Authors must submit a 120-word maximum statement about the significance of their research paper written at a level understandable to an undergraduate educated scientist outside their field of speciality. The primary goal of the Significance Statement is to explain the relevance of the work in broad context to a broad readership. The Significance Statement appears in the paper itself and is required for all research papers.}
+\significancestatement{Many of the world's languages have subject-verb-object order (e.g., ``Dogs bite people.'' as in English), while many others have subject-object-verb order (e.g., ``Dogs people bite.'' as in Japanese). Why do languages vary in word order the way they do, and how does word order evolve? We present a coadaptation theory postulating that each language exhibits the basic word order that is most efficient given the sentences typically produced by their speakers. We show that our theory explains the frequency variation of word order in many languages and predicts the trajectories of historical word order change. Our findings suggest that grammar and frequency are jointly optimized in word order across languages to support efficient communication.}
 
 % Please include corresponding author, author contribution and author declaration information
 \authorcontributions{Please provide details of author contributions here.}
 \authordeclaration{Please declare any conflict of interest here.}
-\equalauthors{\textsuperscript{1}A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable).}
-\correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: author.two\@email.com}
+%\equalauthors{\textsuperscript{1}A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable).}
+\correspondingauthor{\textsuperscript{1}To whom correspondence should be addressed. E-mail: mhahn2@stanford.edu}
 
 % Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
-\keywords{Keyword 1 $|$ Keyword 2 $|$ Keyword 3 $|$ ...} 
+\keywords{Cross-linguistic variation $|$ Language evolution $|$ Word order $|$ Coadaptation $|$ Dependency length minimization $|$ Efficient communication} 
 
 %\begin{abstract}
 %Please provide an abstract of no more than 250 words in a single paragraph. Abstracts should explain to the general reader the major contributions of the article. References in the abstract must be cited in full within the abstract itself and cited in the text.
@@ -84,7 +84,7 @@ We propose a theory of coadaptation between grammar and communicative need and r
 We show in 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, under the joint consideration of communicative need and grammar for Dependency Length Minimization.
 Drawing on phylogenetic modelling and historical text corpora from seven language families, we show that historical word order change is accompanied by change in the distribution of propositions that speakers communicate.
 We identify relevant characteristics that reflect this joint optimization, in particular the frequency with which subjects and objects are expressed together for the same verb.
-Our findings highlight that functional optimization in language structure and in language usage go hand in hand in shaping the evolution of syntactic structure across languages.
+Our findings highlight that functional optimization in language structure and in language usage go hand in hand in shaping the evolution of syntactic structure across languages.{\color{blue}Change?}
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -212,9 +212,9 @@ This is supported by corpus studies on dozens of languages, and explains word or
 Dependency Length Minimization and related locality principles can be justified in terms of parsing efficiency \citep{hawkins-performance-1994}, memory efficiency \citep{gibson-linguistic-1998} and general communicative efficiency \citep{hahn2020universals}.
 %Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
 
-\begin{figure}
+\begin{figure*}[h!]
     \centering
-	\includegraphics[width=0.45\textwidth]{introductory-figure.png}
+	\includegraphics[width=.8\textwidth]{introductory-figure.png}
 \caption{
 Word order variation across languages.
 We show how English (SVO, center) and Japanese (SOV, right) linearize different syntactic structures into strings of words.
@@ -224,11 +224,11 @@ Syntactic structures in A contain both a subject and an object; those in B only 
 In A, English achieves shorter dependency length (2, compared to 3 in Japanese).
 In B, both languages achieve the same dependency length.
 Therefore, structures as those in B are more favorable for DLM in SOV languages than those in A.
-Structures such as those in B are considerably more frequently expressed in Japanese.
+Structures such as those in B are considerably more frequently expressed in Japanese. {\color{blue}YX to MH: suggest changing ``Communicative need'' to ``Usage'' or ``Syntactic usage''. Question: is the bottom right arrow in B correct? it's pointing toward both left and right.}
 %C: The preference for SVO order is neutralized when only one of the two arguments is expressed. Sentences like these are fully grammatical in Japanese.
 }
         \label{fig:sent-dep}
-\end{figure}
+\end{figure*}
 
 
 
@@ -432,6 +432,13 @@ Therefore, we expect that the subject-object position congruence of optimized or
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such relation should be seen.
 
 
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=.8\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+	\caption{Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
+    \label{fig:study1}\label{fig:spoken}
+\end{figure*}
+
 
 
 In Figure~\ref{fig:study1}A, we visualize actually observed subject-object position congruence against the average subject-object position congruence of the grammars  approximately optimized  for communicative need, in the 74 languages.
@@ -443,13 +450,6 @@ This result provides strong support for the coadaptation hypothesis: Languages t
 It is incompatible with previous suggestions that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
 
 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.46\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
-	\caption{Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
-    \label{fig:study1}\label{fig:spoken}
-\end{figure}
 
 
 
@@ -918,7 +918,7 @@ See SI Section S3 for implementation details.
 
 \showmatmethods{} % Display the Materials and Methods section
 
-\acknow{We thank Edward Gibson, Vera Gribanova, Boris Harizanov, Dan Jurafsky, Charles Kemp, and Guillaume Thomas for helpful feedback on the manuscript. This research is supported by a NSERC Discovery Grant RGPIN-2018-05872 and a SSHRC Insight Grant \#435190272 to YX.}
+\acknow{We thank Edward Gibson, Vera Gribanova, Boris Harizanov, Dan Jurafsky, Charles Kemp, Terry Regier, and Guillaume Thomas for helpful feedback on the manuscript. This research is supported by a NSERC Discovery Grant RGPIN-2018-05872 and a SSHRC Insight Grant \#435190272 to YX.}
 
 \showacknow{} % Display the acknowledgments section
 
