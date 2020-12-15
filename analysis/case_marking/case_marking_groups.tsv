@@ -12,7 +12,10 @@ Central_Semitic	TRUE
 South_Slavic	TRUE
 West_Slavic	TRUE
 Iranian	TRUE
+Eastern_Baltic	TRUE
 Baltic	TRUE
+Macro_English	FALSE
+West_Iberian	FALSE
 Finnic	TRUE
 Ugric	TRUE
 Hindustani	TRUE
