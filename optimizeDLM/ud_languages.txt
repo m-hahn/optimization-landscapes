@@ -71,3 +71,8 @@ Coptic_2.6
 Galician_2.6
 Belarusian_2.6
 Upper_Sorbian_2.6
+Akkadian_2.7
+Turkish_2.7
+Persian_2.7
+Faroese_2.7
+Icelandic_2.7
