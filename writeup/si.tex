@@ -508,6 +508,18 @@ The main quantity of interest is the correlation between changes in the two dime
 R_\Sigma := \frac{\Sigma_{1,2}}{\sqrt{\Sigma_{1,1}\Sigma_{2,2}}}
 \end{equation}
 A positive value indicates that changes in both directions are positively correlated.
+%We show the posterior of $R_\Sigma$ for the main analysis in Figure~\ref{fig:corr-main}.
+%
+%\begin{figure}
+%    \centering
+%	\begin{tabular}{cccc}
+%    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/noLatents/fits/corr_sigma.pdf} \\
+%	\end{tabular}
+%    \caption{Posterior of the correlation component $R_\Sigma$ (see Section~\ref{sec:instant-corr}) in the main analysis.}
+%    \label{fig:corr-main}
+%\end{figure}
+%
+
 
 %\paragraph{Computing Likelihood for Brownian Motion Model}
 
@@ -599,7 +611,7 @@ For ancestors, we recursively defined their location as the mean of the location
 \paragraph{Results}
 We plot the posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) in Figure~\ref{fig:posterior-area-time}.
 The posterior probability that the correlation is $\leq 0$ is estimated to be 0.00125.
-In the stationary distribution, the two components are correlated at $R = 0.59$ (95\% CrI $[0.25, 0.89]$).
+In the stationary distribution, the two components are correlated at $R = 0.59$ (95\% credible interval $[0.25, 0.89]$).
 This confirms that coadaptation is found even when explicitly modeling convergence between neighboring languages.
 
 
@@ -705,16 +717,17 @@ We obtained the labels listed in Table~\ref{tab:categorical}.
 
 \paragraph{Results}
 We show results in Figure~\ref{fig:langs-categorical}.
-The posterior of $\Sigma$ (Figure~\ref{fig:langs-categorical} (A)) is very similar to the posterior in the main analysis; almost all of the posterior mass is on positive correlations between grammar and usage components.
-%Note that even a null result would have been fully consistent with the coadaptation hypothesis, if coadaptation happens
+The posterior of $\Sigma$ (Figure~\ref{fig:langs-categorical} (A)) is very similar to the posterior in the main analysis; almost all of the posterior mass is on positive correlations between grammar and usage components ($R = 0.40$, 95\% credible interval [0.01, 0.71], $P(R<0) = 0.023$). % change/ornuhl-binom/case/separate_b/fits/correlation_sigma.txt
 This shows that languages display coadaptation of grammar and usage even \emph{beyond} what is captured by conventional categorical word order labels.
+Note that an association between grammar and usage on the level of categorical word order labels would already constitute evidence for coadaptation; this result shows that coadaptation happens at the more fine-grained level of subject-object position congruence.
 In Figure~\ref{fig:langs-categorical} (B-C), we show the resulting stationary distributions for all four categorical word order types (B), and for the two frequent ones (SOV/SVO, (C)).
 In the case of the frequent categories (SOV, SVO), the stationary distributions show a correlation in the two axes, illustrating that coadaptation happens even within these categorical classes.
 
 \section{The Role of Case Marking}
 
-Here, we test whether our results can be explained away by assuming that word order and usage patterns independently change in response to the presence or absence of case marking.
-We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage.
+Here, we test whether changes in the presence of case marking might mediate the coupling between word order and usage patterns.
+We do this by fitting an extension of the model that can model different directions of change in languages with and without case marking, and checking whether the analysis continues to provide evidence for coevolution between word order and usage \emph{even beyond} what is captured by correlations of usage and word order with the presence of case marking.
+
 
 \paragraph{Coding Languages for Case Marking}
 We coded languages from our sample for the presence or absence of case marking on the basis of \citep{wals-49}, supplemented with information from the grammatical literature where no information was provided.
@@ -724,7 +737,7 @@ We furthermore coded all interior nodes of the phylogenetic tree for case markin
 In some cases, this annotation was unambiguous due to available historical documentation even though no treebank data was available (e.g., Proto-West-Scandinavian was a late form of Old Norse and had case markers).
 In many other cases, cognate case markers are unambiguously attested both within and without a group, showing that they were present in the protolanguage (e.g., Proto-Germanic, Proto-Indo-Iranian).
 Furthermore, in many protolanguages, case markers are commonly reconstructed based on their presence in different descendant branches (e.g., Proto-Indo-European, Proto-Afroasiatic, Proto-Common-Turkic, Proto-Uralic and Proto-Ugric). % Uraloc: Abondolo Uralic; Hajdu uralischen Sprachen; Marcantonio Uralic
-Case is not unambiguously reconstructed for Proto-Niger-Congo and Proto-Atlantic-Congo; we verified that all four possible parameter settings lead to equivalent results (we report results under the assumption that neither of them had case, with essentially indistinguishable results for the other cases).
+Case is not unambiguously reconstructed for Proto-Niger-Congo; we verified that both possible parameter settings lead to qualitatively equivalent results (we report results under the assumption that it did not have case, with essentially indistinguishable results for the other cases).
 
 \paragraph{Model of Change conditioned on Case Marking}
 Based on the prior literature, we expect that languages without case marking will be biased towards low subject-object position congruence~\citep{vennemann1974explanation}.
