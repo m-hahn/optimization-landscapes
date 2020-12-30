@@ -76,7 +76,7 @@
 
 \begin{abstract}
 %	NO MORE THAN 250 WORDS.
-	Languages vary considerably in syntactic structure. About 40\% of the world's languages have subject-verb-object order, and about 40\% have subject-object-verb order. Extensive work has sought to explain word order variation across languages. However, the existing theories are not able to explain the frequency distribution and evolution of word order in individual languages. We propose a theory of coadaptation between grammar and usage and show in 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, manifested in an alignment between syntactic use and grammar optimized for Dependency Length Minimization. Drawing on phylogenetic modeling and historical text corpora from seven language families, we demonstrate that historical word order change is accompanied by change in the frequency distribution of the syntactic structures that speakers communicate. We identify relevant characteristics that reflect this joint optimization, particularly the frequency with which subjects and objects are expressed together for the same verb. Our findings suggest that syntactic structure and usage across languages co-adapt to support efficient communication under limited cognitive resources.
+	Languages vary considerably in syntactic structure. About 40\% of the world's languages have subject-verb-object order, and about 40\% have subject-object-verb order. Extensive work has sought to explain word order variation across languages. However, the existing theories are not able to explain coherently the frequency distribution and evolution of word order in individual languages. We propose a theory of coadaptation between grammar and usage and show in 74 languages from 29 families that they exhibit the basic word order that is most efficient given the sentences typically produced by their speakers, manifested in an alignment between syntactic use and grammar optimized for Dependency Length Minimization. Drawing on phylogenetic modeling and historical text corpora from seven language families, we demonstrate that historical word order change is accompanied by change in the frequency distribution of the syntactic structures that speakers communicate. We identify relevant characteristics that reflect this joint optimization, particularly the frequency with which subjects and objects are expressed together for the same verb. Our findings suggest that syntactic structure and usage across languages co-adapt to support efficient communication under limited cognitive resources.
 \end{abstract}
 
 %Languages vary considerably in syntactic structure.
@@ -191,12 +191,14 @@ Different theories have been proposed for the word order variation across langua
 % This paragraph brings the theories of EC into the picture
 One promising view suggests that cross-linguistic variation is constrained by the functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, jaeger2011on, kemp2018semantic, gibson2019how}.
 Under this view, the structure of language in part reflects the way that language is used \citep{hopper1984the, bybee1994the, croft2000explaining, bybee2006from} and adapts to optimize production and comprehension for human communication \citep{hawkins-performance-1994, haspelmath2006against, bybee2010language}.
-Existing work has also suggested that communicative need, or how frequent a linguistic element is used by its speakers, differs across languages, and that this is responsible for some of the differences observed among the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color}. % (perhaps also Sapir, Piraha, ...).
+Existing work has also suggested that communicative need, or how frequently a linguistic element is used by its speakers, differs across languages, and that this is responsible for some of the differences observed among the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color}. % (perhaps also Sapir, Piraha, ...).
 Relatedly, the idea that the structure of a language interacts with how that language is used has been discussed in several contexts.
 For example, it has  been documented that languages provide simpler grammatical coding for categories that are expressed more frequently \citep{greenberg1966language, haspelmath2006against}, and that structures more commonly used in some languages are more likely to be grammatically available in other languages \citep{keenan1975variation}.
 It has also been argued that discourse function shapes grammatical catgeories, for instance the noun-verb distinction \citep{hopper1984the} and the coding of grammatical roles \citep{bois1987the}.
 \cite{perkins1992deixis} provides evidence that differences in social structure account for differences in the complexity of deictic inflection across languages; \cite{lupyan2010language} show that languages in small-scale societies tend to have higher inflectional complexity.
-\cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society, and it has also been argued that the sound systems of languages adapt to climate and diet of the speech community \citep{everett2015climate,blasi2019human}. Here we extend these ideas to investigate the possibility that the interaction of syntactic use and grammar might shape the variation and evolution of word order across languages.
+Is has been argued that color naming systems are influenced by the way color names are used \cite{zaslavsky2019color}.
+\cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society, and \cite{regier2016languages} show that vocabulary about the environment depends on the climatic conditions in which a language is spoken.
+It has also been argued that the sound systems of languages adapt to climate and diet of the speech community \citep{everett2015climate,blasi2019human}. Here we extend these ideas to investigate the possibility that the interaction of syntactic use and grammar might shape the variation and evolution of word order across languages.
 
 
 We present a new account for the variation between SOV and SVO orders and the evolution of word order across languages: Coadaptation between grammar and usage. Our coadaptation hypothesis postulates that neither SVO nor SOV is more efficient in principle.
@@ -286,7 +288,7 @@ We represent optimized orderings using the  established model of counterfactural
 These are simple, parametric models specifying how the words in a syntactic structure are linearized depending on their syntactic relations.
 They specify the orders not just of subjects and objects, but also of all other syntactic relations annotated in the syntactic structures, such as adpositions, adjectival modifiers, or relative clauses.
 For instance, such a grammar may specify that subjects follow or precede verbs, that adpositions are pre- or postpositions, and that adjectival modifiers follow or precede nouns (see Materials and Methods for details).
-We use the optimization algorithm in \cite{hahn2020universals} to efficiently construct grammars that approximately minimize average dependency length using stochastic gradient descent.
+Given a frequency distribution over syntactic structues as given by a dataset, we use the optimization algorithm in \cite{hahn2020universals} to efficiently construct grammars that approximately minimize average dependency length using stochastic gradient descent.
 In order to control for variation across different optima, for each of the 74 languages, we construct 15 approximately optimized grammars, and compute the average subject-object position congruence across these counterfactual orderings.
 
 
@@ -348,7 +350,7 @@ Under the coadaptation hypothesis, changes in both dimensions should be positive
 Under the null hypothesis, no such correlation should be expected.
 Besides rates of change, the model also incorporates the possibility of a bias towards specific regions of parameter space (e.g., low or high subject-object position congruence).
 
-We obtained phylogenetic trees for the 74 languages in our sample (see Methods), and inserted historical stages as inner nodes in these trees.
+We obtained phylogenetic trees for the 74 languages in our sample from Glottolog~\citep{nordhoff2011glottolog} (see Methods), and inserted historical stages as inner nodes in these trees.
 We fitted the parameters of the model using Hamiltonian Monte Carlo methods (see Materials and Methods for details).
 
 
@@ -427,7 +429,10 @@ This shows that languages differ in the rate at which they coexpress subjects an
 We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Appendix, Section S8).
 %Not mediated by this, suggests there are other aspects.
 
-
+% In the languages:
+% Latin 0.2. French 0.35, Spanish 0.32, Italian 0.26, ...
+% Ancient Greek 0.22, Greek 0.31
+% Old Russian 0.15, Russian 0.2, Belarusian 0.27, Ukrainian 0.22
 
 
 %The model provides no evidence that language evolution favors high or low subject-object %aPosition Congruence.
@@ -764,4 +769,5 @@ See SI Appendix, Section S3 for implementation details.
 
 
 \end{document}
+
 
