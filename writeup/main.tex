@@ -186,7 +186,7 @@ Structures such as those in B are considerably more frequently expressed in Japa
 \end{figure*}
 
 % This paragraph introduces the theories of word order variation and suggests how they are limited
-Different theories have been proposed for the word order variation across languages. The low frequency of object-initial orderings (e.g., OSV, ``human--dog--bites'') arguably has satisfactory explanations {\color{blue}(CITE)}, but there is no consensus on the frequency distribution of SVO and SOV. Some work has argued that SOV is the default order in the history of language and that SVO has emerged later \citep{givon1979understanding,senghas1997argument, newmeyer2000evolutionary, goldin-meadow2008natural, gibson-noisy-channel-2013}, although phylogenetic simulation suggests that languages can cycle between these two orders in their historical development \citep{maurits2014tracing}. Other work suggests there is a tension between different cognitive pressures that favor SVO and SOV, respectively \citep{langus2010cognitive, ferrer-i-cancho-placement-2017}, but these accounts do not predict word order on the level of individual languages. So far, these exists no theory that coherently explains the principles underlying cross-linguistic variation and evolution in word order.
+Different theories have been proposed for the word order variation across languages. The low frequency of object-initial orderings (e.g., OSV, ``human--dog--bites'') arguably has satisfactory explanations (e.g., \cite{tomlin1986basic}), but there is no consensus on the frequency distribution of SVO and SOV. Some work has argued that SOV is the default order in the history of language and that SVO has emerged later \citep{givon1979understanding,senghas1997argument, newmeyer2000evolutionary, goldin-meadow2008natural, gibson-noisy-channel-2013}, although phylogenetic simulation suggests that languages can cycle between these two orders in their historical development \citep{maurits2014tracing}. Other work suggests there is a tension between different cognitive pressures that favor SVO and SOV, respectively \citep{langus2010cognitive, ferrer-i-cancho-placement-2017}, but these accounts do not predict word order on the level of individual languages. So far, these exists no theory that coherently explains the principles underlying cross-linguistic variation and evolution in word order.
 
 % This paragraph brings the theories of EC into the picture
 One promising view suggests that cross-linguistic variation is constrained by the functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, jaeger2011on, kemp2018semantic, gibson2019how}.
@@ -281,14 +281,17 @@ We quantify the position of an individual language on the continuum between SVO 
 This metric indicates the chance that two randomly selected instances of S and O from a corpus -- not necessarily from the same sentence -- are on the same side of their respective verbs. This number is 1 in strict SOV languages like Japanese, close to 0.5 in languages with flexible word order, and close to 0 in English.
 
 
-We estimate both usage frequency and the observed subject-object position congruence using datasets of tree structures from 74 languages from 29 language families (\citep{zeman2020universal}, see Materials and Methods for details).
-These datasets contain written text for 73 languages, and transcribed spoken text for six languages (see Methods).
+We estimate both usage frequency and the observed subject-object position congruence using datasets of syntactic structures from 74 languages from 29 language families (\citep{zeman2020universal}, see Materials and Methods for details).
+These datasets contain written text for 73 languages, and transcribed spoken text for six languages (see Materials and Methods).
 
 We represent optimized orderings using the  established model of counterfactural order grammars introduced by \cite{gildea-optimizing-2007}.
 These are simple, parametric models specifying how the words in a syntactic structure are linearized depending on their syntactic relations.
 They specify the orders not just of subjects and objects, but also of all other syntactic relations annotated in the syntactic structures, such as adpositions, adjectival modifiers, or relative clauses.
 For instance, such a grammar may specify that subjects follow or precede verbs, that adpositions are pre- or postpositions, and that adjectival modifiers follow or precede nouns (see Materials and Methods for details).
-Given a frequency distribution over syntactic structues as given by a dataset, we use the optimization algorithm in \cite{hahn2020universals} to efficiently construct grammars that approximately minimize average dependency length using stochastic gradient descent.
+%Depening on the frequency distribution over syntactic structures as given by a dataset, a grammar will achieve different average dependency lengths 
+%The average dependency length achieved by
+Given a frequency distribution over syntactic structures, any grammar achieves a certain average dependency length across the syntactic structures from that distribution.
+In order to efficiently construct grammars that approxinmately minimize average dependency length, we use the gradient descent algorithm from \cite{hahn2020universals}.
 In order to control for variation across different optima, for each of the 74 languages, we construct 15 approximately optimized grammars, and compute the average subject-object position congruence across these counterfactual orderings.
 
 
@@ -299,7 +302,7 @@ While the optimized grammars and the attested orders are computed on the basis o
 
 
 
-Our coadaptation hypothesis states that the basic word order of languages tends to be the one that is most efficient given the syntactic structures used in the given language.
+Our coadaptation hypothesis states that the basic word order of languages tends to be the one that is most efficient given the frequency distribution of syntactic structures used in the given language.
 Therefore, we expect that the subject-object position congruence of optimized orderings should correlate with a language's empirical subject-object position congruence.
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such relation should be seen.
 
@@ -318,7 +321,7 @@ Without controlling for dependencies between related languages, optimized and at
 On spoken data from six languages, we also found a strong and significant correlation ($R=0.94$, 95\% CI $[0.56, 1.0]$, $p=0.0048$).
 In order to account for the statistical dependencies between related languages more rigorously, we performed a regression analysis where we entered language families as random effects with random slopes and intercepts.
 Attested subject-object position congruence was strongly predictive of subject-object position congruence in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $\operatorname{P}(\beta<0) = 0.000125$). % analysis/output/landscapes_2.6.R_brms.txt
-This result provides firm support for the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their frequency distributions of tree structure.
+This result provides firm support for the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their frequency distributions of syntactic structures.
 This finding is incompatible with previous suggestions that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
 
 
@@ -329,6 +332,7 @@ This finding is incompatible with previous suggestions that SVO is generally mor
 
 \subsection*{Evolutionary Evidence for Coadaptation}
 We have provided evidence for the coadaptation hypothesis using a cross-sectional analysis of 74 languages. % these aren't all contemporary
+However, this does not rule out the possibility that the observed correlation is an artifact of the common histories of languages descended from common ancestors.
 If variation in word order reflects coadapation between grammar and usage, we should also expect to see coevolution of basic word order and syntactic use as languages evolve over time.
 To test this proposal, we performed a phylogenetic analysis on the evolution of frequency and word order.
 Phylogenetic analyses have previously been applied to studying the historical evolution of languages~\citep[e.g., ][]{gray2009language,greenhill2009austronesian,chang2015ancestry,sagart2019dated}, including the evolution of word order patterns \citep{dunn-evolved-2011, maurits2014tracing}.
@@ -350,7 +354,7 @@ Under the coadaptation hypothesis, changes in both dimensions should be positive
 Under the null hypothesis, no such correlation should be expected.
 Besides rates of change, the model also incorporates the possibility of a bias towards specific regions of parameter space (e.g., low or high subject-object position congruence).
 
-We obtained phylogenetic trees for the 74 languages in our sample from Glottolog~\citep{nordhoff2011glottolog} (see Methods), and inserted historical stages as inner nodes in these trees.
+We obtained phylogenetic trees for the 74 languages in our sample from Glottolog~\citep{nordhoff2011glottolog} (see Materials and Methods), and inserted historical stages as inner nodes in these trees.
 We fitted the parameters of the model using Hamiltonian Monte Carlo methods (see Materials and Methods for details).
 
 
@@ -485,7 +489,7 @@ We also found such an association between order and coexpression within individu
 
 %Say something specific:
 %Furthermore, we specifically considered what distinguishes the tree topologies of Old English from those of Modern English.
-%- Old English -- English what distinguishes the tree structures?
+%- Old English -- English what distinguishes the syntactic tree structures?
 %In this respect, Old English patterned more like contemporary Japanese.
 
 
@@ -519,7 +523,7 @@ We have investigated the frequency distribution and historical change of word or
 %Going beyond existing accounts of word order, it 
 
 
-Our results go beyond existing efficiency-based accounts of word order by making specific predictions for individual languages based on their tree structure distributions.
+Our results go beyond existing efficiency-based accounts of word order by making specific predictions for individual languages based on their distributions of syntactic structures.
 \cite{maurits2010why} propose that the frequency of different basic word order patterns is predicted by a tendency to avoid peaks and troughs in the rate at which information is transmitted (though \cite{gonering-morgan-2020-processing} report a replication with diverging results).
 The model of \cite{maurits2010why} accounts for the low frequency of O-initial orders, but it underpredicts SOV and predicts SVO as the most efficient order even when it is applied to Japanese (i.e., an exemplary language for SOV order).
 In comparison, our account explains the language-dependence of basic word order.
@@ -539,7 +543,7 @@ It has been argued that there is an inherent directionality in the evolution of 
 Many historically documented word order changes have gone from SVO to SOV, and the protolanguages of several extant families are thought to have been SOV \citep{givon1979understanding, newmeyer2000evolutionary, maurits2014tracing}.
 However, only a small fraction of all word order changes are directly documented through written evidence of historical languages. \cite{maurits2014tracing}, using phylogenetic modeling, found that languages can cycle between SOV and SVO over long-term development, with little bias towards either order.
 The strongest evidence that SOV might be the `default' order comes from recently emerged sign languages \citep{senghas1997argument, sandler2005emergence, goldin-meadow1998spontaneous, meir2010emerging} and from gesturing tasks \citep{goldin-meadow2008natural, langus2010cognitive}.
-The theory of coadaptation predicts that new emerging languages tend to have tree structures that favor SOV order.
+The theory of coadaptation predicts that new emerging languages tend to have syntactic structures that favor SOV order.
 Indeed, multiple studies report high frequencies of utterances where only one argument is expressed in recently emerged sign languages and homesign systems \citep{sandler2005emergence, goldin-meadow1998spontaneous, neveu2016sign, ergin2018development}, and in sign languages more generally \citep{napoli2014order}.
 % also this dissertation on homesign  also senghas report one-argument uitterances
 %Adopting the view that SOV is the historically earlier order, \cite{gibson-noisy-channel-2013} argue that SVO arises as a strategy to reduce ambiguity in the absence of case marking.
