@@ -109,8 +109,7 @@
 \newcommand{\thetap}[0]{{\theta_{P}}}
 
 
-\title{Supplementary Information: Coadaptation between Usage and Grammar in the Evolution of
-Word Order across Languages}
+\title{Supplementary Information: Grammar and usage co-adapt in the evolution of word order across languages}
 % Maybe?: Grammar and Usage Interact in the Evolution of Language
 
 \author{Michael Hahn\\Department of Linguistics, Stanford University\\\\Yang Xu\\ Department of Computer Science, Cognitive Science Program, University of Toronto\\\\ \texttt{mhahn2@stanford.edu}}
@@ -280,12 +279,12 @@ We labeled interior nodes for the time at which they split into descendants, usi
 Group & Split & Source or Rationale \\ \hline
 Afroasiatic & 10,000 BC & \cite{diakonoff1998the} \\
 Arabic & 1,100 AD & Calibration from \citep{holman2011automated} based on end of Arabic domination of Malta. \\
-Atlantic-Congo & 4,500 BC & \citet{holman2011automated} estimate an age of 6525 years.\\
+%Atlantic-Congo & 4,500 BC & \citet{holman2011automated} estimate an age of 6525 years.\\
 Balto-Slavic & 1,400 BC & \citep{gray2003language} \\
 	Brythonic & 500 AD & Migrations from Britain to Brittany \citep{holman2011automated}\\ % (Humphreys 1993:609. Breton language its present position and historical background, cited by 
 Central-Semitic & 2,450 BC & \citep{kitchen2009bayesian}   \\
 Common Turkic & 700AD & \cite[p. 49]{savelyev2020bayesian} estimate Common Turkic to have split around 474 AD. However, in their model, Old Turkic split off around 650 AD, earlier than the languages in our dataset, with uncertainty about the time of split of the remaining Common Turkic languages. It should predate the earliest documentation of Karluk Middle Turkic after 900AD. We thus put the divergence of the other Common Turkic languages at 700AD. \\
-Eastern Baltic & 600 AD & Split between Katvian and Lithuanian \citep[p. 209]{novotna2011glottochronology}\\
+Eastern Baltic & 600 AD & Split between Latvian and Lithuanian \citep[p. 209]{novotna2011glottochronology}\\
 Finnic & 800 AD & \cite[Section 4.1]{maurits2020best} \\
 Germanic & 250AD & \cite{gray2003language} \\
 Global Dutch & 1,600 AD & Dutch colony in South Africa \\
@@ -293,13 +292,13 @@ Goidelic & 950 AD & Migrations from Ireland to Scotland. \citet{holman2011automa
 Hindustani & 1,800 AD & Standardization of Hindi and Urdu\\
 Iberian Romance & 1,000 AD & Expansion of Christian kingdoms in Iberia, earliest Iberian Romance texts \\
 Icelandic-Faroese & 1,400 AD & Sound shifts specific to Faroese\\
-Indo-European & 5,300 BC & \citep{gray2003language} (excluding Hittite and Tocharian, for which we not do not have data). \\
+Indo-European & 5,300 BC & \citep{gray2003language} (excluding Hittite and Tocharian, for which we have no corpus data). \\
 Indo-Iranian & 2,500 BC & \citep[p. 138]{parpola2013formation} \\ % Parpola 1999 suggests 2000 BC. The formation of the Aryan branch of Indo-European.
-Insular Celtic & 900BC & \citep{gray2003language} estimate 900BC. Sound shift k$^w$ $>$ p in the Brythonic branch antedates attestation of name `Britain' in 325BC. \\ % Gray and Atkinson: 900BC. Language-tree divergence times support.. Rexova et al, Cladistic analysis
+Insular Celtic & 900BC & \citep{gray2003language} estimate 900BC. \\ %Sound shift k$^w$ $>$ p in the Brythonic branch antedates attestation of name `Britain' in 325BC. \\ % Gray and Atkinson: 900BC. Language-tree divergence times support.. Rexova et al, Cladistic analysis
 Iranian & 500 BC & \citep{gray2003language}. \\ % (Parpola 1999:200) suggests 1900BC based on archaeological evidence. \\ % Kurmanji, Persian. Parpola 1999 suggests 1900 BC.
 Italo-Western-Romance & 500 AD & End of the Western Roman empire \citep{holman2011automated}.  \\
 	Macro-English & 1900AD & In our dataset, this is the common ancestor of contemporary English and Naija (Nigerian Pidgin). \\
-Niger-Congo & 5000BC & \citet{holman2011automated} estimate an age of 6227 years, but the family has to be older than Atlantic-Congo. We place Niger-Congo at 5000BC.\\
+Niger-Congo & 5000BC & \citet{holman2011automated} estimate an age of 6227 years, but the family has to be older than Atlantic-Congo, which they estimate at 6525 years. We thus place Niger-Congo at 5000BC.\\
 North-Germanic & 650 AD & Split of Old Norse into regional variants, such as assimilation of nasals to following stops in Western Norse in the 7th century \citep[p. 1856, 1859]{sandoy2017202}. Similarly \citep{holman2011automated} calibrates this to 900 AD. \\% (e.g. assimilation of nasals to following stop in Western Norse in the 7th century. Bandle 2005, Ch. XVII par. 202, The typological ...I Phonology Old East Nordic, p. 1856, 1859. \\
 Semitic & 3,750 BC & \citep{kitchen2009bayesian} \\
 Serbo-Croatian & 1,900 AD & Standardization of Serbian and Croatian\\
@@ -554,8 +553,8 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 	\begin{tabular}{llllllll}
 	% change/brownian-binom/logodds-approx/marginal_likelihood$ more results.txt
 	Model & Log-Likelihood \\ \hline
-	Ornstein-Uhlenbeck & -34 \\
-	Ornstein-Uhlenbeck (diaognal $\Sigma$) & -40 \\
+	Ornstein-Uhlenbeck & -32 \\
+	Ornstein-Uhlenbeck (diagonal $\Sigma$) & -38 \\
 	Brownian ($T_0 = -100,000$) & -190 \\
 	Brownian ($T_0 = -50,000$) & -188 \\
 	Brownian ($T_0 = -20,000$) & -170
@@ -566,7 +565,7 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 \end{table}
 
 \section{Accounting for Areal Convergence}
-The model of random walks on phylogenetic trees assume that languages evolve independently once they have split.
+The model of random walks on phylogenetic trees assume that languages evolve independently once they have split~\citep[e.g.][]{dunn-evolved-2011, maurits2014tracing}.
 However, linguistic evolution can include borrowing between geographically neighboring languages \citep[e.g.][]{dryer1989large, bisang1996areal, heine2003on, aikhenvald2007grammars,  kalyan2019problems}.
 
 Here, we provide evidence that our conclusions continue to hold when explicitly modelling convergence in linguistic areas, geographic regions in which languages tend to show convergent evolution due to borrowing  \citep[e.g.][]{campbell1986meso, nichols1992linguistic, haspelmath2001the, gijn2017linguistic}.
@@ -799,7 +798,7 @@ We found that, while case marking has a robust impact on subject-object position
 
 \section{Within-Language Correlates of Basic Word Order}
 
-Here, we show that basic word order reflects optimization for DLM not only on the level of languages, but also on the level of individual sentences.
+Here, we show that basic word order reflects optimization for Dependency Length Minimization (DLM) not only on the level of languages, but also on the level of individual sentences.
 
 %\subsection{Coexpression: VS Order in SVO Languages}
 In many SVO languages, certain intransitive subjects can appear after the verb (``along came a dog'').
@@ -821,11 +820,11 @@ For each language in our dataset, we collected statistics for all verbs with a s
 \end{equation}
 
 A positive effect indicates that presence of an object makes SV order more likely, compared to VS order.
-Results are shown in Table S15.
+Results are shown in Table S16.
 As predicted, in most languages where there is variation between SV and VS order, a significant positive effect was observed.
 
 \begin{longtable}{l|lllllll}
-	\multicolumn{4}{p{0.8\textwidth}}{Table S15: Coefficients in logistic analysis regressing SV/VS Order based on the presence of an object. `SV Frequency' indicates the overall rate of SV order (as opposed to VS) in the language. A positive coefficient ($\beta > 0$) indicates that SV is more common in the presence of an object than when there is no object.}
+	\multicolumn{4}{p{0.8\textwidth}}{Table S16: Coefficients in logistic analysis regressing SV/VS Order based on the presence of an object. `SV Frequency' indicates the overall rate of SV order (as opposed to VS) in the language. A positive coefficient ($\beta > 0$) indicates that SV is more common in the presence of an object than when there is no object.}
 	\\
 		\multicolumn{4}{p{0.8\textwidth}}{}\\
 Language & SV Frequency & $\beta$ & $p$ \\ \hline

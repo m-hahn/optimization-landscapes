@@ -62,8 +62,8 @@
 \significancestatement{Many of the world's languages have subject-verb-object order (e.g., ``Dogs bite people.'' as in English), while many others have subject-object-verb order (e.g., ``Dogs people bite.'' as in Japanese). Why do languages vary in word order the way they do, and how does word order evolve? We present a coadaptation theory postulating that each language exhibits the basic word order that is most efficient given the sentences typically produced by their speakers. We show that our theory explains the frequency variation of word order in many languages and predicts the trajectories of historical word order change. Our findings suggest that grammar and usage are jointly optimized in word order across languages to support efficient communication.}
 
 % Please include corresponding author, author contribution and author declaration information
-\authorcontributions{Please provide details of author contributions here.}
-\authordeclaration{Please declare any conflict of interest here.}
+\authorcontributions{M.H. and Y.X. designed research; M.H. performed research; and M.H. and Y.X. wrote the paper.}
+\authordeclaration{The authors declare no competing interest.}
 %\equalauthors{\textsuperscript{1}A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable).}
 \correspondingauthor{\textsuperscript{1}To whom correspondence should be addressed. E-mail: mhahn2@stanford.edu}
 
@@ -251,7 +251,7 @@ Languages differ not only in the ways they linearize these syntactic structures,
 For instance, syntactic structures such as those in Figure~\ref{fig:sent-dep}A are used at significantly higher frequencies by speakers of English than speakers of Japanese.
 
 Given a distribution over syntactic structures, we can identify which grammar orders them in such a way to achieve minimal average dependency length.
-We propose that languages evolve so that communicative preferences (which syntactic structures are chosen by speakers) and word order (how they are linearized) maintain near-optimality for DLM.
+We propose that languages evolve so that usage frequencies (which syntactic structures are chosen by speakers) and word order (how they are linearized) maintain near-optimality for DLM.
 This means that the actual word orders used by languages should be close to the most efficient possible grammar, given the distribution over syntactic structures.
 
 Here we provide evidence that languages show coadaptation between their basic word order and how different syntactic configurations are used.
@@ -366,7 +366,7 @@ For illustration, we also illustrate the predicted direction of future changes i
 According to the model, changes in grammar and syntactic usage frequency are positively correlated:
 This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
 In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%$ credible interval $[0.28, 0.96]$, $\operatorname{P}(R<0) = 0.0025$). % change/ornuhl-binom/noLatents/fits/correlation_omega.txt
-Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 232). % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt
+Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 308). % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt
 
 
 
@@ -389,7 +389,7 @@ The model (and the coadaptation hypothesis) predicts that a language that change
 Currently, no annotated treebanks are available for such a language to directly test this prediction; our prediction can be tested once such a treebank becomes available.
 We observe that our model indicates no evidence that languages tend to drift towards either SOV or SVO in the long run.
 This is shown by the fact that the long-term stationary distribution is equally spread across both low and high subject-object position congruence.
-A lesioned version of our model that explicitly prohibits a bias in development provided essentially identical model fit (estimated Bayes Factor 1.1).
+A lesioned version of our model that explicitly prohibits a bias in development had essentially identical model fit (estimated Bayes Factor: 1.7). % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison_Bias.txt
 
 
 \begin{figure*}
