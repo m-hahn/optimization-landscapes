@@ -29,8 +29,8 @@ u$Language = factor(u$Language, levels=u$Language)
 
 us = data.frame()
 
-us = rbind(us, u %>% filter(Language %in% c("Classical_Chinese_2.6", "Chinese_2.6")) %>% mutate(Trajectory="Mandarin", Group="Chinese") %>% mutate(Time = ifelse(Age == -1, "-400", "+2000")))
-us = rbind(us, u %>% filter(Language %in% c("Classical_Chinese_2.6", "Cantonese_2.6")) %>% mutate(Trajectory="Cantonese", Group="Chinese") %>% mutate(Time = ifelse(Age == -1, "-400", "+2000")))
+us = rbind(us, u %>% filter(Language %in% c("Classical_Chinese_2.6", "Chinese_2.6")) %>% mutate(Trajectory="Mandarin", Group="Chinese") %>% mutate(Time = ifelse(Age == -1, "-300", "+2000")))
+us = rbind(us, u %>% filter(Language %in% c("Classical_Chinese_2.6", "Cantonese_2.6")) %>% mutate(Trajectory="Cantonese", Group="Chinese") %>% mutate(Time = ifelse(Age == -1, "-300", "+2000")))
 us = rbind(us, u %>% filter(Language %in% c("ISWOC_Old_English", "English_2.6")) %>% mutate(Trajectory="English", Group="English") %>% mutate(Time = ifelse(Age == -1, "+900", "+2000")))
 us = rbind(us, u %>% filter(Language %in% c("Old_French_2.6", "French_2.6")) %>% mutate(Trajectory="Old_French", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
 us = rbind(us, u %>% filter(Language %in% c("Latin_2.6", "Old_French_2.6")) %>% mutate(Trajectory="French", Group="Romance") %>% mutate(Time = ifelse(Age == -1, "+0", ifelse(Age==0, "+1200", "+2000"))))
