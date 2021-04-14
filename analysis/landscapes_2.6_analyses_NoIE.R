@@ -36,6 +36,12 @@ capture.output(mean(samp$b_OSSameSide_Real_Prob > 0), file="output/landscapes_2.
 v = data %>% group_by(Language, Family, Genus, OSSameSide_Real_Prob) %>% summarise(OSSameSide=mean(OSSameSide, na.rm=TRUE))
 
 
+library(lme4)
+model_lme4 = lmer(OSSameSide ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Genus), data=v)
+capture.output(summary(model_lme4), file="output/landscapes_2.6.R_brms_phyla_linear_lme4.txt")
+library(MuMIn)
+capture.output(r.squaredGLMM(model_lme4), file="output/landscapes_2.6.R_brms_phyla_linear_lme4.txt", append=TRUE)
+
 
 
 
@@ -50,7 +56,7 @@ v$Resid = residuals
 
 
 library(ggplot2)
-# Plot the residuals by genus
+# Plot the residuals by phylum
 plot = ggplot(v, aes(x=OSSameSide_Real_Prob, y=Resid, group=Language, color=Family)) + geom_text(aes(label=Language)) + facet_wrap(~Genus)
 plot = ggplot(v, aes(x=Resid)) + geom_histogram() + facet_wrap(~Genus)
 
@@ -61,6 +67,18 @@ samp = posterior_samples(model_NoIE)
 capture.output(mean(samp$b_OSSameSide_Real_Prob > 0), file="output/landscapes_2.6.R_brms_genera_NoIE_linear.txt", append=TRUE)
 capture.output(bayes_R2(model_NoIE), file="output/landscapes_2.6.R_brms_genera_NoIE_linear.txt", append=TRUE)
 
+
+model_NoIE = brm(OSSameSide ~ OSSameSide_Real_Prob +  (1+OSSameSide_Real_Prob|Genus), data=v %>% filter(Genus!="Indo_European"))
+capture.output(summary(model_NoIE), file="output/landscapes_2.6.R_brms_phyla_NoIE_linear.txt")
+samp = posterior_samples(model_NoIE)
+capture.output(mean(samp$b_OSSameSide_Real_Prob > 0), file="output/landscapes_2.6.R_brms_phyla_NoIE_linear.txt", append=TRUE)
+capture.output(bayes_R2(model_NoIE), file="output/landscapes_2.6.R_brms_phyla_NoIE_linear.txt", append=TRUE)
+
+model = brm(OSSameSide ~ OSSameSide_Real_Prob + (1+OSSameSide_Real_Prob|Genus), data=v)
+capture.output(summary(model), file="output/landscapes_2.6.R_brms_phyla_linear.txt")
+samp = posterior_samples(model)
+capture.output(mean(samp$b_OSSameSide_Real_Prob > 0), file="output/landscapes_2.6.R_brms_phyla_linear.txt", append=TRUE)
+capture.output(bayes_R2(model), file="output/landscapes_2.6.R_brms_phyla_linear.txt", append=TRUE)
 
 
 
