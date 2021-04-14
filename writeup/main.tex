@@ -317,11 +317,11 @@ Otherwise, if one order is more efficient in principle, or there is no systemati
 
 
 In Figure~\ref{fig:study1}, we visualize the empirically observed subject-object position congruence against the average subject-object position congruence of the grammars  approximately optimized for syntactic use, in the 74 languages.
-Without controlling for dependencies between related languages, optimized and attested subject-object position congruence are strongly correlated ($R=0.47$, $95\%$ CI $[0.28, 0.64]$, $p<10^{-4}$). % analysis/output/correlation.txt
+Without controlling for dependencies between related languages, optimized and attested subject-object position congruence are significantly correlated ($R=0.47$, $95\%$ CI $[0.28, 0.64]$, $p<10^{-4}$; Spearman's $\rho=0.49$, $p < 10^{-5}$). % analysis/output/correlation.txt output/correlation-spearman.txt output/correlation-excl-extreme.txt
 On spoken data from six languages, we also found a strong and significant correlation ($R=0.94$, 95\% CI $[0.56, 1.0]$, $p=0.0048$).
-In order to account for the statistical dependencies between related languages more rigorously, we performed a regression analysis where we entered language families as random effects with random slopes and intercepts.
-Attested subject-object position congruence was strongly predictive of subject-object position congruence in the optimized grammars ($\beta = 0.44$, $SE=0.11$, $95\%$ credible interval $[0.24, 0.66]$, $\operatorname{P}(\beta<0) = 0.000125$). % analysis/output/landscapes_2.6.R_brms.txt
-This result provides firm support for the coadaptation hypothesis: Languages tend to have the basic word order that is most efficient given their frequency distributions of syntactic structures.
+In order to account for the statistical dependencies between related languages more rigorously, we grouped the 29 language families into 15 phyla describing maximal units that are not genetically related to each other (see Materials and Methods), and performed a regression analysis where we entered phyla as random effects with random slopes and intercepts.
+Attested subject-object position congruence was strongly predictive of subject-object position congruence in the optimized grammars ($\beta = 0.69$, $SE=0.33$, $95\%$ credible interval $[0.24, 1.85]$, Bayesian $R^2$ TODO). % analysis/output/landscapes_2.6.R_brms_genera.txt ,
+This result provides firm support for the coadaptation hypothesis: Languages tend to have basic word orders that are most efficient given their frequency distributions of syntactic structures, and, conversely, they have frequency distributions that tend to be efficient given their basic word orders.
 This finding is incompatible with previous suggestions that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
 
 
@@ -402,6 +402,15 @@ Right: The evolutionary trajectories of seven languages or language families wit
     \label{fig:historical}\label{fig:drift-model}
 \end{figure*}
 
+
+\textcolor{blue}{A possible concern is that available corpus data strongly overrepresents certain language families; in particular, 46 of the languages belong to the Indo-European phylum.
+We therefore also reran the phylogenetic analysis excluding the Indo-European phylum.
+Results were similar to the full dataset:
+First, in the stationary distribution, the two dimensions are strongly correlated ($R=...$, $95\%$ credible interval $[....]$, $\operatorname{P}(R<0) = ....$).
+Second, model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: TODO).} % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt
+
+
+
 Unlike the conventional classification of languages into discrete basic word order categories such as SVO and SOV, the notion of subject-object position congruence accounts for the well-known fact that languages differ in their degrees of word order flexibility \citep{steele1978word}.
 To evaluate whether this notion provides a more fine-grained account of word order evolution than the standard classification, we evaluated whether optimized subject-object position congruence predicts attested subject-object position congruence beyond the level of discrete word order categories.
 We labeled the languages in our dataset for discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order'') based on \cite{wals-81}, supplemented with data from \cite{gell-mann-origin-2011} (see SI  Appendix, Section S6 for details).
@@ -427,8 +436,8 @@ We predict that languages favor SOV-like orders more when they do not frequently
 Indeed, it has been argued, based on evidence from Turkish and Japanese, that SOV languages omit arguments or use intransitive structures more frequently than SVO languages do \citep{hiranuma1999syntactic,ueno2009does,luk2014investigating}, although this might not hold for Basque \citep{pastor2013processing}.
 We tested this idea on a larger scale using the corpora in our sample.
 We quantified the frequency of co-expression of subjects and objects by calculating the fraction of all verbs that realize at least a subject or an object simultaneously realize both.
-In a linear mixed-effects models, with by-family intercept and slope, attested subject-object position congruence was predictive of this fraction ($\beta=-0.09$, $SE=0.05$, $95\%$ credible interval $[-0.19, 0.0]$, $\operatorname{P}(\beta<0) = 0.029$). % analysis/coexpression/coexpression_results.txt 
-Optimized subject-object position congruence was also predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ credible interval $[-0.22,  -0.01]$, $\operatorname{P}(\beta<0) = 0.015$). % analysis/coexpression/coexpression_optim_results.txt
+In a linear mixed-effects models, with by-phylum intercept and slope, attested subject-object position congruence was predictive of this fraction ($\beta=-0.09$, $SE=0.05$, $95\%$ credible interval $[-0.19, 0.0]$, $\operatorname{P}(\beta>0) = 0.029$). % analysis/coexpression/coexpression_results.txt 
+Optimized subject-object position congruence was also predictive of this fraction ($\beta=-0.11$, $SE=0.05$, $95\%$ credible interval $[-0.22,  -0.01]$, $\operatorname{P}(\beta>0) = 0.015$). % analysis/coexpression/coexpression_optim_results.txt
 This shows that languages differ in the rate at which they coexpress subjects and objects, and that this is a factor through which frequency can influence word order.
 We also found such an association between order and coexpression within individual languages: Languages with word order flexibility tend to order subjects differentially depending on the presence or absence of an object, in a way consistent with DLM (see SI Appendix, Section S8).
 %Not mediated by this, suggests there are other aspects.
@@ -510,13 +519,11 @@ We also found such an association between order and coexpression within individu
 \section*{Discussion}
 
 We have investigated the frequency distribution and historical change of word order  across languages and found that syntactic use and basic word order interact intimately in their evolution,  reflecting a process of coadaptation  between grammar and usage.
-
-
-
-%Our results do not speak to the causal direction of changes in individual languages: 
-%While, in a given language, a change might first appear in one aspect (e.g., language use), the preservation of efficiency can lead to compensating changes in another aspect (e.g., grammar).
-%Consequently, grammar and usage constrain each other in the process of evolution.
-%In the future, the availability of historical data with higher temporal resolution might make it possible to also trace the causal direction of change in individual languages.
+\textcolor{blue}{Our results do not speak to the causal direction of changes in individual languages: 
+While, in a given language, a change might first appear in one aspect (e.g., language use), the preservation of efficiency can lead to compensating changes in another aspect (e.g., grammar).
+Consequently, grammar and usage constrain each other in the process of evolution.
+Currently available data are consistent with causal influence in either direction (or even via a third factor) (see SI Section X for analyses).
+In the future, the availability of historical data with higher temporal resolution might make it possible to also trace the causal direction of change in individual languages.}
 
 
 %The theory of coadaptation provides a fine-grained account for the distribution of basic word order.
@@ -684,7 +691,7 @@ Optimized grammars are created using the gradient descent method described by \c
 
 
 \subsection*{Data}
-We drew on the Universal Dependencies 2.6 treebanks, including every language for which data with at least 500 sentences was available, while excluding code-switched text, text produced entirely by nonnative speakers, and text only reflecting specific types of sentences (e.g. questions).
+We drew on the Universal Dependencies 2.6 treebanks, including every language for which data with at least 10,000 words was available, while excluding code-switched text, text produced entirely by nonnative speakers, and text only reflecting specific types of sentences (e.g. questions).
 In addition to the data available in Universal Dependencies 2.6, we added an Old English dependency treebank in a slightly different but comparable version of dependency grammar \citep{bech2014iswoc}.
 While there are some other historical treebanks such as the Penn Parsed Corpora of Historical English \citep{kroch2011penn} they are not in the dependency format; calculating dependency length is highly nontrivial without a high-quality conversion.
 
@@ -695,6 +702,7 @@ We obtained spoken treebanks from the following sources.
 For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of spontaneous dialogues \citep{hall2006conll}. For English, we used an automated conversion \citep{schuster2018sentences} of the Switchboard section of the Penn Treebank~\citep{marcus-building-1993} to Universal Dependencies.
 
 We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Appendix, Section S2 for details).
+The phyla in the mixed-effects models correspond to the maximal subgroups in the phylogenetic trees.
 
 
 
