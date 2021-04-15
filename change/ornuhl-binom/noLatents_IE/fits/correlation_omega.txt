@@ -1,0 +1,3 @@
+Mean:  0.8386237
+95% CrI  0.438055   0.9912
+Posterior of opposite sign:  0.00025
