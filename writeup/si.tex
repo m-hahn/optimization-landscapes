@@ -659,7 +659,7 @@ In Figure~\ref{fig:categorical-basic-order}, we show attested and optimized subj
 First, we see that attested subject-object position congruence largely determines whether a language is labeled SVO or SOV/VSO.
 A few language with medium subject-object position congruence are labeled as `No dominant order'.
 
-Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.52, p < 0.00021$) and SOV ($R=0.45, p = 0.07$).
+Optimized subject-object position congruence remains predictive of attested subject-object order even within the categories SVO ($R = 0.52, p = 0.0002$) and SOV ($R=0.45, p = 0.07$).
 This suggests that the coadaptation theory makes predictions about word order beyond categorical notions of basic word order.
 
 Next, we describe a version of the phylogenetic analysis controlling for catgeorical order.
@@ -677,10 +677,10 @@ where $C(L)$ is the categorical order assigned to the language.
 
 \paragraph{Labeling Categorical Basic Word Order}
 This model requires labeling all nodes on the phylogenetic tree for categorical word orders.
-We based the annotation on \citet{wals-81}.
+For documented languages, we based the annotation on \citet{wals-81}.
 In those languages where no annotation was available, we drew on \citep{gell-mann-origin-2011}, supplemented with language-specific literature.
 In some cases, both `No dominant order' and one of SVO/SOV are plausible labels. In these cases, we opted for SOV/SVO, as we expect this to \emph{increase} the amount of variance that categorical order classes can explain, introducing at most a \emph{conservative} bias in estimating coadaptation.
-We obtained the labels listed in Table~\ref{tab:categorical}.
+We obtained the labels listed in Table~\ref{tab:categorical} for documented languages, and in Table~\ref{tab:interior} for non-attested nodes in the phylogenetic tree.
 
 \begin{table}
 \begin{tabular}{llp{0.5\textwidth}lll}
@@ -690,15 +690,19 @@ We obtained the labels listed in Table~\ref{tab:categorical}.
 \hline
 \end{tabular}
 	\caption{Categorical labels for basic word order for languages with no annotation in \citet{wals-81}. This annotation is used for the control study in Section~\ref{sec:categorical}; it does not enter the main study.}\label{tab:categorical}
+
 \end{table}
-%For the phylogenetic analysis, we also annotated interior nodes for categorical word order, based on the literature.
-%\begin{longtable}{llp{0.5\textwidth}lll}
-%\hline
-%Group & Label & Rationale \\ \hline
-%\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
-%\hline
-%\end{longtable}
-%
+
+\begin{table}
+\begin{tabular}{llp{0.5\textwidth}lll}
+\hline
+Group & Label & Rationale \\ \hline
+\input{../analysis/categorical_order/output/additionalOrders_groups.tex}
+\hline
+\end{tabular}
+\caption{Categorical labels for non-attested nodes in the phylogenetic tree.  This annotation is used for the control study in Section~\ref{sec:categorical}; it does not enter the main study.}
+\label{tab:interior}
+\end{table}
 
 \begin{figure}
     \centering
@@ -868,6 +872,22 @@ In Figure~\ref{fig:disjoint}, we report the results obtained by (1) estimating o
 The results show that qualitatively equivalent results are obtained in all three cases.
 
 %\mhahn{TODO. Here, my plan is to illustrate that estimating quantities on disjoint corpora makes no difference, using just two or three languages as examples.}
+
+
+
+\section{Coexpression of Subjects and Objects}
+In Figure~\ref{fig:study2}, we show attested subject-object congruence together with the fraction of verbs that simultaneously express a subject and an object, for each language.
+As described in the main paper, in a linear mixed-effects model, with by-family intercept and slope, attested subject-object position congruence was predictive of this fraction ($\beta=-0.09$, $SE=0.05$, $95\%$ credible interval $[-0.19, 0.0]$, $\operatorname{P}(\beta<0) = 0.029$). % analysis/coexpression/coexpression_results.txt 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{../analysis/figures/objects-order-pureud-byVerb_FORMAT.pdf}
+    \caption{Comparison of attested subject-object position congruence (x-axis) and the fraction of verbs that simultaneously express a subject and an object (y-axis).}
+    \label{fig:study2}
+\end{figure}
+
+
 
 
 \bibliography{literature}
