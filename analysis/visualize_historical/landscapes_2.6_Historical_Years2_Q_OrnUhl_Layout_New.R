@@ -154,11 +154,11 @@ plot = plot + xlab("Attested Subject-Object Position Congruence") + ylab("Optimi
 for(group in unique(us$Group)) { 
    plot = plot + geom_segment(data= u2s %>% filter(Group == group), aes(x=OSSameSide_Real_Prob_TRUE, xend=OSSameSide_Real_Prob_FALSE, y=OSSameSide_TRUE, yend=OSSameSide_FALSE), arrow=arrow(), size=1, color="blue") + geom_label(data=us %>% filter(Group == group), aes(label=Time), color="black", size=3)
 }
-plot = plot + facet_wrap(~Group)
+plot = plot + facet_wrap(~Group, nrow=2)
 plot = plot + theme_bw()
 plot = plot + theme(panel.grid = element_blank())
 plot = plot + theme(legend.position="none", axis.text=element_text(size=14), axis.title=element_text(size=16), strip.text.x = element_text(size = 10))
-ggsave("../figures/historical_2.6_times_stationary.pdf", width=7, height=7)
+ggsave("../figures/historical_2.6_times_stationary_layout_new.pdf", width=15, height=5)
 
 
 cor.test(u2s$OSSameSide_FALSE-u2s$OSSameSide_TRUE, u2s$OSSameSide_Real_Prob_FALSE-u2s$OSSameSide_Real_Prob_TRUE)

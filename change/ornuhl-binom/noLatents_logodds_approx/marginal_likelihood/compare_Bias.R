@@ -1,5 +1,5 @@
 model1 = read.csv("47model.py.txt", header=FALSE)$V1
-model0 = read.csv("49model.py.txt", header=FALSE)$V1
+model0 = read.csv("50model.py.txt", header=FALSE)$V1
 
 len = min(length(model1), length(model0))
 
@@ -14,7 +14,7 @@ likelihood1 = log(mean(exp((model1 - m1max)))) + m1max
 likelihood0 = log(mean(exp((model0 - m0max)))) + m0max
 
 likelihoodRatio = exp(likelihood1 - likelihood0)
-sink("comparison.txt")
+sink("comparison_Bias.txt")
 cat("Runs of Stepping Stone Sampling for Model 1 and 0: ")
 cat(length(model1))
 cat(" ")
