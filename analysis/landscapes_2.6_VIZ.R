@@ -16,6 +16,10 @@ u = u %>% mutate(LogOSSameSide_Real_Prob = log(OSSameSide_Real_Prob+1e-10))
 sink("output/correlation.txt")
 print(cor.test(u$OSSameSide_Real_Prob, u$OSSameSide))
 sink()
+sink("output/correlation-spearman.txt")
+print(cor.test(u$OSSameSide_Real_Prob, u$OSSameSide, method="spearman"))
+sink()
+
 
 
 u$Language2 = as.character(u$Language)

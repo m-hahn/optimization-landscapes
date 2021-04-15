@@ -1,44 +1,44 @@
  Family: bernoulli 
   Links: mu = logit 
-Formula: OSSameSide ~ OSSameSide_Real_Prob_Log + (1 | Language) + (1 + OSSameSide_Real_Prob_Log | Family) + (1 + OSSameSide_Real_Prob_Log | Genus) 
+Formula: OSSameSide ~ OSSameSide_Real_Prob + (1 | Language) + (1 + OSSameSide_Real_Prob | Family) + (1 + OSSameSide_Real_Prob | Genus) 
    Data: data (Number of observations: 1099) 
 Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
          total post-warmup samples = 4000
 
 Group-Level Effects: 
 ~Family (Number of levels: 28) 
-                                        Estimate Est.Error l-95% CI u-95% CI
-sd(Intercept)                               0.43      0.22     0.06     0.94
-sd(OSSameSide_Real_Prob_Log)                0.24      0.18     0.01     0.69
-cor(Intercept,OSSameSide_Real_Prob_Log)     0.23      0.56    -0.91     0.97
-                                        Rhat Bulk_ESS Tail_ESS
-sd(Intercept)                           1.01     1105     1732
-sd(OSSameSide_Real_Prob_Log)            1.01      741     1842
-cor(Intercept,OSSameSide_Real_Prob_Log) 1.00     1369     2434
+                                    Estimate Est.Error l-95% CI u-95% CI Rhat
+sd(Intercept)                           0.32      0.22     0.02     0.86 1.00
+sd(OSSameSide_Real_Prob)                0.79      0.47     0.05     1.84 1.01
+cor(Intercept,OSSameSide_Real_Prob)    -0.17      0.56    -0.96     0.92 1.00
+                                    Bulk_ESS Tail_ESS
+sd(Intercept)                           1423     2227
+sd(OSSameSide_Real_Prob)                 887     1438
+cor(Intercept,OSSameSide_Real_Prob)     1347     2072
 
 ~Genus (Number of levels: 15) 
-                                        Estimate Est.Error l-95% CI u-95% CI
-sd(Intercept)                               0.46      0.34     0.02     1.25
-sd(OSSameSide_Real_Prob_Log)                0.31      0.31     0.01     1.27
-cor(Intercept,OSSameSide_Real_Prob_Log)     0.34      0.57    -0.88     0.99
-                                        Rhat Bulk_ESS Tail_ESS
-sd(Intercept)                           1.04       95       54
-sd(OSSameSide_Real_Prob_Log)            1.05       60       16
-cor(Intercept,OSSameSide_Real_Prob_Log) 1.02      200     1076
+                                    Estimate Est.Error l-95% CI u-95% CI Rhat
+sd(Intercept)                           0.35      0.28     0.01     1.02 1.00
+sd(OSSameSide_Real_Prob)                0.70      0.54     0.03     1.99 1.00
+cor(Intercept,OSSameSide_Real_Prob)    -0.20      0.58    -0.97     0.91 1.00
+                                    Bulk_ESS Tail_ESS
+sd(Intercept)                           2098     2406
+sd(OSSameSide_Real_Prob)                1723     2380
+cor(Intercept,OSSameSide_Real_Prob)     2490     2809
 
 ~Language (Number of levels: 73) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.45      0.14     0.15     0.70 1.00      729      757
+sd(Intercept)     0.44      0.13     0.16     0.68 1.00     1212      755
 
 Population-Level Effects: 
-                         Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-Intercept                    0.73      0.40     0.13     2.06 1.05       53
-OSSameSide_Real_Prob_Log     0.69      0.33     0.24     1.85 1.05       63
-                         Tail_ESS
-Intercept                      13
-OSSameSide_Real_Prob_Log       13
+                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+Intercept               -0.93      0.29    -1.49    -0.35 1.00     3193
+OSSameSide_Real_Prob     2.00      0.61     0.82     3.30 1.00     2527
+                     Tail_ESS
+Intercept                2795
+OSSameSide_Real_Prob     2297
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
 scale reduction factor on split chains (at convergence, Rhat = 1).
-[1] 0.998
+[1] 0.99975
