@@ -189,7 +189,7 @@ Structures such as those in B are considerably more frequently expressed in Japa
 Different theories have been proposed for the word order variation across languages. The low frequency of object-initial orderings (e.g., OSV, ``human--dog--bites'') arguably has satisfactory explanations (e.g., \cite{tomlin1986basic}), but there is no consensus on the frequency distribution of SVO and SOV. Some work has argued that SOV is the default order in the history of language and that SVO has emerged later \citep{givon1979understanding,senghas1997argument, newmeyer2000evolutionary, goldin-meadow2008natural, gibson-noisy-channel-2013}, although phylogenetic simulation suggests that languages can cycle between these two orders in their historical development \citep{maurits2014tracing}. Other work suggests there is a tension between different cognitive pressures that favor SVO and SOV, respectively \citep{langus2010cognitive, ferrer-i-cancho-placement-2017}, but these accounts do not predict word order on the level of individual languages. So far, these exists no theory that coherently explains the principles underlying cross-linguistic variation and evolution in word order.
 
 % This paragraph brings the theories of EC into the picture
-\textcolor{red}{TODO edit this paragraph}
+%\textcolor{red}{TODO edit this paragraph}
 One promising view suggests that cross-linguistic variation is constrained by the functional pressures of efficient communication under limited cognitive resources \citep{haspelmath2008parametric, jaeger2011on, kemp2018semantic, gibson2019how}.
 Under this view, the structure of language in part reflects the way that language is used \citep{hopper1984the, bybee1994the, croft2000explaining, bybee2006from} and adapts to optimize production and comprehension for human communication \citep{hawkins-performance-1994, haspelmath2006against, bybee2010language}.
 Existing work has also suggested that communicative need, or how frequently a linguistic element is used by its speakers, differs across languages, and that this is responsible for some of the differences observed among the structures of different languages \cite{perkins1992deixis, lupyan2010language, gibson2017color}. % (perhaps also Sapir, Piraha, ...).
@@ -199,7 +199,8 @@ It has also been argued that discourse function shapes grammatical catgeories, f
 \cite{perkins1992deixis} provides evidence that differences in social structure account for differences in the complexity of deictic inflection across languages; \cite{lupyan2010language} show that languages in small-scale societies tend to have higher inflectional complexity.
 Is has been argued that color naming systems are influenced by the way color names are used \cite{zaslavsky2019color}.
 \cite{gibson2017color} suggest that color naming systems differ between industrialized and non-industrialized societies due to differences in the usefulness of color in a society, and \cite{regier2016languages} show that vocabulary about the environment depends on the climatic conditions in which a language is spoken.
-It has also been argued that the sound systems of languages adapt to climate and diet of the speech community \citep{everett2015climate,blasi2019human}. Here we extend these ideas to investigate the possibility that the interaction of syntactic use and grammar might shape the variation and evolution of word order across languages.
+%It has also been argued that the sound systems of languages adapt to climate and diet of the speech community \citep{everett2015climate,blasi2019human}.
+Here we extend these ideas to investigate the possibility that the interaction of syntactic use and grammar might shape the variation and evolution of word order across languages.
 
 We present a new account for the variation between SOV and SVO orders and the evolution of word order across languages: Coadaptation between grammar and usage. Our coadaptation hypothesis postulates that neither SVO nor SOV is more efficient in principle.
 Rather, languages tend to have the basic word order that is most communicatively efficient given the way its speakers typically structure information\textcolor{blue}{, and, conversely, speakers structure information in ways that are most efficient given the basic word order of the language.} As languages change, syntactic usage and grammar evolve together such that change in frequency of syntactic usages should go hand-in-hand with change in basic word order. We provide large-scale evidence for coadaptation in word order both cross-linguistically and over the course of language evolution.
@@ -213,7 +214,7 @@ Dependency Length Minimization and related locality principles can be justified 
 
 
 
-Our proposal of coadaptation suggests that languages have the basic word orders that are most efficient for DLM, given the ways speakers of a language typically structure information.
+Our proposal of coadaptation suggests that languages have the basic word orders that are most efficient for DLM, given the ways speakers of a language typically structure information\textcolor{blue}{, and, conversely, that speakers structure information in ways efficient for DLM.}
 We first consider a simple transitive sentence such as `dogs bite people' (Figure~\ref{fig:sent-dep}A). 
 DLM is defined formally in terms of Dependency Grammar~\citep{hays1964dependency,hudson1984word,melcuk1988dependency,corbett1993heads,tesniere2015elements}.
 In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
@@ -703,7 +704,6 @@ We obtained spoken treebanks from the following sources.
 For four languages, there are spoken treebanks in the UD project (Slovenian, Naija, Norwegian, French). For Japanese, we used Tueba J/S, a treebank of spontaneous dialogues \citep{hall2006conll}. For English, we used an automated conversion \citep{schuster2018sentences} of the Switchboard section of the Penn Treebank~\citep{marcus-building-1993} to Universal Dependencies.
 
 We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff2011glottolog}, inserted documented historical languages as inner nodes, and assigned dates for the other inner nodes based on the literature (see SI Appendix, Section S2 for details).
-The phyla in the mixed-effects models correspond to the maximal subgroups in the phylogenetic trees.
 
 
 \subsection*{Bayesian Regression Analyses}
@@ -712,6 +712,7 @@ We conducted Bayesian inference for mixed-effects analyses using Hamiltonian Mon
 Following \citep{burkner2018advanced}, we assumed a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed effects and the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. % (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$)
 We computed Bayesian $R^2$ values following \cite{gelman2019r}.
 See SI Section for results with more strongly regularising priors, and for corresponding frequentist analyses.
+The phyla in the random effects structure correspond to the maximal subgroups in the phylogenetic trees described in `Data'.
 }
 
 
