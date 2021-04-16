@@ -48,7 +48,7 @@ def initializeOrderTable():
    distanceCounts = {}
    depsVocab = set()
    for partition in ["together"]:
-     for sentence in CorpusIterator(args.language,partition, shuffleDataSeed=50, size=args.size).iterator():
+     for sentence in CorpusIterator(args.language,partition, shuffleDataSeed=myID, size=args.size).iterator():
       for line in sentence:
           vocab[line["word"]] = vocab.get(line["word"], 0) + 1
           line["fine_dep"] = line["dep"]
@@ -306,7 +306,7 @@ import torch.nn.functional
 
 counter = 0
 while True:
-  corpus = CorpusIterator(args.language, shuffleDataSeed=50, size=args.size).iterator(rejectShortSentences = True)
+  corpus = CorpusIterator(args.language, shuffleDataSeed=myID, size=args.size).iterator(rejectShortSentences = True)
 
   while True:
     try:
