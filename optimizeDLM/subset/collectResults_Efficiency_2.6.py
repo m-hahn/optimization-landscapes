@@ -11,7 +11,7 @@ files = os.listdir(PATH)
 
 cache = {}
 
-outHeader = set(["Language", "FileName", "Language_"])
+outHeader = set(["Language", "FileName", "Language_", "LanguageBare"])
 
 entries = []
 
@@ -52,6 +52,7 @@ for filename in files:
                collectedFilesNumber-=1
                break
              entry["Language_"] = entry["Language"].replace("_2.6", "")
+             entry["LanguageBare"] = language[:language.index("-")]
              if "FileName" not in header:
                 entry["FileName"] = filename[filename.rfind("_")+1:-4]
              if entry["CoarseDependency"] not in ["obj", "nsubj"] or entry["HeadPOS"] != "VERB" or entry["DependentPOS"] != "NOUN":
