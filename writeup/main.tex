@@ -310,12 +310,26 @@ Otherwise, if one order is more efficient in principle, or there is no systemati
 
 \begin{figure*}[h!]
     \centering
-    \includegraphics[width=.75\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+    \includegraphics[width=.5\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+    
+
+                    \includegraphics[width=0.4\textwidth]{analysis/figures-scratch/within-IE.pdf}
+                \includegraphics[width=0.4\textwidth]{analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
+        
 	\caption{Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
     \label{fig:study1}\label{fig:spoken}
 \end{figure*}
 
 
+\begin{figure*}
+    \centering
+            \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/per-phylum-posteriors.pdf}
+                \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/per-phylum-means.pdf}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure*}
+
+                
 
 In Figure~\ref{fig:study1}, we visualize the empirically observed subject-object position congruence against the average subject-object position congruence of the grammars  approximately optimized for syntactic use, in the 74 languages.
 Without controlling for dependencies between related languages, optimized and attested subject-object position congruence are significantly correlated ($R=0.47$, $95\%$ CI $[0.28, 0.64]$, $p<10^{-4}$; \textcolor{blue}{Spearman's $\rho=0.49$, $p < 10^{-5}$}). % analysis/output/correlation.txt output/correlation-spearman.txt
@@ -397,6 +411,8 @@ A lesioned version of our model that explicitly prohibits a bias in development 
 %    \includegraphics[width=0.32\textwidth]{../change/visualize/stationary.pdf}
  %   \includegraphics[width=0.65\textwidth]{../analysis/figures/historical_2.6_times_stationary_layout.pdf}
     \includegraphics[width=0.95\textwidth]{../analysis/figures/historical_2.6_times_stationary_layout_new.pdf}
+    
+
 	\caption{ \textcolor{red}{TODO not sure whether this is any better than before. need to think more about how to make this better. also TODO rephrase the caption.}Result of the phylogenetic drift analysis.
 	Left: Estimated long-term stationary distribution of languages (indicated in blue), describing where languages tend to lie after long-term evolution.
     The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage frequencies (y-axis).	    
@@ -432,7 +448,7 @@ We found that the phylogenetic analysis continued to predict co-evolution betwee
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 
-\subsection*{Influence of Usage on Word Order}
+\subsection*{Influence of Usage on Word Order} \mhahn{maybe rename this?}
 So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of languages.
 In what aspects of usage do languages vary or change that reflect this coadaptation?
 We predict that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
