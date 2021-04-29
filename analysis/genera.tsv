@@ -13,7 +13,7 @@ Cantonese_2.6	Sino-Tibetan	Sino-Tibetan
 Catalan_2.6	Latin_Romance	Indo_European
 Chinese_2.6	Sino-Tibetan	Sino-Tibetan
 Classical_Chinese_2.6	Sino-Tibetan	Sino-Tibetan
-Coptic_2.6	Egyptian	Afro_Asiatic	
+Coptic_2.6	Egyptian	Afro_Asiatic
 Croatian_2.6	Slavic	Indo_European
 Czech_2.6	Slavic	Indo_European
 Danish_2.6	Germanic	Indo_European
@@ -79,4 +79,4 @@ Faroese_2.7	Germanic	Indo_European
 Icelandic_2.7	Germanic	Indo_European
 Persian_2.7	Iranian	Indo_European
 Turkish_2.7	Turkic	Turkic
-
+Old_English	Germanic	Indo_European

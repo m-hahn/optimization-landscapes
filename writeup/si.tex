@@ -501,29 +501,29 @@ We computed marginal likelihoods using Stepping Stone Sampling \citep{xie2011imp
 The fact that $Y_L$ is a latent variable complicates computation of the likelihood; we approximated this by fixing $Y_L$ to the log-odds of the observed empirical counts, adding $1$ to each category to smooth out cases where $Y_L =0,1$.
 We verified stability of the estimates by running the procedure ten times for each model, and averaging the obtained marginal likelihoods.
 
-\subsection{Robustness to Priors}
-
-with of the normal priors
-
-TODO
-
-describe priors
-
-- change width of the normal priors
-
-- change prior for $\Omega_{12}$ to a truncated normal, shrinking towards zero correlation (biasing towards the null hypothesis of uncorrelated change)
-
-In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
-
-\begin{table}
-\begin{tabular}{llllll}
-	...
-\end{tabular}
-	\caption{Robustness to prior choices, for the parameterization described in Section~\ref{sec:prior-lkj}.}
-\end{table}
-
-
-
+%\subsection{Robustness to Priors}
+%
+%with of the normal priors
+%
+%TODO
+%
+%describe priors
+%
+%- change width of the normal priors
+%
+%- change prior for $\Omega_{12}$ to a truncated normal, shrinking towards zero correlation (biasing towards the null hypothesis of uncorrelated change)
+%
+%In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
+%
+%\begin{table}
+%\begin{tabular}{llllll}
+%	...
+%\end{tabular}
+%	\caption{Robustness to prior choices, for the parameterization described in Section~\ref{sec:prior-lkj}.}
+%\end{table}
+%
+%
+%
 
 %describe priors
 %
@@ -556,32 +556,40 @@ Due to Equation~\ref{eq:sigma-omega}, $\Sigma$ is then obtained as
 With this prior, the correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset, and (TODO, TODO, TODO) excluding the Indo-European languages.
 The Bayes factor in favor of the full model with a nonzero correlation was (TODO) for the full dataset and 215 excluding Indo-European.\footnote{The Bayes factors are even more decivisively in favor of the full model than they are for the prior described in Section~\ref{sec:prior-lkj}. We attribute this to the fact that Section~\ref{sec:prior-lkj} assumes a more complex parameterization of $\Sigma$, penalized by the Bayes Occam's Razor.}
 
+A possible concern with both the LKJ prior in Section~\ref{sec:prior-lkj} and the uniform prior described here for $\Omega_{12}$ is that they do not regularize towards small correlations.
+However, the posterior for the correlation of the two dimensions in the stationary distribution was estimated very similarly ($R = 0.81$, $95\%$ CrI $[0.43,  0.99]$) when using a prior that explicitly regularizes towards small correlations:
+\begin{equation}
+	\Omega_{12} \sim Normal(0,1)_{Truncated\ to\ [-1,1]} \sqrt{\Omega_{11} \Omega_{22}}
+\end{equation}
+
 
 We further considered a version of the model where we modeled the state of usage as the average optimized subject-object position congruence (and not the log-odds of observing either result in an individual optimized grammar).
-In this model, the correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset and (TODO, TODO, TODO) excluding Indo-European.
-The Bayes factor in favor of the full model with a nonzero correlation was (TODO) for the full dataset and TODO excluding Indo-European.
+In this model, the correlation of the two dimensions in the stationary distribution was estimated as $R = 0.77$ ($95\%$ CrI $[0.45, 0.93]$, $P(R \leq 0) = 0.00075$). % change/ornuhl-binom_LINEAR/noLatents_Reparam_LINEAR/fits/correlation_omega.txt
+%and (TODO, TODO, TODO) excluding Indo-European.
+The Bayes factor in favor of the full model with a nonzero correlation was 66.
 We also considered a version where attested and optimized subject-object congruence were subject to observation noise, assuming a $HalfNormal(0,1)$ prior for both variance parameters.
-While marginal likelihood did not support this more complex model (Bayes factor TODO), its parameter fit was in close agreement: The correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset and (TODO, TODO, TODO) excluding Indo-European.
+While marginal likelihood did not support increasing model complexity in this way (Bayes factor $8.3$ in favor of the model without observation noise), parameter fit was in agreement with the other models: The correlation of the two dimensions in the stationary distribution was estimated as $R = 0.80$ ($95\%$ CrI $[0.13, 0.99]$, $P(R \leq 0) = 0.017$). % for the full dataset % change/ornuhl-binom_LINEAR/noLatents_Reparam_noise_LINEAR/fits/correlation_omega.txt
+%and (TODO, TODO, TODO) excluding Indo-European.
 
-
-\paragraph{Robustness to Priors}
-describe priors
-
-- change width of the normal priors
-
-- change prior for $\Omega_{12}$ to a truncated normal, shrinking towards zero correlation (biasing towards the null hypothesis of uncorrelated change)
-
-In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
-
-\begin{table}
-\begin{tabular}{llllll}
-	...
-\end{tabular}
-	\caption{Robustness to prior choices, for the parameterization described in Section~\ref{sec:alt-param}.}
-\end{table}
-
-
-
+%
+%\paragraph{Robustness to Priors}
+%describe priors
+%
+%- change width of the normal priors
+%
+%- change prior for $\Omega_{12}$ to a truncated normal, shrinking towards zero correlation (biasing towards the null hypothesis of uncorrelated change)
+%
+%In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
+%
+%\begin{table}
+%\begin{tabular}{llllll}
+%	...
+%\end{tabular}
+%	\caption{Robustness to prior choices, for the parameterization described in Section~\ref{sec:alt-param}.}
+%\end{table}
+%
+%
+%
 
 \subsection{Correlation Component of $\Sigma$}\label{sec:instant-corr}
 In the main analysis, we reported the correlation between the two dimensions in the stationary distribution $\Omega$.
@@ -977,84 +985,155 @@ As described in the main paper, in a linear mixed-effects model, with by-family 
 
 \paragraph{Priors}
 
+We conducted standard Bayesian linear mixed-effects regressions (CITE) where the response $y_i$ belonging to language $i$ is given by
+\begin{equation}
+	y_i = (\alpha + \alpha_{p_i}) + (\beta + \beta_{p_i}) x_i + \epsilon_i
+\end{equation}
+where $x_i$ is the predictor (e.g., attested subject-object position congruence), $p_i$ is the phylum of language $i$, $\epsilon_i \sim \mathcal{N}(0,\sigma^2)$, and $\alpha_{p_i}$ and $\beta_{p_i}$ are per-phylum adjustments to the intercept $\alpha$ and the slope $\beta$ respectively.
+
 As described in the main paper, following \citep{burkner2018advanced}, we assumed a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed effects and the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. 
+
 
 \paragraph{Detailed Results}
 
-for position congruence:
-
-- logistic
-
-- linear
-
-Frequentist: %output/landscapes_2.6.R_brms_genera_linear_lme4.txt
-
-- Coefficients
-
-- R2
-
-Bayesian: Bayesian
-
-- Coefficients: ...
-
-- R2: $0.46$, 95\% CrI $[0.28, 0.59]$.
-
-for coexpression:
-
-\paragraph{Sensitivity to Priors}
-
-
-\paragraph{Frequentist Analysis}
-
-%ioutput/landscapes_2.6.R_brms_genera_linear_lme4.txt
-
-\begin{verbatim}
-                     Estimate Std. Error t value
-(Intercept)           0.29168    0.04254   6.856
-OSSameSide_Real_Prob  0.44261    0.09424   4.697
-\end{verbatim}
-
-
-\section{Analyses Excluding Indo-European}
-
-Available corpus data strongly overrepresent the Indo-European language family.
-Here, we show that the results of our analyses do not depend on the presence of this particular family.
+%for position congruence:
 %
-%\begin{figure}
-%    \centering
-%    \includegraphics[width=0.7\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
-%    \caption{Attested and optimized subject-object position congruence of non-Indo-European languages.}
-%    \label{fig:todo}
-%\end{figure}
+%- logistic
+%
+%- linear
+%
+%Frequentist: 
+%- Coefficients
+%
+%- R2
+%
+%Bayesian: Bayesian
+%
+%- Coefficients: ...
+%
+%- R2: $0.46$, 95\% CrI $[0.28, 0.59]$.
+%
+%for coexpression:
+
+%
+%                       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+%Intercept                  0.48      0.04     0.40     0.56 1.00     1742
+%OSSameSide_Real_Prob.C     0.41      0.12     0.18     0.66 1.00     2460
+
+
+\paragraph{Frequentist Analyses}
+
+We also conducted analogous frequentist analyses using lme4~\citep{bates-fitting-2015}.
+%output/landscapes_2.6.R_brms_genera_linear_lme4.txt
+
+$R^2: 0.28$
+
+\begin{tabular}{lllll}
+	& $\beta$ & $SE$ & $t$ \\
+	Intercept & 0.29168 & 0.04254 & 6.856 \\
+	Attested S.O. Pos. Cong. & 0.44261 & 0.09424 & 4.697
+\end{tabular}
+
+
+\paragraph{Insensitivity to Priors}
+
+A potential concern is that, because our dataset includes many phyla represented by only one or a few languages, the mixed-effects model might suffer from inflated estimates of the variance components, as the slopes cannot be individually estimated for those phyla.
+
+We repeated the analysis with several more strongly regularizing priors on both the variance components and the slope $\beta$.
+
+In Figure~\ref{fig:variance-priors}, we plot how the posteriors for $\beta$, the variance $\tau^2$ of the per-phylum adjustments $\beta_p$, and the response variance $\sigma^2$ vary as a function of the prior.
+Results show that, while more strongly regularizing priors shrink the estimated range of $\tau^2$, they have little impact on the posterior of the key quantity, $\beta$.
+
+
+\begin{figure}
+	\begin{tabular}{c||ccccc}
+		Prior & $\beta$ & Variance $\tau^2$ of Random Slope & Response Variance $\sigma^2$ \\  \hline\hline
+$\sigma \sim t(3,0,2.5)$ &
+		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-beta.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-across-phyla-variance.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-response-variance.pdf} 
+\\
+		$\beta \sim Unif$ \\
+		$\alpha \sim t(3,0.5,2.5)$ \\
+\\ \hline\hline
+		$t(3,0,2.5)$ &
+		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-beta.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-across-phyla-variance.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-response-variance.pdf} 
+\\ \hline
+			$t(3,0,10)$ &
+		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-beta.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-across-phyla-variance.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-response-variance.pdf} 
+\\ \hline
+		$\mathcal{N}(0,1)$ &
+		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-beta.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-across-phyla-variance.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-response-variance.pdf} 
+\\ \hline
+$t(3,0,0.5)$ &
+		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-beta.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-across-phyla-variance.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-response-variance.pdf} 
+\\ \hline
+		$t(3,0,0.1)$ &
+		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-beta.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-across-phyla-variance.pdf} &
+\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-response-variance.pdf} 
+\\ \hline
+	\end{tabular}
+	\caption{Impact on the prior for the variance terms on the posterior in the Bayesian mixed-effects analysis.
+	The first line corresponds to the prior used in our analysis; the other priors differ in the degree to which they regularize towards $0$, from little regularization (top) to very strong regularization (bottom).
+	For each prior, we show the posterior of the coefficient $\beta$ (the quantity of interest), the variance of the slope across phyla, and the variance of the Gaussian response. While changing the prior affects the estimated posterior of the slope variance across phyla, it has little effect on the estimate of $\beta$.}\label{fig:variance-priors}
+\end{figure}
+
+
+
+
+
+
+%
+%\section{Analyses Excluding Indo-European}
+%
+%Available corpus data strongly overrepresent the Indo-European language family.
+%Here, we show that the results of our analyses do not depend on the presence of this particular family.
 %
 %
+%%
+%%\begin{figure}
+%%    \centering
+%%    \includegraphics[width=0.7\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
+%%    \caption{Attested and optimized subject-object position congruence of non-Indo-European languages.}
+%%    \label{fig:todo}
+%%\end{figure}
+%%
+%%
+%
+%
+%\paragraph{Correlation}
+%
+%Excluding Indo-European, the Pearson correlation between optimized and attested subject-object position congruence is $R=0.68$, $95\%$ CI $[0.40, 0.85]$, $p = 0.00013$.
+%
+%
+%
+%\paragraph{Mixed-Effects Analysis Excluding Indo-European}
+%
+%Excluding Indo-European, the coefficient is $\beta=0.80$, $SE=0.32$, $95\%$ CrI $[0.17, 1.47]$.
+%
 
 
-\paragraph{Correlation}
+%\paragraph{Phylogenetic Analysis Excluding Indo-European}
+%We next fitted the phylogenetic model excluding all Indo-European languages.
+%
+%- posterior. compare parameters to the setting without
+%
+%The parameter of interest is the stationary correlation between usage and grammar components.
+%
+%- Bayes Factor compared to model without correlation
 
-Excluding Indo-European, the Pearson correlation between optimized and attested subject-object position congruence is $R=0.68$, $95\%$ CI $[0.40, 0.85]$, $p = 0.00013$.
-
-
-\paragraph{Mixed-Effects Analysis with Genera}
-
-\paragraph{Mixed-Effects Analysis Excluding Indo-European}
-
-Excluding Indo-European, the coefficient is $\beta=0.80$, $SE=0.32$, $95\%$ CrI $[0.17, 1.47]$.
-
-
-
-\paragraph{Phylogenetic Analysis Excluding Indo-European}
-We next fitted the phylogenetic model excluding all Indo-European languages.
-
-- posterior. compare parameters to the setting without
-
-The parameter of interest is the stationary correlation between usage and grammar components.
-
-- Bayes Factor compared to model without correlation
-
-\section{Further Statistical Analyses}
-TODO
-
+%\section{Further Statistical Analyses}
+%TODO
+%
 \subsection{Per-Family Fitted Slopes}
 TODO
 
@@ -1066,17 +1145,31 @@ TODO
                  \includegraphics[width=0.4\textwidth]{../analysis/figures-scratch/per-phylum-means.pdf}
 
     \caption{Left: Fit of the mixed-effects model across the 14 phyla. We show the overall slope as a dashed line, and the per-phylum adjusted slope as a solid line. Right: Mean attested and optimized subject-object position congruences per phylum.}
-    \label{fig:my_label}
+    \label{fig:per-phylum-plot}
 \end{figure*}
 
+Figure~\ref{fig:per-phylum-plot} shows results across the 14 phyla.
 
 
 \begin{figure*}
     \centering
             \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/per-phylum-posteriors.pdf}
      \caption{Posterior Densities for the slope in the linear mixed-effects regression in the six phyla with at least two languages. Across phyla, the model fits a very similar slope.}
-    \label{fig:my_label}
+    \label{fig:per-phylum-posteriors-1}
 \end{figure*}
+
+In Figure~\ref{fig:per-phylum-posteriors-1}, we show the fitted slope $\beta+\beta_p$ for each phylum that has at least two languages.
+Across phyla, the model fits a very similar slope.
+
+
+\begin{figure*}
+    \centering
+            \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/coexpression-per-phylum-posteriors.pdf}
+     \caption{Posterior Densities for the slope in the linear mixed-effects regression in the six phyla with at least two languages. Across phyla, the model fits a very similar slope.}
+    \label{fig:per-phylum-posteriors-2}
+\end{figure*}
+
+
 
 
 
