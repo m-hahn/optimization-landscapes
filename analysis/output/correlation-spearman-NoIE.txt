@@ -1,0 +1,10 @@
+
+	Spearman's rank correlation rho
+
+data:  u$OSSameSide_Real_Prob and u$OSSameSide
+S = 984.68, p-value = 0.0002209
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.6633576 
+

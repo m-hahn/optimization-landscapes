@@ -260,7 +260,7 @@ The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree
 \begin{figure}
     \centering
 	\rotatebox{270}{\includegraphics[width=1.3\textwidth]{../trees/tree-times.png}}
-	\caption{Phylogenetic tree of the languages in our sample. The length of branches reflects distance in time. Compare Figure~\ref{fig:tree} for a version indicating the raw topology without time depths.}
+	\caption{Phylogenetic tree of the languages in our sample. The length of branches reflects distance in time. Compare Figure~\ref{fig:tree} for a version indicating the raw topology without time depths. \textcolor{red}{TODO I think this is an old version of the picture, restore the current one!!!}}
     \label{fig:tree-times}
 \end{figure}
 
@@ -432,9 +432,9 @@ Western South Slavic & 1,000 AD & Antedates earliest Slovenian and Serbo-Croatia
 For completeness, we describe how to calculate the likelihood of a multidimensional Ornstein-Uhlenbeck model on phylogenetic trees \citep{felsenstein1988phylogenies,hansen1997stabilizing, blackwell2003bayesian}.
 
 As described in the Methods section, it is described by the following stochastic differential equation for the instantaneous change of the state $\xi_{L,t}$ of a language $L$ at a given time $t$:
-\begin{equation*}
+\begin{equation}\label{eq:sde}
     \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t + \Lambda \operatorname{d}B_t
-\end{equation*}
+\end{equation}
 where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are non-degenerate matrices, and $B_t$ is Brownian motion in two dimensions.
 
 In our model, $\Gamma$ is diagonal with positive entries; we found no improved model fit when taking more general choices for $\Gamma$.
@@ -444,8 +444,11 @@ The conditional distribution of a future observation at time $t+\Delta$ given an
 \xi_{L,t+\Delta} | \xi_{L,t} \sim N\left(\mu + e^{-\Delta \Gamma} (\xi_{L,t}-\mu),\ \Omega - e^{-\Delta \Gamma} \Omega e^{-\Delta \Gamma^T}\right)
 \end{equation}
 where the matrix $\Omega \in \mathbb{R}^{2\times 2}$ is obtained as the solution of the equation \citep[p. 110, eq. 4.4.51]{gardiner1983handbook} \citep[p. 156, eq. 6.126]{risken1989fokker}:
-\footnote{Setting $\Sigma := \Lambda\Lambda^T$, this can be solved as follows:
 \begin{equation}
+    \Gamma\Omega+\Omega\Gamma^T = \Lambda \Lambda^T
+\end{equation}
+Setting $\Sigma := \Lambda\Lambda^T$, this can be solved as follows:\footnote{More generally, if $\Gamma$ is not diagonal:
+\begin{equation}\label{eq:sigma-omega}
 \left(\begin{matrix} \Omega_{11} \\ \Omega_{12} \\ \Omega_{22} \end{matrix}\right)=    \left(\begin{matrix}
     2\Gamma_{11} & 2\Gamma_{12} & 0 \\
     \Gamma_{21} & \Gamma_{11}+\Gamma_{22} & \Gamma_{12} \\
@@ -453,8 +456,8 @@ where the matrix $\Omega \in \mathbb{R}^{2\times 2}$ is obtained as the solution
     \end{matrix}\right)^{-1}  \left(\begin{matrix} \Sigma_{11} \\ \Sigma_{12} \\ \Sigma_{22} \end{matrix}\right)
 \end{equation}
 }
-\begin{equation}
-    \Gamma\Omega+\Omega\Gamma^T = \Lambda \Lambda^T
+\begin{equation}\label{eq:sigma-omega}
+\left(\begin{matrix} \Omega_{11} \\ \Omega_{12} \\ \Omega_{22} \end{matrix}\right)=   \left(\begin{matrix} \frac{\Sigma_{11}}{2\Gamma_{11}}  \\ \frac{\Sigma_{12}}{\Gamma_{11}+\Gamma_{22}} \\ \frac{\Sigma_{22}}{2\Gamma_{22}} \end{matrix}\right)
 \end{equation}
 One can compute the stationary distribution that solves the differential equation as follows.
 The stationary distribution of an individual observation is
@@ -479,7 +482,7 @@ If $L_1, L_2$ do not share a common ancestor (the root in Figure~\ref{fig:tree} 
 
 Since any Ornstein-Uhlenbeck process is Gaussian \citep{schach1971weak}, the joint distribution of any set of observations $\xi_{L, t}$ is determined by (\ref{eq:ornuhl-var}-\ref{eq:ornuhl-covar}).
 
-\subsection{Implementation}
+\subsection{Implementation}\label{sec:prior-lkj}
 
 We defined the following priors on the parameters.
 We parameterized $\Lambda$ as $D U$, where $U$ is a lower-diagonal matrix, and $D$ is a diagonal matrix.
@@ -489,12 +492,95 @@ Analogously, we parameterized $\Gamma := E E^T$, where $E$ is also a diagonal ma
 To define a prior over $\Lambda$, we modeled $U$ as the lower Cholesky factor of a correlation matrix subject to an LKJ(1) prior (\citet{lewandowski2009generating}, i.e., the uniform distribution over $2\times 2$-correlation matrices).
 We placed a standard normal prior $N(0,1)$ on the entries of $\mu$ and on the non-zero entries of $D, E$.
 
+We rescaled times so that 1000 years corresponded to one unit, and rescaled position congruences to range from -1 to 1 (instead of 0 to 1).
+
 We implemented the models in Stan~\citep{carpenter2017stan} and obtained posterior samples using the No-U-Turn sampler.
 We ran four chains with 2000 iterations each, of which the first 1000 were discarded as warmup samples.
 
 We computed marginal likelihoods using Stepping Stone Sampling \citep{xie2011improving} with $K=10$ stones.
 The fact that $Y_L$ is a latent variable complicates computation of the likelihood; we approximated this by fixing $Y_L$ to the log-odds of the observed empirical counts, adding $1$ to each category to smooth out cases where $Y_L =0,1$.
 We verified stability of the estimates by running the procedure ten times for each model, and averaging the obtained marginal likelihoods.
+
+\subsection{Robustness to Priors}
+
+with of the normal priors
+
+TODO
+
+describe priors
+
+- change width of the normal priors
+
+- change prior for $\Omega_{12}$ to a truncated normal, shrinking towards zero correlation (biasing towards the null hypothesis of uncorrelated change)
+
+In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
+
+\begin{table}
+\begin{tabular}{llllll}
+	...
+\end{tabular}
+	\caption{Robustness to prior choices, for the parameterization described in Section~\ref{sec:prior-lkj}.}
+\end{table}
+
+
+
+
+%describe priors
+%
+%In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
+%
+%\begin{table}
+%\begin{tabular}{llllll}
+%	...
+%\end{tabular}
+%	\caption{Robustness to prior choices}
+%\end{table}
+%
+
+\subsection{Alternative Parameterizations}\label{sec:alt-param}
+The parameterization described above places separately priors on the drift ($\Gamma$) and diffusion ($\Sigma = \Lambda\Lambda^T$) components of the Ornstein-Uhlenbeck process.
+While such a parameterization closely mirrors the parameters occurring in Equation~\ref{eq:sde}, it may suffer from slow convergence of Markov chains or diverging transitions when data is limited, as drift and diffusion components are not always individually identifiable (even when the correlation component of $\Sigma$ -- the key parameter for evaluating the coadaptation hypothesis --  is identifiable).
+We therefore also considered another parameterization that eliminates such problems by intstead placing a prior on $\Omega$ and $\Gamma$, and deriving $\Sigma$ from those.
+We use Gaussian priors for the variance components of $\Omega$ and the diagonal entries of $\Gamma$, and a uniform prior for the correlation component of $\Omega$:
+\begin{align*}
+\Omega_{11}, \Omega_{22} & \sim HalfNormal(0,1) \\
+\Omega_{12} & \sim Uniform(-1,1) \sqrt{\Omega_{11} \Omega_{22}} \\
+\Gamma_{11}, \Gamma_{2,2} & \sim HalfNormal(0,1) \\
+\end{align*}
+Due to Equation~\ref{eq:sigma-omega}, $\Sigma$ is then obtained as
+\begin{align*}
+	\Sigma_{11} &= 2 \Gamma_{11} \Omega_{11}  \\
+	\Sigma_{12} &= (\Gamma_{11} + \Gamma_{22}) \Omega_{12} \\
+	\Sigma_{22} &= 2 \Gamma_{22} \Omega_{22}
+\end{align*}
+With this prior, the correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset, and (TODO, TODO, TODO) excluding the Indo-European languages.
+The Bayes factor in favor of the full model with a nonzero correlation was (TODO) for the full dataset and 215 excluding Indo-European.\footnote{The Bayes factors are even more decivisively in favor of the full model than they are for the prior described in Section~\ref{sec:prior-lkj}. We attribute this to the fact that Section~\ref{sec:prior-lkj} assumes a more complex parameterization of $\Sigma$, penalized by the Bayes Occam's Razor.}
+
+
+We further considered a version of the model where we modeled the state of usage as the average optimized subject-object position congruence (and not the log-odds of observing either result in an individual optimized grammar).
+In this model, the correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset and (TODO, TODO, TODO) excluding Indo-European.
+The Bayes factor in favor of the full model with a nonzero correlation was (TODO) for the full dataset and TODO excluding Indo-European.
+We also considered a version where attested and optimized subject-object congruence were subject to observation noise, assuming a $HalfNormal(0,1)$ prior for both variance parameters.
+While marginal likelihood did not support this more complex model (Bayes factor TODO), its parameter fit was in close agreement: The correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset and (TODO, TODO, TODO) excluding Indo-European.
+
+
+\paragraph{Robustness to Priors}
+describe priors
+
+- change width of the normal priors
+
+- change prior for $\Omega_{12}$ to a truncated normal, shrinking towards zero correlation (biasing towards the null hypothesis of uncorrelated change)
+
+In Table we show estimated stationary correlations and marginal log-likelihoods across these priors.
+
+\begin{table}
+\begin{tabular}{llllll}
+	...
+\end{tabular}
+	\caption{Robustness to prior choices, for the parameterization described in Section~\ref{sec:alt-param}.}
+\end{table}
+
+
 
 
 \subsection{Correlation Component of $\Sigma$}\label{sec:instant-corr}
@@ -578,7 +664,7 @@ For other approaches to model interactions between species from the bioinformati
 
 
 \paragraph{Model}
-We model the grammar and usage components of $\mu$ to depend on the language's geographic position and the time a language was spoken.
+We model the grammar and usage components of $\mu$ as depending on the language's geographic position and the time a language was spoken.
 This models the impact of linguistic areas, and allows this impact to change over time.
 
 We assume that a language $L$ observed at time $t+\Delta$ (e.g. Modern English) developed from a prior state at time $t$ (e.g., Old English) during time $[t, t+\Delta]$ according to the Ornstein-Uhlenbeck SDE
@@ -891,6 +977,8 @@ As described in the main paper, in a linear mixed-effects model, with by-family 
 
 \paragraph{Priors}
 
+As described in the main paper, following \citep{burkner2018advanced}, we assumed a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed effects and the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. 
+
 \paragraph{Detailed Results}
 
 for position congruence:
@@ -926,21 +1014,20 @@ for coexpression:
 OSSameSide_Real_Prob  0.44261    0.09424   4.697
 \end{verbatim}
 
-$R^2=0.462$
 
 \section{Analyses Excluding Indo-European}
 
 Available corpus data strongly overrepresent the Indo-European language family.
 Here, we show that the results of our analyses do not depend on the presence of this particular family.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
-    \caption{TODO}
-    \label{fig:todo}
-\end{figure}
-
-
+%
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.7\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
+%    \caption{Attested and optimized subject-object position congruence of non-Indo-European languages.}
+%    \label{fig:todo}
+%\end{figure}
+%
+%
 
 
 \paragraph{Correlation}
@@ -970,6 +1057,40 @@ TODO
 
 \subsection{Per-Family Fitted Slopes}
 TODO
+
+
+\begin{figure*}
+    \centering
+            \includegraphics[width=0.4\textwidth]{../analysis/figures-scratch/byPhylum_all_slopes.pdf}
+%
+                 \includegraphics[width=0.4\textwidth]{../analysis/figures-scratch/per-phylum-means.pdf}
+
+    \caption{Left: Fit of the mixed-effects model across the 14 phyla. We show the overall slope as a dashed line, and the per-phylum adjusted slope as a solid line. Right: Mean attested and optimized subject-object position congruences per phylum.}
+    \label{fig:my_label}
+\end{figure*}
+
+
+
+\begin{figure*}
+    \centering
+            \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/per-phylum-posteriors.pdf}
+     \caption{Posterior Densities for the slope in the linear mixed-effects regression in the six phyla with at least two languages. Across phyla, the model fits a very similar slope.}
+    \label{fig:my_label}
+\end{figure*}
+
+
+
+\section{Sensitivity to Corpus Size}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{../analysis/subset/figures/by-corpus-size.pdf}
+    \caption{Attested and optimized subject-object position congruence as a function of the number of sentences included in the corpus.}
+    \label{fig:congruence-by-size}
+\end{figure}
+
 
 \bibliography{literature}
 \bibliographystyle{natbib}

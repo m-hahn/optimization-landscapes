@@ -203,7 +203,7 @@ Is has been argued that color naming systems are influenced by the way color nam
 Here we extend these ideas to investigate the possibility that the interaction of syntactic use and grammar might shape the variation and evolution of word order across languages.
 
 We present a new account for the variation between SOV and SVO orders and the evolution of word order across languages: Coadaptation between grammar and usage. Our coadaptation hypothesis postulates that neither SVO nor SOV is more efficient in principle.
-Rather, languages tend to have the basic word order that is most communicatively efficient given the way its speakers typically structure information\textcolor{blue}{, and, conversely, speakers structure information in ways that are most efficient given the basic word order of the language.} As languages change, syntactic usage and grammar evolve together such that change in frequency of syntactic usages should go hand-in-hand with change in basic word order. We provide large-scale evidence for coadaptation in word order both cross-linguistically and over the course of language evolution.
+Rather, languages tend to have the basic word order that is most communicatively efficient given the way its speakers typically structure information\textcolor{blue}{, and, conversely, speakers structure information in ways that are most efficient given the basic word order of the language.} As languages change, syntactic usage and grammar evolve together such that change in frequency of syntactic usages should go hand-in-hand with change in basic word order. \textcolor{blue}{Our proposed theory of coadaptation makes no claim about the causal direction between grammar and usage, and it only claims that grammar and usage frequencies should evolve in tandem. While, in a given language, a change might first appear in one aspect (e.g., language use), the preservation of efficiency can lead to compensating changes in another aspect (e.g., grammar). Consequently, grammar and usage constrain each other in the process of evolution.} We provide large-scale evidence for coadaptation in word order both cross-linguistically and over the course of language evolution.
 
 Our proposal is grounded in prominent efficiency-based accounts of word order that are centered around various locality principles. These accounts assert that syntactic elements are ordered closer together when they are more strongly related in terms of their meaning and function \citep{behaghel1932deutsche,givon1985iconicity,rijkhoff-word-1986,hawkins-performance-1994}.
 A classic formalization of this view is Dependency Length Minimization (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,liu2008dependency,futrell-cross-linguistic-2015, liu-dependency-2017, futrell2020dependency}.
@@ -214,7 +214,7 @@ Dependency Length Minimization and related locality principles can be justified 
 
 
 
-Our proposal of coadaptation suggests that languages have the basic word orders that are most efficient for DLM, given the ways speakers of a language typically structure information\textcolor{blue}{, and, conversely, that speakers structure information in ways efficient for DLM.}
+Our proposal of coadaptation suggests that languages have the basic word orders that are most efficient for DLM, given the ways speakers of a language typically structure information\textcolor{blue}{, while speakers structure information in ways efficient for DLM.}
 We first consider a simple transitive sentence such as `dogs bite people' (Figure~\ref{fig:sent-dep}A). 
 DLM is defined formally in terms of Dependency Grammar~\citep{hays1964dependency,hudson1984word,melcuk1988dependency,corbett1993heads,tesniere2015elements}.
 In this formalism, the syntactic structure of a sentence is drawn with directed arcs linking words -- called heads -- to those words that are syntactically subordinate to them -- called dependents.
@@ -308,20 +308,52 @@ Therefore, we expect that the subject-object position congruence of optimized or
 Otherwise, if one order is more efficient in principle, or there is no systematic association between basic word order and DLM, then no such relation should be seen.
 
 
+
 \begin{figure*}[h!]
     \centering
-    \includegraphics[width=.75\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+	\begin{tabular}{cc}
+		(A) All Languages & (B) Excluding Indo-European \\
+		\includegraphics[width=.45\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf} &
+                \includegraphics[width=0.45\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
+	\end{tabular}
+        
 	\caption{Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
     \label{fig:study1}\label{fig:spoken}
 \end{figure*}
 
 
 
+%
+%\begin{figure*}[h!]
+%    \centering
+%    \includegraphics[width=.5\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf}
+%    
+%
+%                    \includegraphics[width=0.4\textwidth]{../analysis/figures-scratch/within-IE.pdf}
+%                \includegraphics[width=0.4\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
+%        
+%	\caption{Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
+%    \label{fig:study1}\label{fig:spoken}
+%\end{figure*}
+%
+
+%\begin{figure*}
+%    \centering
+%            \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/per-phylum-posteriors-short.pdf}
+%                \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/per-phylum-means.pdf}
+%    \caption{Caption}
+%    \label{fig:my_label}
+%\end{figure*}
+%
+                
+
 In Figure~\ref{fig:study1}, we visualize the empirically observed subject-object position congruence against the average subject-object position congruence of the grammars  approximately optimized for syntactic use, in the 74 languages.
 Without controlling for dependencies between related languages, optimized and attested subject-object position congruence are significantly correlated ($R=0.47$, $95\%$ CI $[0.28, 0.64]$, $p<10^{-4}$; \textcolor{blue}{Spearman's $\rho=0.49$, $p < 10^{-5}$}). % analysis/output/correlation.txt output/correlation-spearman.txt
 On spoken data from six languages, we also found a strong and significant correlation ($R=0.94$, 95\% CI $[0.56, 1.0]$, $p=0.0048$).
-\textcolor{blue}{In order to account for the statistical dependencies between related languages more rigorously, we grouped the 29 language families into 15 phyla describing maximal units that are not genetically related to each other (see Materials and Methods), and performed a regression analysis where we entered phyla as random effects with random slopes and intercepts.}
-\textcolor{blue}{Attested subject-object position congruence was predictive of subject-object position congruence in the optimized grammars ($\beta = 0.40$, $SE=0.11$, $95\%$ credible interval $[0.18, 0.64]$, $P(\beta\leq 0) < 10^{-4}$, Bayesian $R^2 = 0.30$, see Materials and Methods for details)} \textcolor{red}{TODO explain $P(\beta\leq 0)$}. % analysis/output/landscapes_2.6.R_brms_phyla_linear.txt ,
+\textcolor{blue}{A possible concern is that some language families are represented more than others; in particular, 46 of the languages belong to the Indo-European phylum.
+The correlation between optimized and attested subject-object position congruence was also significant when excluding the Indo-European languages ($R=0.68$, $95\%$ CI $[0.40, 0.84]$, $p=0.00013$; Spearman's $\rho=0.66$, $p=0.00022$).
+To account for the statistical dependencies between related languages more rigorously, we grouped the 29 language families into 14 phyla describing maximal units that are not genetically related to each other (see Materials and Methods), and performed a regression analysis where we entered phyla as random effects with random slopes and intercepts.}
+\textcolor{blue}{Attested subject-object position congruence was predictive of subject-object position congruence in the optimized grammars ($\beta = 0.40$, $SE=0.11$, $95\%$ credible interval $[0.18, 0.64]$, $P(\beta\leq 0) < 10^{-4}$, Bayesian $R^2 = 0.30$; see Materials and Methods for details)}. % analysis/output/landscapes_2.6.R_brms_phyla_linear.txt ,
 This result provides firm support for the coadaptation hypothesis: Languages tend to have basic word orders that are most efficient given their frequency distributions of syntactic structures, and, conversely, they have frequency distributions that tend to be efficient given their basic word orders.
 This finding is incompatible with previous suggestions that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
 
@@ -360,9 +392,10 @@ We fitted the parameters of the model using Hamiltonian Monte Carlo methods (see
 
 
 
-We visualize the resulting model fit in Figure~\ref{fig:drift-model} (left).
+We visualize the resulting model fit in Figure~\ref{fig:drift-model}.
 The blue distribution indicates the stationary distribution of the process, i.e., after long-term evolution, a language will tend to be lie within this distribution.
 For illustration, we also illustrate the predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
+\mhahn{if we really remove the left figure, then we have to rephrase here}
 
 According to the model, changes in grammar and syntactic usage frequency are positively correlated:
 This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
@@ -371,7 +404,7 @@ Model fit was considerably worse in a lesioned model where the correlation betwe
 
 
 
-We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical} (right).
+We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}. %(right)
 The sample includes multiple languages that started with flexible order and moved towards SVO (English, East Slavic, Eastern South Slavic, Greek, Romance), languages that have remained SVO (Chinese), and languages that have remained predominantly SOV (Indo-Aryan).
 % for English
 % for Romance
@@ -396,27 +429,34 @@ A lesioned version of our model that explicitly prohibits a bias in development 
 \begin{figure*}
 %    \includegraphics[width=0.32\textwidth]{../change/visualize/stationary.pdf}
  %   \includegraphics[width=0.65\textwidth]{../analysis/figures/historical_2.6_times_stationary_layout.pdf}
-    \includegraphics[width=0.95\textwidth]{../analysis/figures/historical_2.6_times_stationary_layout_new.pdf}
-	\caption{ \textcolor{red}{TODO not sure whether this is any better than before. need to think more about how to make this better. also TODO rephrase the caption.}Result of the phylogenetic drift analysis.
-	Left: Estimated long-term stationary distribution of languages (indicated in blue), describing where languages tend to lie after long-term evolution.
-    The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage frequencies (y-axis).	    
-Right: The evolutionary trajectories of seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined according to the phylogenetic analysis. }
+    \includegraphics[width=0.95\textwidth]{../analysis/figures/historical_2.6_times_stationary_layout_new2.pdf}
+    
+
+	\caption{
+	\mhahn{i'm unsure about the colors, and whether there is anything else to improve this visualization.}
+	Result of the phylogenetic drift analysis.
+%	Left: Estimated long-term stationary distribution of languages (indicated in blue), describing where languages tend to lie after long-term evolution.
+ %   The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage frequencies (y-axis).	    
+%Right:
+	The evolutionary trajectories of seven languages or language families with documented ancestors. For each point in the trajectories, we indicate an approximate date. The blue background distribution indicates the long-term stationary distribution of all languages combined, including languages without historical data, as inferred by the phylogenetic analysis. The long-term stationary distribution indicates that languages evolve so that grammar (x-axis) and usage frequencies (y-axis) are aligned.}
     \label{fig:historical}\label{fig:drift-model}
 \end{figure*}
 
 
-\textcolor{blue}{A possible concern is that available corpus data strongly overrepresents certain language families; in particular, 46 of the languages belong to the Indo-European phylum.
-We therefore also reran the phylogenetic analysis excluding the Indo-European phylum.
-Results were similar to the full dataset:
+\textcolor{blue}{%One possible concern in our analysis is that the available corpus data may over-represent certain language families. In particular, 46 of the languages belong to the Indo-European phylum.
+We also reran the phylogenetic analysis excluding the Indo-European phylum.
+Results were similar to the full dataset.
 First, in the stationary distribution, the two dimensions are strongly correlated ($R=0.84$, $95\%$ credible interval $[0.44, 0.99]$, $\operatorname{P}(R\leq 0) = 0.00025$). % change/ornuhl-binom/noLatents_IE/fits/correlation_omega.txt
-Second, model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 77).} 
+Second, model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 77).
+These results show that the fit of the phylogenetic model is representative of the entire dataset, not just the well-represented Indo-European phylum.
+} 
 
 
 
 
 Unlike the conventional classification of languages into discrete basic word order categories such as SVO and SOV, the notion of subject-object position congruence accounts for the well-known fact that languages differ in their degrees of word order flexibility \citep{steele1978word}.
 To evaluate whether this notion provides a more fine-grained account of word order evolution than the standard classification, we evaluated whether optimized subject-object position congruence predicts attested subject-object position congruence beyond the level of discrete word order categories.
-\textcolor{blue}{We labeled each languages in our dataset, including the inner nodes of the phylogenetic tree, for four discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order''). Annotations were based on typological databases for documented languages \cite{wals-81}, and on reconstructions \cite{gell-mann-origin-2011} for undocumented ancestors (see SI  Appendix, Section S6 for details).}
+\textcolor{blue}{Specifically, we labeled each languages in our dataset, including the inner nodes of the phylogenetic tree, for four discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order''). Annotations were based on typological databases for documented languages \cite{wals-81}, and on reconstructions \cite{gell-mann-origin-2011} for undocumented ancestors (see SI  Appendix, Section S6 for details).}
 First, we found that attested and optimized subject-object position congruence were correlated even within categories ($R = 0.52$, 95\% CI [0.27, 0.70], $p = 0.0002$ within SVO, $R=0.45$, 95\% CI [-0.04, 0.77], $p=0.07$ within SOV).  % analysis/categorical_order/output/corr_SVO.txt analysis/categorical_order/output/corr_SOV.txt
 Second, we conducted a version of the phylogenetic analysis that evaluates whether coadaptation happens beyond the level of these discrete basic word order categories.
 We did this by allowing the term that encodes bias to specific regions of parameter space to vary with the basic word order category  (see Materials and Methods for details).
@@ -432,7 +472,7 @@ We found that the phylogenetic analysis continued to predict co-evolution betwee
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 
-\subsection*{Influence of Usage on Word Order}
+\subsection*{\textcolor{blue}{Relation between Usage and Word Order}}
 So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of languages.
 In what aspects of usage do languages vary or change that reflect this coadaptation?
 We predict that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
@@ -522,11 +562,8 @@ We also found such an association between order and coexpression within individu
 \section*{Discussion}
 
 We have investigated the frequency distribution and historical change of word order  across languages and found that syntactic use and basic word order interact intimately in their evolution,  reflecting a process of coadaptation  between grammar and usage.
-\textcolor{blue}{Our results do not speak to the causal direction of changes in individual languages: 
-While, in a given language, a change might first appear in one aspect (e.g., language use), the preservation of efficiency can lead to compensating changes in another aspect (e.g., grammar).
-Consequently, grammar and usage constrain each other in the process of evolution.
-Currently available data are consistent with causal influence in either direction (or even via a third factor) (see SI Section X for analyses).
-In the future, the availability of historical data with higher temporal resolution might make it possible to also trace the causal direction of change in individual languages.}
+\textcolor{blue}{Our results do not speak to the causal direction of changes in individual languages. Our currently available data are consistent with causal influence in either direction with the possibility of a third hidden causal factor (see SI Section X for analyses).
+In the future, the availability of historical data with higher temporal resolution might make it possible to explore the causal direction of change in individual languages.}
 
 
 %The theory of coadaptation provides a fine-grained account for the distribution of basic word order.
@@ -711,7 +748,8 @@ We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff201
 We conducted Bayesian inference for mixed-effects analyses using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan, buerkner2017brms}.
 Following \citep{burkner2018advanced}, we assumed a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed effects and the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. % (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$)
 We computed Bayesian $R^2$ values following \cite{gelman2019r}.
-See SI Section for results with more strongly regularising priors, and for corresponding frequentist analyses.
+We report $P(\beta \leq 0)$, the posterior probability that the coefficient is not positive, to quantify the fraction of the posterior supporting the hypothesis of a positive coefficient.
+See SI Section for results with more strongly regularizing priors, and for corresponding frequentist analyses.
 The phyla in the random effects structure correspond to the maximal subgroups in the phylogenetic trees described in `Data'.
 }
 
@@ -782,7 +820,7 @@ See SI Appendix, Section S3 for implementation details \textcolor{blue}{and robu
 
 \showmatmethods{} % Display the Materials and Methods section
 
-\acknow{We thank Edward Gibson, Vera Gribanova, Boris Harizanov, Dan Jurafsky, Charles Kemp, Terry Regier, and Guillaume Thomas for helpful feedback on the manuscript. \textcolor{blue}{We also thank the reviewers and the editor for their helpful feedback.} This research is supported by a NSERC Discovery Grant RGPIN-2018-05872 and a SSHRC Insight Grant \#435190272 to YX.}
+\acknow{We thank Edward Gibson, Vera Gribanova, Boris Harizanov, Dan Jurafsky, Charles Kemp, Terry Regier, and Guillaume Thomas for helpful feedback on the manuscript. \textcolor{blue}{We also thank the editor and the reviewers for their constructive feedback that helped to improve the manuscript.} This research is supported by a NSERC Discovery Grant RGPIN-2018-05872 and a SSHRC Insight Grant \#435190272 to YX.}
 
 \showacknow{} % Display the acknowledgments section
 
