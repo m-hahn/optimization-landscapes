@@ -1,10 +1,8 @@
 library(tidyr)
 library(dplyr)
 
-
 optimized = read.csv("../../optimizeDLM/subset/auto-summary-lstm_2.6.tsv", sep="\t")
 real = read.csv("../../fitGrammars/subset/auto-summary-lstm_2.6.tsv", sep="\t")
-
 
 dataO = optimized %>% filter(CoarseDependency == "obj")
 dataS = optimized %>% filter(CoarseDependency == "nsubj")
@@ -15,7 +13,6 @@ data = data %>% mutate(OFartherThanS = (DistanceWeight.x > DistanceWeight.y))
 data = data %>% mutate(OSSameSide = (sign(DH_Weight.x) == sign(DH_Weight.y)))
 
 data = data %>% mutate(Order = ifelse(OSSameSide & OFartherThanS, "VSO", ifelse(OSSameSide, "SOV", "SVO")))
-
 
 u = data %>% group_by(LanguageBare, Language) %>% summarise(OSSameSideSum=sum(OSSameSide), OSSameSideTotal=NROW(OSSameSide), OSSameSide = mean(OSSameSide), OFartherThanS = mean(OFartherThanS))
 print(u[order(u$OSSameSide),], n=60)
@@ -41,7 +38,7 @@ real2 = data.frame(LanguageBare=c("English_2.6", "Japanese_2.6"), OSSameSide_Rea
 sizes = strsplit(as.character(u$Language), "-")
 size = c()
 for(i in (1:nrow(u))) {
-	size = c(sizes[[i]][2], size)
+	size = c(size, sizes[[i]][2])
 }
 u$size = as.numeric(size)
 
@@ -61,7 +58,7 @@ library(ggrepel)
 
 
 
-plot = ggplot(u %>% filter(LanguageBare %in% c("English_2.6", "Japanese_2.6")), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=LanguageBare)) + geom_point(show.legend=FALSE) + geom_text_repel(aes(label=size), show.legend=FALSE) + xlim(0, NA) + ylim(0, NA) + theme_bw()
+plot = ggplot(u %>% filter(LanguageBare %in% c("English_2.6", "Japanese_2.6")), aes(x=OSSameSide_Real_Prob, y=OSSameSide, color=LanguageBare)) + geom_point(show.legend=FALSE) + geom_text_repel(aes(label=size), show.legend=FALSE) + xlim(0, NA) + ylim(0, NA) + theme_bw() + xlab("Attested Subject-Object Position Congruence") + ylab("Optimized Subject-Object Position Congruence")
 ggsave("figures/by-corpus-size.pdf", width=4, height=4)
 
 
