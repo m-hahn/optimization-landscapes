@@ -353,7 +353,7 @@ On spoken data from six languages, we also found a strong and significant correl
 \textcolor{blue}{A possible concern is that some language families are represented more than others; in particular, 46 of the languages belong to the Indo-European phylum.
 The correlation between optimized and attested subject-object position congruence was also significant when excluding the Indo-European languages ($R=0.68$, $95\%$ CI $[0.40, 0.84]$, $p=0.00013$; Spearman's $\rho=0.66$, $p=0.00022$).
 To account for the statistical dependencies between related languages more rigorously, we grouped the 29 language families into 14 phyla describing maximal units that are not genetically related to each other (see Materials and Methods), and performed a regression analysis where we entered phyla as random effects with random slopes and intercepts.}
-\textcolor{blue}{Attested subject-object position congruence was predictive of subject-object position congruence in the optimized grammars ($\beta = 0.40$, $SE=0.11$, $95\%$ credible interval $[0.18, 0.64]$, $P(\beta\leq 0) < 10^{-4}$, Bayesian $R^2 = 0.30$; see Materials and Methods for details)}. % analysis/output/landscapes_2.6.R_brms_phyla_linear.txt ,
+\textcolor{blue}{Attested subject-object position congruence was predictive of optimized subject-object position congruence ($\beta = 0.40$, $SE=0.11$, $95\%$ credible interval $[0.18, 0.64]$, $P(\beta\leq 0) = 0.00075$, Bayesian $R^2 = 0.30$; see Materials and Methods for details)}. % analysis/output/landscapes_2.6.R_brms_phyla_linear.txt ,
 This result provides firm support for the coadaptation hypothesis: Languages tend to have basic word orders that are most efficient given their frequency distributions of syntactic structures, and, conversely, they have frequency distributions that tend to be efficient given their basic word orders.
 This finding is incompatible with previous suggestions that SVO is generally more efficient (than SOV) for DLM \citep{ferrer-i-cancho-placement-2017}.
 
@@ -746,10 +746,10 @@ We obtained the topology of phylogenetic trees from Glottolog~\citep{nordhoff201
 \subsection*{Bayesian Regression Analyses}
 \textcolor{blue}{
 We conducted Bayesian inference for mixed-effects analyses using Hamiltonian Monte Carlo in Stan \citep{homan2014the,carpenter2017stan, buerkner2017brms}.
-Following \citep{burkner2018advanced}, we assumed a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed effects and the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. % (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$)
+Following \citep{burkner2018advanced}, we assumed a uniform prior for the slope, a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. % (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$)
+See SI Section S13 for results with more strongly regularizing priors, and for corresponding frequentist analyses.
 We computed Bayesian $R^2$ values following \cite{gelman2019r}.
 We report $P(\beta \leq 0)$, the posterior probability that the coefficient is not positive, to quantify the fraction of the posterior supporting the hypothesis of a positive coefficient.
-See SI Section for results with more strongly regularizing priors, and for corresponding frequentist analyses.
 The phyla in the random effects structure correspond to the maximal subgroups in the phylogenetic trees described in `Data'.
 }
 
