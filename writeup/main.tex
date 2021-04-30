@@ -312,12 +312,12 @@ Otherwise, if one order is more efficient in principle, or there is no systemati
 \begin{figure*}[h!]
     \centering
 	\begin{tabular}{cc}
-		(A) All Languages & (B) Excluding Indo-European \\
+		(A) All Languages & (B) Indo-European Excluded \\
 		\includegraphics[width=.45\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format.pdf} &
                 \includegraphics[width=0.45\textwidth]{../analysis/figures/fracion-optimized_DLM_2.6_format_NoIE.pdf}
 	\end{tabular}
         
-	\caption{Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
+	\caption{\mhahn{TODO I'll still make sure to align the colors, font size, etc.} Evaluation of the coadaptation hypothesis across languages. subject-object position congruence in attested (x-axis) and approximately optimized (y-axis) orderings. Languages are colored by language families as coded by \cite{zeman2020universal}. Small lines connect labels to the position of the language, where needed to avoid overlapping labels.} % b) Comparison of subject-object position congruence between written (blue) and spoken (red) corpora in six languages where spoken corpora are available. Note that, for one language (Naija), all available data is in spoken form.}
     \label{fig:study1}\label{fig:spoken}
 \end{figure*}
 
@@ -391,20 +391,20 @@ We obtained phylogenetic trees for the 74 languages in our sample from Glottolog
 We fitted the parameters of the model using Hamiltonian Monte Carlo methods (see Materials and Methods for details).
 
 
+%For illustration, we also illustrate the predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
+%\mhahn{if we really remove the left figure, then we have to rephrase here}
+
 
 We visualize the resulting model fit in Figure~\ref{fig:drift-model}.
 The blue distribution indicates the stationary distribution of the process, i.e., after long-term evolution, a language will tend to be lie within this distribution.
-For illustration, we also illustrate the predicted direction of future changes in four languages in red (English, Russian, Arabic, Japanese).
-\mhahn{if we really remove the left figure, then we have to rephrase here}
-
-According to the model, changes in grammar and syntactic usage frequency are positively correlated:
-This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
+%
+%This is reflected both in the short-term directions of change, which concentrate along the diagonal direction, and in the stationary distribution, according to which languages come to concentrate around the diagonal.
+%According to the model, changes in grammar and syntactic usage frequency are positively correlated and, 
 In the stationary distribution, the positions that languages occupy along the two dimensions are strongly correlated ($R=0.73$, $95\%$ credible interval $[0.28, 0.96]$, $\operatorname{P}(R\leq 0) = 0.0025$). % change/ornuhl-binom/noLatents/fits/correlation_omega.txt
 Model fit was considerably worse in a lesioned model where the correlation between changes in both direction was constrained to be zero (estimated Bayes Factor: 308). % change/ornuhl-binom/noLatents_logodds_approx/marginal_likelihood/comparison.txt
 
 
-
-We visualize the evolution of languages where multiple historical stages are documented in Figure~\ref{fig:historical}. %(right)
+Figure~\ref{fig:historical} also visualizes the evolution of languages where multiple historical stages are documented. %(right)
 The sample includes multiple languages that started with flexible order and moved towards SVO (English, East Slavic, Eastern South Slavic, Greek, Romance), languages that have remained SVO (Chinese), and languages that have remained predominantly SOV (Indo-Aryan).
 % for English
 % for Romance
@@ -433,7 +433,6 @@ A lesioned version of our model that explicitly prohibits a bias in development 
     
 
 	\caption{
-	\mhahn{i'm unsure about the colors, and whether there is anything else to improve this visualization.}
 	Result of the phylogenetic drift analysis.
 %	Left: Estimated long-term stationary distribution of languages (indicated in blue), describing where languages tend to lie after long-term evolution.
  %   The red distributions indicate predicted states for four individual languages over the next 100 years. Languages are predicted to show co-evolution along grammar (x-axis)  and usage frequencies (y-axis).	    
@@ -456,7 +455,7 @@ These results show that the fit of the phylogenetic model is representative of t
 
 Unlike the conventional classification of languages into discrete basic word order categories such as SVO and SOV, the notion of subject-object position congruence accounts for the well-known fact that languages differ in their degrees of word order flexibility \citep{steele1978word}.
 To evaluate whether this notion provides a more fine-grained account of word order evolution than the standard classification, we evaluated whether optimized subject-object position congruence predicts attested subject-object position congruence beyond the level of discrete word order categories.
-\textcolor{blue}{Specifically, we labeled each languages in our dataset, including the inner nodes of the phylogenetic tree, for four discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order''). Annotations were based on typological databases for documented languages \cite{wals-81}, and on reconstructions \cite{gell-mann-origin-2011} for undocumented ancestors (see SI  Appendix, Section S6 for details).}
+\textcolor{blue}{Specifically, we labeled each languages in our dataset, including the inner nodes of the phylogenetic tree, for four conventional discrete word order categories (``SVO'', ``SOV'', and rarer categories ``VSO'', ``No dominant order''). Annotations were based on typological databases for documented languages \cite{wals-81}, and on reconstructions \cite{gell-mann-origin-2011} for undocumented ancestors (see SI  Appendix, Section S6 for details).}
 First, we found that attested and optimized subject-object position congruence were correlated even within categories ($R = 0.52$, 95\% CI [0.27, 0.70], $p = 0.0002$ within SVO, $R=0.45$, 95\% CI [-0.04, 0.77], $p=0.07$ within SOV).  % analysis/categorical_order/output/corr_SVO.txt analysis/categorical_order/output/corr_SOV.txt
 Second, we conducted a version of the phylogenetic analysis that evaluates whether coadaptation happens beyond the level of these discrete basic word order categories.
 We did this by allowing the term that encodes bias to specific regions of parameter space to vary with the basic word order category  (see Materials and Methods for details).
@@ -562,7 +561,7 @@ We also found such an association between order and coexpression within individu
 \section*{Discussion}
 
 We have investigated the frequency distribution and historical change of word order  across languages and found that syntactic use and basic word order interact intimately in their evolution,  reflecting a process of coadaptation  between grammar and usage.
-\textcolor{blue}{Our results do not speak to the causal direction of changes in individual languages. Our currently available data are consistent with causal influence in either direction with the possibility of a third hidden causal factor (see SI Section X for analyses).
+\textcolor{blue}{Our results do not speak to the causal direction of changes in individual languages. Our currently available data are consistent with causal influence in either direction with the possibility of a third hidden causal factor (see SI Section S13 for analyses).
 In the future, the availability of historical data with higher temporal resolution might make it possible to explore the causal direction of change in individual languages.}
 
 
