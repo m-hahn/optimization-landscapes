@@ -704,13 +704,13 @@ For ancestors, we recursively defined their location as the mean of the location
 \paragraph{Results}
 We plot the posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) in Figure~\ref{fig:posterior-area-time}.
 The posterior probability that the correlation is $\leq 0$ is estimated to be 0.00125.
-In the stationary distribution, the two components are correlated at $R = 0.59$ (95\% credible interval $[0.25, 0.89]$).
+In the stationary distribution, the two components are correlated at $R = 0.59$ (95\% credible interval $[0.25, 0.89]$); this quantity was estimated at $R = 0.66$ (95\% credible interval $[0.11, 0.94]$) when excluding Indo-European.
 This confirms that coadaptation is found even when explicitly modeling convergence between neighboring languages.
 
 
 \begin{figure}
 	\begin{center}
-    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom-geo-time/fits/corr_sigma.pdf}
+    \includegraphics[width=0.45\textwidth]{../change/ornuhl-binom-geo-time/fits/corr_sigma.pdf}
 	\end{center}
 	\caption{Posterior of the correlation component of $\Sigma$ (see Section~\ref{sec:instant-corr}) when accounting for areal convergence.}\label{fig:posterior-area-time}
 \end{figure}
@@ -801,7 +801,7 @@ Group & Label & Rationale \\ \hline
     \centering
 	\begin{tabular}{cc}
 		\textbf{(A)} \\
-    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/corr_sigma.pdf}
+		\includegraphics[width=0.45\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/corr_sigma.pdf} &
 		\\
 		\textbf{(B)} & \textbf{(C)} \\
 		\includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/categorical_order_gamma/fits/stationary_case_facet.pdf} &
@@ -860,7 +860,7 @@ We found that, while case marking has a robust impact on subject-object position
     \centering
 	\begin{tabular}{cccc}
 		\textbf{(A)} \\
-    \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/case/separate_b/fits/corr_sigma.pdf} \\
+		\includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/case/separate_b/fits/corr_sigma.pdf} &
 		\textbf{(B)} & \textbf{(C)} \\
 		\includegraphics[width=0.5\textwidth]{../analysis/figures/by_patient_marking.pdf} &
     \includegraphics[width=0.5\textwidth]{../change/ornuhl-binom/case/separate_b/fits/stationary_case.pdf}
@@ -1183,6 +1183,43 @@ Across phyla, the model fits a very similar slope.
     \caption{Attested and optimized subject-object position congruence as a function of the number of sentences included in the corpus.}
     \label{fig:congruence-by-size}
 \end{figure}
+
+
+\section{Causality}
+
+\begin{equation*}
+    \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t + \Lambda \operatorname{d}B_t
+\end{equation*}
+where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are non-degenerate matrices, $\Gamma$ is diagonal with positive entries, and $B_t$ is Brownian motion in two dimensions.
+
+
+Causal variant:
+
+\begin{equation}
+\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}
+\end{equation}
+
+\begin{align*}
+	\operatorname{d}(\xi_1)_{L,t} &= \Gamma_{11} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{11} \operatorname{d}B_t \\
+	\operatorname{d}(\xi_2)_{L,t} &= \Gamma_{22} \cdot ((\xi_2)_{L,t}-\mu_2) \operatorname{d}t + \Gamma_{12} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{22} \operatorname{d}B_t \\
+\end{align*}
+
+We placed a prior $\Gamma_{12} \sim \mathcal{N}(0,1)$.
+
+Behavior of the three models is similar, and one needs high temporal resolution to choose between models.
+
+On our dataset, all three models provide almost the same marginal likelihood.
+
+
+We considered four models:
+\begin{tabular}{lllll}
+	Model & Marginal Likelihood \\
+	Coevolution (as described in Main Paper) & -32 \\
+	No Coevolution (lesioned, as describined in Main Paper) & -38 \\
+	Grammar shapes Usage & -32 \\
+	Usage shapes Grammar & -32 \\
+\end{tabular}
+
 
 
 \bibliography{literature}
