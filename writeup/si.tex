@@ -1026,7 +1026,7 @@ As described in the main paper, following \citep{burkner2018advanced}, we assume
 We also conducted analogous frequentist analyses using lme4~\citep{bates-fitting-2015}.
 %output/landscapes_2.6.R_brms_genera_linear_lme4.txt
 When  predicting optimized subject-object position congruence from attested subject-object position congruence, the frequentist analysis yielded a slope of $0.44$ (SE $0.094$, $t=4.70$), with $R^2 = 0.28$.
-When predicting coexpression of subjects and objects from attested subject-object position congruence, the slope was TODO (SE TODO, t TODO), with TODO.
+When predicting coexpression of subjects and objects from attested subject-object position congruence, the slope was $\beta=-0.10$ (SE $0.039$, $t=-2.56$), with $R^2=0.10$.
 
 
 %\begin{tabular}{lllll}
@@ -1163,13 +1163,13 @@ Across phyla, the model fits a very similar slope.
 
 
 
-%\begin{figure*}
-%    \centering
-%            \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/coexpression-per-phylum-posteriors.pdf}
-%     \caption{Posterior Densities for the slope in the linear mixed-effects regression in the six phyla with at least two languages. Across phyla, the model fits a very similar slope.}
-%    \label{fig:per-phylum-posteriors-2}
-%\end{figure*}
-%
+\begin{figure*}
+    \centering
+            \includegraphics[width=0.8\textwidth]{../analysis/figures-scratch/coexpression-per-phylum-posteriors.pdf}
+     \caption{Posterior Densities for the slope in the linear mixed-effects regression in the six phyla with at least two languages. Across phyla, the model fits a very similar slope.}
+    \label{fig:per-phylum-posteriors-2}
+\end{figure*}
+
 
 
 
@@ -1199,37 +1199,68 @@ Recall the model of change described in the main paper:
 \end{equation*}
 where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are non-degenerate matrices, $\Gamma$ is diagonal with positive entries, and $B_t$ is Brownian motion in two dimensions.
 
-This model describes how stochastic change -- expressed by $\Lambda \operatorname{d}B_t$ -- tends to be correlated in usage and grammar, and does not encode a direction of causal effect between usage and grammar.
-We compared this with a model that explicitly builds in a causal direction, by assuming that one dimenion (e.g., $\xi_1$) changes independently, whereas the other (e.g., $\xi_2$) is drawn to the first one:
+This model describes how change tends to be correlated in usage and grammar, and does not encode a direction of causal effect between usage and grammar.
+This model is derived from the standard Independent Contrasts model of coevolving traits~\citep{felsenstein1973maximum,freckleton2012fast}.
+It formalizes a process of coevolution where usage and grammar evolve in tandem, without one asymmetrically influecing the other.
+
+However, one can also construct Ornstein-Uhlenbeck processes that explicitly encode asymmetric influence between the two traits by considering cases where the matrix $\Gamma$ is not symmetric \citep{ait-sahalia2008closed, https://doi.org/10.1111/biom.13292}.
+Based on this idea, we considered a model in which one dimenion (e.g., $\xi_1$) changes independently, whereas the other one (e.g., $\xi_2$) changes in response to the first one:
 \begin{align*}
 	\operatorname{d}(\xi_1)_{L,t} &= \Gamma_{11} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{11} \operatorname{d}B_t \\
-	\operatorname{d}(\xi_2)_{L,t} &= \Gamma_{22} \cdot ((\xi_2)_{L,t}-\mu_2) \operatorname{d}t + \Gamma_{12} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{22} \operatorname{d}B_t \\
+	\operatorname{d}(\xi_2)_{L,t} &= \Gamma_{22} \cdot ((\xi_2)_{L,t}-\mu_2) \operatorname{d}t + \textcolor{blue}{\Gamma_{12} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t} + \Lambda_{22} \operatorname{d}B_t \\
 \end{align*}
 This model arises from the previous one by making $\Lambda$ diagonal and allowing $\Gamma_{12} \neq 0$.
-It expresses an asymmetric causal relation, where changes in $\xi_2$ are caused by $\xi_1$.
-The strength of influence of $\xi_1$ on $\xi_2$ is expressed by the term $\Gamma_{12}$.
+The key component is the blue term, which expresses an asymmetric influence of $\xi_1$ on changes in $\xi_2$.
+The strength and direction of influence of $\xi_1$ on $\xi_2$ is expressed by the coefficient $\Gamma_{12}$.
 We placed a prior $\Gamma_{12} \sim \mathcal{N}(0,1)$.
 
 An analogous model is obtained in which $\xi_2$ causes changes in $\xi_1$.
-The three models can be distinguished in principle, but this may require high temporal resolution in data.
+In total, we compared three models: the coevolution model from the main paper, an asymmetric model where grammar shapes usage, and an asymmetric model where usage shapes grammar.
+%The three models can be distinguished in principle, but this may require high temporal resolution in data.
 
 
-We compared marginal likelihood across the three models in Table~\ref{tab:causal}.
-On our dataset, all three models provide almost the same marginal likelihood, showing that currently available data does not make it possible to decide whether there is a single asymmetric causal direction between usage and grammar across languages.
+We compared marginal likelihood across the three models in Table~\ref{tab:causal}, together with the lesioned model without any correlation between usage and grammar, as described in the main paper.
+On our dataset, all three models provide almost the same marginal likelihood, improving by approximately the same amount over the lesioned model.
+This shows that currently available data does not make it possible to decide whether there is a single asymmetric causal direction between usage and grammar across languages.
 
 
 \begin{table}
 	\begin{center}
 \begin{tabular}{l|llll}
-	Model & Marginal Likelihood \\ \hline
+	Model & Marginal Log-Likelihood \\ \hline\hline
 	Coevolution (as described in Main Paper) & -32 \\
-%	No Coevolution (lesioned, as describined in Main Paper) & -38 \\
 	Grammar shapes Usage & -32 \\
-	Usage shapes Grammar & -32 \\
+	Usage shapes Grammar & -32 \\ \hline
+	Lesioned (no correlation, as described in Main Paper) & -38 \\
 \end{tabular}
 	\end{center}
 	\caption{Comparing model fit for the coevolution model assumed in the main paper, and two explicitly causal models. All models assuming coevolution or an explicit causal direction achieve very similar model fit.}\label{tab:causal}
 \end{table}
+
+
+\section{Details on Ordering Grammars}
+
+\paragraph{Ordering Grammar Formalism}
+We adopt the word order grammar formalism of \cite{gildea-optimizing-2007,gildea-grammars-2010,gildea-human-2015} adapted to Universal Dependencies.
+
+
+The original grammar formlism of \cite{gildea-optimizing-2007} was defined for constituency treebanks; it defined weights for each combination of parent and child constituent category (e.g., ``NP$\rightarrow$JJ'' for the position of the adjective within the noun phrase).
+We adapt this to Universal Dependencies by defining weights for combinations of dependency relation labels, the part-of-speech label of the head, and the part-of-speech label of the dependent.
+
+\textcolor{red}{TODO maybe make a figure}
+
+
+Optimized and attested subject-object position congruence were calculated for dependencies of the form VERB $\xrightarrow{nsubj}$ NOUN.
+
+\paragraph{Optimization Method}
+In order to efficiently optimize grammars for dependency length, we adopt the gradient-based optimization method of \cite{hahn2020universals}. 
+This method considers a probabilistic extension of the grammar formalism where each grammar defines a distribution over possible linearizations of a tree; grammars as defined above correspond to the special case where the distribution is always concentrated on one linearization (i.e., it is deterministic).
+We refer to \cite{hahn2020universals} for the precise definition of this extension.
+This extension makes the average dependency length a \emph{differentiable} function of the grammar parameters.
+The optimization method then applies stochastic gradient descent using the REINFORCE estimator~\citep{williams-simple-1992} to optimize the average dependency length across the trees in the corpus and the possible linearizations of each tree.
+Over the course of optimization, the probabilistic grammars converge to deterministic ones that minimize average dependency length across the trees in the corpus.
+
+
 
 
 \bibliography{literature}
