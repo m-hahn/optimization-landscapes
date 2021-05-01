@@ -654,6 +654,7 @@ Second, unlike accounts in terms of a categorical SVO/SOV distinction, it predic
 %Somewhere acknowledge: - Dryer 1989 based on better sampoling: SOV more common: counting genera on continents (e.g., many SVO languages are Niger-Congo or Austronesian, skewing count, )
 %Dryer 1989 (CITE) finds evidence that, when counting at the level of language families, SOV is more frequent than SVO.
 
+\textcolor{red}{TODO at some point more disucssion on the dataset? selection of languages is restricted by data availability. while we verified that results hold even when excluding the highly prominent Indo-European family, selection is still biased (e.g. only one langusge rewpresenting the Americas.) as data from more languages is  becoming avilable, can keep verifying predictions on those in the future. }
 
 
 Beyond word order, variation in the grammars of different languages, and change of languages over time, pose an engaging question for existing efficiency-based theories of linguistic structure.
@@ -711,7 +712,7 @@ Our work combines evidence from richly annotated syntactic corpora with phylogen
 
 The counterfactual order grammars have a weight in $[-1, 1]$ for every one of the 37 syntactic relation annotated in the Universal Dependencies 2.6 corpora (e.g., subject, object).
 Dependents of a head are ordered around it in order of these weights; dependents with negative weights are placed to the left of the head, others to its right.
-Optimized grammars are created using the gradient descent method described by \citep{hahn2020universals} \textcolor{blue}{(see SI Section TODO for more on this)}.
+Optimized grammars are created using the gradient descent method described by \citep{hahn2020universals} \textcolor{blue}{(see SI Section S14 for more on this)}.
 
 %Unlike most real languages, these grammars do not model word order freedom; accounting for it 
 %- flexible
