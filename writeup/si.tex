@@ -42,6 +42,7 @@
 %\usepackage[colorinlistoftodos]{todonotes}
 \usepackage{rotating}
 \usepackage{multirow}
+\usepackage{tikz-dependency}
 
 
 
@@ -1049,35 +1050,35 @@ Results show that, while more strongly regularizing priors shrink the estimated 
 \begin{figure}
 	\begin{tabular}{c||ccccc}
 		Prior & $\beta$ & Variance $\tau^2$ of Random Slope & Response Variance $\sigma^2$ \\  \hline\hline
-$\sigma \sim t(3,0,2.5)$ &
-		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-beta.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-across-phyla-variance.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-response-variance.pdf} 
+$\sigma^2, \tau^2 \sim t(3,0,2.5)$ &
+	\multirow{3}{*}{	\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-beta.pdf}} &
+	\multirow{3}{*}{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-across-phyla-variance.pdf}} &
+	\multirow{3}{*}{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-response-variance.pdf} }
 \\
 		$\beta \sim Unif$ \\
 		$\alpha \sim t(3,0.5,2.5)$ \\
 \\ \hline\hline
-		$t(3,0,2.5)$ &
-		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-beta.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-across-phyla-variance.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-response-variance.pdf} 
+		$\sigma^2, \tau^2, \beta \sim t(3,0,2.5)$ &
+{	\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-beta.pdf}} &
+{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-across-phyla-variance.pdf}} &
+{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-response-variance.pdf} }
 \\ \hline
-			$t(3,0,10)$ &
+			$\sigma^2, \tau^2, \beta \sim t(3,0,10)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-response-variance.pdf} 
 \\ \hline
-		$\mathcal{N}(0,1)$ &
+		$\sigma^2, \tau^2, \beta \sim \mathcal{N}(0,1)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-response-variance.pdf} 
 \\ \hline
-$t(3,0,0.5)$ &
+$\sigma^2, \tau^2, \beta \sim t(3,0,0.5)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-response-variance.pdf} 
 \\ \hline
-		$t(3,0,0.1)$ &
+		$\sigma^2, \tau^2, \beta \sim t(3,0,0.1)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-response-variance.pdf} 
@@ -1149,7 +1150,11 @@ $t(3,0,0.5)$ &
 \end{figure*}
 
 Figure~\ref{fig:per-phylum-plot} shows results across the 14 phyla for the analysis of optimized and attested subject-object position congruence.
-Results show how the mixed-effects model combines statistical evidence across the phyla.
+
+Note that most individual phyla do not provide sufficient evidence for a linear relationship on their own.
+However, for the mixed-effects model, estimating the overall slope does not require independent estimates of the slopes in each phylum.
+Instead, the mixed-effects regression obtains its slope estimate by combining (i) the data across isolates and smaller phyla, and (ii)the slope within the well-represented Indo-European phylum.
+
 In Figure~\ref{fig:per-phylum-posteriors-1}, we show the fitted slope $\beta+\beta_p$ for each phylum that has at least two languages.
 Across phyla, the model fits a very similar slope.
 
@@ -1240,25 +1245,58 @@ This shows that currently available data does not make it possible to decide whe
 
 \section{Details on Ordering Grammars}
 
-\paragraph{Ordering Grammar Formalism}
-We adopt the word order grammar formalism of \cite{gildea-optimizing-2007,gildea-grammars-2010,gildea-human-2015} adapted to Universal Dependencies.
-
-
-The original grammar formlism of \cite{gildea-optimizing-2007} was defined for constituency treebanks; it defined weights for each combination of parent and child constituent category (e.g., ``NP$\rightarrow$JJ'' for the position of the adjective within the noun phrase).
+%\paragraph{Ordering Grammar Formalism}
+We adopt the word order grammar formalism of \cite{gildea-optimizing-2007,gildea-grammars-2010,gildea-human-2015} to Universal Dependencies.
+The original grammar formlism of \cite{gildea-optimizing-2007} is defined for constituency treebanks; it defines weights for each combination of parent and child constituent category (e.g., ``NP$\rightarrow$JJ'' for the position of the adjective within the noun phrase).
 We adapt this to Universal Dependencies by defining weights for combinations of dependency relation labels, the part-of-speech label of the head, and the part-of-speech label of the dependent.
 
-\textcolor{red}{TODO maybe make a figure}
+Dependents of a head are ordered in ascending order by their weights, so that dependents with negative weights appear before the head and dependents with positive weights appear after the head.
 
+For instance, a grammar might define the weights (among others)
+\begin{center}
+    VERB $\xrightarrow{nsubj}$ NOUN : -0.8
+    
+    VERB $\xrightarrow{obj}$ NOUN : 0.3
+\end{center}
+Applying this to a simple transitive sentence would result in SVO order:
+
+\begin{center}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+          dogs \& bite \& people  \\
+          NOUN \& VERB \& NOUN \\
+   \end{deptext}
+   \depedge{2}{1}{subj}
+   \depedge{2}{3}{obj}
+\end{dependency}
+\end{center}
+In contrast, the following grammar, where both weights are negative, results in SOV order:
+\begin{center}
+    VERB $\xrightarrow{nsubj}$ NOUN : -0.8
+    
+    VERB $\xrightarrow{obj}$ NOUN : -0.3
+\end{center}
+as in the following example:
+
+\begin{center}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+          dogs \& people \& bite  \\
+          NOUN \& NOUN \& VERB \\
+   \end{deptext}
+   \depedge{3}{1}{subj}
+   \depedge{3}{2}{obj}
+\end{dependency}
+\end{center}
 
 Optimized and attested subject-object position congruence were calculated for dependencies of the form VERB $\xrightarrow{nsubj}$ NOUN.
 
-\paragraph{Optimization Method}
 In order to efficiently optimize grammars for dependency length, we adopt the gradient-based optimization method of \cite{hahn2020universals}. 
 This method considers a probabilistic extension of the grammar formalism where each grammar defines a distribution over possible linearizations of a tree; grammars as defined above correspond to the special case where the distribution is always concentrated on one linearization (i.e., it is deterministic).
 We refer to \cite{hahn2020universals} for the precise definition of this extension.
 This extension makes the average dependency length a \emph{differentiable} function of the grammar parameters.
 The optimization method then applies stochastic gradient descent using the REINFORCE estimator~\citep{williams-simple-1992} to optimize the average dependency length across the trees in the corpus and the possible linearizations of each tree.
-Over the course of optimization, the probabilistic grammars converge to deterministic ones that minimize average dependency length across the trees in the corpus.
+Over the course of optimization, the probabilistic grammars converge to essentially deterministic ones that minimize average dependency length across the trees in the corpus.
 
 
 

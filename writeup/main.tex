@@ -206,7 +206,7 @@ We present a new account for the variation between SOV and SVO orders and the ev
 Rather, languages tend to have the basic word order that is most communicatively efficient given the way its speakers typically structure information\textcolor{blue}{, and, conversely, speakers structure information in ways that are most efficient given the basic word order of the language.} As languages change, syntactic usage and grammar evolve together such that change in frequency of syntactic usages should go hand-in-hand with change in basic word order. \textcolor{blue}{Our proposed theory of coadaptation makes no claim about the causal direction between grammar and usage, and it only claims that grammar and usage frequencies should evolve in tandem. While, in a given language, a change might first appear in one aspect (e.g., language use), the preservation of efficiency can lead to compensating changes in another aspect (e.g., grammar). Consequently, grammar and usage constrain each other in the process of evolution.} We provide large-scale evidence for coadaptation in word order both cross-linguistically and over the course of language evolution.
 
 Our proposal is grounded in prominent efficiency-based accounts of word order that are centered around various locality principles. These accounts assert that syntactic elements are ordered closer together when they are more strongly related in terms of their meaning and function \citep{behaghel1932deutsche,givon1985iconicity,rijkhoff-word-1986,hawkins-performance-1994}.
-A classic formalization of this view is Dependency Length Minimization (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,liu2008dependency,futrell-cross-linguistic-2015, liu-dependency-2017, futrell2020dependency}.
+A classic formalization of this view is Dependency Length Minimization (DLM), the observation that languages tend to order words in such a way as to reduce the overall distance between syntactically related words \citep{rijkhoff-word-1986,hawkins-performance-1994,liu2008dependency,futrell-large-scale-2015, liu-dependency-2017}.
 This is supported by corpus studies on dozens of languages, and explains word order universals \citep{rijkhoff-word-1986, hawkins-performance-1994, hahn2020universals}.
 Dependency Length Minimization and related locality principles can be justified in terms of parsing efficiency \citep{hawkins-performance-1994}, memory efficiency \citep{gibson-linguistic-1998} and general communicative efficiency \citep{hahn2020universals}.
 %Other efficiency principles include Uniform Information Density \cite{...} and noise robustness in transmission \cite{gibson-noisy-channel-2013}.
@@ -654,8 +654,16 @@ Second, unlike accounts in terms of a categorical SVO/SOV distinction, it predic
 %Somewhere acknowledge: - Dryer 1989 based on better sampoling: SOV more common: counting genera on continents (e.g., many SVO languages are Niger-Congo or Austronesian, skewing count, )
 %Dryer 1989 (CITE) finds evidence that, when counting at the level of language families, SOV is more frequent than SVO.
 
-\textcolor{red}{TODO at some point more disucssion on the dataset? selection of languages is restricted by data availability. while we verified that results hold even when excluding the highly prominent Indo-European family, selection is still biased (e.g. only one langusge rewpresenting the Americas.) as data from more languages is  becoming avilable, can keep verifying predictions on those in the future. }
-
+\textcolor{blue}{
+A limitation of our results is that corpus data with syntactic annotation is available primarily for European and Asian languages.
+Alternative approaches to estimating usage distributions could leverage either manual annotation of text for relevant quantities such as subject-object coexpression, or automatically projecting syntactic annotation to other languages on multilingual text, such as Bible translations.
+However, those approaches would either not reflect usage distributions in sufficient detail to identify optimized orderings, or risk reflecting non-idiomatic properties of translated text.
+%
+%It might be possible to use other data sources to test our hypothesis, for instance by manual annotation of subject-object position congruence and the rate of coexpression of subjects and objects on text data.
+%However, scaling such an approach to a number of languages giving strong statistical power, and the approach would still not represent usage distributions in sufficient detail to identify optimized orderings.
+%Approaches relying on automated projection of syntactic annotation to other languages result in lower quality data and are applicable primarily for translated text, not necessarily representative of idiopmatic usage.
+%Thus, the Universal Dependencies corpora remain the best data source for testing the coadaptation hypothesis.
+}
 
 Beyond word order, variation in the grammars of different languages, and change of languages over time, pose an engaging question for existing efficiency-based theories of linguistic structure.
 In the efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{kemp2018semantic, zaslavsky2018efficient}.
