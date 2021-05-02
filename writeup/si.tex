@@ -632,19 +632,22 @@ This is known as the Independent Contrasts model \citep{felsenstein1973maximum, 
 Brownian motion differs from the Ornstein-Uhlenbeck process in that it does not have a long-term stationary solution.
 Instead, trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$.
 This is clearly unrealistic in our setting, as subject-object position congruence is bounded between 0 and 1.
-
 As there is no stationary solution, there is no straightforward way to jointly apply the model to data from languages that do not share a common ancestor.
 For modelling purposes, we assumed that all families had a common ancestor at some large time $T_0$ in the past.
 This modelling assumption corresponds to the assumption of macro-families of very large time-depth.
 We considered $T_0$ to be 20,000 BC, 50,000 BC, and 100,000 BC, and measured the instantaneous correlation of changes $R$ for each fit.
 To evaluate model fit, we compared marginal likelihood of the Brownian model with the Ornstein-Uhlenbeck model.
+Note that an assumption of a specific time depth is not necessary for the Ornstein-Uhlenbeck model, as unrelated languages can be modeled as draws from the stationary distribution for that model.
 
 \paragraph{Results}
-Across different choices of $T_0$, the Brownian model strongly supports a positive correlation $R$, very similar to the Ornstein-Uhlenbeck analysis; the posterior probability of $R\leq 0$ is $0.00025$ at $T_0=-100,000$, $0.00025$ at $T_0 = -50,000$, and $0$ at $T_0 = -20,000$. % change/brownian-binom/fits
-However, model fit as measured by marginal likelihood is much weaker than in the Ornstein-Uhlenbeck model, across choices of $T_0$ (Table~\ref{tab:marg-brown}), corresponding to a Bayes factor of about $10^{55}$ in favor of the Ornstein-Uhlenbeck model.
+Across different choices of $T_0$, the Brownian model strongly supports a positive correlation $R$, very similar to the Ornstein-Uhlenbeck analysis; the posterior probability of $R\leq 0$ is $0.00025$ at $T_0=-100,000$, $0.00025$ at $T_0 = -50,000$, and $0$ at $T_0 = -20,000$. %change/brownian-binom/fits
+When excluding the Indo-European phylum, this probability is $0.0028$ at $T_0=-100,000$, $0.0015$ at $T_0=-50,000$, and $0.0005$ at $T_0 = -20,000$.
+However, model fit as measured by marginal likelihood is much weaker than in the Ornstein-Uhlenbeck model, across choices of $T_0$ (Table~\ref{tab:marg-brown}), corresponding to a Bayes factor of about $10^{55}$ in favor of the Ornstein-Uhlenbeck model for the full dataset and $10^{15}$ when excluding Indo-European.
 
 \begin{table}
 	\begin{center}
+	\textbf{Full Dataset}
+	
 	\begin{tabular}{llllllll}
 	% change/brownian-binom/logodds-approx/marginal_likelihood$ more results.txt
 	Model & Log-Likelihood \\ \hline
@@ -655,9 +658,25 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 	Brownian ($T_0 = -20,000$) & -170
 \end{tabular}
 	\end{center}
-	\caption{Marginal log-likelihoods for Ornstein-Uhlenbeck and simple Brownian models. Values closer to $0$ indicate better model fit.}
+	
+		\begin{center}
+\textbf{Indo-European Excluded}
+	
+	\begin{tabular}{llllllll}
+	% change/brownian-binom/logodds-approx/marginal_likelihood$ more results.txt
+	Model & Log-Likelihood \\ \hline
+	Ornstein-Uhlenbeck & -29 \\
+	Ornstein-Uhlenbeck (diagonal $\Sigma$) & -33 \\
+	Brownian ($T_0 = -100,000$) & -79 \\
+	Brownian ($T_0 = -50,000$) & -71 \\
+	Brownian ($T_0 = -20,000$) & -64
+\end{tabular}
+	\end{center}
+	\caption{Marginal log-likelihoods for Ornstein-Uhlenbeck and simple Brownian models. Values closer to $0$ indicate better model fit. We ran the Brownian model at different time depths, because it does not have a stationary distribution.}
 	\label{tab:marg-brown}
 \end{table}
+
+
 
 \section{Accounting for Areal Convergence}
 The model of random walks on phylogenetic trees assume that languages evolve independently once they have split~\citep[e.g.][]{dunn-evolved-2011, maurits2014tracing}.
