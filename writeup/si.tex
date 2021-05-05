@@ -1231,7 +1231,7 @@ However, one can also construct Ornstein-Uhlenbeck processes that explicitly enc
 Based on this idea, we considered a model in which one dimenion (e.g., $\xi_1$) changes independently, whereas the other one (e.g., $\xi_2$) changes in response to the first one:
 \begin{align*}
 	\operatorname{d}(\xi_1)_{L,t} &= \Gamma_{11} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{11} \operatorname{d}B_t \\
-	\operatorname{d}(\xi_2)_{L,t} &= \Gamma_{22} \cdot ((\xi_2)_{L,t}-\mu_2) \operatorname{d}t + \textcolor{blue}{\Gamma_{12} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t} + \Lambda_{22} \operatorname{d}B_t \\
+	\operatorname{d}(\xi_2)_{L,t} &= \Gamma_{22} \cdot ((\xi_2)_{L,t}-\mu_2) \operatorname{d}t + \Gamma_{12} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{22} \operatorname{d}B_t \\
 \end{align*}
 This model arises from the previous one by making $\Lambda$ diagonal and allowing $\Gamma_{12} \neq 0$.
 The key component is the blue term, which expresses an asymmetric influence of $\xi_1$ on changes in $\xi_2$.
@@ -1313,7 +1313,7 @@ Optimized and attested subject-object position congruence were calculated for de
 In order to efficiently optimize grammars for dependency length, we adopt the gradient-based optimization method of \cite{hahn2020universals}. 
 This method considers a probabilistic extension of the grammar formalism where each grammar defines a distribution over possible linearizations of a tree; grammars as defined above correspond to the special case where the distribution is always concentrated on one linearization (i.e., it is deterministic).
 We refer to \cite{hahn2020universals} for the precise definition of this extension.
-This extension makes the average dependency length a \emph{differentiable} function of the grammar parameters.
+This extension makes the average dependency length a \emph{differentiable} function of the grammar parameters, opening the door to the use of gradient-based optimization algorithms for ordering grammars.
 The optimization method then applies stochastic gradient descent using the REINFORCE estimator~\citep{williams-simple-1992} to optimize the average dependency length across the trees in the corpus and the possible linearizations of each tree.
 Over the course of optimization, the probabilistic grammars converge to essentially deterministic ones that minimize average dependency length across the trees in the corpus.
 
