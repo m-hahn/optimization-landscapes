@@ -471,8 +471,7 @@ We found that the phylogenetic analysis continued to predict co-evolution betwee
 This indicates that languages exhibit coadaptation between word order and usage patterns beyond what is captured by the presence or absence of case marking.
 
 
-\subsection*{\textcolor{blue}{Relation between Usage and Word Order}}
-So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of languages.
+\subsection*{\textcolor{blue}{Relation between Usage and Word Order}} So far, our results provide evidence for coadaptation between usage and basic word order in the evolution of languages.
 In what aspects of usage do languages vary or change that reflect this coadaptation?
 We predict that languages favor SOV-like orders more when they do not frequently coexpress subjects and objects on a single verb.
 Indeed, it has been argued, based on evidence from Turkish and Japanese, that SOV languages omit arguments or use intransitive structures more frequently than SVO languages do \citep{hiranuma1999syntactic,ueno2009does,luk2014investigating}, although this might not hold for Basque \citep{pastor2013processing}.
@@ -665,6 +664,7 @@ However, those approaches would either not reflect usage distributions in suffic
 %Thus, the Universal Dependencies corpora remain the best data source for testing the coadaptation hypothesis.
 }
 
+\textcolor{blue}{Our study focused on basic word order, but the theory of coadaptation makes predictions more generally for crosslinguistic variation in word order. Testing its predictions in other domains is an interesting problem for future research.}
 Beyond word order, variation in the grammars of different languages, and change of languages over time, pose an engaging question for existing efficiency-based theories of linguistic structure.
 In the efficiency-based models, differences among languages have been interpreted as reflecting different optima or points along a Pareto frontier \citep{kemp2018semantic, zaslavsky2018efficient}.
 Language evolution over time can be interpreted as movement along a Pareto frontier of optimal points \citep{zaslavsky2019evolution}. %\cite{xu2016historical}
@@ -720,7 +720,7 @@ Our work combines evidence from richly annotated syntactic corpora with phylogen
 
 The counterfactual order grammars have a weight in $[-1, 1]$ for every one of the 37 syntactic relation annotated in the Universal Dependencies 2.6 corpora (e.g., subject, object).
 Dependents of a head are ordered around it in order of these weights; dependents with negative weights are placed to the left of the head, others to its right.
-Optimized grammars are created using the gradient descent method described by \citep{hahn2020universals} \textcolor{blue}{(see SI Section S14 for more on this)}.
+Optimized grammars are created using the gradient descent method described by \citep{hahn2020universals} \textcolor{blue}{See SI Appendix, Section S14 for more details and examples.}.
 
 %Unlike most real languages, these grammars do not model word order freedom; accounting for it 
 %- flexible

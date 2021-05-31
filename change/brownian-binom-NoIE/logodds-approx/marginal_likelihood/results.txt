@@ -1,0 +1,6 @@
+# A tibble: 3 x 2
+    Years LogLikelihood
+    <int>         <dbl>
+1 -100000         -77.9
+2  -50000         -70.9
+3  -20000         -63.8
