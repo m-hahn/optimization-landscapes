@@ -773,9 +773,9 @@ The phyla in the random effects structure correspond to the maximal subgroups in
 %    dX_t = A dB_t
 %\end{equation}
 
-We model the state of the grammar of a language $L$ as $X_L$, the observed subject-object position congruence.
-As the data for optimized grammars comes in the form of counts (each optimized grammar has subject-object position congruence of $0$ or $1$), we model the usage of a language $L$ as a latent variable $Y_L$ that defines the log-odds that an optimized grammar has a subject-object position congruence of 1 (as opposed to 0).
-$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the language.
+We model the state of the grammar of a language $L$ as a tuple $\xi_L \in [0,1]^2$ consisting of $X_L$, the observed subject-object position congruence, and $Y_L$, the average subject-object position congruence of optimized grammars.
+%As the data for optimized grammars comes in the form of counts (each optimized grammar has subject-object position congruence of $0$ or $1$), we model the usage of a language $L$ as a latent variable $Y_L$ that defines the log-odds that an optimized grammar has a subject-object position congruence of 1 (as opposed to 0).
+%$X_L$ and $Y_L$ together form the state $\xi_L \in \mathbb{R}^2$  of the language.
 
 %In its simplest form, the model can be described informally by the following update equations, describing how $\xi$ changes over a time interval of length $\Delta$:
 %\begin{align}
