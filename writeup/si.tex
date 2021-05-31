@@ -42,6 +42,7 @@
 %\usepackage[colorinlistoftodos]{todonotes}
 \usepackage{rotating}
 \usepackage{multirow}
+\usepackage{tikz-dependency}
 
 
 
@@ -260,7 +261,7 @@ The resulting tree topology is displayed in Figure~\ref{fig:tree}.\footnote{Tree
 \begin{figure}
     \centering
 	\rotatebox{270}{\includegraphics[width=1.3\textwidth]{../trees/tree-times.png}}
-	\caption{Phylogenetic tree of the languages in our sample. The length of branches reflects distance in time. Compare Figure~\ref{fig:tree} for a version indicating the raw topology without time depths. \textcolor{red}{TODO I think this is an old version of the picture, restore the current one!!!}}
+	\caption{Phylogenetic tree of the languages in our sample. The length of branches reflects distance in time. Compare Figure~\ref{fig:tree} for a version indicating the raw topology without time depths.}
     \label{fig:tree-times}
 \end{figure}
 
@@ -553,8 +554,8 @@ Due to Equation~\ref{eq:sigma-omega}, $\Sigma$ is then obtained as
 	\Sigma_{12} &= (\Gamma_{11} + \Gamma_{22}) \Omega_{12} \\
 	\Sigma_{22} &= 2 \Gamma_{22} \Omega_{22}
 \end{align*}
-With this prior, the correlation of the two dimensions in the stationary distribution was estimated as (TODO, TODO, TODO) for the full dataset, and (TODO, TODO, TODO) excluding the Indo-European languages.
-The Bayes factor in favor of the full model with a nonzero correlation was (TODO) for the full dataset and 215 excluding Indo-European.\footnote{The Bayes factors are even more decivisively in favor of the full model than they are for the prior described in Section~\ref{sec:prior-lkj}. We attribute this to the fact that Section~\ref{sec:prior-lkj} assumes a more complex parameterization of $\Sigma$, penalized by the Bayes Occam's Razor.}
+With this prior, the correlation of the two dimensions in the stationary distribution was estimated as $R=0.77$ (95\% CrI $[0.35, 0.97]$) for the full dataset, and $R = 0.83$ (95\% CrI $[0.43, 0.99]$) excluding the Indo-European languages.
+The Bayes factor in favor of the full model with a nonzero correlation, compared to a lesioned model with zero correlation, was 117. %change/ornuhl-binom-reparam/noLatents_logodds_approx_Reparam/marginal_likelihood
 
 A possible concern with both the LKJ prior in Section~\ref{sec:prior-lkj} and the uniform prior described here for $\Omega_{12}$ is that they do not regularize towards small correlations.
 However, the posterior for the correlation of the two dimensions in the stationary distribution was estimated very similarly ($R = 0.81$, $95\%$ CrI $[0.43,  0.99]$) when using a prior that explicitly regularizes towards small correlations:
@@ -631,19 +632,22 @@ This is known as the Independent Contrasts model \citep{felsenstein1973maximum, 
 Brownian motion differs from the Ornstein-Uhlenbeck process in that it does not have a long-term stationary solution.
 Instead, trajectories $\xi_t$ tend to move arbitrarily far away from the origin over time $t$.
 This is clearly unrealistic in our setting, as subject-object position congruence is bounded between 0 and 1.
-
 As there is no stationary solution, there is no straightforward way to jointly apply the model to data from languages that do not share a common ancestor.
 For modelling purposes, we assumed that all families had a common ancestor at some large time $T_0$ in the past.
 This modelling assumption corresponds to the assumption of macro-families of very large time-depth.
 We considered $T_0$ to be 20,000 BC, 50,000 BC, and 100,000 BC, and measured the instantaneous correlation of changes $R$ for each fit.
 To evaluate model fit, we compared marginal likelihood of the Brownian model with the Ornstein-Uhlenbeck model.
+Note that an assumption of a specific time depth is not necessary for the Ornstein-Uhlenbeck model, as unrelated languages can be modeled as draws from the stationary distribution for that model.
 
 \paragraph{Results}
-Across different choices of $T_0$, the Brownian model strongly supports a positive correlation $R$, very similar to the Ornstein-Uhlenbeck analysis; the posterior probability of $R\leq 0$ is $0.00025$ at $T_0=-100,000$, $0.00025$ at $T_0 = -50,000$, and $0$ at $T_0 = -20,000$. % change/brownian-binom/fits
-However, model fit as measured by marginal likelihood is much weaker than in the Ornstein-Uhlenbeck model, across choices of $T_0$ (Table~\ref{tab:marg-brown}), corresponding to a Bayes factor of about $10^{55}$ in favor of the Ornstein-Uhlenbeck model.
+Across different choices of $T_0$, the Brownian model strongly supports a positive correlation $R$, very similar to the Ornstein-Uhlenbeck analysis; the posterior probability of $R\leq 0$ is $0.00025$ at $T_0=-100,000$, $0.00025$ at $T_0 = -50,000$, and $0$ at $T_0 = -20,000$. %change/brownian-binom/fits
+When excluding the Indo-European phylum, this probability is $0.0028$ at $T_0=-100,000$, $0.0015$ at $T_0=-50,000$, and $0.0005$ at $T_0 = -20,000$.
+However, model fit as measured by marginal likelihood is much weaker than in the Ornstein-Uhlenbeck model, across choices of $T_0$ (Table~\ref{tab:marg-brown}), corresponding to a Bayes factor of about $10^{55}$ in favor of the Ornstein-Uhlenbeck model for the full dataset and $10^{15}$ when excluding Indo-European.
 
 \begin{table}
 	\begin{center}
+	\textbf{Full Dataset}
+	
 	\begin{tabular}{llllllll}
 	% change/brownian-binom/logodds-approx/marginal_likelihood$ more results.txt
 	Model & Log-Likelihood \\ \hline
@@ -654,9 +658,25 @@ However, model fit as measured by marginal likelihood is much weaker than in the
 	Brownian ($T_0 = -20,000$) & -170
 \end{tabular}
 	\end{center}
-	\caption{Marginal log-likelihoods for Ornstein-Uhlenbeck and simple Brownian models. Values closer to $0$ indicate better model fit.}
+	
+		\begin{center}
+\textbf{Indo-European Excluded}
+	
+	\begin{tabular}{llllllll}
+	% change/brownian-binom/logodds-approx/marginal_likelihood$ more results.txt
+	Model & Log-Likelihood \\ \hline
+	Ornstein-Uhlenbeck & -29 \\
+	Ornstein-Uhlenbeck (diagonal $\Sigma$) & -33 \\
+	Brownian ($T_0 = -100,000$) & -79 \\
+	Brownian ($T_0 = -50,000$) & -71 \\
+	Brownian ($T_0 = -20,000$) & -64
+\end{tabular}
+	\end{center}
+	\caption{Marginal log-likelihoods for Ornstein-Uhlenbeck and simple Brownian models. Values closer to $0$ indicate better model fit. We ran the Brownian model at different time depths, because it does not have a stationary distribution.}
 	\label{tab:marg-brown}
 \end{table}
+
+
 
 \section{Accounting for Areal Convergence}
 The model of random walks on phylogenetic trees assume that languages evolve independently once they have split~\citep[e.g.][]{dunn-evolved-2011, maurits2014tracing}.
@@ -985,16 +1005,16 @@ As described in the main paper, in a linear mixed-effects model, with by-family 
 
 \paragraph{Priors}
 
-We conducted standard Bayesian linear mixed-effects regressions (CITE) where the response $y_i$ belonging to language $i$ is given by
+We conducted standard Bayesian linear mixed-effects regressions \citep{gelman1995bayesian} where the response $y_i$ belonging to language $i$ is given by
 \begin{equation}
 	y_i = (\alpha + \alpha_{p_i}) + (\beta + \beta_{p_i}) x_i + \epsilon_i
 \end{equation}
 where $x_i$ is the predictor (e.g., attested subject-object position congruence), $p_i$ is the phylum of language $i$, $\epsilon_i \sim \mathcal{N}(0,\sigma^2)$, and $\alpha_{p_i}$ and $\beta_{p_i}$ are per-phylum adjustments to the intercept $\alpha$ and the slope $\beta$ respectively.
 
-As described in the main paper, following \citep{burkner2018advanced}, we assumed a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the fixed effects and the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. 
+As described in the main paper, following \citep{burkner2018advanced}, we assumed a uniform prior for the fixed effect slopes and the intercepts, and a weakly informative prior (Student's $t$ with $\nu=3$ degrees of freedom, location 0, and scale $\sigma=2.5$) for the variance components, and an LKJ(1) prior \citep{lewandowski2009generating} for the covariance matrix of random effects. 
 
 
-\paragraph{Detailed Results}
+%\paragraph{Detailed Results}
 
 %for position congruence:
 %
@@ -1025,21 +1045,22 @@ As described in the main paper, following \citep{burkner2018advanced}, we assume
 
 We also conducted analogous frequentist analyses using lme4~\citep{bates-fitting-2015}.
 %output/landscapes_2.6.R_brms_genera_linear_lme4.txt
+When  predicting optimized subject-object position congruence from attested subject-object position congruence, the frequentist analysis yielded a slope of $0.44$ (SE $0.094$, $t=4.70$), with $R^2 = 0.28$.
+When predicting coexpression of subjects and objects from attested subject-object position congruence, the slope was $\beta=-0.10$ (SE $0.039$, $t=-2.56$), with $R^2=0.10$.
 
-$R^2: 0.28$
 
-\begin{tabular}{lllll}
-	& $\beta$ & $SE$ & $t$ \\
-	Intercept & 0.29168 & 0.04254 & 6.856 \\
-	Attested S.O. Pos. Cong. & 0.44261 & 0.09424 & 4.697
-\end{tabular}
+%\begin{tabular}{lllll}
+%	& $\beta$ & $SE$ & $t$ \\
+%	Intercept & 0.29168 & 0.04254 & 6.856 \\
+%	Attested S.O. Pos. Cong. & 0.44261 & 0.09424 & 4.697
+%\end{tabular}
 
 
 \paragraph{Insensitivity to Priors}
 
 A potential concern is that, because our dataset includes many phyla represented by only one or a few languages, the mixed-effects model might suffer from inflated estimates of the variance components, as the slopes cannot be individually estimated for those phyla.
 
-We repeated the analysis with several more strongly regularizing priors on both the variance components and the slope $\beta$.
+We repeated the analysis predicting optimized subject-object position congruence with several more strongly regularizing priors on both the variance components and the slope $\beta$.
 
 In Figure~\ref{fig:variance-priors}, we plot how the posteriors for $\beta$, the variance $\tau^2$ of the per-phylum adjustments $\beta_p$, and the response variance $\sigma^2$ vary as a function of the prior.
 Results show that, while more strongly regularizing priors shrink the estimated range of $\tau^2$, they have little impact on the posterior of the key quantity, $\beta$.
@@ -1048,35 +1069,35 @@ Results show that, while more strongly regularizing priors shrink the estimated 
 \begin{figure}
 	\begin{tabular}{c||ccccc}
 		Prior & $\beta$ & Variance $\tau^2$ of Random Slope & Response Variance $\sigma^2$ \\  \hline\hline
-$\sigma \sim t(3,0,2.5)$ &
-		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-beta.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-across-phyla-variance.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-response-variance.pdf} 
+$\sigma^2, \tau^2 \sim t(3,0,2.5)$ &
+	\multirow{3}{*}{	\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-beta.pdf}} &
+	\multirow{3}{*}{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-across-phyla-variance.pdf}} &
+	\multirow{3}{*}{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25_uniform-response-variance.pdf} }
 \\
 		$\beta \sim Unif$ \\
 		$\alpha \sim t(3,0.5,2.5)$ \\
 \\ \hline\hline
-		$t(3,0,2.5)$ &
-		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-beta.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-across-phyla-variance.pdf} &
-\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-response-variance.pdf} 
+		$\sigma^2, \tau^2, \beta \sim t(3,0,2.5)$ &
+{	\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-beta.pdf}} &
+{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-across-phyla-variance.pdf}} &
+{\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_25-response-variance.pdf} }
 \\ \hline
-			$t(3,0,10)$ &
+			$\sigma^2, \tau^2, \beta \sim t(3,0,10)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_10-response-variance.pdf} 
 \\ \hline
-		$\mathcal{N}(0,1)$ &
+		$\sigma^2, \tau^2, \beta \sim \mathcal{N}(0,1)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/normal_0_1-response-variance.pdf} 
 \\ \hline
-$t(3,0,0.5)$ &
+$\sigma^2, \tau^2, \beta \sim t(3,0,0.5)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_05-response-variance.pdf} 
 \\ \hline
-		$t(3,0,0.1)$ &
+		$\sigma^2, \tau^2, \beta \sim t(3,0,0.1)$ &
 		\includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-beta.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-across-phyla-variance.pdf} &
 \includegraphics[width=0.25\textwidth]{../analysis/posteriors-across-priors/student_3_0_01-response-variance.pdf} 
@@ -1134,8 +1155,7 @@ $t(3,0,0.5)$ &
 %\section{Further Statistical Analyses}
 %TODO
 %
-\subsection{Per-Family Fitted Slopes}
-TODO
+\paragraph{Per-Phylum Results and Fitted Slopes}
 
 
 \begin{figure*}
@@ -1148,7 +1168,14 @@ TODO
     \label{fig:per-phylum-plot}
 \end{figure*}
 
-Figure~\ref{fig:per-phylum-plot} shows results across the 14 phyla.
+Figure~\ref{fig:per-phylum-plot} shows results across the 14 phyla for the analysis of optimized and attested subject-object position congruence.
+
+Note that most individual phyla do not provide sufficient evidence for a linear relationship on their own.
+However, for the mixed-effects model, estimating the overall slope does not require independent estimates of the slopes in each phylum.
+Instead, the mixed-effects regression obtains its slope estimate by combining (i) the data across isolates and smaller phyla, and (ii)the slope within the well-represented Indo-European phylum.
+
+In Figure~\ref{fig:per-phylum-posteriors-1}, we show the fitted slope $\beta+\beta_p$ for each phylum that has at least two languages.
+Across phyla, the model fits a very similar slope.
 
 
 \begin{figure*}
@@ -1158,8 +1185,6 @@ Figure~\ref{fig:per-phylum-plot} shows results across the 14 phyla.
     \label{fig:per-phylum-posteriors-1}
 \end{figure*}
 
-In Figure~\ref{fig:per-phylum-posteriors-1}, we show the fitted slope $\beta+\beta_p$ for each phylum that has at least two languages.
-Across phyla, the model fits a very similar slope.
 
 
 \begin{figure*}
@@ -1175,6 +1200,10 @@ Across phyla, the model fits a very similar slope.
 
 \section{Sensitivity to Corpus Size}
 
+Here, we provide evidence that estimates of attested and optimized subject-object position congruence are stable across corpus sizes.
+For English and Japanese, we estimated attested and optimized subject-object position congruence on randomly sampled subsets of 500, 1000, 5000, 10000 sentences.
+Results are shown in Figure~\ref{fig:congruence-by-size}, together with figures for the full corpora (31,811 sentences in English; 67,002 sentences in Japanese).
+The results show that, while there is some variation across corpus sizes, estimates are quite stable even when comparing the full corpus to a subset of only 500 sentences.
 
 
 \begin{figure}
@@ -1187,38 +1216,107 @@ Across phyla, the model fits a very similar slope.
 
 \section{Causality}
 
+Here, we show that available corpus data is compatible with different possible causal directions between usage and grammar.
+Recall the model of change described in the main paper:
 \begin{equation*}
     \operatorname{d}\xi_{L,t} = \Gamma \cdot (\xi_{L,t}-\mu) \operatorname{d}t + \Lambda \operatorname{d}B_t
 \end{equation*}
 where $\mu \in \mathbb{R}^2$,  $\Gamma, \Lambda \in \mathbb{R}^{2\times 2}$ are non-degenerate matrices, $\Gamma$ is diagonal with positive entries, and $B_t$ is Brownian motion in two dimensions.
 
+This model describes how change tends to be correlated in usage and grammar, and does not encode a direction of causal effect between usage and grammar.
+This model is derived from the standard Independent Contrasts model of coevolving traits~\citep{felsenstein1973maximum,freckleton2012fast}.
+It formalizes a process of coevolution where usage and grammar evolve in tandem, without one asymmetrically influecing the other.
 
-Causal variant:
-
-\begin{equation}
-\begin{matrix} \sigma_1 & 0 \\ 0 & \sigma_2\end{matrix}
-\end{equation}
-
+However, one can also construct Ornstein-Uhlenbeck processes that explicitly encode asymmetric influence between the two traits by considering cases where the matrix $\Gamma$ is not symmetric \citep{ait-sahalia2008closed, https://doi.org/10.1111/biom.13292}.
+Based on this idea, we considered a model in which one dimenion (e.g., $\xi_1$) changes independently, whereas the other one (e.g., $\xi_2$) changes in response to the first one:
 \begin{align*}
 	\operatorname{d}(\xi_1)_{L,t} &= \Gamma_{11} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{11} \operatorname{d}B_t \\
 	\operatorname{d}(\xi_2)_{L,t} &= \Gamma_{22} \cdot ((\xi_2)_{L,t}-\mu_2) \operatorname{d}t + \Gamma_{12} \cdot ((\xi_1)_{L,t}-\mu_1) \operatorname{d}t + \Lambda_{22} \operatorname{d}B_t \\
 \end{align*}
-
+This model arises from the previous one by making $\Lambda$ diagonal and allowing $\Gamma_{12} \neq 0$.
+The key component is the blue term, which expresses an asymmetric influence of $\xi_1$ on changes in $\xi_2$.
+The strength and direction of influence of $\xi_1$ on $\xi_2$ is expressed by the coefficient $\Gamma_{12}$.
 We placed a prior $\Gamma_{12} \sim \mathcal{N}(0,1)$.
 
-Behavior of the three models is similar, and one needs high temporal resolution to choose between models.
+An analogous model is obtained in which $\xi_2$ causes changes in $\xi_1$.
+In total, we compared three models: the coevolution model from the main paper, an asymmetric model where grammar shapes usage, and an asymmetric model where usage shapes grammar.
+%The three models can be distinguished in principle, but this may require high temporal resolution in data.
 
-On our dataset, all three models provide almost the same marginal likelihood.
+
+We compared marginal likelihood across the three models in Table~\ref{tab:causal}, together with the lesioned model without any correlation between usage and grammar, as described in the main paper.
+On our dataset, all three models provide almost the same marginal likelihood, improving by approximately the same amount over the lesioned model.
+This shows that currently available data does not make it possible to decide whether there is a single asymmetric causal direction between usage and grammar across languages.
 
 
-We considered four models:
-\begin{tabular}{lllll}
-	Model & Marginal Likelihood \\
+\begin{table}
+	\begin{center}
+\begin{tabular}{l|llll}
+	Model & Marginal Log-Likelihood \\ \hline\hline
 	Coevolution (as described in Main Paper) & -32 \\
-	No Coevolution (lesioned, as describined in Main Paper) & -38 \\
 	Grammar shapes Usage & -32 \\
-	Usage shapes Grammar & -32 \\
+	Usage shapes Grammar & -32 \\ \hline
+	Lesioned (no correlation, as described in Main Paper) & -38 \\
 \end{tabular}
+	\end{center}
+	\caption{Comparing model fit for the coevolution model assumed in the main paper, and two explicitly causal models. All models assuming coevolution or an explicit causal direction achieve very similar model fit.}\label{tab:causal}
+\end{table}
+
+
+\section{Details on Ordering Grammars}
+
+%\paragraph{Ordering Grammar Formalism}
+We adopt the word order grammar formalism of \cite{gildea-optimizing-2007,gildea-grammars-2010,gildea-human-2015} to Universal Dependencies.
+The original grammar formlism of \cite{gildea-optimizing-2007} is defined for constituency treebanks; it defines weights for each combination of parent and child constituent category (e.g., ``NP$\rightarrow$JJ'' for the position of the adjective within the noun phrase).
+We adapt this to Universal Dependencies by defining weights for combinations of dependency relation labels, the part-of-speech label of the head, and the part-of-speech label of the dependent.
+
+Dependents of a head are ordered in ascending order by their weights, so that dependents with negative weights appear before the head and dependents with positive weights appear after the head.
+
+For instance, a grammar might define the weights (among others)
+\begin{center}
+    VERB $\xrightarrow{nsubj}$ NOUN : -0.8
+    
+    VERB $\xrightarrow{obj}$ NOUN : 0.3
+\end{center}
+Applying this to a simple transitive sentence would result in SVO order:
+
+\begin{center}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+          dogs \& bite \& people  \\
+          NOUN \& VERB \& NOUN \\
+   \end{deptext}
+   \depedge{2}{1}{subj}
+   \depedge{2}{3}{obj}
+\end{dependency}
+\end{center}
+In contrast, the following grammar, where both weights are negative, results in SOV order:
+\begin{center}
+    VERB $\xrightarrow{nsubj}$ NOUN : -0.8
+    
+    VERB $\xrightarrow{obj}$ NOUN : -0.3
+\end{center}
+as in the following example:
+
+\begin{center}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+          dogs \& people \& bite  \\
+          NOUN \& NOUN \& VERB \\
+   \end{deptext}
+   \depedge{3}{1}{subj}
+   \depedge{3}{2}{obj}
+\end{dependency}
+\end{center}
+
+Optimized and attested subject-object position congruence were calculated for dependencies of the form VERB $\xrightarrow{nsubj}$ NOUN.
+
+In order to efficiently optimize grammars for dependency length, we adopt the gradient-based optimization method of \cite{hahn2020universals}. 
+This method considers a probabilistic extension of the grammar formalism where each grammar defines a distribution over possible linearizations of a tree; grammars as defined above correspond to the special case where the distribution is always concentrated on one linearization (i.e., it is deterministic).
+We refer to \cite{hahn2020universals} for the precise definition of this extension.
+This extension makes the average dependency length a \emph{differentiable} function of the grammar parameters, opening the door to the use of gradient-based optimization algorithms for ordering grammars.
+The optimization method then applies stochastic gradient descent using the REINFORCE estimator~\citep{williams-simple-1992} to optimize the average dependency length across the trees in the corpus and the possible linearizations of each tree.
+Over the course of optimization, the probabilistic grammars converge to essentially deterministic ones that minimize average dependency length across the trees in the corpus.
+
 
 
 
