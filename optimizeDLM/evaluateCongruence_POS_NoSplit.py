@@ -150,7 +150,7 @@ def orderSentence(sentence, dhLogits, printThings):
          direction_counts_obj[direction] += 1
          v_obj_dependents[key[2]] += 1
       if printThings: 
-         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(float(probability))+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
+         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], (".".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(float(probability))+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]])+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
@@ -205,17 +205,17 @@ print(["Neg count", negCount, "Pos count", posCount])
 #   print("Enough models!")
 #   quit()
 
-dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
-distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
+dhWeights = [0.0] * len(itos_deps)
+distanceWeights = [0.0] * len(itos_deps)
 for i, key in enumerate(itos_deps):
    dhLogits[key] = 0.0
    if key == "obj": 
        dhLogits[key] = (10.0 if posCount < negCount else -10.0)
 
-   dhWeights.data[i] = dhLogits[key]
+   dhWeights[i] = dhLogits[key]
 
    originalDistanceWeights[key] = 0.0 #random()  
-   distanceWeights.data[i] = originalDistanceWeights[key]
+   distanceWeights[i] = originalDistanceWeights[key]
 
 
 
@@ -228,8 +228,8 @@ with open(TARGET_DIR+"/manual_output_funchead_fine_depl/"+args.language+"_"+scri
       line = line.strip().split("\t")
       line = dict(list(zip(header, line)))
       rel_id = stoi_deps[(line["HeadPOS"], line["CoarseDependency"], line["DependentPOS"])]
-      dhWeights.data[rel_id] = float(line["DH_Weight"])
-      distanceWeights.data[rel_id] = float(line["DistanceWeight"])
+      dhWeights[rel_id] = float(line["DH_Weight"])
+      distanceWeights[rel_id] = float(line["DistanceWeight"])
 
 
 
@@ -309,23 +309,26 @@ if True:
     for partition in partitions:
        if counter > 200000:
            print "Quitting at counter "+str(counter)
-           quit()
+           break
        counter += 1
        printHere = (counter % 5000 == 0)
        current = batch[partition*1:(partition+1)*1]
        assert len(current)==1
        batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
+    if counter > 200000:
+           print "Quitting at counter "+str(counter)
+           break
 
 DH = (direction_counts["DH"] / (0.0+direction_counts["DH"] + direction_counts["HD"]))
 DH_obj = (direction_counts_obj["DH"] / (0.0+direction_counts_obj["DH"] + direction_counts_obj["HD"]))
 DH_vn = (direction_counts_vn["DH"] / (0.0+direction_counts_vn["DH"] + direction_counts_vn["HD"]))
 DH_obj_vn = (direction_counts_obj_vn["DH"] / (0.0+direction_counts_obj_vn["DH"] + direction_counts_obj_vn["HD"]))
 DH_v = (direction_counts_v["DH"] / (0.0+direction_counts_v["DH"] + direction_counts_v["HD"]))
-DH_obj_v = (direction_counts_obj_v["DH"] / (0.0+direction_counts_obj_v["DH"] + direction_counts_obj_v["HD"]))
-DH_vp = (direction_counts_vp["DH"] / (0.0+direction_counts_vp["DH"] + direction_counts_vp["HD"]))
-DH_obj_vp = (direction_counts_obj_vp["DH"] / (0.0+direction_counts_obj_vp["DH"] + direction_counts_obj_vp["HD"]))
-DH_vprop = (direction_counts_vprop["DH"] / (0.0+direction_counts_vprop["DH"] + direction_counts_vprop["HD"]))
-DH_obj_vprop = (direction_counts_obj_vprop["DH"] / (0.0+direction_counts_obj_vprop["DH"] + direction_counts_obj_vprop["HD"]))
+DH_obj_v = (direction_counts_obj_v["DH"] / (0.0001+direction_counts_obj_v["DH"] + direction_counts_obj_v["HD"]))
+DH_vp = (direction_counts_vp["DH"] / (0.0001+direction_counts_vp["DH"] + direction_counts_vp["HD"]))
+DH_obj_vp = (direction_counts_obj_vp["DH"] / (0.0001+direction_counts_obj_vp["DH"] + direction_counts_obj_vp["HD"]))
+DH_vprop = (direction_counts_vprop["DH"] / (0.0001+direction_counts_vprop["DH"] + direction_counts_vprop["HD"]))
+DH_obj_vprop = (direction_counts_obj_vprop["DH"] / (0.0001+direction_counts_obj_vprop["DH"] + direction_counts_obj_vprop["HD"]))
 print(direction_counts)
 print(direction_counts_obj)
 print(direction_counts_vn)
