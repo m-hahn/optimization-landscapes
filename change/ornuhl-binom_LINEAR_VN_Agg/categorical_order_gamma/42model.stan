@@ -18,7 +18,7 @@ data {
   int<lower=0, upper=NumberOfCategories> OrderCategory[TotalN];
 }
 transformed data {
-   vector<lower=0, upper=1>[ObservedN] LogitsObserved;
+   vector<lower=-1, upper=1>[ObservedN] LogitsObserved;
    {
      for(i in 1:ObservedN) {
         real pi = (TrialsSuccess[i])/(TrialsTotal[i]);
@@ -28,7 +28,7 @@ transformed data {
 }
 parameters {
   vector<lower=-1, upper=1>[HiddenN] TraitHidden;
-  vector<lower=-2, upper=2>[HiddenN] LogitsHidden;
+  vector<lower=-1, upper=1>[HiddenN] LogitsHidden;
   matrix<lower=-2, upper=2>[NumberOfCategories, 2] alpha; // the mean of the process
   matrix<lower=0.1, upper=2>[NumberOfCategories, 2] sigma_B;
 

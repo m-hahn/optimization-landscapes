@@ -67,4 +67,4 @@ plot = plot + ylab("Optimal Subject-Object-Position Congruence")
 plot = plot + facet_wrap(~Group)
 ggsave(plot, file="stationary_case_facet.pdf", height=4, width=6)
 
->>>>>>> 5d37fb73fdf2979298ea094e908ff92c6dca48ef
+
