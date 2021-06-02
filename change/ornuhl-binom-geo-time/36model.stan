@@ -88,15 +88,15 @@ model {
     }                                                                                                                                                                                                       
   }                                                                                                  
 
-//   if(K1[4, 5] != K1[4, 5]) {
-//      print("===");
-//      print(K1[4,47]);
-//      print(kernel_mu1_alpha);
-//      print(kernel_mu1_rho);
-//       print(DistanceMatrix[4,47]);
-//     print(kernel_mu1_sigma);
-//     print(IdentityMatrix[4,47]);
-//   }
+   if(K1[4, 47] != K1[4, 47]) {
+      print("===");
+      print(K1[4,47]);
+      print(kernel_mu1_alpha);
+      print(kernel_mu1_rho);
+       print(DistanceMatrix[4,47]);
+     print(kernel_mu1_sigma);
+     print(IdentityMatrix[4,47]);
+   }
 //  print(K1[4, 47])  ;
 
 //  target += student_t_lpdf(sigma_B | 3, 0, 2.5);
@@ -105,7 +105,6 @@ model {
 //  target += lkj_corr_cholesky_lpdf(Lrescor_Sigma | 1);
   target += normal_lpdf(sigma_B | 0, 1);
   target += normal_lpdf(sigma_Omega | 0, 1);
-  target += normal_lpdf(omega_correlation | 0, 1);
 
 
   kernel_mu1_rho_time   ~ normal(0, 1); 
