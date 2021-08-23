@@ -121,8 +121,8 @@ def orderSentence(sentence, dhLogits, printThings):
          continue
       key = (sentence[line["head"]-1]["posUni"], line["fine_dep"], line["posUni"]) if line["fine_dep"] != "root" else stoi_deps["root"]
       line["dependency_key"] = key
- #     dhLogit = float(dhWeights[stoi_deps[key]])
-#      probability = 1/(1 + exp(-dhLogit))
+      dhLogit = 0.0 #float(dhWeights[stoi_deps[key]])
+      probability = 1/(1 + exp(-dhLogit))
       dhSampled = (line["index"] < sentence[line["head"]-1]["index"])
 
       direction = "DH" if dhSampled else "HD"
@@ -279,23 +279,26 @@ if True:
     for partition in partitions:
        if counter > 200000:
            print "Quitting at counter "+str(counter)
-           quit()
+           break
        counter += 1
        printHere = (counter % 5000 == 0)
        current = batch[partition*1:(partition+1)*1]
        assert len(current)==1
        batchOrdered, overallLogprobSum = orderSentence(current[0], dhLogits, printHere)
+    if counter > 200000:
+           print "Quitting at counter "+str(counter)
+           break
 
 DH = (direction_counts["DH"] / (0.0+direction_counts["DH"] + direction_counts["HD"]))
 DH_obj = (direction_counts_obj["DH"] / (0.0+direction_counts_obj["DH"] + direction_counts_obj["HD"]))
 DH_vn = (direction_counts_vn["DH"] / (0.0+direction_counts_vn["DH"] + direction_counts_vn["HD"]))
 DH_obj_vn = (direction_counts_obj_vn["DH"] / (0.0+direction_counts_obj_vn["DH"] + direction_counts_obj_vn["HD"]))
 DH_v = (direction_counts_v["DH"] / (0.0+direction_counts_v["DH"] + direction_counts_v["HD"]))
-DH_obj_v = (direction_counts_obj_v["DH"] / (0.0+direction_counts_obj_v["DH"] + direction_counts_obj_v["HD"]))
-DH_vp = (direction_counts_vp["DH"] / (0.0+direction_counts_vp["DH"] + direction_counts_vp["HD"]))
-DH_obj_vp = (direction_counts_obj_vp["DH"] / (0.0+direction_counts_obj_vp["DH"] + direction_counts_obj_vp["HD"]))
-DH_vprop = (direction_counts_vprop["DH"] / (0.0+direction_counts_vprop["DH"] + direction_counts_vprop["HD"]))
-DH_obj_vprop = (direction_counts_obj_vprop["DH"] / (0.0+direction_counts_obj_vprop["DH"] + direction_counts_obj_vprop["HD"]))
+DH_obj_v = (direction_counts_obj_v["DH"] / (0.0001+direction_counts_obj_v["DH"] + direction_counts_obj_v["HD"]))
+DH_vp = (direction_counts_vp["DH"] / (0.0001+direction_counts_vp["DH"] + direction_counts_vp["HD"]))
+DH_obj_vp = (direction_counts_obj_vp["DH"] / (0.0001+direction_counts_obj_vp["DH"] + direction_counts_obj_vp["HD"]))
+DH_vprop = (direction_counts_vprop["DH"] / (0.0001+direction_counts_vprop["DH"] + direction_counts_vprop["HD"]))
+DH_obj_vprop = (direction_counts_obj_vprop["DH"] / (0.0001+direction_counts_obj_vprop["DH"] + direction_counts_obj_vprop["HD"]))
 print(direction_counts)
 print(direction_counts_obj)
 print(direction_counts_vn)
