@@ -1,0 +1,9 @@
+Runs of Stepping Stone Sampling for Model 1 and 0: 10 10
+Marginal Likelihood, Model 1 -14.89348 
+Marginal Likelihood, Model 0 -12.46522 
+
+Likelihood Ratio:  0.08818995
+Standard error 0.001060208
+Log Lokelihood Ratio:  -2.428262
+Standard error in log space 0.01209162
+Lowest and highest samples  -2.362365 -2.503683

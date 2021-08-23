@@ -21,12 +21,12 @@ parameters {
   vector<lower=-1, upper=1>[HiddenN] TraitHidden;
   vector<lower=-2, upper=2>[TotalN] LogitsAll;
   vector<lower=-2, upper=2>[2] alpha; // the mean of the process
-  real<lower=-1,upper=1> omega_correlation;
   vector<lower=0.1, upper=2>[2] sigma_B;
 
-  vector<lower=0>[2] sigma_Omega;
+  cholesky_factor_corr[2] Lrescor_Sigma; 
 
 
+  vector<lower=0.1, upper=2>[2] sigma_Sigma;
   vector<lower=-10, upper=10>[TotalN] mu1;
   vector<lower=-1, upper=1>[TotalN] mu2;
 
@@ -47,11 +47,25 @@ transformed parameters {
 
 
   // intermediate steps
-  matrix[2, 2] B = [[sigma_B[1], 0], [0, sigma_B[2]]];
+  matrix[2, 2] Lrescor_B = [[1, 0], [0, 1]];
+//
 
-//  matrix[2, 2] Omega_chol = diag_pre_multiply(sigma_Omega, Lrescor_Omega);
-  matrix[2, 2] Omega = [[sigma_Omega[1], omega_correlation * sqrt(sigma_Omega[1] * sigma_Omega[2])], [omega_correlation * sqrt(sigma_Omega[1] * sigma_Omega[2]), sigma_Omega[2]]];
-//multiply_lower_tri_self_transpose(Omega_chol);
+
+
+  matrix[2, 2] B_chol = diag_pre_multiply(sigma_B, Lrescor_B);
+  matrix[2, 2] Sigma_chol = diag_pre_multiply(sigma_Sigma, Lrescor_Sigma);
+//
+  matrix[2, 2] B = multiply_lower_tri_self_transpose(B_chol);
+  matrix[2, 2] Sigma = multiply_lower_tri_self_transpose(Sigma_chol);
+
+// Sigma = instantaneous covariance
+// B = drift matrix (here assumed to be positive definite & symmetric for simplicity)
+
+  // Now calculate Omega, the stationary covariance
+  matrix[3, 3] factor = [[2*B[1,1], B[1,2], 0], [B[2,1], B[1,1]+B[2,2], B[1,2]], [0, B[2,1], 2*B[2,2]]]; // using Risken (6.126)
+  vector[3] instant_cov_components = [Sigma[1,1], Sigma[1,2], Sigma[2,2]]';
+  vector[3] Omega_components = factor \ instant_cov_components;
+  matrix[2,2] Omega = [[Omega_components[1], Omega_components[2]], [Omega_components[2], Omega_components[3]]];
 
   matrix[TotalN, TotalN] IdentityMatrix = diag_matrix(rep_vector(1.0, TotalN));
 
@@ -66,6 +80,8 @@ transformed parameters {
         if(Omega[1,1] + Omega[2,2] <= 0 || Omega[1,1] * Omega[2,2] - Omega[1,2] * Omega[2,1] <= 0) {
          print("Omega is NOT POSITIVE DEFINITE!!");
          print(Omega);
+         print(Sigma);
+         print(B);
         }
 
 
@@ -88,24 +104,21 @@ model {
     }                                                                                                                                                                                                       
   }                                                                                                  
 
-//   if(K1[4, 5] != K1[4, 5]) {
-//      print("===");
-//      print(K1[4,47]);
-//      print(kernel_mu1_alpha);
-//      print(kernel_mu1_rho);
-//       print(DistanceMatrix[4,47]);
-//     print(kernel_mu1_sigma);
-//     print(IdentityMatrix[4,47]);
-//   }
+   if(K1[4, 47] != K1[4, 47]) {
+      print("===");
+      print(K1[4,47]);
+      print(kernel_mu1_alpha);
+      print(kernel_mu1_rho);
+       print(DistanceMatrix[4,47]);
+     print(kernel_mu1_sigma);
+     print(IdentityMatrix[4,47]);
+   }
 //  print(K1[4, 47])  ;
 
-//  target += student_t_lpdf(sigma_B | 3, 0, 2.5);
-//  target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
+  target += student_t_lpdf(sigma_B | 3, 0, 2.5);
+  target += student_t_lpdf(sigma_Sigma | 3, 0, 2.5);
   target += normal_lpdf(alpha[1] | 0, 1);
-//  target += lkj_corr_cholesky_lpdf(Lrescor_Sigma | 1);
-  target += normal_lpdf(sigma_B | 0, 1);
-  target += normal_lpdf(sigma_Omega | 0, 1);
-  target += normal_lpdf(omega_correlation | 0, 1);
+  target += lkj_corr_cholesky_lpdf(Lrescor_Sigma | 1);
 
 
   kernel_mu1_rho_time   ~ normal(0, 1); 
@@ -176,15 +189,5 @@ model {
   }
 }
 generated quantities {
-  matrix[2,2] Sigma = [[0,0],[0,0]];
-  {
-    real sigma11 = Omega[1,1] * 2 * B[1,1];
-    real sigma12 = Omega[1,2] * (B[1,1]+B[2,2]);
-    real sigma22 = Omega[2,2] * 2 * B[2,2];
-    Sigma[1,1] = sigma11;
-    Sigma[1,2] = sigma12;
-    Sigma[2,2] = sigma22;
-    Sigma[2,1] = sigma12;
-  }
 }
 

@@ -7,7 +7,7 @@ import sys
 import random
 import subprocess
 
-from ud_languages import languages
+from ud_languages_28 import languages
 
 script = "evaluateCongruence_POS_NoSplit.py"
 
